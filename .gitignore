@@ -1,0 +1,9 @@
+# Editor / OS
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Temp files
+_*.py
