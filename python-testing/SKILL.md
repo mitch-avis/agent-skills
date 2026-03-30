@@ -7,6 +7,23 @@ description: Python testing with pytest, fixtures, mocking, parameterization, as
 
 Comprehensive pytest patterns following TDD methodology.
 
+## Preferred Plugins
+
+Install the standard pytest stack for all projects:
+
+```bash
+uv pip install pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
+```
+
+| Plugin            | Purpose                                      |
+| ----------------- | -------------------------------------------- |
+| `pytest-cov`      | Coverage reporting (`--cov`, `--cov-report`) |
+| `pytest-html`     | HTML test reports (`--html=report.html`)     |
+| `pytest-metadata` | Test session metadata for reports            |
+| `pytest-sugar`    | Progress bar and instant failure display     |
+| `pytest-xdist`    | Parallel test execution (`-n auto`)          |
+| `pytest-asyncio`  | Async test support (`@pytest.mark.asyncio`)  |
+
 ## TDD Cycle
 
 1. **RED** — Write one failing test, run `pytest`, confirm failure
@@ -134,6 +151,7 @@ def test_reads_env_var(monkeypatch: pytest.MonkeyPatch) -> None:
 
 ```bash
 pytest --cov=myproject --cov-report=term-missing
+pytest --cov=myproject --cov-report=html
 pytest --cov=myproject --cov-report=annotate:cov_annotate
 ```
 
@@ -179,13 +197,34 @@ Run selectively: `pytest -m "not slow"`
 
 ```toml
 [tool.pytest.ini_options]
+minversion = "7.0"
 testpaths = ["tests"]
-addopts = "-ra --strict-markers --cov=myproject"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--cov=myproject",
+    "--cov-report=term-missing",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+pythonpath = ["."]
 markers = [
     "slow: marks tests as slow",
     "integration: marks integration tests",
 ]
+
+[tool.coverage.run]
+branch = true
+source = ["myproject"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+exclude_lines = ["pragma: no cover", "if __name__ == \"__main__\":"]
 ```
+
+Run selectively: `pytest -m "not slow"`
+
+Parallel execution: `pytest -n auto`
 
 ## Anti-Patterns
 

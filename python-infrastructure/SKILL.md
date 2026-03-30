@@ -9,15 +9,15 @@ Packaging, performance, background jobs, and deployment patterns.
 
 ## Packaging
 
-### Project Layout (Source Layout)
+### Project Layout
 
 ```text
-src/
-  mypackage/
-    __init__.py
-    py.typed
-    core.py
+mypackage/
+  __init__.py
+  py.typed
+  core.py
 pyproject.toml
+VERSION
 README.md
 LICENSE
 tests/
@@ -27,31 +27,53 @@ tests/
 
 ```toml
 [build-system]
-requires = ["setuptools>=68.0"]
-build-backend = "setuptools.backends._legacy:_Backend"
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
 
 [project]
 name = "mypackage"
-version = "0.1.0"
+dynamic = ["version"]
 description = "What it does"
+readme = "README.md"
 requires-python = ">=3.12"
-license = {text = "MIT"}
-dependencies = ["pydantic>=2.0"]
+license = { text = "MIT" }
+dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest", "ruff", "mypy"]
+dev = ["pytest", "pytest-cov", "pytest-xdist", "ruff", "pyright"]
 
 [project.scripts]
 mycli = "mypackage.cli:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.hatch.build.targets.wheel]
+packages = ["mypackage"]
+
+[tool.hatch.version]
+path = "VERSION"
 ```
 
 - Include `py.typed` for type hint discovery
 - Use `[project.scripts]` for CLI entry points
-- Build: `python -m build`
+- Use `hatchling` as the build backend
+- Build: `uv run python -m build` or `uv pip install build && python -m build`
 - Publish: test on TestPyPI first, then `twine upload dist/*`
+
+### uv Workflows
+
+```bash
+uv self update                                     # keep uv current
+uv python upgrade                                  # upgrade all installed Python versions
+uv venv                                            # create .venv with latest Python
+# Alt options: `uv venv --python 3.12` or `uv venv --python /path/to/python`
+source .venv/bin/activate                          # activate venv (Unix)
+.venv\Scripts\activate                             # activate venv (Windows)
+python -m ensurepip                                # ensure pip is installed in venv
+python -m pip install -U uv pip setuptools wheel   # install/upgrade packaging tools in venv
+
+uv pip install -e ".[dev]"                         # editable install with dev extras
+uv pip compile pyproject.toml -o requirements.txt  # lock deps
+uv run pytest                                      # run tests inside venv
+```
 
 ## Performance Optimization
 

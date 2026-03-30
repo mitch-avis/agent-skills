@@ -130,6 +130,7 @@ async def test_fetch_returns_data() -> None:
 ```
 
 - Use `pytest-asyncio` with `@pytest.mark.asyncio`
+- Install: `uv pip install pytest-asyncio`
 - Test concurrent operations with `asyncio.gather`
 - Use `asyncio.wait_for` to enforce test timeouts
 
