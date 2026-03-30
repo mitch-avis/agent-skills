@@ -87,6 +87,32 @@ markdownlint-cli2 "**/*.md"
 Lines are wrapped at 100 characters. See [.markdownlint.json](.markdownlint.json) for the full
 configuration.
 
+## Acknowledgments
+
+These skills were consolidated and rewritten from multiple open-source skill repositories. The
+original 41 skills were merged into the 16 you see here — reorganized by domain, deduplicated,
+and tailored to a consistent format.
+
+### Source Repositories
+
+| Repository | Original Skills | Contributed To |
+| --- | --- | --- |
+| [wshobson/agents](https://github.com/wshobson/agents) | python-code-style, python-design-patterns, python-project-structure, python-error-handling, python-anti-patterns, python-type-safety, python-configuration, async-python-patterns, python-testing-patterns, python-packaging, python-performance-optimization, python-background-jobs, python-resilience, python-resource-management, python-observability, rust-async-patterns | python, python-async, python-testing, python-infrastructure, python-resilience, rust-async |
+| [apollographql/skills](https://github.com/apollographql/skills) | rust-best-practices | rust, rust-async, rust-testing |
+| [zhanghandong/rust-skills](https://github.com/zhanghandong/rust-skills) | rust-router, rust-refactor-helper, rust-trait-explorer, rust-code-navigator, rust-learner, rust-symbol-analyzer, rust-call-graph, rust-deps-visualizer, rust-skill-creator, rust-daily | rust |
+| [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | clean-code, rust-pro, rust-async-patterns, software-architecture | clean-code, rust, rust-async, task-orchestrator |
+| [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | rust-patterns, rust-testing | rust, rust-testing |
+| [obra/superpowers](https://github.com/obra/superpowers) | test-driven-development, systematic-debugging | test-driven-development, systematic-debugging |
+| [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) | agent-browser | agent-browser |
+| [vercel-labs/skills](https://github.com/vercel-labs/skills) | find-skills | find-skills |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | browser-use | browser-use |
+| [aj-geddes/useful-ai-prompts](https://github.com/aj-geddes/useful-ai-prompts) | markdown-documentation | markdown-documentation |
+| [jeffallan/claude-skills](https://github.com/jeffallan/claude-skills) | rust-engineer | rust |
+| [404kidwiz/claude-supercode-skills](https://github.com/404kidwiz/claude-supercode-skills) | rust-engineer | rust |
+| [leonardomso/rust-skills](https://github.com/leonardomso/rust-skills) | rust-skills | rust |
+| [wispbit-ai/skills](https://github.com/wispbit-ai/skills) | rust-expert-best-practices-code-review | rust |
+| [github/awesome-copilot](https://github.com/github/awesome-copilot) | pytest-coverage | python-testing |
+
 ## License
 
 [MIT](LICENSE)
