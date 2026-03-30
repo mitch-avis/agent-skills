@@ -1,8 +1,7 @@
 # Agent Skills
 
-A curated collection of AI agent skills for GitHub Copilot and Claude Code. Each skill is a
-self-contained knowledge module that teaches an AI coding assistant domain-specific patterns,
-best practices, and workflows.
+A curated collection of skills for AI coding agents. Each skill is a self-contained knowledge
+module that teaches an agent domain-specific patterns, best practices, and workflows.
 
 ## What Are Skills?
 
@@ -10,13 +9,6 @@ Skills are structured Markdown files that AI agents load on demand to gain exper
 domain. Each skill lives in its own directory with a `SKILL.md` entrypoint and optional reference
 files. When a user's request matches a skill's description, the agent reads the skill file and
 follows its instructions.
-
-**Compatible with:**
-
-- **GitHub Copilot** — discovers skills in `~/.agents/skills/` (personal) or `.agents/skills/`
-  (project)
-- **Claude Code** — discovers skills in `~/.claude/skills/` (personal) or `.claude/skills/`
-  (project)
 
 ## Skills
 
@@ -75,22 +67,14 @@ by the skill's instructions in the body.
 
 ## Installation
 
-Clone this repo into your agent's personal skills directory:
-
-```bash
-# For GitHub Copilot
-git clone git@github.com:mitch-avis/agent-skills.git ~/.agents/skills
-
-# For Claude Code
-git clone git@github.com:mitch-avis/agent-skills.git ~/.claude/skills
-```
-
-Or symlink if you want both tools to share the same skills:
+Clone this repo into your agent's skills directory:
 
 ```bash
 git clone git@github.com:mitch-avis/agent-skills.git ~/.agents/skills
-ln -s ~/.agents/skills ~/.claude/skills
 ```
+
+Most AI coding agents discover skills in `~/.agents/skills/` or `.agents/skills/` at the project
+level. Consult your agent's documentation for the exact paths it searches.
 
 ## Linting
 
@@ -100,8 +84,8 @@ All Markdown files are validated with [markdownlint-cli2](https://github.com/Dav
 markdownlint-cli2 "**/*.md"
 ```
 
-Lines are wrapped at 100 characters. See [.markdownlint-cli2.yaml](.markdownlint-cli2.yaml) for
-the full configuration.
+Lines are wrapped at 100 characters. See [.markdownlint.json](.markdownlint.json) for the full
+configuration.
 
 ## License
 

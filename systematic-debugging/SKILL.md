@@ -77,7 +77,8 @@ Complete each phase before proceeding to the next.
 
 5. **Trace Data Flow**
 
-   See [root-cause-tracing.md](root-cause-tracing.md) for the complete backward tracing technique.
+   See [root-cause-tracing.md](references/root-cause-tracing.md) for the complete backward tracing
+   technique.
 
    Quick version: Where does the bad value originate? What called this with that bad value? Keep
    tracing up until you find the source. Fix at source, not at symptom.
@@ -149,8 +150,8 @@ git bisect reset  # when done
 - Look for race conditions (concurrent access, async ordering, missing synchronization)
 - Check timing dependencies (timeouts, promise resolution order)
 - Stress test (run many times, vary timing, simulate load)
-- See [condition-based-waiting.md](condition-based-waiting.md) for replacing arbitrary sleeps with
-  condition polling
+- See [condition-based-waiting.md](references/condition-based-waiting.md) for replacing arbitrary
+  sleeps with condition polling
 
 ### Performance Issues
 
@@ -170,8 +171,8 @@ git bisect reset  # when done
 ## After the Fix
 
 Once root cause is fixed, add defense-in-depth validation. See
-[defense-in-depth.md](defense-in-depth.md) for the four-layer pattern: entry validation, business
-logic validation, environment guards, and debug instrumentation.
+[defense-in-depth.md](references/defense-in-depth.md) for the four-layer pattern: entry validation,
+business logic validation, environment guards, and debug instrumentation.
 
 ## Red Flags — STOP and Follow Process
 
@@ -208,9 +209,9 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 Reference files in this directory:
 
-- [root-cause-tracing.md](root-cause-tracing.md) — trace bugs backward through call stack to
-  original trigger
-- [defense-in-depth.md](defense-in-depth.md) — add validation at multiple layers after finding root
-  cause
-- [condition-based-waiting.md](condition-based-waiting.md) — replace arbitrary timeouts with
-  condition polling
+- [root-cause-tracing.md](references/root-cause-tracing.md) — trace bugs backward through call
+  stack to original trigger
+- [defense-in-depth.md](references/defense-in-depth.md) — add validation at multiple layers after
+  finding root cause
+- [condition-based-waiting.md](references/condition-based-waiting.md) — replace arbitrary timeouts
+  with condition polling
