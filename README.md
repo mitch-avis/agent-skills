@@ -46,6 +46,7 @@ follows its instructions.
 | [agent-browser](agent-browser/SKILL.md) | Browser automation CLI for AI agents — session management, authentication, video recording, snapshots |
 | [browser-use](browser-use/SKILL.md) | Browser interactions for web testing, form filling, screenshots, and data extraction |
 | [find-skills](find-skills/SKILL.md) | Discovers and installs skills from the open skills ecosystem via the Skills CLI |
+| [generating-custom-instructions](generating-custom-instructions/SKILL.md) | Generates and maintains custom instruction files for AI coding agents by analyzing codebase patterns |
 | [markdown-documentation](markdown-documentation/SKILL.md) | Markdown and GitHub Flavored Markdown formatting for documentation and technical writing |
 
 ## Directory Structure
