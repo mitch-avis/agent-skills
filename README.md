@@ -20,7 +20,7 @@ follows its instructions.
 | [committing-code](committing-code/SKILL.md)                 | High-quality git commits — Conventional Commits, selective staging, logical splitting, safety checks                                  |
 | [systematic-debugging](systematic-debugging/SKILL.md)       | Four-phase root cause analysis methodology — reproduction, evidence gathering, hypothesis testing, git bisect, differential debugging |
 | [test-driven-development](test-driven-development/SKILL.md) | Strict TDD with red-green-refactor cycle, common rationalizations to avoid, and testing anti-patterns                                 |
-| [task-orchestrator](task-orchestrator/SKILL.md)             | Decomposes complex tasks into subtasks, assigns to appropriate skills, runs independent work in parallel                              |
+| [task-orchestrator](task-orchestrator/SKILL.md)             | Default entry point for complex or ambiguous tasks — decomposes into subtasks, assigns skills, runs parallel work                     |
 
 ### Python
 
