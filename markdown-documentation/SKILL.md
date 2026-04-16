@@ -19,8 +19,8 @@ description: Formats Markdown and GitHub Flavored Markdown for documentation, RE
     - [Code Blocks](#code-blocks)
     - [Tables](#tables)
     - [General Rules](#general-rules)
-    - [✅ DO](#-do)
-    - [❌ DON'T](#-dont)
+    - [DO](#do)
+    - [DON'T](#dont)
 
 ## Overview
 
@@ -126,7 +126,7 @@ Configure `markdownlint` for enforcement. Recommended `.markdownlint.json`:
 - End files with a single newline
 - No consecutive blank lines
 
-### ✅ DO
+### DO
 
 - Use descriptive link text
 - Include table of contents for long documents
@@ -139,7 +139,7 @@ Configure `markdownlint` for enforcement. Recommended `.markdownlint.json`:
 - Use semantic line breaks
 - Test all links regularly
 
-### ❌ DON'T
+### DON'T
 
 - Use "click here" as link text
 - Forget alt text on images
