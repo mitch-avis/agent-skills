@@ -45,25 +45,29 @@ members = ["crates/*"]
 resolver = "3"  # edition 2024 default; explicit is clearer
 
 [workspace.lints.rust]
-missing_docs             = "deny"
-unused                   = { level = "deny", priority = -2 }
-rust-2018-idioms         = { level = "warn", priority = -1 }
-rust-2024-compatibility  = { level = "deny", priority = -1 }
-unreachable_pub          = "warn"
-unsafe_code              = "deny"
-let_underscore_drop      = "warn"
+let_underscore_drop = "warn"
+missing_docs = "deny"
+rust-2018-idioms = { level = "warn", priority = -1 }
+rust-2024-compatibility = { level = "deny", priority = -1 }
+unreachable_pub = "warn"
+unsafe_code = "deny"
+unused = { level = "deny", priority = -2 }
 
 [workspace.lints.clippy]
-correctness = { level = "deny",  priority = -1 }
-suspicious  = { level = "warn",  priority = -1 }
-complexity  = { level = "warn",  priority = -1 }
-perf        = { level = "warn",  priority = -1 }
-style       = { level = "warn",  priority = -1 }
-pedantic    = { level = "warn",  priority = -1 }
-nursery     = { level = "warn",  priority = -1 }
+complexity = { level = "warn", priority = -1 }
+correctness = { level = "deny", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+perf = { level = "warn", priority = -1 }
+style = { level = "warn", priority = -1 }
+suspicious = { level = "warn", priority = -1 }
 
 # Elevate individual lints above group defaults (implicit 0)
 wildcard_imports = "deny"
+
+# `redundant_pub_crate` conflicts with `unreachable_pub` (rustc lint).
+# Prefer the stricter `pub(crate)` style enforced by `unreachable_pub`.
+redundant_pub_crate = "allow"
 ```
 
 Individual crates inherit workspace lints without duplication:
