@@ -1,6 +1,12 @@
 ---
 name: task-orchestrator
-description: Default entry point for complex or ambiguous tasks. Decomposes requests into subtasks, assigns each to the most appropriate skill or subagent, runs independent subtasks in parallel, collects results, and synthesizes final output. Use when a task spans multiple domains, requires planning, or benefits from parallel execution.
+description: >-
+  Decomposes complex, multi-step, or cross-domain tasks into subtasks, assigns each to the most
+  appropriate skill or subagent, runs independent subtasks in parallel, and synthesizes results.
+  Use whenever a request involves more than one skill, touches multiple languages or file types,
+  requires a plan-then-execute workflow, contains multiple numbered or comma-separated tasks, or
+  is ambiguous and benefits from decomposition before execution. Also use when the user explicitly
+  asks to break work into parts, delegate to subagents, or run things in parallel.
 ---
 
 # Task Orchestrator
@@ -14,6 +20,9 @@ possible, and synthesize results.
 - Request is ambiguous and needs decomposition before execution
 - Multiple independent work items can run in parallel
 - Task requires a plan-execute-verify cycle
+- User provides a numbered list or comma-separated set of tasks
+- Request contains phrases like "go through each", "update all", or "review everything"
+- Work can be split into research, implementation, and validation phases
 
 ## Workflow
 
@@ -51,22 +60,28 @@ Request
 
 Map each subtask to the best available skill:
 
-| Domain             | Skill                   |
-| ------------------ | ----------------------- |
-| Rust code          | rust                    |
-| Rust async/Tokio   | rust-async              |
-| Rust tests         | rust-testing            |
-| Python code        | python                  |
-| Python async       | python-async            |
-| Python resilience  | python-resilience       |
-| Python tests       | python-testing          |
-| Python packaging   | python-infrastructure   |
-| Markdown/docs      | markdown-documentation  |
-| Code quality       | clean-code              |
-| TDD methodology    | test-driven-development |
-| Browser automation | agent-browser           |
-| Browser (daemon)   | browser-use             |
-| Finding skills     | find-skills             |
+| Domain                     | Skill                          |
+| -------------------------- | ------------------------------ |
+| Rust code                  | rust                           |
+| Rust async / Tokio         | rust-async                     |
+| Rust tests                 | rust-testing                   |
+| Python code                | python                         |
+| Python async               | python-async                   |
+| Python resilience          | python-resilience              |
+| Python tests               | python-testing                 |
+| Python packaging / infra   | python-infrastructure          |
+| Markdown / docs            | markdown-documentation         |
+| Mermaid diagrams           | mermaid                        |
+| Code quality               | clean-code                     |
+| TDD methodology            | test-driven-development        |
+| Debugging / root cause     | systematic-debugging           |
+| Git commits                | committing-code                |
+| Browser automation (CLI)   | agent-browser                  |
+| Browser automation (daemon)| browser-use                    |
+| Finding / installing skills| find-skills                    |
+| Custom instruction files   | generating-custom-instructions |
+| Creating / improving skills| skill-creator                  |
+| Multi-step orchestration   | task-orchestrator (self)       |
 
 ### 4. Execute
 
@@ -134,7 +149,8 @@ cargo test --all-targets --all-features
 ```bash
 ruff format --check .
 ruff check .
-mypy --strict .
+ty check .
+pyright .
 pytest --cov
 ```
 
