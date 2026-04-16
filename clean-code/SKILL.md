@@ -8,7 +8,7 @@ description: Applies Clean Code principles from Robert C. Martin to transform wo
 This skill embodies the principles of "Clean Code" by Robert C. Martin (Uncle Bob). Use it to
 transform "code that works" into "code that is clean."
 
-## 🧠 Core Philosophy
+## Core Philosophy
 >
 > "Code is clean if it can be read, and enhanced by a developer
 > other than its original author." — Grady Booch
@@ -102,7 +102,7 @@ Use this skill when:
 - **Viscosity**: Hard to do the right thing.
 - **Needless Complexity/Repetition**.
 
-## 🛠️ Implementation Checklist
+## Implementation Checklist
 
 - [ ] Is this function smaller than 20 lines?
 - [ ] Does this function do exactly one thing?
