@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const skillRoot = join(__dirname, '..');
+const skillRoot = __dirname;
 
 async function loadBeautifulMermaid() {
   try {

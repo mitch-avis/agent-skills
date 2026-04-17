@@ -5,7 +5,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const skillRoot = join(__dirname, '..');
+const skillRoot = __dirname;
 
 async function loadBeautifulMermaid() {
   try {

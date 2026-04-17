@@ -70,6 +70,9 @@ Map each subtask to the best available skill:
 | Python resilience          | python-resilience              |
 | Python tests               | python-testing                 |
 | Python packaging / infra   | python-infrastructure          |
+| Kubernetes manifests       | kubernetes                     |
+| Helm charts                | helm                           |
+| Dockerfiles / containers   | docker                         |
 | Markdown / docs            | markdown-documentation         |
 | Mermaid diagrams           | mermaid                        |
 | Code quality               | clean-code                     |

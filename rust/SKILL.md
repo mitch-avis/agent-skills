@@ -1,6 +1,10 @@
 ---
 name: rust
-description: Comprehensive Rust development guide covering ownership, borrowing, lifetimes, error handling, traits, generics, type safety, API design, memory optimization, naming, project structure, clippy, documentation, performance, and anti-patterns. Use for all Rust coding, code review, and design tasks.
+description: >-
+  Comprehensive Rust development guide covering ownership, borrowing, lifetimes, error
+  handling, traits, generics, type safety, API design, memory optimization, naming, project
+  structure, clippy, documentation, performance, and anti-patterns. Use for all Rust coding,
+  code review, and design tasks.
 ---
 
 # Rust Development

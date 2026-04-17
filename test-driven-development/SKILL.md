@@ -1,6 +1,10 @@
 ---
 name: test-driven-development
-description: Enforces strict TDD methodology with red-green-refactor cycle. No production code without a failing test first. Covers the TDD workflow, common rationalizations to avoid, debugging integration, and testing anti-patterns. Use before writing any feature or bugfix implementation.
+description: >-
+  Enforces strict TDD methodology with red-green-refactor cycle. No production code without
+  a failing test first. Covers the TDD workflow, common rationalizations to avoid, debugging
+  integration, and testing anti-patterns. Use before writing any feature or bugfix
+  implementation.
 ---
 
 # Test-Driven Development (TDD)
@@ -378,8 +382,8 @@ Never fix bugs without a test.
 
 ## Testing Anti-Patterns
 
-When adding mocks or test utilities, read [testing-anti-patterns.md](testing-anti-patterns.md) to
-avoid common pitfalls:
+When adding mocks or test utilities, read
+[testing-anti-patterns.md](references/testing-anti-patterns.md) to avoid common pitfalls:
 
 - Testing mock behavior instead of real behavior
 - Adding test-only methods to production classes

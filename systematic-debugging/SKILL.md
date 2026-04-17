@@ -1,6 +1,11 @@
 ---
 name: systematic-debugging
-description: Systematic debugging methodology with four-phase root cause analysis. Covers reproduction, evidence gathering, hypothesis testing, git bisect, differential debugging, intermittent/performance/production bug patterns, and the 3-fix architectural escape hatch. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.
+description: >-
+  Systematic debugging methodology with four-phase root cause analysis. Covers reproduction,
+  evidence gathering, hypothesis testing, git bisect, differential debugging,
+  intermittent/performance/production bug patterns, and the 3-fix architectural escape
+  hatch. Use when encountering any bug, test failure, or unexpected behavior, before
+  proposing fixes.
 ---
 
 # Systematic Debugging
@@ -209,8 +214,8 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 Reference files in this directory:
 
-- [root-cause-tracing.md](references/root-cause-tracing.md) — trace bugs backward through call
-  stack to original trigger
+- [root-cause-tracing.md](references/root-cause-tracing.md) — trace bugs backward through call stack
+  to original trigger
 - [defense-in-depth.md](references/defense-in-depth.md) — add validation at multiple layers after
   finding root cause
 - [condition-based-waiting.md](references/condition-based-waiting.md) — replace arbitrary timeouts

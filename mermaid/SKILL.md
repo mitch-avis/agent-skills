@@ -1,6 +1,6 @@
 ---
 name: mermaid
-description: >
+description: >-
   Create, style, and render Mermaid diagrams for documentation, architecture, and process
   visualization. Covers flowcharts, sequence diagrams, class diagrams, ERDs, C4 architecture,
   state diagrams, architecture-beta, git graphs, Gantt charts, and more. Use this skill whenever
@@ -74,8 +74,8 @@ sequenceDiagram
     end
 ```
 
-**Arrow types:** `->>` sync request, `-->>` async response, `-)` async fire-and-forget,
-`-x` lost message. Append `+`/`-` for activation: `->>+` activates, `-->>-` deactivates.
+**Arrow types:** `->>` sync request, `-->>` async response, `-)` async fire-and-forget, `-x` lost
+message. Append `+`/`-` for activation: `->>+` activates, `-->>-` deactivates.
 
 **Blocks:** `alt`/`else`/`end`, `opt`/`end`, `par`/`and`/`end`, `loop`/`end`, `break`/`end`.
 
@@ -170,8 +170,7 @@ WRONG:  subgraph AI Agent Core
 RIGHT:  subgraph agent["AI Agent Core"]
 ```
 
-Always reference subgraphs by their ID, not display text: `A --> agent`, not
-`A --> AI Agent Core`.
+Always reference subgraphs by their ID, not display text: `A --> agent`, not `A --> AI Agent Core`.
 
 ### Special characters need escaping
 
@@ -245,8 +244,8 @@ node scripts/render.mjs --input diagram.mmd --output diagram.svg --theme tokyo-n
 ```
 
 Supports 15+ named themes. Run `node scripts/themes.mjs` to list them. Custom colors are also
-supported via `--bg`, `--fg`, `--accent`, `--line`, `--muted`, `--surface`, `--border` flags.
-Use `--transparent` for transparent backgrounds.
+supported via `--bg`, `--fg`, `--accent`, `--line`, `--muted`, `--surface`, `--border` flags. Use
+`--transparent` for transparent backgrounds.
 
 ### Render to ASCII art
 
@@ -361,8 +360,8 @@ flowchart TD
 
 ## Reference Guide
 
-Consult these files for in-depth syntax, examples, and patterns per diagram type. Read only the
-file relevant to your current task — there is no need to load them all.
+Consult these files for in-depth syntax, examples, and patterns per diagram type. Read only the file
+relevant to your current task — there is no need to load them all.
 
 | Topic | Reference File |
 | --- | --- |

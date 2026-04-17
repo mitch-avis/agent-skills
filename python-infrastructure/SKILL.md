@@ -1,6 +1,10 @@
 ---
 name: python-infrastructure
-description: Python infrastructure patterns covering packaging (pyproject.toml, PyPI), performance optimization (profiling, caching), background jobs (Celery, task queues), and deployment workflows. Use when packaging libraries, optimizing performance, or building async task processing systems.
+description: >-
+  Python infrastructure patterns covering packaging (pyproject.toml, PyPI), performance
+  optimization (profiling, caching), background jobs (Celery, task queues), and deployment
+  workflows. Use when packaging libraries, optimizing performance, or building async task
+  processing systems.
 ---
 
 # Python Infrastructure

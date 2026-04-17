@@ -1,6 +1,9 @@
 ---
 name: markdown-documentation
-description: Formats Markdown and GitHub Flavored Markdown for documentation, READMEs, and technical writing. Covers text formatting, lists, links, images, tables, code blocks, collapsible sections, alerts, and mermaid diagrams. Use when writing or formatting Markdown documents.
+description: >-
+  Formats Markdown and GitHub Flavored Markdown for documentation, READMEs, and technical
+  writing. Covers text formatting, lists, links, images, tables, code blocks, collapsible
+  sections, alerts, and mermaid diagrams. Use when writing or formatting Markdown documents.
 ---
 
 # Markdown Documentation

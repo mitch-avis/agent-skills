@@ -1,6 +1,9 @@
 ---
 name: clean-code
-description: Applies Clean Code principles from Robert C. Martin to transform working code into clean code. Covers naming, functions, comments, formatting, error handling, classes, and code smells. Use when writing new code, reviewing pull requests, or refactoring legacy code.
+description: >-
+  Applies Clean Code principles from Robert C. Martin to transform working code into clean
+  code. Covers naming, functions, comments, formatting, error handling, classes, and code
+  smells. Use when writing new code, reviewing pull requests, or refactoring legacy code.
 ---
 
 # Clean Code Skill
@@ -10,8 +13,8 @@ transform "code that works" into "code that is clean."
 
 ## Core Philosophy
 >
-> "Code is clean if it can be read, and enhanced by a developer
-> other than its original author." — Grady Booch
+> "Code is clean if it can be read, and enhanced by a developer other than its original author." —
+> Grady Booch
 
 ## When to Use
 
@@ -35,7 +38,8 @@ Use this skill when:
 
 - **Small!**: Functions should be shorter than you think.
 - **Do One Thing**: A function should do only one thing, and do it well.
-- **One Level of Abstraction**: Don't mix high-level business logic with low-level details (like regex).
+- **One Level of Abstraction**: Don't mix high-level business logic with low-level details (like
+  regex).
 - **Descriptive Names**: `isPasswordValid` is better than `check`.
 - **Arguments**: 0 is ideal, 1-2 is okay, 3+ requires a very strong justification.
 - **No Side Effects**: Functions shouldn't secretly change global state.
