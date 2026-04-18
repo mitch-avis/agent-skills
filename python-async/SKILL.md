@@ -2,8 +2,8 @@
 name: python-async
 description: >-
   Python asyncio patterns for high-performance concurrent applications. Covers event loops,
-  coroutines, tasks, gather, semaphores, channels, async context managers, and testing async
-  code. Use when building async APIs, I/O-bound services, or concurrent Python systems.
+  coroutines, tasks, gather, semaphores, channels, async context managers, and testing async code.
+  Use when building async APIs, I/O-bound services, or concurrent Python systems.
 ---
 
 # Python Async Patterns

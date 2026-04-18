@@ -1,9 +1,9 @@
 ---
 name: find-skills
 description: >-
-  Discovers and installs agent skills from the open skills ecosystem via the Skills CLI.
-  Use when looking for functionality that might exist as an installable skill, or when asked
-  to find, search for, or add a skill.
+  Discovers and installs agent skills from the open skills ecosystem via the Skills CLI. Use when
+  looking for functionality that might exist as an installable skill, or when asked to find, search
+  for, or add a skill.
 ---
 
 # Find Skills

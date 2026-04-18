@@ -1,11 +1,11 @@
 ---
 name: docker
 description: >-
-  Containerize applications with Docker using multi-stage builds, security hardening,
-  layer caching, image optimization, health checks, and Docker Compose orchestration.
-  Use when creating Dockerfiles, optimizing container images, setting up Docker Compose
-  services, containerizing any application (Node.js, Python, Go, Rust, Java), reducing
-  image size, hardening container security, or configuring multi-container environments.
+  Containerize applications with Docker using multi-stage builds, security hardening, layer caching,
+  image optimization, health checks, and Docker Compose orchestration. Use when creating
+  Dockerfiles, optimizing container images, setting up Docker Compose services, containerizing any
+  application (Node.js, Python, Go, Rust, Java), reducing image size, hardening container security,
+  or configuring multi-container environments.
 ---
 
 # Docker

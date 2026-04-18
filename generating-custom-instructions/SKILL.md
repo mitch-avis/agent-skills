@@ -1,11 +1,11 @@
 ---
 name: generating-custom-instructions
 description: >-
-  Generates and maintains custom instruction files for AI coding agents. Analyzes codebase
-  patterns, conventions, and tooling to produce agent-agnostic instruction files
-  (copilot-instructions.md, .instructions.md, AGENTS.md, CLAUDE.md). Use when setting up a
-  new project for AI assistance, onboarding a repository, updating stale instructions, or
-  refreshing conventions after a major refactor or migration.
+  Generates and maintains custom instruction files for AI coding agents. Analyzes codebase patterns,
+  conventions, and tooling to produce agent-agnostic instruction files (copilot-instructions.md,
+  .instructions.md, AGENTS.md, CLAUDE.md). Use when setting up a new project for AI assistance,
+  onboarding a repository, updating stale instructions, or refreshing conventions after a major
+  refactor or migration.
 ---
 
 # Generating Custom Instructions

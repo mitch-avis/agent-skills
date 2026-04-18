@@ -1,10 +1,10 @@
 ---
 name: python
 description: >-
-  Comprehensive Python development guide covering code style, design patterns, type safety,
-  project structure, configuration, and anti-patterns. Enforces ruff format, ruff check,
-  pyright type checking, and 100-character line length. Use for all Python coding, review,
-  and architecture tasks.
+  Comprehensive Python development guide covering code style, design patterns, type safety, project
+  structure, configuration, and anti-patterns. Enforces ruff format, ruff check, pyright type
+  checking, and 100-character line length. Use for all Python coding, review, and architecture
+  tasks.
 ---
 
 # Python Development

@@ -1,9 +1,9 @@
 ---
 name: helm
 description: >-
-  Helm 3 chart development, templating, packaging, and production operations. Use when creating
-  Helm charts, writing Go templates for Kubernetes manifests, managing chart dependencies, packaging
-  for distribution, performing installs/upgrades/rollbacks, or configuring multi-environment
+  Helm 3 chart development, templating, packaging, and production operations. Use when creating Helm
+  charts, writing Go templates for Kubernetes manifests, managing chart dependencies, packaging for
+  distribution, performing installs/upgrades/rollbacks, or configuring multi-environment
   deployments.
 ---
 

@@ -2,11 +2,11 @@
 name: task-orchestrator
 description: >-
   Decomposes complex, multi-step, or cross-domain tasks into subtasks, assigns each to the most
-  appropriate skill or subagent, runs independent subtasks in parallel, and synthesizes results.
-  Use whenever a request involves more than one skill, touches multiple languages or file types,
-  requires a plan-then-execute workflow, contains multiple numbered or comma-separated tasks, or
-  is ambiguous and benefits from decomposition before execution. Also use when the user explicitly
-  asks to break work into parts, delegate to subagents, or run things in parallel.
+  appropriate skill or subagent, runs independent subtasks in parallel, and synthesizes results. Use
+  whenever a request involves more than one skill, touches multiple languages or file types,
+  requires a plan-then-execute workflow, contains multiple numbered or comma-separated tasks, or is
+  ambiguous and benefits from decomposition before execution. Also use when the user explicitly asks
+  to break work into parts, delegate to subagents, or run things in parallel.
 ---
 
 # Task Orchestrator

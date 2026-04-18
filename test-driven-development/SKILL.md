@@ -1,10 +1,9 @@
 ---
 name: test-driven-development
 description: >-
-  Enforces strict TDD methodology with red-green-refactor cycle. No production code without
-  a failing test first. Covers the TDD workflow, common rationalizations to avoid, debugging
-  integration, and testing anti-patterns. Use before writing any feature or bugfix
-  implementation.
+  Enforces strict TDD methodology with red-green-refactor cycle. No production code without a
+  failing test first. Covers the TDD workflow, common rationalizations to avoid, debugging
+  integration, and testing anti-patterns. Use before writing any feature or bugfix implementation.
 ---
 
 # Test-Driven Development (TDD)

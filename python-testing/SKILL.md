@@ -1,9 +1,9 @@
 ---
 name: python-testing
 description: >-
-  Python testing with pytest, fixtures, mocking, parameterization, async tests, coverage,
-  and property-based testing. Follows TDD methodology with arrange-act-assert pattern. Use
-  when writing Python tests, setting up test infrastructure, or improving code coverage.
+  Python testing with pytest, fixtures, mocking, parameterization, async tests, coverage, and
+  property-based testing. Follows TDD methodology with arrange-act-assert pattern. Use when writing
+  Python tests, setting up test infrastructure, or improving code coverage.
 ---
 
 # Python Testing

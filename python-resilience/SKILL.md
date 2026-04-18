@@ -1,10 +1,9 @@
 ---
 name: python-resilience
 description: >-
-  Fault-tolerant Python patterns including retries with exponential backoff, timeouts,
-  context managers, resource cleanup, error handling, partial failure handling, and
-  observability. Use when building robust services, handling transient failures, or managing
-  resources.
+  Fault-tolerant Python patterns including retries with exponential backoff, timeouts, context
+  managers, resource cleanup, error handling, partial failure handling, and observability. Use when
+  building robust services, handling transient failures, or managing resources.
 ---
 
 # Python Resilience and Resource Management

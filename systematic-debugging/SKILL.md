@@ -3,9 +3,8 @@ name: systematic-debugging
 description: >-
   Systematic debugging methodology with four-phase root cause analysis. Covers reproduction,
   evidence gathering, hypothesis testing, git bisect, differential debugging,
-  intermittent/performance/production bug patterns, and the 3-fix architectural escape
-  hatch. Use when encountering any bug, test failure, or unexpected behavior, before
-  proposing fixes.
+  intermittent/performance/production bug patterns, and the 3-fix architectural escape hatch. Use
+  when encountering any bug, test failure, or unexpected behavior, before proposing fixes.
 ---
 
 # Systematic Debugging

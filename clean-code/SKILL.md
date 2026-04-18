@@ -1,9 +1,9 @@
 ---
 name: clean-code
 description: >-
-  Applies Clean Code principles from Robert C. Martin to transform working code into clean
-  code. Covers naming, functions, comments, formatting, error handling, classes, and code
-  smells. Use when writing new code, reviewing pull requests, or refactoring legacy code.
+  Applies Clean Code principles from Robert C. Martin to transform working code into clean code.
+  Covers naming, functions, comments, formatting, error handling, classes, and code smells. Use when
+  writing new code, reviewing pull requests, or refactoring legacy code.
 ---
 
 # Clean Code Skill
