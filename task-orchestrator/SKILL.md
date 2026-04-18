@@ -73,6 +73,7 @@ Map each subtask to the best available skill:
 | Kubernetes manifests       | kubernetes                     |
 | Helm charts                | helm                           |
 | Dockerfiles / containers   | docker                         |
+| CI/CD pipelines            | cicd                           |
 | Markdown / docs            | markdown-documentation         |
 | Mermaid diagrams           | mermaid                        |
 | Code quality               | clean-code                     |
