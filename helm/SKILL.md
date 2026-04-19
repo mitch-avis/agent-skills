@@ -238,11 +238,11 @@ helm install myapp ./myapp -f values-prod.yaml -n production
 1. **Semantic versioning** — `version` for chart, `appVersion` for the application
 2. **Always lint** — `helm lint` before every commit
 3. **Config checksums** — force pod restart on ConfigMap/Secret change
-4. **Quote strings** — `{{ .Values.config.value | quote }}` 5. **Default values** — `{{
-.Values.replicaCount | default 3 }}`
-5. **Schema validation** — provide `values.schema.json` for required values
-6. **Atomic upgrades** — `helm upgrade --atomic` rolls back on failure
-7. **Document values** — comment every value in `values.yaml`
+4. **Quote strings** — `{{ .Values.config.value | quote }}`
+5. **Default values** — `{{ .Values.replicaCount | default 3 }}`
+6. **Schema validation** — provide `values.schema.json` for required values
+7. **Atomic upgrades** — `helm upgrade --atomic` rolls back on failure
+8. **Document values** — comment every value in `values.yaml`
 
 ## Anti-Patterns
 
