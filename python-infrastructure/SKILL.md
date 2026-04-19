@@ -67,15 +67,10 @@ path = "VERSION"
 uv self update                                     # keep uv current
 uv python upgrade                                  # upgrade all installed Python versions
 uv venv                                            # create .venv with latest Python
-# Alt options: `uv venv --python 3.12` or `uv venv --python /path/to/python`
-source .venv/bin/activate                          # activate venv (Unix)
-.venv\Scripts\activate                             # activate venv (Windows)
-python -m ensurepip                                # ensure pip is installed in venv
-python -m pip install -U uv pip setuptools wheel   # install/upgrade packaging tools in venv
-
+# Alt: uv venv --python 3.12
 uv pip install -e ".[dev]"                         # editable install with dev extras
 uv pip compile pyproject.toml -o requirements.txt  # lock deps
-uv run pytest                                      # run tests inside venv
+uv run pytest                                      # run inside venv (no activation needed)
 ```
 
 ## Performance Optimization
