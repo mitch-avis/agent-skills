@@ -47,51 +47,6 @@ uv python install 3.12           # install a Python version
 uv python pin 3.12               # pin project to Python 3.12
 ```
 
-## Ruff Configuration
-
-```toml
-[tool.ruff]
-line-length = 100
-target-version = "py312"
-extend-exclude = [
-    ".venv",
-    ".git",
-    "__pycache__",
-    ".pytest_cache",
-    ".mypy_cache",
-    "build",
-    "dist",
-]
-
-[tool.ruff.lint]
-select = [
-    "B",   # flake8-bugbear rules
-    "C4",  # flake8-comprehensions rules
-    "D",   # pydocstyle rules
-    "E",   # pycodestyle errors
-    "F",   # pyflakes rules
-    "I",   # isort rules
-    "N",   # pep8-naming rules
-    "S",   # bandit security rules
-    "SIM", # flake8-simplify rules
-    "UP",  # pyupgrade rules
-    "W",   # pycodestyle warnings
-]
-ignore = [
-    "D203", # Conflicts with D211 (no-blank-line-before-class)
-    "D213", # Conflicts with D212 (multi-line-summary-first-line)
-]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101"] # Use of assert is standard in pytest
-
-[tool.ruff.lint.isort]
-known-first-party = ["myproject"]
-
-[tool.ruff.format]
-docstring-code-format = true
-```
-
 ## Code Style
 
 - Use absolute imports: `from myproject.services import UserService`
@@ -226,10 +181,19 @@ extend-exclude = [
 
 [tool.ruff.lint]
 select = [
-    "B", "C4", "D", "E", "F", "I",
-    "N", "S", "SIM", "UP", "W",
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "D",   # pydocstyle
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "S",   # bandit security
+    "SIM", # flake8-simplify
+    "UP",  # pyupgrade
+    "W",   # pycodestyle warnings
 ]
-ignore = ["D203", "D213"]
+ignore = ["D203", "D213"]  # conflict with D211/D212
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101"]
