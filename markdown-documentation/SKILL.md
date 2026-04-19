@@ -38,43 +38,46 @@ standard Markdown and GitHub Flavored Markdown (GFM).
 - Blog posts
 - Technical writing
 - Project documentation
-- Comment formatting
 
 ## Quick Start
 
-- Comment formatting
+```markdown
+# Heading 1
+
+## Heading 2
+
+**Bold text**, *italic text*, ~~strikethrough~~
+
+- Unordered list item
+- Another item
+
+1. Ordered list item
+2. Another item
+
+[Link text](https://example.com)
+
+![Alt text](image.png)
+```
 
 ```markdown
-# H1 Header
-
-## H2 Header
-
-### H3 Header
-
-#### H4 Header
-
-##### H5 Header
-
-###### H6 Header
-
-# Alternative H1
-
-## Alternative H2
+| Column A | Column B |
+| -------- | -------- |
+| Cell 1   | Cell 2   |
 ```
 
 ## Reference Guides
 
 Detailed implementations in the `references/` directory:
 
-| Guide                                                                                                | Contents                                          |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| [Text Formatting](references/text-formatting.md)                                                     | Text Formatting                                   |
-| [Lists](references/lists.md)                                                                         | Lists                                             |
-| [Links and Images](references/links-and-images.md)                                                   | Links and Images, Code Blocks, Tables             |
-| [Extended Syntax (GitHub Flavored Markdown)](references/extended-syntax-github-flavored-markdown.md) | Extended Syntax (GitHub Flavored Markdown)        |
-| [Collapsible Sections](references/collapsible-sections.md)                                           | Collapsible Sections, Syntax Highlighting, Badges |
-| [Alerts and Callouts](references/alerts-and-callouts.md)                                             | Alerts and Callouts                               |
-| [Mermaid Diagrams](references/mermaid-diagrams.md)                                                   | Mermaid Diagrams                                  |
+| Topic                | File                                                   | Load When                                     |
+| -------------------- | ------------------------------------------------------ | --------------------------------------------- |
+| Text Formatting      | references/text-formatting.md                          | Bold, italic, strikethrough, emphasis         |
+| Lists                | references/lists.md                                    | Ordered, unordered, nested, task lists        |
+| Links and Images     | references/links-and-images.md                         | Hyperlinks, images, code blocks, tables       |
+| Extended GFM Syntax  | references/extended-syntax-github-flavored-markdown.md | Footnotes, task lists, autolinks, emoji       |
+| Collapsible Sections | references/collapsible-sections.md                     | Details/summary, syntax highlighting, badges  |
+| Alerts and Callouts  | references/alerts-and-callouts.md                      | Note, tip, important, warning, caution blocks |
+| Mermaid Diagrams     | references/mermaid-diagrams.md                         | Embedding diagrams in Markdown documents      |
 
 ## Best Practices
 
