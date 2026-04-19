@@ -153,8 +153,8 @@ cargo test --all-targets --all-features
 ```bash
 ruff format --check .
 ruff check .
-ty check .
-pyright .
+ty check .       # primary type checker (Astral, still in beta)
+pyright .        # fallback type checker (stable)
 pytest --cov
 ```
 
