@@ -55,9 +55,9 @@ follows its instructions.
 
 ### CI/CD
 
-| Skill                 | Description                                                                                                                    |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| [cicd](cicd/SKILL.md) | Pipeline design for GitHub Actions, GitLab CI, Jenkins, and ArgoCD -- security gates, caching, deployment strategies, GitOps   |
+| Skill                 | Description                                                                                                                  |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [cicd](cicd/SKILL.md) | Pipeline design for GitHub Actions, GitLab CI, Jenkins, and ArgoCD -- security gates, caching, deployment strategies, GitOps |
 
 ### Tooling
 
