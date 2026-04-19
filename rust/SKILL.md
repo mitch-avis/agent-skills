@@ -498,26 +498,5 @@ Set `RUSTFLAGS="-D warnings"` in CI.
 
 ## Anti-Patterns
 
-- **Panicking in library code** — `.unwrap()`, `.expect()`, `panic!()` are not acceptable in library
-  code paths reachable at runtime. Use `Result`.
-- **Glob imports outside test modules** — denied by lint.
-- **Silent clones** — `.clone()` without a comment suggests a design problem. Prefer restructured
-  ownership.
-- **Stringly-typed APIs** — `fn process(action: &str)` invites runtime errors. Use enums or
-  newtypes.
-- **`pub` by default** — everything starts private. Widen visibility only for concrete consumers.
-- **Skipping `#[must_use]`** — annotate all functions whose return value is meaningful and silently
-  discarding it would be a bug.
-- **Magic numbers** — inline numeric literals with non-obvious meaning must be named constants with
-  doc comments.
-- **`mod.rs` for leaf modules** — use `module.rs` unless submodules exist.
-- **Reimplementing standard traits** — derive `Debug`, `Clone`, `PartialEq`, etc. wherever the
-  derived implementation is correct. Comment manual impls.
-- **Missing `#[non_exhaustive]`** — every public enum that may gain variants must be marked.
-  Omitting it is a semver hazard.
-- **No `.unwrap()` abuse** — use `?` or handle the error.
-- **No locks held across `.await`** — see the rust-async skill.
-- **No `&String` / `&Vec<T>`** — use `&str` / `&[T]`.
-- **No `Box<dyn Trait>` when `impl Trait` works** — prefer static dispatch.
-- **No intermediate `.collect()` calls** — keep iterator chains lazy.
-- **No premature optimization** — measure first.
+See [references/anti-patterns.md](references/anti-patterns.md) for the full list of common mistakes
+organized by category (library code, types, visibility, documentation, performance).
