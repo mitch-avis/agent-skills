@@ -86,6 +86,7 @@ Map each subtask to the best available skill:
 | Custom instruction files   | generating-custom-instructions |
 | Creating / improving skills| skill-creator                  |
 | Multi-step orchestration   | task-orchestrator (self)       |
+| SQL schema / queries / ORM | sql-database                   |
 
 ### 4. Execute
 
