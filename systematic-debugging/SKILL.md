@@ -219,3 +219,7 @@ Reference files in this directory:
   finding root cause
 - [condition-based-waiting.md](references/condition-based-waiting.md) — replace arbitrary timeouts
   with condition polling
+- [condition-based-waiting-example.ts](references/condition-based-waiting-example.ts) — TypeScript
+  example implementing the condition polling pattern
+- [find-polluter.sh](references/find-polluter.sh) — script to identify test pollution (tests that
+  pass in isolation but fail when run together)
