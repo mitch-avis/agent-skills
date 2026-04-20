@@ -67,9 +67,7 @@ def load_run_results(benchmark_dir: Path) -> dict:
     elif list(benchmark_dir.glob("eval-*")):
         search_dir = benchmark_dir
     else:
-        print(
-            f"No eval directories found in {benchmark_dir} or {benchmark_dir / 'runs'}"
-        )
+        print(f"No eval directories found in {benchmark_dir} or {benchmark_dir / 'runs'}")
         return {}
 
     results: dict[str, list] = {}
@@ -132,9 +130,7 @@ def load_run_results(benchmark_dir: Path) -> dict:
                     try:
                         with open(timing_file) as tf:
                             timing_data = json.load(tf)
-                        result["time_seconds"] = timing_data.get(
-                            "total_duration_seconds", 0.0
-                        )
+                        result["time_seconds"] = timing_data.get("total_duration_seconds", 0.0)
                         result["tokens"] = timing_data.get("total_tokens", 0)
                     except json.JSONDecodeError:
                         pass
@@ -212,9 +208,9 @@ def aggregate_results(results: dict) -> dict:
     delta_time = primary.get("time_seconds", {}).get("mean", 0) - baseline.get(
         "time_seconds", {}
     ).get("mean", 0)
-    delta_tokens = primary.get("tokens", {}).get("mean", 0) - baseline.get(
-        "tokens", {}
-    ).get("mean", 0)
+    delta_tokens = primary.get("tokens", {}).get("mean", 0) - baseline.get("tokens", {}).get(
+        "mean", 0
+    )
 
     run_summary["delta"] = {
         "pass_rate": f"{delta_pass_rate:+.2f}",
@@ -225,9 +221,7 @@ def aggregate_results(results: dict) -> dict:
     return run_summary
 
 
-def generate_benchmark(
-    benchmark_dir: Path, skill_name: str = "", skill_path: str = ""
-) -> dict:
+def generate_benchmark(benchmark_dir: Path, skill_name: str = "", skill_path: str = "") -> dict:
     """
     Generate complete benchmark.json from run results.
     """
@@ -342,15 +336,9 @@ def main():
     parser = argparse.ArgumentParser(
         description="Aggregate benchmark run results into summary statistics"
     )
-    parser.add_argument(
-        "benchmark_dir", type=Path, help="Path to the benchmark directory"
-    )
-    parser.add_argument(
-        "--skill-name", default="", help="Name of the skill being benchmarked"
-    )
-    parser.add_argument(
-        "--skill-path", default="", help="Path to the skill being benchmarked"
-    )
+    parser.add_argument("benchmark_dir", type=Path, help="Path to the benchmark directory")
+    parser.add_argument("--skill-name", default="", help="Name of the skill being benchmarked")
+    parser.add_argument("--skill-path", default="", help="Path to the skill being benchmarked")
     parser.add_argument(
         "--output",
         "-o",

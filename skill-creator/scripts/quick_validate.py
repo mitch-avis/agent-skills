@@ -9,10 +9,9 @@ from pathlib import Path
 def _parse_frontmatter(text: str) -> dict[str, str]:
     """Parse YAML frontmatter into top-level key-value string pairs.
 
-    Handles plain values, quoted values, and YAML block scalars (>, |, >-, |-).
-    List and mapping values (e.g., ``allowed-tools``, ``metadata``) are detected as
-    keys but their values are flattened to strings — sufficient for key-presence
-    validation, not for faithful YAML parsing.
+    Handles plain values, quoted values, and YAML block scalars (>, |, >-, |-). List and mapping
+    values (e.g., ``allowed-tools``, ``metadata``) are detected as keys but their values are
+    flattened to strings — sufficient for key-presence validation, not for faithful YAML parsing.
     """
     frontmatter: dict[str, str] = {}
     lines = text.split("\n")
@@ -26,9 +25,7 @@ def _parse_frontmatter(text: str) -> dict[str, str]:
             if value in (">", "|", ">-", "|-"):
                 continuation: list[str] = []
                 i += 1
-                while i < len(lines) and (
-                    lines[i].startswith("  ") or lines[i].startswith("\t")
-                ):
+                while i < len(lines) and (lines[i].startswith("  ") or lines[i].startswith("\t")):
                     continuation.append(lines[i].strip())
                     i += 1
                 frontmatter[key] = " ".join(continuation)

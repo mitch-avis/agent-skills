@@ -24,16 +24,15 @@ _AGENT_ENV_VAR = os.environ.get("SKILL_AGENT_ENV_VAR", "CLAUDECODE")
 def _call_llm(prompt: str, model: str | None, timeout: int = 300) -> str:
     """Run the LLM CLI with the prompt on stdin and return the text response.
 
-    Prompt goes over stdin (not argv) because it embeds the full SKILL.md
-    body and can easily exceed comfortable argv length.
+    Prompt goes over stdin (not argv) because it embeds the full SKILL.md body and can easily exceed
+    comfortable argv length.
     """
     cmd = [_LLM_CLI, "-p", "--output-format", "text"]
     if model:
         cmd.extend(["--model", model])
 
-    # Remove the agent's session env var to allow nesting CLI calls inside
-    # an active session. The guard is for interactive terminal conflicts;
-    # programmatic subprocess usage is safe.
+    # Remove the agent's session env var to allow nesting CLI calls inside an active session. The
+    # guard is for interactive terminal conflicts; programmatic subprocess usage is safe.
     env = {k: v for k, v in os.environ.items() if k != _AGENT_ENV_VAR}
 
     result = subprocess.run(
@@ -192,11 +191,10 @@ def improve_description(
         "over_limit": len(description) > 1024,
     }
 
-    # Safety net: the prompt already states the 1024-char hard limit, but if
-    # the model blew past it anyway, make one fresh single-turn call that
-    # quotes the too-long version and asks for a shorter rewrite. (The old
-    # SDK path did this as a true multi-turn; `claude -p` is one-shot, so we
-    # inline the prior output into the new prompt instead.)
+    # Safety net: the prompt already states the 1024-char hard limit, but if the model blew past it
+    # anyway, make one fresh single-turn call that quotes the too-long version and asks for a
+    # shorter rewrite. (The old SDK path did this as a true multi-turn; `claude -p` is one-shot, so
+    # we inline the prior output into the new prompt instead.)
     if len(description) > 1024:
         shorten_prompt = (
             f"{prompt}\n\n"
