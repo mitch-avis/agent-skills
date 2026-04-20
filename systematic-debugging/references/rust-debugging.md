@@ -1,8 +1,8 @@
 # Rust Debugging Toolkit
 
-Rust-specific tools and patterns for systematic debugging. Use alongside the four-phase
-methodology in the main skill — these are the *instruments* you reach for during Phase 1
-(investigation) and Phase 2 (pattern analysis).
+Rust-specific tools and patterns for systematic debugging. Use alongside the four-phase methodology
+in the main skill — these are the *instruments* you reach for during Phase 1 (investigation) and
+Phase 2 (pattern analysis).
 
 ## Quick Reference
 
@@ -89,8 +89,8 @@ for i in {1..50}; do cargo test my_flaky_test -- --nocapture || break; done
 cargo test my_test -- --nocapture --test-threads=1
 ```
 
-If a test only fails when other tests run first, it has a hidden dependency on global state.
-Common culprits: env vars, `cwd`, temp files, `lazy_static!` / `OnceLock` initialisation, ports.
+If a test only fails when other tests run first, it has a hidden dependency on global state. Common
+culprits: env vars, `cwd`, temp files, `lazy_static!` / `OnceLock` initialisation, ports.
 
 Use `find-polluter.sh` in this directory to bisect across `tests/*.rs` integration files:
 
@@ -203,8 +203,8 @@ cargo install cargo-bisect-rustc
 cargo bisect-rustc --start 1.80.0 --end 1.85.0 --script ./reproduce.sh
 ```
 
-Bisects across nightly releases until it finds the regressing commit in the compiler itself.
-Useful for filing upstream bugs.
+Bisects across nightly releases until it finds the regressing commit in the compiler itself. Useful
+for filing upstream bugs.
 
 ## 9. Compile-Time Investigation
 
@@ -245,12 +245,12 @@ statistically-sound before/after comparisons during a fix.
 
 - **Adding `.unwrap()` to silence a compiler error** — that error was usually telling you about a
   real failure mode. Propagate with `?` or handle the case.
-- **Sprinkling `eprintln!` then forgetting to remove it** — gate behind `cfg!(debug_assertions)`
-  or use `tracing` so production builds stay quiet.
+- **Sprinkling `eprintln!` then forgetting to remove it** — gate behind `cfg!(debug_assertions)` or
+  use `tracing` so production builds stay quiet.
 - **Disabling a flaky test** — the test is doing its job; the *code* is flaky. Use the test
   isolation tools above to find why.
-- **`Box<dyn Error>` everywhere during debugging** — switch to `anyhow::Result` while
-  investigating so you get free backtraces and context chains; tighten back to typed errors once
-  the bug is understood.
+- **`Box<dyn Error>` everywhere during debugging** — switch to `anyhow::Result` while investigating
+  so you get free backtraces and context chains; tighten back to typed errors once the bug is
+  understood.
 - **Reaching for `unsafe` to "fix" a borrow-check error** — almost always a sign the design is
   wrong. Step back and rethink ownership before reaching for `unsafe` / raw pointers.

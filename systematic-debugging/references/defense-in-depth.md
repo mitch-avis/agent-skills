@@ -84,9 +84,9 @@ def git_init(directory: str) -> None:
 
 ## Rust Equivalent
 
-The same four layers translate cleanly to Rust. Use the type system as a fifth, free layer
-whenever possible — replacing `String` paths with `&Path`/`PathBuf` and untyped flags with newtype
-wrappers makes whole categories of "invalid data" unrepresentable.
+The same four layers translate cleanly to Rust. Use the type system as a fifth, free layer whenever
+possible — replacing `String` paths with `&Path`/`PathBuf` and untyped flags with newtype wrappers
+makes whole categories of "invalid data" unrepresentable.
 
 ```rust
 use std::env;
@@ -150,8 +150,8 @@ pub fn git_init(directory: &Path) -> Result<()> {
 # struct Project { name: String, dir: PathBuf }
 ```
 
-**Make invalid states unrepresentable.** A typed wrapper turns a runtime check into a
-compile-time guarantee:
+**Make invalid states unrepresentable.** A typed wrapper turns a runtime check into a compile-time
+guarantee:
 
 ```rust
 /// A directory that has been validated to exist and to be safe for git operations.

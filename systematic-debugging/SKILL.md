@@ -103,13 +103,13 @@ Complete each phase before proceeding to the next.
 
 Build a comparison table:
 
-| Aspect | Working | Broken |
-| --- | --- | --- |
-| Environment | Development | Production |
-| Runtime version | 1.85 | 1.82 |
-| Data | Empty DB | 1M records |
-| User | Admin | Regular user |
-| Time | During day | After midnight |
+| Aspect          | Working     | Broken         |
+| --------------- | ----------- | -------------- |
+| Environment     | Development | Production     |
+| Runtime version | 1.85        | 1.82           |
+| Data            | Empty DB    | 1M records     |
+| User            | Admin       | Regular user   |
+| Time            | During day  | After midnight |
 
 The difference often points directly to the root cause.
 
@@ -196,35 +196,35 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 ## Common Rationalizations
 
-| Excuse | Reality |
-| --- | --- |
-| "Issue is simple, skip process" | Simple issues have root causes too |
-| "Emergency, no time" | Systematic debugging is FASTER than thrashing |
-| "Just try this first" | First fix sets the pattern — do it right |
-| "I'll write test after fix works" | Untested fixes don't stick |
-| "Multiple fixes at once saves time" | Can't isolate what worked |
-| "Reference too long, I'll adapt" | Partial understanding guarantees bugs |
-| "One more attempt" (after 2+ fails) | 3+ failures = architectural problem |
+| Excuse                              | Reality                                       |
+| ----------------------------------- | --------------------------------------------- |
+| "Issue is simple, skip process"     | Simple issues have root causes too            |
+| "Emergency, no time"                | Systematic debugging is FASTER than thrashing |
+| "Just try this first"               | First fix sets the pattern — do it right      |
+| "I'll write test after fix works"   | Untested fixes don't stick                    |
+| "Multiple fixes at once saves time" | Can't isolate what worked                     |
+| "Reference too long, I'll adapt"    | Partial understanding guarantees bugs         |
+| "One more attempt" (after 2+ fails) | 3+ failures = architectural problem           |
 
 ## Quick Reference
 
-| Phase | Key Activities | Done When |
-| --- | --- | --- |
-| 1. Root Cause | Read errors, reproduce, trace data | Understand WHAT and WHY |
-| 2. Pattern | Find working examples, diff, bisect | Differences identified |
-| 3. Hypothesis | Form theory, test minimally | Confirmed or new hypothesis |
-| 4. Implementation | Create test, fix, verify | Bug resolved, tests pass |
+| Phase             | Key Activities                      | Done When                   |
+| ----------------- | ----------------------------------- | --------------------------- |
+| 1. Root Cause     | Read errors, reproduce, trace data  | Understand WHAT and WHY     |
+| 2. Pattern        | Find working examples, diff, bisect | Differences identified      |
+| 3. Hypothesis     | Form theory, test minimally         | Confirmed or new hypothesis |
+| 4. Implementation | Create test, fix, verify            | Bug resolved, tests pass    |
 
 ## Supporting Techniques
 
 Reference files in this directory:
 
-| Reference | Purpose |
-| --- | --- |
-| [root-cause-tracing.md](references/root-cause-tracing.md) | Trace bugs backward through the call stack to the original trigger (Python + Rust examples) |
-| [defense-in-depth.md](references/defense-in-depth.md) | Add validation at four layers after finding root cause (Python + Rust examples, plus Rust newtype patterns) |
-| [condition-based-waiting.md](references/condition-based-waiting.md) | Replace arbitrary `sleep`/`time.sleep`/`thread::sleep` with condition polling |
-| [condition_based_waiting_example.py](references/condition_based_waiting_example.py) | Python reference implementation (sync + async via asyncio) |
-| [condition_based_waiting_example.rs](references/condition_based_waiting_example.rs) | Rust reference implementation (sync + async via Tokio) |
-| [rust-debugging.md](references/rust-debugging.md) | Rust toolkit — backtraces, `dbg!`, test isolation, Miri, sanitizers, `tokio-console`, `cargo bisect-rustc`, flamegraph |
-| [find-polluter.sh](references/find-polluter.sh) | Bisect helper for tests that pass in isolation but fail in suite (works with `pytest`, `cargo test`, `go test`, etc.) |
+| Reference                                                                           | Purpose                                                                                                                |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [root-cause-tracing.md](references/root-cause-tracing.md)                           | Trace bugs backward through the call stack to the original trigger (Python + Rust examples)                            |
+| [defense-in-depth.md](references/defense-in-depth.md)                               | Add validation at four layers after finding root cause (Python + Rust examples, plus Rust newtype patterns)            |
+| [condition-based-waiting.md](references/condition-based-waiting.md)                 | Replace arbitrary `sleep`/`time.sleep`/`thread::sleep` with condition polling                                          |
+| [condition_based_waiting_example.py](references/condition_based_waiting_example.py) | Python reference implementation (sync + async via asyncio)                                                             |
+| [condition_based_waiting_example.rs](references/condition_based_waiting_example.rs) | Rust reference implementation (sync + async via Tokio)                                                                 |
+| [rust-debugging.md](references/rust-debugging.md)                                   | Rust toolkit — backtraces, `dbg!`, test isolation, Miri, sanitizers, `tokio-console`, `cargo bisect-rustc`, flamegraph |
+| [find-polluter.sh](references/find-polluter.sh)                                     | Bisect helper for tests that pass in isolation but fail in suite (works with `pytest`, `cargo test`, `go test`, etc.)  |

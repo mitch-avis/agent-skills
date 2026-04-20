@@ -1,8 +1,7 @@
 //! Condition-based waiting utilities for Rust tests.
 //!
-//! Replaces arbitrary `thread::sleep` / `tokio::time::sleep` calls with polling
-//! on the actual condition the test cares about. Eliminates flakiness from
-//! timing assumptions.
+//! Replaces arbitrary `thread::sleep` / `tokio::time::sleep` calls with polling on the actual
+//! condition the test cares about. Eliminates flakiness from timing assumptions.
 //!
 //! Pair with the Python equivalent in `condition_based_waiting_example.py`.
 //!
@@ -51,8 +50,8 @@ impl std::error::Error for WaitTimeout {}
 
 /// Poll `condition` until it returns `Some(_)` or the timeout elapses.
 ///
-/// Returns the inner value on success. Polls every 10 ms, which is a good
-/// trade-off between responsiveness and CPU use for test code.
+/// Returns the inner value on success. Polls every 10 ms, which is a good trade-off between
+/// responsiveness and CPU use for test code.
 pub fn wait_for<T, F>(
     mut condition: F,
     description: &str,
@@ -98,9 +97,8 @@ where
     )
 }
 
-/// Async version of [`wait_for`] for use with Tokio (or any executor that
-/// provides `tokio::time::sleep`). Requires the `tokio` dependency at the
-/// caller's crate.
+/// Async version of [`wait_for`] for use with Tokio (or any executor that provides
+/// `tokio::time::sleep`). Requires the `tokio` dependency at the caller's crate.
 ///
 /// Accepts an `FnMut` returning a future so each poll re-creates the future.
 #[cfg(feature = "tokio")]
@@ -132,16 +130,14 @@ where
 
 // --- Anti-patterns to avoid ------------------------------------------------
 //
-// BAD: guessing at timing
-//     std::thread::sleep(Duration::from_millis(50));
+// BAD: guessing at timing std::thread::sleep(Duration::from_millis(50));
 //     assert!(get_result().is_some());
 //
-// GOOD: wait for the actual condition
-//     let result = wait_for(get_result, "result available", Duration::from_secs(5))?;
-//     assert!(result.is_some());
+// GOOD: wait for the actual condition let result = wait_for(get_result, "result available",
+//     Duration::from_secs(5))?; assert!(result.is_some());
 //
-// Only use a fixed sleep when you are deliberately testing timing behaviour
-// (debounce, throttle, retry intervals) - and document why.
+// Only use a fixed sleep when you are deliberately testing timing behaviour (debounce, throttle,
+// retry intervals) - and document why.
 
 #[cfg(test)]
 mod tests {

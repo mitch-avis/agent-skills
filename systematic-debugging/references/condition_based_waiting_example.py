@@ -1,11 +1,10 @@
 """Condition-based waiting utilities for tests.
 
-Replaces arbitrary `time.sleep()` calls with polling on the actual condition
-that the test cares about. Eliminates flakiness from timing assumptions.
+Replaces arbitrary `time.sleep()` calls with polling on the actual condition that the test cares
+about. Eliminates flakiness from timing assumptions.
 
-Pattern adapted for Python (sync and async variants). Use these helpers in
-pytest suites instead of sprinkling `time.sleep(0.05)` to "give things time
-to settle".
+Pattern adapted for Python (sync and async variants). Use these helpers in pytest suites instead of
+sprinkling `time.sleep(0.05)` to "give things time to settle".
 """
 
 from __future__ import annotations
@@ -31,8 +30,8 @@ def wait_for(
 ) -> T:
     """Poll `condition` until it returns a truthy value or `timeout` elapses.
 
-    Returns the truthy value (useful for fetching the matched item).
-    Raises `WaitTimeoutError` with `description` on timeout.
+    Returns the truthy value (useful for fetching the matched item). Raises `WaitTimeoutError` with
+    `description` on timeout.
 
     Example:
         event = wait_for(
@@ -90,12 +89,9 @@ def wait_for_count(
 
 # --- Anti-patterns to avoid -------------------------------------------------
 #
-# BAD: guessing at timing
-#     time.sleep(0.05)
-#     assert get_result() is not None
+# BAD: guessing at timing time.sleep(0.05) assert get_result() is not None
 #
-# GOOD: wait for the actual condition
-#     result = wait_for(get_result, description="result available")
+# GOOD: wait for the actual condition result = wait_for(get_result, description="result available")
 #
-# Only use a fixed sleep when you are deliberately testing timing behavior
-# (debounce, throttle, retry intervals) — and document why.
+# Only use a fixed sleep when you are deliberately testing timing behavior (debounce, throttle,
+# retry intervals) — and document why.

@@ -192,5 +192,5 @@ validation at each layer so the bug becomes structurally impossible.
   code, use the `tracing` crate gated by `RUST_LOG`.
 - **Before operation:** log before the dangerous operation, not after it fails
 - **Include context:** directory, cwd, environment variables, timestamps
-- **Capture stack:** `traceback.format_stack()` (Python) or `std::backtrace::Backtrace` (Rust)
-  shows the complete call chain
+- **Capture stack:** `traceback.format_stack()` (Python) or `std::backtrace::Backtrace` (Rust) shows
+  the complete call chain

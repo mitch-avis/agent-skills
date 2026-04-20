@@ -19,7 +19,7 @@ follows its instructions.
 | [clean-code](clean-code/SKILL.md)                           | Clean Code principles from Robert C. Martin — naming, functions, comments, formatting, error handling, classes, and code smells       |
 | [code-review](code-review/SKILL.md)                         | Phased PR review with severity rubric (P0–P3), per-dimension checklists, structured output template, feedback patterns, PR-size guide |
 | [committing-code](committing-code/SKILL.md)                 | High-quality git commits — Conventional Commits, selective staging, logical splitting, safety checks                                  |
-| [systematic-debugging](systematic-debugging/SKILL.md)       | Four-phase root cause analysis — reproduction, evidence, hypothesis, git bisect, differential debugging, Python + Rust toolkits      
+| [systematic-debugging](systematic-debugging/SKILL.md)       | Four-phase root cause analysis — reproduction, evidence, hypothesis, git bisect, differential debugging, Python + Rust toolkits       |
 | [test-driven-development](test-driven-development/SKILL.md) | Strict TDD with red-green-refactor cycle, common rationalizations to avoid, and testing anti-patterns                                 |
 | [task-orchestrator](task-orchestrator/SKILL.md)             | Default entry point for complex or ambiguous tasks — decomposes into subtasks, assigns skills, runs parallel work                     |
 
