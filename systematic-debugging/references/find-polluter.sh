@@ -1,62 +1,79 @@
 #!/usr/bin/env bash
-# Bisection script to find which test creates unwanted files/state Usage: ./find-polluter.sh
-# <file_or_dir_to_check> <test_pattern> Example: ./find-polluter.sh '.git' 'src/**/*.test.ts'
+# Bisection helper: find which test creates an unwanted file or directory.
+#
+# Usage:   ./find-polluter.sh <path_to_check> <test_runner> <test_pattern>
+# Example: ./find-polluter.sh '.git' 'pytest'           'tests/**/test_*.py'
+# Example: ./find-polluter.sh 'tmp/' 'cargo test --test' 'tests/*.rs'
+# Example: ./find-polluter.sh '.lock' 'go test'         './...'
+#
+# Runs each matching test file in isolation and stops at the first one whose
+# execution causes <path_to_check> to appear.
 
-set -e
+set -euo pipefail
 
-if [ $# -ne 2 ]; then
-	echo "Usage: $0 <file_to_check> <test_pattern>"
-	echo "Example: $0 '.git' 'src/**/*.test.ts'"
-	exit 1
+if [[ $# -ne 3 ]]; then
+echo "Usage: $0 <path_to_check> <test_runner> <test_pattern>" >&2
+echo "Example: $0 '.git' 'pytest' 'tests/**/test_*.py'" >&2
+exit 1
 fi
 
-POLLUTION_CHECK="$1"
-TEST_PATTERN="$2"
+pollution_check="$1"
+test_runner="$2"
+test_pattern="$3"
 
-echo "🔍 Searching for test that creates: $POLLUTION_CHECK"
-echo "Test pattern: $TEST_PATTERN"
+echo "Searching for test that creates: ${pollution_check}"
+echo "Runner:  ${test_runner}"
+echo "Pattern: ${test_pattern}"
 echo ""
 
-# Get list of test files
-TEST_FILES=$(find . -path "$TEST_PATTERN" | sort)
-TOTAL=$(echo "$TEST_FILES" | wc -l | tr -d ' ')
+# Expand the glob in this shell so brace and globstar patterns work.
+shopt -s globstar nullglob
+# The pattern is intentionally word-split + globbed below; quoting would
+# disable expansion. SC2206/SC2086 are intentional in these two lines.
+# shellcheck disable=SC2206
+pattern_expanded=( ${test_pattern} )
+mapfile -t test_files < <(printf '%s\n' "${pattern_expanded[@]}" | sort)
+total=${#test_files[@]}
 
-echo "Found $TOTAL test files"
+if [[ ${total} -eq 0 ]]; then
+echo "No test files matched pattern: ${test_pattern}" >&2
+exit 1
+fi
+
+echo "Found ${total} test file(s)"
 echo ""
 
-COUNT=0
-for TEST_FILE in $TEST_FILES; do
-	COUNT=$((COUNT + 1))
+# Split the runner string into argv so multi-word runners like
+# 'cargo test --test' work without re-introducing word-splitting risks.
+read -r -a runner_argv <<<"${test_runner}"
 
-	# Skip if pollution already exists
-	if [ -e "$POLLUTION_CHECK" ]; then
-		echo "⚠️  Pollution already exists before test $COUNT/$TOTAL"
-		echo "   Skipping: $TEST_FILE"
-		continue
-	fi
+count=0
+for test_file in "${test_files[@]}"; do
+count=$((count + 1))
 
-	echo "[$COUNT/$TOTAL] Testing: $TEST_FILE"
+if [[ -e "${pollution_check}" ]]; then
+echo "Pollution already exists before test ${count}/${total} - skipping: ${test_file}"
+continue
+fi
 
-	# Run the test
-	npm test "$TEST_FILE" >/dev/null 2>&1 || true
+echo "[${count}/${total}] Running: ${test_runner} ${test_file}"
+"${runner_argv[@]}" "${test_file}" >/dev/null 2>&1 || true
 
-	# Check if pollution appeared
-	if [ -e "$POLLUTION_CHECK" ]; then
-		echo ""
-		echo "🎯 FOUND POLLUTER!"
-		echo "   Test: $TEST_FILE"
-		echo "   Created: $POLLUTION_CHECK"
-		echo ""
-		echo "Pollution details:"
-		ls -la "$POLLUTION_CHECK"
-		echo ""
-		echo "To investigate:"
-		echo "  npm test $TEST_FILE    # Run just this test"
-		echo "  cat $TEST_FILE         # Review test code"
-		exit 1
-	fi
+if [[ -e "${pollution_check}" ]]; then
+echo ""
+echo "FOUND POLLUTER:"
+echo "   Test:    ${test_file}"
+echo "   Created: ${pollution_check}"
+echo ""
+echo "Pollution details:"
+ls -la "${pollution_check}"
+echo ""
+echo "To investigate:"
+echo "  ${test_runner} ${test_file}"
+exit 1
+fi
 done
 
 echo ""
-echo "✅ No polluter found - all tests clean!"
+echo "No polluter found - all tests clean."
 exit 0
