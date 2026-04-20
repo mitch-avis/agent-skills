@@ -40,6 +40,7 @@ function parseArgs() {
   const args = process.argv.slice(2);
   const opts = {
     input: null,
+    code: null,
     output: null,
     format: 'svg',
     theme: null,
@@ -59,6 +60,7 @@ function parseArgs() {
 
     switch (key) {
       case '--input': case '-i': opts.input = val; i++; break;
+      case '--code': case '-c': opts.code = val; i++; break;
       case '--output': case '-o': opts.output = val; i++; break;
       case '--format': case '-f': opts.format = val; i++; break;
       case '--theme': case '-t': opts.theme = val; i++; break;
@@ -79,7 +81,8 @@ function parseArgs() {
         console.log(`Usage: node render.mjs --input <file> [options]
 
 Options:
-  -i, --input <file>       Input Mermaid file (.mmd) [required]
+  -i, --input <file>       Input Mermaid file (.mmd) (required unless --code is given)
+  -c, --code <string>      Inline Mermaid source (alternative to --input)
   -o, --output <file>      Output file (default: stdout)
   -f, --format <fmt>       Output format: svg | ascii (default: svg)
   -t, --theme <name>       Theme name (e.g. tokyo-night, dracula)
@@ -100,12 +103,12 @@ Options:
     }
   }
 
-  if (!opts.input) {
-    console.error('Error: --input is required. Use --help for usage.');
+  if (!opts.input && !opts.code) {
+    console.error('Error: --input or --code is required. Use --help for usage.');
     process.exit(1);
   }
 
-  if (!existsSync(opts.input)) {
+  if (opts.input && !existsSync(opts.input)) {
     console.error(`Error: Input file not found: ${opts.input}`);
     process.exit(1);
   }
@@ -116,7 +119,7 @@ Options:
 async function main() {
   const opts = parseArgs();
   const { renderMermaid, renderMermaidAscii, THEMES } = await loadBeautifulMermaid();
-  const input = readFileSync(opts.input, 'utf8');
+  const input = opts.code ?? readFileSync(opts.input, 'utf8');
 
   if (opts.format === 'ascii') {
     const ascii = renderMermaidAscii(input, {

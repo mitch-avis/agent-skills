@@ -268,22 +268,14 @@ node scripts/batch.mjs \
 Processes all `.mmd` files in parallel. Supports the same `--theme`, `--format`, and color options
 as the single renderer.
 
-### Render inline code (TypeScript)
+### Render inline code
 
 ```bash
-npx tsx scripts/render.ts --code "graph TD; A-->B" --output diagram --theme tokyo-night
+node scripts/render.mjs --code "graph TD; A-->B" --output diagram.svg --theme tokyo-night
 ```
 
-The TypeScript renderer accepts `--code` for inline Mermaid code without needing a file.
-
-### Create HTML wrapper for PNG capture
-
-```bash
-npx tsx scripts/create-html.ts --svg diagram.svg --output diagram.html --padding 40
-```
-
-Creates a minimal HTML page wrapping the SVG for high-quality PNG screenshots via browser
-automation. Auto-detects background color from the SVG.
+Use `--code` instead of `--input` to pass Mermaid source directly on the command line — handy for
+one-off diagrams without creating a `.mmd` file.
 
 ### Theme selection guide
 
