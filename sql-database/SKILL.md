@@ -25,10 +25,12 @@ MySQL, SQLite) with explicit guidance per engine where it matters.
 
 ## Related Skills
 
-- **python** — load alongside for SQLAlchemy / asyncpg integration
-- **rust** — load alongside for Diesel / SQLx / SeaORM integration
-- **security** — load when reviewing access control, RLS, or secrets handling
-- **performance-profiling** — load when measuring before/after query changes
+- [python](../python/SKILL.md) — SQLAlchemy / asyncpg integration
+- [python-async](../python-async/SKILL.md) — async DB drivers and connection pools
+- [rust](../rust/SKILL.md) — Diesel / SQLx / SeaORM integration
+- [observability](../observability/SKILL.md) — query metrics, slow-query logging, trace spans
+- [systematic-debugging](../systematic-debugging/SKILL.md) — diagnose query regressions with
+  `EXPLAIN`
 
 ## Reference Guides
 

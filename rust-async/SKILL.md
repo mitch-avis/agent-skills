@@ -179,3 +179,9 @@ for item in items {
 - **No spawning without tracking** — use `JoinSet` to collect results and handle errors
 - **No ignoring `JoinError`** — a panic in a spawned task surfaces as `JoinError`
 - **No mixing runtimes** — one runtime per binary
+
+## Related Skills
+
+- [rust](../rust/SKILL.md) — core Rust style and ownership patterns
+- [rust-testing](../rust-testing/SKILL.md) — testing async code with `#[tokio::test]`
+- [observability](../observability/SKILL.md) — `tracing` instrumentation for async spans

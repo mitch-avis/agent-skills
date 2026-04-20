@@ -407,3 +407,8 @@ table (no `[[ ]]`, no arrays, no `${var//pat/repl}`, etc.) and `shellcheck --she
 Bats for Bash, Pester for PowerShell. See
 [references/linting-and-testing.md](references/linting-and-testing.md) for setup and patterns
 (mocking commands, asserting output, capturing exit codes, testing failure paths).
+
+## Related Skills
+
+- [cicd](../cicd/SKILL.md) — shell steps inside CI/CD pipeline jobs
+- [docker](../docker/SKILL.md) — `RUN`-line scripts and container entrypoints

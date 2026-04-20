@@ -124,3 +124,7 @@ After committing, provide:
 - A one-line summary per commit (what/why)
 - Commands used to stage and review (`git diff --cached` at minimum)
 - Test or lint results if verification was run
+
+## Related Skills
+
+- [code-review](../code-review/SKILL.md) — review the diff before committing

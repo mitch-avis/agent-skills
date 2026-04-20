@@ -410,3 +410,11 @@ jobs:
 | Security Gates        | [references/security-gates.md](references/security-gates.md)               | Adding SAST, SCA, DAST, signing, OWASP mapping     |
 | Deployment Strategies | [references/deployment-strategies.md](references/deployment-strategies.md) | Blue-green, canary, Terraform deployments          |
 | ArgoCD GitOps         | [references/argocd-gitops.md](references/argocd-gitops.md)                 | ArgoCD apps, ApplicationSets, sync, RBAC, CLI      |
+
+## Related Skills
+
+- [docker](../docker/SKILL.md) — building and scanning container images in pipelines
+- [kubernetes](../kubernetes/SKILL.md) — GitOps deploys and rollouts to clusters
+- [helm](../helm/SKILL.md) — packaging and releasing chart-based applications
+- [observability](../observability/SKILL.md) — pipeline telemetry, deploy markers, build metrics
+- [shell-scripting](../shell-scripting/SKILL.md) — hardening shell steps inside pipeline jobs

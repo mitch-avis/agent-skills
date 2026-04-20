@@ -277,3 +277,7 @@ agent-browser click @e1              # Use new refs
 | [templates/form-automation.sh](templates/form-automation.sh) | Form filling with validation |
 | [templates/authenticated-session.sh](templates/authenticated-session.sh) | Login once, reuse state |
 | [templates/capture-workflow.sh](templates/capture-workflow.sh) | Content extraction with screenshots |
+
+## Related Skills
+
+- [browser-use](../browser-use/SKILL.md) — alternative daemon-based browser automation tool

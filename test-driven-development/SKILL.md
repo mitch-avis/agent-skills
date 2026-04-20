@@ -333,3 +333,11 @@ Otherwise → not TDD
 ```
 
 No exceptions without your human partner's permission.
+
+## Related Skills
+
+- [clean-code](../clean-code/SKILL.md) — tests drive the cleanest design
+- [code-review](../code-review/SKILL.md) — review verifies tests cover the change
+- [python-testing](../python-testing/SKILL.md) — pytest mechanics for the red-green-refactor loop
+- [rust-testing](../rust-testing/SKILL.md) — `cargo test` mechanics for the red-green-refactor loop
+- [systematic-debugging](../systematic-debugging/SKILL.md) — reproduce a bug as a failing test first

@@ -228,3 +228,10 @@ Reference files in this directory:
 | [condition_based_waiting_example.rs](references/condition_based_waiting_example.rs) | Rust reference implementation (sync + async via Tokio)                                                                 |
 | [rust-debugging.md](references/rust-debugging.md)                                   | Rust toolkit — backtraces, `dbg!`, test isolation, Miri, sanitizers, `tokio-console`, `cargo bisect-rustc`, flamegraph |
 | [find-polluter.sh](references/find-polluter.sh)                                     | Bisect helper for tests that pass in isolation but fail in suite (works with `pytest`, `cargo test`, `go test`, etc.)  |
+
+## Related Skills
+
+- [test-driven-development](../test-driven-development/SKILL.md) — lock the bug in with a failing
+  test before fixing
+- [code-review](../code-review/SKILL.md) — review your fix to confirm root cause is addressed
+- [observability](../observability/SKILL.md) — evidence-based debugging needs telemetry

@@ -269,3 +269,12 @@ class Settings(BaseSettings):
 - **No scattered retry/timeout logic** — centralize in decorators
 - **No double retry** (app + infra both retrying)
 - **No tests that only cover happy paths** — test error paths too
+
+## Related Skills
+
+- [python-testing](../python-testing/SKILL.md) — pytest patterns, fixtures, coverage
+- [python-async](../python-async/SKILL.md) — asyncio patterns when building concurrent code
+- [python-resilience](../python-resilience/SKILL.md) — retries, timeouts, error handling
+- [python-infrastructure](../python-infrastructure/SKILL.md) — packaging, deployment, background
+  jobs
+- [observability](../observability/SKILL.md) — structured logging and metrics for Python services

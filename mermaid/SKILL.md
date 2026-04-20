@@ -378,3 +378,7 @@ Verify before outputting any diagram:
 - [ ] No emoji in node text
 - [ ] No ambiguous node references (use IDs, not display text)
 - [ ] Renders correctly in target platform (GitHub, Obsidian, VS Code)
+
+## Related Skills
+
+- [markdown-documentation](../markdown-documentation/SKILL.md) — host diagrams inside Markdown docs

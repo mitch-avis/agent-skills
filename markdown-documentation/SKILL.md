@@ -139,3 +139,7 @@ Configure `markdownlint` for enforcement. Recommended `.markdownlint.json`:
 - Use images for text content (accessibility)
 - Use bare `` ``` `` without a language tag
 - Wrap lines mid-table-row
+
+## Related Skills
+
+- [mermaid](../mermaid/SKILL.md) — embed diagrams inside Markdown documentation

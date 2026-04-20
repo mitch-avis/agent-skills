@@ -175,3 +175,11 @@ chord(group(task.s(i) for i in items))(summarize.s())
 | RQ       | Simple Redis-backed queues       |
 | Dramatiq | Celery alternative, simpler API  |
 | AWS SQS  | Cloud-native, serverless         |
+
+## Related Skills
+
+- [python](../python/SKILL.md) — core Python style and project layout
+- [python-resilience](../python-resilience/SKILL.md) — fault-tolerant background jobs
+- [cicd](../cicd/SKILL.md) — building and publishing Python packages
+- [docker](../docker/SKILL.md) — containerizing Python services
+- [observability](../observability/SKILL.md) — instrumenting workers and queues

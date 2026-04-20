@@ -158,3 +158,11 @@ including summary, findings grouped by severity, strengths, and verdict.
 | Per-dimension checklists | [references/checklists.md](references/checklists.md)          | During Phase 3 line-by-line review       |
 | Output template          | [references/output-template.md](references/output-template.md)| When writing the final review report     |
 | Common issue patterns    | [references/common-issues.md](references/common-issues.md)    | When you spot N+1, magic numbers, smells |
+
+## Related Skills
+
+- [clean-code](../clean-code/SKILL.md) — apply Clean Code criteria during review
+- [test-driven-development](../test-driven-development/SKILL.md) — verify every change has tests
+- [systematic-debugging](../systematic-debugging/SKILL.md) — when reviewing a bugfix, check that
+  root cause was identified
+- [committing-code](../committing-code/SKILL.md) — pair with commit hygiene during review

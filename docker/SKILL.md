@@ -22,8 +22,11 @@ description: >-
 
 ## Related Skills
 
-- **kubernetes** — load when deploying containers to Kubernetes clusters
-- **helm** — load when packaging Docker-based apps as Helm charts
+- [kubernetes](../kubernetes/SKILL.md) — deploying containers to Kubernetes clusters
+- [helm](../helm/SKILL.md) — packaging Docker-based apps as Helm charts
+- [cicd](../cicd/SKILL.md) — building, scanning, and pushing images in pipelines
+- [observability](../observability/SKILL.md) — sidecar collectors, log drivers, container metrics
+- [shell-scripting](../shell-scripting/SKILL.md) — `RUN`-line scripts and entrypoints
 
 ## Core Workflow
 

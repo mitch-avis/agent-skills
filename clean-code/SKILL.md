@@ -114,3 +114,8 @@ Use this skill when:
 - [ ] Have I avoided comments by making the code clearer?
 - [ ] Am I passing too many arguments?
 - [ ] Is there a failing test for this change?
+
+## Related Skills
+
+- [test-driven-development](../test-driven-development/SKILL.md) — tests drive the cleanest design
+- [code-review](../code-review/SKILL.md) — apply Clean Code criteria when reviewing PRs

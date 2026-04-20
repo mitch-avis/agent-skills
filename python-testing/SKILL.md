@@ -236,3 +236,10 @@ Parallel execution: `pytest -n auto`
 - **No mocking without understanding** — know the real behavior
 - **No incomplete mocks** — mirror the real API completely
 - **No tests that always pass** — watch each test fail first
+
+## Related Skills
+
+- [python](../python/SKILL.md) — core Python style and project layout
+- [test-driven-development](../test-driven-development/SKILL.md) — write the failing test first
+- [systematic-debugging](../systematic-debugging/SKILL.md) — reproduce a bug as a failing test
+  before fixing

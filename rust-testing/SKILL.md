@@ -224,3 +224,10 @@ cargo fmt --check
 - Run all three checks in CI for every commit
 - Use `cargo llvm-cov` or `cargo tarpaulin` for coverage
 - Target 100% coverage wherever achievable
+
+## Related Skills
+
+- [rust](../rust/SKILL.md) — core Rust style and project layout
+- [test-driven-development](../test-driven-development/SKILL.md) — write the failing test first
+- [systematic-debugging](../systematic-debugging/SKILL.md) — reproduce a bug as a failing test
+  before fixing

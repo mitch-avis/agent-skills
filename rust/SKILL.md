@@ -500,3 +500,9 @@ Set `RUSTFLAGS="-D warnings"` in CI.
 
 See [references/anti-patterns.md](references/anti-patterns.md) for the full list of common mistakes
 organized by category (library code, types, visibility, documentation, performance).
+
+## Related Skills
+
+- [rust-async](../rust-async/SKILL.md) — Tokio-based async patterns
+- [rust-testing](../rust-testing/SKILL.md) — unit, integration, async, and property tests
+- [observability](../observability/SKILL.md) — `tracing` and metrics for Rust services

@@ -19,9 +19,12 @@ description: >-
 
 ## Related Skills
 
-- **helm** — load alongside this skill when the output is a Helm chart (Go-templated manifests). The
-  helm skill covers chart structure, `_helpers.tpl`, Go template techniques, values schema, hooks,
-  and Helm CLI operations.
+- [helm](../helm/SKILL.md) — when the output is a Helm chart (Go-templated manifests); covers chart
+  structure, `_helpers.tpl`, Go template techniques, values schema, hooks, and CLI operations
+- [docker](../docker/SKILL.md) — building and hardening the container images workloads run
+- [cicd](../cicd/SKILL.md) — GitOps deploys, ArgoCD, rolling updates
+- [observability](../observability/SKILL.md) — Prometheus/Grafana/Loki/OTel collectors on the
+  cluster
 
 ## Core Workflow
 

@@ -20,10 +20,12 @@ description: >-
 
 ## Related Skills
 
-- **kubernetes** — load alongside this skill when creating or reviewing charts. The kubernetes skill
-  defines security constraints, RBAC patterns, NetworkPolicies, and resource best practices that
-  every chart must follow. Load its reference guides on demand for advanced K8s patterns (service
-  mesh, GitOps, cost optimization, etc.).
+- [kubernetes](../kubernetes/SKILL.md) — load alongside when creating or reviewing charts; defines
+  security constraints, RBAC patterns, NetworkPolicies, and resource best practices every chart must
+  follow
+- [docker](../docker/SKILL.md) — building the images charts deploy
+- [cicd](../cicd/SKILL.md) — packaging and releasing charts in pipelines
+- [observability](../observability/SKILL.md) — chart-level dashboards, alerts, and tracing
 
 ## Reference Guides
 

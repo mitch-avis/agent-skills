@@ -211,3 +211,8 @@ browser-use open https://abc.trycloudflare.com     # Browse the tunnel
 browser-use close                         # Close browser session
 browser-use tunnel stop --all             # Stop tunnels (if any)
 ```
+
+## Related Skills
+
+- [agent-browser](../agent-browser/SKILL.md) — CLI-based alternative for scripted, one-off browser
+  automation

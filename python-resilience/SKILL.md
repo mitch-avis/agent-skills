@@ -189,3 +189,11 @@ Never use unbounded values (user IDs) as metric labels.
 - **No unclosed resources** — always use context managers
 - **No `except Exception: pass`** — handle or propagate
 - **No logging expected behavior as ERROR**
+
+## Related Skills
+
+- [python](../python/SKILL.md) — core Python style and project layout
+- [python-async](../python-async/SKILL.md) — async retries, timeouts, cancellation
+- [observability](../observability/SKILL.md) — log and trace failures so retries are debuggable
+- [systematic-debugging](../systematic-debugging/SKILL.md) — diagnose root causes of transient
+  failures

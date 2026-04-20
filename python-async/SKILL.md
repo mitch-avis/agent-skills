@@ -157,3 +157,10 @@ async with aiohttp.ClientSession() as session:
 - **No synchronous file I/O in async** — use `aiofiles`
 - **No forgetting `await`** — returns coroutine, not result
 - **No unbounded queues** — always set `maxsize`
+
+## Related Skills
+
+- [python](../python/SKILL.md) — core Python style and project layout
+- [python-testing](../python-testing/SKILL.md) — testing async code with pytest-asyncio
+- [python-resilience](../python-resilience/SKILL.md) — timeouts and cancellation patterns
+- [observability](../observability/SKILL.md) — contextvars propagation across await boundaries

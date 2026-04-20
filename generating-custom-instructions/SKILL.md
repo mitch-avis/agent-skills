@@ -260,3 +260,7 @@ AFTER (current convention):
 5. **Current over aspirational** — document what IS, not what SHOULD BE
 6. **One concern per file** — split instructions by topic for targeted application
 7. **Agent-agnostic** — write for any Markdown-reading agent, not a specific one
+
+## Related Skills
+
+- [code-review](../code-review/SKILL.md) — analyze codebase patterns to extract conventions
