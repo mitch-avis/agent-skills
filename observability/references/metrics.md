@@ -5,16 +5,24 @@ cardinality discipline, exemplars, Python and Rust integrations.
 
 ## Table of Contents
 
-- [Metric types](#metric-types)
-- [Naming conventions](#naming-conventions)
-- [RED, USE, and the four golden signals](#red-use-and-the-four-golden-signals)
-- [Cardinality discipline](#cardinality-discipline)
-- [Histograms vs summaries](#histograms-vs-summaries)
-- [Python](#python)
-- [Rust](#rust)
-- [Exposing metrics](#exposing-metrics)
-- [Exemplars (linking metrics to traces)](#exemplars-linking-metrics-to-traces)
-- [PromQL essentials](#promql-essentials)
+- [Metrics with Prometheus](#metrics-with-prometheus)
+  - [Table of Contents](#table-of-contents)
+  - [Metric types](#metric-types)
+  - [Naming conventions](#naming-conventions)
+  - [RED, USE, and the four golden signals](#red-use-and-the-four-golden-signals)
+  - [Cardinality discipline](#cardinality-discipline)
+    - [Safe label values](#safe-label-values)
+    - [Never use as labels](#never-use-as-labels)
+    - [Rule of thumb](#rule-of-thumb)
+  - [Histograms vs summaries](#histograms-vs-summaries)
+  - [Python](#python)
+    - [Decorator pattern (FastAPI)](#decorator-pattern-fastapi)
+    - [Exposition](#exposition)
+  - [Rust](#rust)
+  - [Exposing metrics](#exposing-metrics)
+  - [Exemplars (linking metrics to traces)](#exemplars-linking-metrics-to-traces)
+  - [PromQL essentials](#promql-essentials)
+  - [Validation](#validation)
 
 ## Metric types
 
@@ -49,8 +57,7 @@ Rules:
 | USE    | Resources / queues  | Utilization, Saturation, Errors      |
 | Golden | All services (SRE)  | Latency, Traffic, Errors, Saturation |
 
-Combine them: every HTTP/gRPC handler emits RED; every connection pool, queue, and worker emits
-USE.
+Combine them: every HTTP/gRPC handler emits RED; every connection pool, queue, and worker emits USE.
 
 ## Cardinality discipline
 
@@ -75,8 +82,8 @@ labels (user IDs, request UUIDs, full URLs) generate millions of series and cras
 
 ### Rule of thumb
 
-Total series per metric < ~10,000. If you need per-user data, log it and query logs — don't put
-it in a metric.
+Total series per metric < ~10,000. If you need per-user data, log it and query logs — don't put it
+in a metric.
 
 ## Histograms vs summaries
 
@@ -209,8 +216,8 @@ metadata:
 
 ## Exemplars (linking metrics to traces)
 
-Exemplars attach a sample trace ID to a histogram observation, so a Grafana panel can jump
-straight from a latency spike to the trace that caused it.
+Exemplars attach a sample trace ID to a histogram observation, so a Grafana panel can jump straight
+from a latency spike to the trace that caused it.
 
 ```python
 from opentelemetry import trace
@@ -252,6 +259,6 @@ abs(rate(http_requests_total[5m]) - rate(http_requests_total[5m] offset 1h))
 ## Validation
 
 - Scrape `/metrics` locally and grep for the metric name + a representative label set
-- Check series count: `count by (__name__)({__name__=~"myservice_.*"})` — investigate any name
-  with > 10k series
+- Check series count: `count by (__name__)({__name__=~"myservice_.*"})` — investigate any name with
+  > 10k series
 - Plot every metric on a dashboard before merging — unviewed metrics rot

@@ -5,13 +5,29 @@ configuration, level semantics, contextual fields, correlation IDs, PII redactio
 
 ## Table of Contents
 
-- [Python: structlog](#python-structlog)
-- [Python: standard logging fallback](#python-standard-logging-fallback)
-- [Rust: tracing](#rust-tracing)
-- [Correlation IDs](#correlation-ids)
-- [PII and secret redaction](#pii-and-secret-redaction)
-- [High-volume sampling](#high-volume-sampling)
-- [Anti-patterns](#anti-patterns)
+- [Structured Logging (Python and Rust)](#structured-logging-python-and-rust)
+  - [Table of Contents](#table-of-contents)
+  - [Python: structlog](#python-structlog)
+    - [Configuration](#configuration)
+    - [Usage](#usage)
+    - [Bind context across a request](#bind-context-across-a-request)
+  - [Python: standard logging fallback](#python-standard-logging-fallback)
+  - [Rust: tracing](#rust-tracing)
+    - [Setup](#setup)
+    - [Events](#events)
+    - [Spans (mandatory for async)](#spans-mandatory-for-async)
+  - [Correlation IDs](#correlation-ids)
+    - [Python (FastAPI middleware + contextvars)](#python-fastapi-middleware--contextvars)
+    - [Rust (axum middleware)](#rust-axum-middleware)
+  - [PII and secret redaction](#pii-and-secret-redaction)
+    - [Field denylist (Python)](#field-denylist-python)
+    - [Masking helpers](#masking-helpers)
+    - [Rust — `tracing` field redaction](#rust--tracing-field-redaction)
+  - [High-volume sampling](#high-volume-sampling)
+    - [Python — random sample wrapper](#python--random-sample-wrapper)
+    - [Consistent (per-user) sampling](#consistent-per-user-sampling)
+    - [Rust — `tracing-subscriber` sampling layer](#rust--tracing-subscriber-sampling-layer)
+  - [Anti-patterns](#anti-patterns)
 
 ## Python: structlog
 
@@ -164,8 +180,8 @@ async fn create_order(db: &Database, user: &User, items: &[Item]) -> Result<Orde
 }
 ```
 
-`#[instrument]` automatically opens a span, records arguments (use `skip` for non-`Debug` types
-like DB pools), and attaches every event inside the function to that span.
+`#[instrument]` automatically opens a span, records arguments (use `skip` for non-`Debug` types like
+DB pools), and attaches every event inside the function to that span.
 
 ## Correlation IDs
 

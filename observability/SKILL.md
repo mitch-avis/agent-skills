@@ -14,8 +14,8 @@ description: >-
 
 Make backend services and infrastructure observable: emit signals an operator can use to answer
 "what is happening, where, and why" without redeploying code. Covers logs, metrics, and traces for
-applications (Python, Rust) and the platforms that run them (containers, Kubernetes, service
-meshes, CI/CD).
+applications (Python, Rust) and the platforms that run them (containers, Kubernetes, service meshes,
+CI/CD).
 
 ## When to Use
 
@@ -37,9 +37,8 @@ meshes, CI/CD).
 | **Metrics** | How much/how fast? (aggregates) | Prometheus, OpenMetrics, Grafana         |
 | **Traces**  | Where did time go across calls? | OpenTelemetry, Tempo, Jaeger, Zipkin     |
 
-The three are correlated by a **trace ID / correlation ID** propagated through every request.
-Every log line, metric exemplar, and span carries that ID — that is what makes telemetry
-investigatable.
+The three are correlated by a **trace ID / correlation ID** propagated through every request. Every
+log line, metric exemplar, and span carries that ID — that is what makes telemetry investigatable.
 
 ## Core Principles
 
@@ -49,8 +48,8 @@ investigatable.
    (`traceparent`, `X-Correlation-ID`), and bind it to every log and span.
 3. **Bounded cardinality.** Metric labels must come from a small fixed set. Never label by
    `user_id`, `request_id`, full URL, or any unbounded value — it explodes storage cost.
-4. **Alert on symptoms, not causes.** Page on user-visible SLO breaches (latency, error rate),
-   not on internal CPU or queue depth alone.
+4. **Alert on symptoms, not causes.** Page on user-visible SLO breaches (latency, error rate), not
+   on internal CPU or queue depth alone.
 5. **Sample intelligently.** 100% in dev, 1–10% (head-based) or tail-based in prod. Always keep
    errors and slow traces.
 6. **Never log secrets or PII.** Redact at the logger boundary, not after the fact.
@@ -156,8 +155,8 @@ Load on demand based on the task:
 - [python-async](../python-async/SKILL.md) — `contextvars` propagation across `async` boundaries
 - [rust](../rust/SKILL.md) and [rust-async](../rust-async/SKILL.md) — `tracing` integrates deeply
   with Tokio
-- [kubernetes](../kubernetes/SKILL.md) and [helm](../helm/SKILL.md) — deploying Prometheus,
-  Grafana, Loki, OTel collectors
+- [kubernetes](../kubernetes/SKILL.md) and [helm](../helm/SKILL.md) — deploying Prometheus, Grafana,
+  Loki, OTel collectors
 - [docker](../docker/SKILL.md) — sidecar collectors, log drivers
 - [cicd](../cicd/SKILL.md) — pipeline telemetry and deploy markers
 - [systematic-debugging](../systematic-debugging/SKILL.md) — once telemetry exists, use it to do
@@ -173,8 +172,8 @@ Load on demand based on the task:
 - Collecting metrics with no dashboards or alerts attached
 - Per-line `print` debugging in production hot paths
 - Ignoring trace context — logs without a correlation ID are nearly useless during an incident
-- Treating `log.level: error` as the source of truth — levels are often missing or wrong; funnel
-  by message content (see [log-search-esql.md](references/log-search-esql.md))
+- Treating `log.level: error` as the source of truth — levels are often missing or wrong; funnel by
+  message content (see [log-search-esql.md](references/log-search-esql.md))
 - Synchronous logging on the request hot path (use buffered/async appenders)
 
 ## Standard Field Names (ECS-aligned)

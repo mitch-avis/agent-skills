@@ -1,18 +1,21 @@
 # SLOs and Alerting
 
-Service Level Objectives turn metrics into a contract with users. Burn-rate alerting on SLOs
-gives high-precision pages without the noise of threshold alerts.
+Service Level Objectives turn metrics into a contract with users. Burn-rate alerting on SLOs gives
+high-precision pages without the noise of threshold alerts.
 
 ## Table of Contents
 
-- [Vocabulary](#vocabulary)
-- [Choosing SLIs](#choosing-slis)
-- [Defining an SLO](#defining-an-slo)
-- [Recording rules](#recording-rules)
-- [Multi-window multi-burn-rate alerts](#multi-window-multi-burn-rate-alerts)
-- [Alert hygiene](#alert-hygiene)
-- [Runbooks](#runbooks)
-- [Notification routing](#notification-routing)
+- [SLOs and Alerting](#slos-and-alerting)
+  - [Table of Contents](#table-of-contents)
+  - [Vocabulary](#vocabulary)
+  - [Choosing SLIs](#choosing-slis)
+  - [Defining an SLO](#defining-an-slo)
+  - [Recording rules](#recording-rules)
+  - [Multi-window multi-burn-rate alerts](#multi-window-multi-burn-rate-alerts)
+  - [Alert hygiene](#alert-hygiene)
+  - [Runbooks](#runbooks)
+  - [Notification routing](#notification-routing)
+  - [Validation](#validation)
 
 ## Vocabulary
 
@@ -82,8 +85,8 @@ Repeat at 30m, 1h, 6h windows for burn-rate calculations.
 
 ## Multi-window multi-burn-rate alerts
 
-The Google SRE workbook recipe — alerts on **fast** and **slow** burns simultaneously to
-balance precision and recall.
+The Google SRE workbook recipe — alerts on **fast** and **slow** burns simultaneously to balance
+precision and recall.
 
 ```yaml
 - alert: OrdersAvailabilityFastBurn

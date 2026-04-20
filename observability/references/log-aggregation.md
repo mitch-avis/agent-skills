@@ -1,18 +1,21 @@
 # Log Aggregation
 
-Centralize logs from many services into one searchable store. Covers shippers (Vector, Fluent
-Bit, Filebeat), backends (Loki, ELK/Elastic), Kubernetes integration, and parsing.
+Centralize logs from many services into one searchable store. Covers shippers (Vector, Fluent Bit,
+Filebeat), backends (Loki, ELK/Elastic), Kubernetes integration, and parsing.
 
 ## Table of Contents
 
-- [Choosing a stack](#choosing-a-stack)
-- [Collection patterns](#collection-patterns)
-- [Vector](#vector)
-- [Fluent Bit](#fluent-bit)
-- [Loki + Promtail / Grafana Agent](#loki--promtail--grafana-agent)
-- [ELK / Elastic stack](#elk--elastic-stack)
-- [Kubernetes patterns](#kubernetes-patterns)
-- [Retention and cost](#retention-and-cost)
+- [Log Aggregation](#log-aggregation)
+  - [Table of Contents](#table-of-contents)
+  - [Choosing a stack](#choosing-a-stack)
+  - [Collection patterns](#collection-patterns)
+  - [Vector](#vector)
+  - [Fluent Bit](#fluent-bit)
+  - [Loki + Promtail / Grafana Agent](#loki--promtail--grafana-agent)
+  - [ELK / Elastic stack](#elk--elastic-stack)
+  - [Kubernetes patterns](#kubernetes-patterns)
+    - [Sidecar exception](#sidecar-exception)
+  - [Retention and cost](#retention-and-cost)
 
 ## Choosing a stack
 
@@ -131,8 +134,8 @@ sum by (route) (
 )
 ```
 
-Use a small bounded label set (`service`, `environment`, `level`, `pod`); push everything else
-into the JSON payload.
+Use a small bounded label set (`service`, `environment`, `level`, `pod`); push everything else into
+the JSON payload.
 
 ## ELK / Elastic stack
 
@@ -198,8 +201,8 @@ For querying once data is in Elastic, see [log-search-esql.md](log-search-esql.m
 - Always write to **stdout/stderr** — never to a file inside the container
 - Set the container log driver to `json-file` (default) and let the node agent read
   `/var/log/containers/*.log`
-- Tag every log line with pod/namespace/container metadata via the agent (Fluent Bit's
-  `kubernetes` filter, Vector's `kubernetes_logs` source)
+- Tag every log line with pod/namespace/container metadata via the agent (Fluent Bit's `kubernetes`
+  filter, Vector's `kubernetes_logs` source)
 - Apply a per-namespace label budget — limits high-cardinality labels by tenant
 - Set ResourceQuotas on the logging namespace so a runaway logger cannot eat the cluster
 

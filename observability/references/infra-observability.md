@@ -1,27 +1,39 @@
 # Infrastructure Observability
 
-Telemetry for the platforms below the application: containers, Kubernetes, service meshes,
-and CI/CD pipelines.
+Telemetry for the platforms below the application: containers, Kubernetes, service meshes, and CI/CD
+pipelines.
 
 ## Table of Contents
 
-- [Containers and Docker](#containers-and-docker)
-- [Kubernetes](#kubernetes)
-- [Service mesh — Istio](#service-mesh--istio)
-- [Service mesh — Linkerd](#service-mesh--linkerd)
-- [Distributed tracing in mesh](#distributed-tracing-in-mesh)
-- [Kiali — mesh topology visualization](#kiali--mesh-topology-visualization)
-- [CI/CD observability](#cicd-observability)
-- [GitOps / ArgoCD](#gitops--argocd)
-- [Mesh alerting rules](#mesh-alerting-rules)
+- [Infrastructure Observability](#infrastructure-observability)
+  - [Table of Contents](#table-of-contents)
+  - [Containers and Docker](#containers-and-docker)
+  - [Kubernetes](#kubernetes)
+    - [kube-prometheus-stack (Helm)](#kube-prometheus-stack-helm)
+    - [Scrape application metrics](#scrape-application-metrics)
+    - [Useful baseline metrics](#useful-baseline-metrics)
+    - [PromQL recipes](#promql-recipes)
+  - [Service mesh — Istio](#service-mesh--istio)
+    - [Enable tracing](#enable-tracing)
+    - [Per-namespace sampling override](#per-namespace-sampling-override)
+    - [Key Istio PromQL queries](#key-istio-promql-queries)
+  - [Service mesh — Linkerd](#service-mesh--linkerd)
+  - [Distributed tracing in mesh](#distributed-tracing-in-mesh)
+    - [Jaeger (all-in-one)](#jaeger-all-in-one)
+  - [Kiali — mesh topology visualization](#kiali--mesh-topology-visualization)
+  - [CI/CD observability](#cicd-observability)
+    - [Deploy markers](#deploy-markers)
+    - [Pipeline metrics](#pipeline-metrics)
+    - [Pipeline tracing](#pipeline-tracing)
+  - [GitOps / ArgoCD](#gitops--argocd)
+  - [Mesh alerting rules](#mesh-alerting-rules)
 
 ## Containers and Docker
 
 - Use the `json-file` log driver (default) and let a node agent ship logs
-- Add labels for `service`, `environment`, `version` so the agent can promote them to log
-  fields
-- Expose `/metrics` on a separate port from the app; in Compose, publish only internally and
-  let Prometheus scrape via the Docker network
+- Add labels for `service`, `environment`, `version` so the agent can promote them to log fields
+- Expose `/metrics` on a separate port from the app; in Compose, publish only internally and let
+  Prometheus scrape via the Docker network
 - For health: use Docker `HEALTHCHECK` and Compose `depends_on: condition: service_healthy`
 
 ```yaml
@@ -206,8 +218,8 @@ spec:
             - { containerPort: 9411 }    # Zipkin
 ```
 
-For production, replace all-in-one with the Jaeger Operator (Cassandra/Elastic backend) or
-swap to **Tempo + Grafana**.
+For production, replace all-in-one with the Jaeger Operator (Cassandra/Elastic backend) or swap to
+**Tempo + Grafana**.
 
 ## Kiali — mesh topology visualization
 
@@ -232,8 +244,8 @@ Treat pipelines as services: emit duration, success rate, queue time. Pair with 
 
 ### Deploy markers
 
-Push a "deploy" event into Grafana / your trace backend on every release so dashboards show
-*when* something changed. GitHub Actions example:
+Push a "deploy" event into Grafana / your trace backend on every release so dashboards show *when*
+something changed. GitHub Actions example:
 
 ```yaml
 - name: Annotate Grafana
@@ -261,9 +273,8 @@ Track the [DORA metrics](https://dora.dev/) — they correlate strongly with del
 
 ### Pipeline tracing
 
-OTel has CI/CD semantic conventions and exporters for GitHub Actions / GitLab. Each job
-becomes a span; failing jobs become error spans. Browseable in Tempo/Jaeger like any other
-trace.
+OTel has CI/CD semantic conventions and exporters for GitHub Actions / GitLab. Each job becomes a
+span; failing jobs become error spans. Browseable in Tempo/Jaeger like any other trace.
 
 ## GitOps / ArgoCD
 
@@ -331,5 +342,4 @@ spec:
             summary: "Mesh cert expiring in < 7 days"
 ```
 
-For SLO-driven alerts (multi-window burn rate), see
-[slos-and-alerting.md](slos-and-alerting.md).
+For SLO-driven alerts (multi-window burn rate), see [slos-and-alerting.md](slos-and-alerting.md).

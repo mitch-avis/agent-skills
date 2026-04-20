@@ -5,15 +5,21 @@ start/end, attributes, and links. OpenTelemetry (OTel) is the vendor-neutral sta
 
 ## Table of Contents
 
-- [Concepts](#concepts)
-- [Context propagation](#context-propagation)
-- [Sampling strategies](#sampling-strategies)
-- [Python — OpenTelemetry SDK](#python--opentelemetry-sdk)
-- [Rust — `tracing` + `tracing-opentelemetry`](#rust--tracing--tracing-opentelemetry)
-- [OTel Collector](#otel-collector)
-- [Backends](#backends)
-- [Span attributes — semantic conventions](#span-attributes--semantic-conventions)
-- [Anti-patterns](#anti-patterns)
+- [Distributed Tracing with OpenTelemetry](#distributed-tracing-with-opentelemetry)
+  - [Table of Contents](#table-of-contents)
+  - [Concepts](#concepts)
+  - [Context propagation](#context-propagation)
+  - [Sampling strategies](#sampling-strategies)
+  - [Python — OpenTelemetry SDK](#python--opentelemetry-sdk)
+    - [Bootstrap](#bootstrap)
+    - [Auto-instrumentation](#auto-instrumentation)
+    - [Manual spans](#manual-spans)
+  - [Rust — `tracing` + `tracing-opentelemetry`](#rust--tracing--tracing-opentelemetry)
+    - [Cross-service propagation (reqwest / axum)](#cross-service-propagation-reqwest--axum)
+  - [OTel Collector](#otel-collector)
+  - [Backends](#backends)
+  - [Span attributes — semantic conventions](#span-attributes--semantic-conventions)
+  - [Anti-patterns](#anti-patterns)
 
 ## Concepts
 
@@ -47,8 +53,8 @@ understand it.
 | ParentBased  | Honor the upstream service's sampling decision          |
 | Tail-based   | Keep all errors / slow traces (collector-side)          |
 
-Recommended production setup: `ParentBased(TraceIdRatio(0.05))` at the SDK plus tail-based rules
-in the OTel Collector to keep all errors.
+Recommended production setup: `ParentBased(TraceIdRatio(0.05))` at the SDK plus tail-based rules in
+the OTel Collector to keep all errors.
 
 ## Python — OpenTelemetry SDK
 
@@ -192,8 +198,7 @@ pub fn init_telemetry(service: &str, endpoint: &str) -> anyhow::Result<()> {
 }
 ```
 
-Now every `tracing::info_span!` / `#[instrument]` becomes an OTel span exported to the
-collector.
+Now every `tracing::info_span!` / `#[instrument]` becomes an OTel span exported to the collector.
 
 ### Cross-service propagation (reqwest / axum)
 
@@ -282,8 +287,8 @@ service:
 
 ## Span attributes — semantic conventions
 
-Use [OTel semantic conventions](https://opentelemetry.io/docs/specs/semconv/) for attribute
-names; tooling depends on them.
+Use [OTel semantic conventions](https://opentelemetry.io/docs/specs/semconv/) for attribute names;
+tooling depends on them.
 
 | Attribute                    | Example                |
 | ---------------------------- | ---------------------- |
