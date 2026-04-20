@@ -83,6 +83,12 @@ follows its instructions.
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | [mermaid](mermaid/SKILL.md) | Create, style, and render Mermaid diagrams — flowcharts, sequence, class, ERD, C4, state, architecture, with SVG/PNG/ASCII export |
 
+### Shell Scripting
+
+| Skill                                       | Description                                                                                                                                         |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [shell-scripting](shell-scripting/SKILL.md) | Bash and PowerShell — strict mode, defensive patterns, traps, arg parsing, security, portability, ShellCheck/PSScriptAnalyzer, Bats/Pester, recipes |
+
 ## Directory Structure
 
 Each skill follows the same layout:
@@ -133,7 +139,7 @@ tailored to a consistent format.
 
 | Repository | Original Skills | Contributed To |
 | --- | --- | --- |
-| [wshobson/agents](https://github.com/wshobson/agents) | python-code-style, python-design-patterns, python-project-structure, python-error-handling, python-anti-patterns, python-type-safety, python-configuration, async-python-patterns, python-testing-patterns, python-packaging, python-performance-optimization, python-background-jobs, python-resilience, python-resource-management, python-observability, rust-async-patterns, k8s-manifest-generator, k8s-security-policies, helm-chart-scaffolding, gitlab-ci-patterns, sql-optimization-patterns, postgresql-table-design, code-review-excellence | python, python-async, python-testing, python-infrastructure, python-resilience, rust-async, kubernetes, helm, cicd, sql-database, code-review |
+| [wshobson/agents](https://github.com/wshobson/agents) | python-code-style, python-design-patterns, python-project-structure, python-error-handling, python-anti-patterns, python-type-safety, python-configuration, async-python-patterns, python-testing-patterns, python-packaging, python-performance-optimization, python-background-jobs, python-resilience, python-resource-management, python-observability, rust-async-patterns, k8s-manifest-generator, k8s-security-policies, helm-chart-scaffolding, gitlab-ci-patterns, sql-optimization-patterns, postgresql-table-design, code-review-excellence, shellcheck-configuration, bash-defensive-patterns | python, python-async, python-testing, python-infrastructure, python-resilience, rust-async, kubernetes, helm, cicd, sql-database, code-review, shell-scripting |
 | [apollographql/skills](https://github.com/apollographql/skills) | rust-best-practices | rust, rust-async, rust-testing |
 | [zhanghandong/rust-skills](https://github.com/zhanghandong/rust-skills) | rust-router, rust-refactor-helper, rust-trait-explorer, rust-code-navigator, rust-learner, rust-symbol-analyzer, rust-call-graph, rust-deps-visualizer, rust-skill-creator, rust-daily | rust |
 | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | rust-patterns, rust-testing | rust, rust-testing |
@@ -147,12 +153,12 @@ tailored to a consistent format.
 | [wispbit-ai/skills](https://github.com/wispbit-ai/skills) | rust-expert-best-practices-code-review | rust |
 | [softaworks/agent-toolkit](https://github.com/softaworks/agent-toolkit) | commit-work, mermaid-diagrams | committing-code, mermaid |
 | [imxv/pretty-mermaid-skills](https://github.com/imxv/pretty-mermaid-skills) | pretty-mermaid | mermaid |
-| [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | mermaid-diagram-specialist | mermaid |
+| [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | mermaid-diagram-specialist, Linux Production Shell Scripts | mermaid, shell-scripting |
 | [axtonliu/axton-obsidian-visual-skills](https://github.com/axtonliu/axton-obsidian-visual-skills) | mermaid-visualizer | mermaid |
 | [intellectronica/agent-skills](https://github.com/intellectronica/agent-skills) | beautiful-mermaid | mermaid |
 | [anthropics/skills](https://github.com/anthropics/skills) | skill-creator | skill-creator |
 | [personamanagmentlayer/pcl](https://github.com/personamanagmentlayer/pcl) | helm-expert, docker-expert, argocd-expert | helm, docker, cicd |
-| [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | clean-code, rust-pro, rust-async-patterns, software-architecture, kubernetes-architect, helm-chart-scaffolding, docker-expert, cicd-automation-workflow-automate | clean-code, rust, rust-async, task-orchestrator, kubernetes, helm, docker, cicd |
+| [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | clean-code, rust-pro, rust-async-patterns, software-architecture, kubernetes-architect, helm-chart-scaffolding, docker-expert, cicd-automation-workflow-automate, powershell-windows, linux-shell-scripting, bash-linux, bash-scripting, bash-pro | clean-code, rust, rust-async, task-orchestrator, kubernetes, helm, docker, cicd, shell-scripting |
 | [github/awesome-copilot](https://github.com/github/awesome-copilot) | pytest-coverage, conventional-commit, git-commit, copilot-instructions-blueprint-generator, generate-custom-instructions-from-codebase, suggest-awesome-github-copilot-instructions, multi-stage-dockerfile, sql-optimization, sql-code-review, postgresql-optimization, postgresql-code-review, review-and-refactor | python-testing, committing-code, generating-custom-instructions, docker, sql-database, code-review |
 | [manutej/luxor-claude-marketplace](https://github.com/manutej/luxor-claude-marketplace) | docker-compose-orchestration | docker |
 | [aj-geddes/useful-ai-prompts](https://github.com/aj-geddes/useful-ai-prompts) | markdown-documentation, kubernetes-deployment, docker-containerization, gitlab-cicd-pipeline, cicd-pipeline-setup, code-review-analysis | markdown-documentation, kubernetes, docker, cicd, code-review |
@@ -168,6 +174,11 @@ tailored to a consistent format.
 | [shubhamsaboo/awesome-llm-apps](https://github.com/shubhamsaboo/awesome-llm-apps) | code-reviewer | code-review |
 | [onewave-ai/claude-skills](https://github.com/onewave-ai/claude-skills) | code-review-pro | code-review |
 | [planetscale/database-skills](https://github.com/planetscale/database-skills) | mysql | sql-database |
+| [pproenca/dot-skills](https://github.com/pproenca/dot-skills) | shell | shell-scripting |
+| [josiahsiegel/claude-plugin-marketplace](https://github.com/josiahsiegel/claude-plugin-marketplace) | powershell-master, bash-master | shell-scripting |
+| [laurigates/claude-plugins](https://github.com/laurigates/claude-plugins) | shell-expert | shell-scripting |
+| [thebushidocollective/han](https://github.com/thebushidocollective/han) | shell-best-practices | shell-scripting |
+| [akin-ozer/cc-devops-skills](https://github.com/akin-ozer/cc-devops-skills) | bash-script-generator | shell-scripting |
 
 ## License
 
