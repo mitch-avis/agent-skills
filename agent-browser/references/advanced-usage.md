@@ -193,8 +193,8 @@ Create `agent-browser.json` in the project root for persistent settings:
 ```
 
 Priority (lowest to highest): `~/.agent-browser/config.json` < `./agent-browser.json` < env vars <
-CLI flags. Use `--config <path>` or `AGENT_BROWSER_CONFIG` env var for a custom config file. All
-CLI options map to camelCase keys (e.g., `--executable-path` → `"executablePath"`).
+CLI flags. Use `--config <path>` or `AGENT_BROWSER_CONFIG` env var for a custom config file. All CLI
+options map to camelCase keys (e.g., `--executable-path` → `"executablePath"`).
 
 ## Browser Engine Selection
 

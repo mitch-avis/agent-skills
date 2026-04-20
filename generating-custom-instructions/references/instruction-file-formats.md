@@ -9,8 +9,8 @@ Reference for all instruction file types recognized by major AI coding agents.
 - **Recognized by**: GitHub Copilot, VS Code agents
 - **Format**: Markdown, optional YAML frontmatter
 
-Always-on. Use for project overview, build/test commands, global coding conventions,
-and architecture constraints.
+Always-on. Use for project overview, build/test commands, global coding conventions, and
+architecture constraints.
 
 ```markdown
 ---
@@ -27,14 +27,13 @@ applyTo: "**"
 ## Path-Specific: `*.instructions.md`
 
 - **Path**: `.github/instructions/**/*.instructions.md`
-- **Scope**: files matching the `applyTo` glob, or semantically matched to the
-  current task via the `description`
+- **Scope**: files matching the `applyTo` glob, or semantically matched to the current task via the
+  `description`
 - **Recognized by**: GitHub Copilot, VS Code agents
 - **Format**: Markdown with YAML frontmatter
 
-Applied automatically when the agent works on files matching the glob pattern. Use
-for language-specific conventions, framework patterns, or rules scoped to a
-directory.
+Applied automatically when the agent works on files matching the glob pattern. Use for
+language-specific conventions, framework patterns, or rules scoped to a directory.
 
 ### Frontmatter Fields
 
@@ -85,9 +84,9 @@ Organize by subdirectory for large projects:
 - **Recognized by**: GitHub Copilot, Claude Code, VS Code agents
 - **Format**: plain Markdown, no special frontmatter required
 
-Use when multiple AI agents share the workspace and you want a single set of
-instructions recognized by all of them. Subfolder `AGENTS.md` files apply
-instructions scoped to that subtree — useful in monorepos.
+Use when multiple AI agents share the workspace and you want a single set of instructions recognized
+by all of them. Subfolder `AGENTS.md` files apply instructions scoped to that subtree — useful in
+monorepos.
 
 ## Claude-Compatible: `CLAUDE.md`
 
@@ -96,11 +95,11 @@ instructions scoped to that subtree — useful in monorepos.
 - **Recognized by**: Claude Code, VS Code (when enabled)
 - **Format**: plain Markdown
 
-Use when Claude Code is a primary agent. VS Code also reads `CLAUDE.md` as
-always-on instructions when the `chat.useClaudeMdFile` setting is enabled.
+Use when Claude Code is a primary agent. VS Code also reads `CLAUDE.md` as always-on instructions
+when the `chat.useClaudeMdFile` setting is enabled.
 
-Local variant `CLAUDE.local.md` is for machine-specific instructions not committed
-to version control.
+Local variant `CLAUDE.local.md` is for machine-specific instructions not committed to version
+control.
 
 ### Claude Rules Files
 
@@ -118,14 +117,14 @@ paths:
 
 ## Reusable Skills: `SKILL.md`
 
-- **Path**: `~/.agents/skills/<name>/SKILL.md` (global) or
-  `.agents/skills/<name>/SKILL.md` (project-local)
+- **Path**: `~/.agents/skills/<name>/SKILL.md` (global) or `.agents/skills/<name>/SKILL.md`
+  (project-local)
 - **Scope**: loaded on demand when the skill description matches the task
 - **Recognized by**: Claude Code, VS Code agents with skill discovery
 - **Format**: Markdown with required YAML frontmatter
 
-Use for patterns reusable across multiple projects. Skills are not always-on —
-they are loaded only when their description matches the current task.
+Use for patterns reusable across multiple projects. Skills are not always-on — they are loaded only
+when their description matches the current task.
 
 ### Frontmatter Fields
 
@@ -154,13 +153,13 @@ skill-name/
     └── example.sh
 ```
 
-Keep `SKILL.md` under 500 lines. Use reference files for detailed content and
-link to them from the main file.
+Keep `SKILL.md` under 500 lines. Use reference files for detailed content and link to them from the
+main file.
 
 ## Instruction Priority
 
-When multiple instruction types coexist, all are provided to the agent. In case
-of conflict, higher-priority instructions take precedence:
+When multiple instruction types coexist, all are provided to the agent. In case of conflict,
+higher-priority instructions take precedence:
 
 1. Personal / user-level instructions (highest)
 2. Repository instructions (`copilot-instructions.md`, `AGENTS.md`)
@@ -168,9 +167,8 @@ of conflict, higher-priority instructions take precedence:
 
 ## Organization-Level Instructions
 
-Defined at the GitHub organization level and automatically applied to all
-repositories the user has access to. Lowest priority — repository instructions
-override them.
+Defined at the GitHub organization level and automatically applied to all repositories the user has
+access to. Lowest priority — repository instructions override them.
 
 ## Choosing the Right Format
 

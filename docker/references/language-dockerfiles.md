@@ -1,7 +1,7 @@
 # Language Dockerfiles
 
-Complete multi-stage Dockerfile templates for specific frameworks. Each template
-includes build optimization, security hardening, and health checks.
+Complete multi-stage Dockerfile templates for specific frameworks. Each template includes build
+optimization, security hardening, and health checks.
 
 ## Next.js
 
@@ -211,8 +211,8 @@ ENTRYPOINT ["/server"]
 
 ## Rust
 
-Uses a dependency-caching trick: build a dummy `main.rs` first so Cargo caches
-all dependency compilation. Subsequent builds only recompile the application.
+Uses a dependency-caching trick: build a dummy `main.rs` first so Cargo caches all dependency
+compilation. Subsequent builds only recompile the application.
 
 ```dockerfile
 # ── Build ──
