@@ -5,23 +5,6 @@ Login flows, session persistence, OAuth, 2FA, and authenticated browsing.
 **Related**: [session-management.md](session-management.md) for state persistence details,
 [SKILL.md](../SKILL.md) for quick start.
 
-## Contents
-
-- [Authentication Patterns](#authentication-patterns)
-  - [Contents](#contents)
-  - [Import Auth from Your Browser](#import-auth-from-your-browser)
-  - [Persistent Profiles](#persistent-profiles)
-  - [Session Persistence](#session-persistence)
-  - [Basic Login Flow](#basic-login-flow)
-  - [Saving Authentication State](#saving-authentication-state)
-  - [Restoring Authentication](#restoring-authentication)
-  - [OAuth / SSO Flows](#oauth--sso-flows)
-  - [Two-Factor Authentication](#two-factor-authentication)
-  - [HTTP Basic Auth](#http-basic-auth)
-  - [Cookie-Based Auth](#cookie-based-auth)
-  - [Token Refresh Handling](#token-refresh-handling)
-  - [Security Best Practices](#security-best-practices)
-
 ## Import Auth from Your Browser
 
 The fastest way to authenticate is to reuse cookies from a Chrome session you are already logged

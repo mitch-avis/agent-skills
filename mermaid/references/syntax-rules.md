@@ -3,17 +3,6 @@
 This reference provides comprehensive syntax rules and error prevention strategies for Mermaid
 diagrams. Load this when encountering syntax errors or needing detailed syntax information.
 
-## Table of Contents
-
-1. [Critical Error Prevention](#critical-error-prevention)
-2. [Node Syntax](#node-syntax)
-3. [Subgraph Syntax](#subgraph-syntax)
-4. [Arrow and Connection Types](#arrow-and-connection-types)
-5. [Styling and Colors](#styling-and-colors)
-6. [Layout and Direction](#layout-and-direction)
-7. [Advanced Patterns](#advanced-patterns)
-8. [Troubleshooting](#troubleshooting)
-
 ## Critical Error Prevention
 
 ### List Syntax Conflict (Most Common Error)

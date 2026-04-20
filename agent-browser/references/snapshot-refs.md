@@ -5,16 +5,6 @@ Compact element references that reduce context usage dramatically for AI agents.
 **Related**: [commands.md](commands.md) for full command reference, [SKILL.md](../SKILL.md) for
 quick start.
 
-## Contents
-
-- [How Refs Work](#how-refs-work)
-- [Snapshot Command](#the-snapshot-command)
-- [Using Refs](#using-refs)
-- [Ref Lifecycle](#ref-lifecycle)
-- [Best Practices](#best-practices)
-- [Ref Notation Details](#ref-notation-details)
-- [Troubleshooting](#troubleshooting)
-
 ## How Refs Work
 
 Traditional approach:

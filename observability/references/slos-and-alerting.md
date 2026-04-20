@@ -3,20 +3,6 @@
 Service Level Objectives turn metrics into a contract with users. Burn-rate alerting on SLOs gives
 high-precision pages without the noise of threshold alerts.
 
-## Table of Contents
-
-- [SLOs and Alerting](#slos-and-alerting)
-  - [Table of Contents](#table-of-contents)
-  - [Vocabulary](#vocabulary)
-  - [Choosing SLIs](#choosing-slis)
-  - [Defining an SLO](#defining-an-slo)
-  - [Recording rules](#recording-rules)
-  - [Multi-window multi-burn-rate alerts](#multi-window-multi-burn-rate-alerts)
-  - [Alert hygiene](#alert-hygiene)
-  - [Runbooks](#runbooks)
-  - [Notification routing](#notification-routing)
-  - [Validation](#validation)
-
 ## Vocabulary
 
 | Term         | Meaning                                                          |

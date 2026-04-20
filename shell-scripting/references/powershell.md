@@ -3,25 +3,6 @@
 Comprehensive PowerShell scripting patterns for both Windows PowerShell 5.1 and PowerShell 7+ on
 Linux/macOS/Windows. Default to PowerShell 7+ unless legacy 5.1 is required.
 
-## Table of Contents
-
-- [PowerShell Reference](#powershell-reference)
-  - [Table of Contents](#table-of-contents)
-  - [Strict Mode and Mandatory Header](#strict-mode-and-mandatory-header)
-  - [Naming and Style](#naming-and-style)
-  - [Parameters and CmdletBinding](#parameters-and-cmdletbinding)
-  - [Pipeline Functions](#pipeline-functions)
-  - [Variables and Types](#variables-and-types)
-  - [Control Flow](#control-flow)
-  - [Operators](#operators)
-  - [Pipeline and Filtering](#pipeline-and-filtering)
-  - [Error Handling](#error-handling)
-  - [Cross-Platform Patterns](#cross-platform-patterns)
-  - [File and Path Operations](#file-and-path-operations)
-  - [Module Management (PSResourceGet)](#module-management-psresourceget)
-  - [Common Pitfalls](#common-pitfalls)
-  - [Security Hardening](#security-hardening)
-
 ## Strict Mode and Mandatory Header
 
 ```powershell

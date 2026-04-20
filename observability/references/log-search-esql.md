@@ -4,24 +4,6 @@ ES|QL is the modern Elasticsearch query language. Use it from Kibana Discover or
 `POST /_query` for incident investigation. The workflow mirrors Discover: scope, then **iteratively
 exclude noise (NOT)** until a small interesting subset remains.
 
-## Table of Contents
-
-- [Log Search with Elastic ES|QL](#log-search-with-elastic-esql)
-  - [Table of Contents](#table-of-contents)
-  - [When to use this](#when-to-use-this)
-  - [Parameter conventions](#parameter-conventions)
-    - [Context minimization](#context-minimization)
-  - [The funnel workflow](#the-funnel-workflow)
-  - [ES|QL patterns](#esql-patterns)
-    - [Five-way FORK with histogram, samples, and categorization](#five-way-fork-with-histogram-samples-and-categorization)
-    - [Adding a KQL filter](#adding-a-kql-filter)
-    - [Histogram by dimension](#histogram-by-dimension)
-  - [Examples](#examples)
-    - [Last hour of logs for one service](#last-hour-of-logs-for-one-service)
-    - [Iterative funnel (rounds)](#iterative-funnel-rounds)
-  - [Pitfalls](#pitfalls)
-  - [ECS field reference](#ecs-field-reference)
-
 ## When to use this
 
 - Investigating a log spike, error surge, or anomaly in Elastic Observability / Kibana

@@ -1,22 +1,11 @@
 # Security and Optimization
 
-## Table of Contents
-
-- [Image Size Reduction](#image-size-reduction)
-- [Distroless Images](#distroless-images)
-- [Build-Time Secrets](#build-time-secrets)
-- [Runtime Security](#runtime-security)
-- [Vulnerability Scanning](#vulnerability-scanning)
-- [Signal Handling](#signal-handling)
-- [CI/CD Integration](#cicd-integration)
-- [Docker Commands Reference](#docker-commands-reference)
-
 ## Image Size Reduction
 
 ### Clean up in the same layer
 
-A later `RUN rm` does not shrink earlier layers. Always clean up in the same
-`RUN` instruction that installs packages.
+A later `RUN rm` does not shrink earlier layers. Always clean up in the same `RUN` instruction that
+installs packages.
 
 ```dockerfile
 # Correct — single layer
@@ -37,8 +26,8 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN apk add --no-cache curl git
 ```
 
-The `--no-cache` flag avoids storing the package index, eliminating the need
-for a separate cleanup step.
+The `--no-cache` flag avoids storing the package index, eliminating the need for a separate cleanup
+step.
 
 ### Combine RUN commands
 
@@ -71,8 +60,8 @@ COPY --from=builder /app/package.json ./
 
 ## Distroless Images
 
-Distroless images contain only the application runtime — no shell, package
-manager, or OS utilities. This minimizes the attack surface.
+Distroless images contain only the application runtime — no shell, package manager, or OS utilities.
+This minimizes the attack surface.
 
 ### Node.js
 
@@ -103,14 +92,13 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 ```
 
-Trade-off: distroless images have no shell, so debugging requires attaching a
-debug sidecar or using `docker debug` (Docker Desktop). Prefer Alpine for
-development and distroless for production when maximum security matters.
+Trade-off: distroless images have no shell, so debugging requires attaching a debug sidecar or using
+`docker debug` (Docker Desktop). Prefer Alpine for development and distroless for production when
+maximum security matters.
 
 ## Build-Time Secrets
 
-Use BuildKit secrets to pass sensitive data during build without baking it into
-image layers.
+Use BuildKit secrets to pass sensitive data during build without baking it into image layers.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -244,9 +232,8 @@ grype my-image:latest --fail-on high
 
 ## Signal Handling
 
-Containers receive `SIGTERM` on `docker stop`. The application must handle it
-for graceful shutdown (close connections, flush buffers, complete in-flight
-requests).
+Containers receive `SIGTERM` on `docker stop`. The application must handle it for graceful shutdown
+(close connections, flush buffers, complete in-flight requests).
 
 ### Problem: shell form does not forward signals
 
@@ -264,8 +251,8 @@ CMD ["node", "server.js"]
 
 ### Alternative: use an init process
 
-For applications that spawn child processes, use a lightweight init like
-`dumb-init` or `tini` to reap zombies and forward signals.
+For applications that spawn child processes, use a lightweight init like `dumb-init` or `tini` to
+reap zombies and forward signals.
 
 ```dockerfile
 RUN apk add --no-cache dumb-init

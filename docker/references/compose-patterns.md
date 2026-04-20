@@ -1,15 +1,5 @@
 # Compose Patterns
 
-## Table of Contents
-
-- [Full-Stack Web Application](#full-stack-web-application)
-- [Microservices with Reverse Proxy](#microservices-with-reverse-proxy)
-- [Development with Hot Reload](#development-with-hot-reload)
-- [Networking Strategies](#networking-strategies)
-- [Volume Management](#volume-management)
-- [Health Check Recipes](#health-check-recipes)
-- [Environment Overrides](#environment-overrides)
-
 ## Full-Stack Web Application
 
 React/Vue frontend + Node.js API + PostgreSQL + Redis.
@@ -325,8 +315,8 @@ networks:
 
 ### Host network mode
 
-Use when the container needs direct access to the host network stack (no port
-mapping needed). Primarily useful on Linux.
+Use when the container needs direct access to the host network stack (no port mapping needed).
+Primarily useful on Linux.
 
 ```yaml
 services:
@@ -458,8 +448,8 @@ services:
 
 ## Environment Overrides
 
-Use layered Compose files for environment-specific configuration. Docker Compose
-auto-merges `compose.yaml` + `compose.override.yaml` in development.
+Use layered Compose files for environment-specific configuration. Docker Compose auto-merges
+`compose.yaml` + `compose.override.yaml` in development.
 
 ### Production override (`compose.prod.yaml`)
 

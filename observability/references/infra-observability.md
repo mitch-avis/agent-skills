@@ -3,31 +3,6 @@
 Telemetry for the platforms below the application: containers, Kubernetes, service meshes, and CI/CD
 pipelines.
 
-## Table of Contents
-
-- [Infrastructure Observability](#infrastructure-observability)
-  - [Table of Contents](#table-of-contents)
-  - [Containers and Docker](#containers-and-docker)
-  - [Kubernetes](#kubernetes)
-    - [kube-prometheus-stack (Helm)](#kube-prometheus-stack-helm)
-    - [Scrape application metrics](#scrape-application-metrics)
-    - [Useful baseline metrics](#useful-baseline-metrics)
-    - [PromQL recipes](#promql-recipes)
-  - [Service mesh — Istio](#service-mesh--istio)
-    - [Enable tracing](#enable-tracing)
-    - [Per-namespace sampling override](#per-namespace-sampling-override)
-    - [Key Istio PromQL queries](#key-istio-promql-queries)
-  - [Service mesh — Linkerd](#service-mesh--linkerd)
-  - [Distributed tracing in mesh](#distributed-tracing-in-mesh)
-    - [Jaeger (all-in-one)](#jaeger-all-in-one)
-  - [Kiali — mesh topology visualization](#kiali--mesh-topology-visualization)
-  - [CI/CD observability](#cicd-observability)
-    - [Deploy markers](#deploy-markers)
-    - [Pipeline metrics](#pipeline-metrics)
-    - [Pipeline tracing](#pipeline-tracing)
-  - [GitOps / ArgoCD](#gitops--argocd)
-  - [Mesh alerting rules](#mesh-alerting-rules)
-
 ## Containers and Docker
 
 - Use the `json-file` log driver (default) and let a node agent ship logs

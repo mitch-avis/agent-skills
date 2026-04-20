@@ -5,21 +5,6 @@ Capture Chrome DevTools performance profiles during browser automation for perfo
 **Related**: [commands.md](commands.md) for full command reference, [SKILL.md](../SKILL.md) for
 quick start.
 
-## Contents
-
-- [Profiling](#profiling)
-  - [Contents](#contents)
-  - [Basic Profiling](#basic-profiling)
-  - [Profiler Commands](#profiler-commands)
-  - [Categories](#categories)
-  - [Use Cases](#use-cases)
-    - [Diagnosing Slow Page Loads](#diagnosing-slow-page-loads)
-    - [Profiling User Interactions](#profiling-user-interactions)
-    - [CI Performance Regression Checks](#ci-performance-regression-checks)
-  - [Output Format](#output-format)
-  - [Viewing Profiles](#viewing-profiles)
-  - [Limitations](#limitations)
-
 ## Basic Profiling
 
 ```bash

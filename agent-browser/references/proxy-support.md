@@ -4,25 +4,6 @@ Proxy configuration for geo-testing, rate limiting avoidance, and corporate envi
 
 **Related**: [commands.md](commands.md) for global options, [SKILL.md](../SKILL.md) for quick start.
 
-## Contents
-
-- [Proxy Support](#proxy-support)
-  - [Contents](#contents)
-  - [Basic Proxy Configuration](#basic-proxy-configuration)
-  - [Authenticated Proxy](#authenticated-proxy)
-  - [SOCKS Proxy](#socks-proxy)
-  - [Proxy Bypass](#proxy-bypass)
-  - [Common Use Cases](#common-use-cases)
-    - [Geo-Location Testing](#geo-location-testing)
-    - [Rotating Proxies for Scraping](#rotating-proxies-for-scraping)
-    - [Corporate Network Access](#corporate-network-access)
-  - [Verifying Proxy Connection](#verifying-proxy-connection)
-  - [Troubleshooting](#troubleshooting)
-    - [Proxy Connection Failed](#proxy-connection-failed)
-    - [SSL/TLS Errors Through Proxy](#ssltls-errors-through-proxy)
-    - [Slow Performance](#slow-performance)
-  - [Best Practices](#best-practices)
-
 ## Basic Proxy Configuration
 
 Use the `--proxy` flag or set proxy via environment variable:

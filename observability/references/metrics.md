@@ -3,27 +3,6 @@
 Numeric, time-series telemetry for dashboards and alerting. Covers metric types, naming, RED/USE,
 cardinality discipline, exemplars, Python and Rust integrations.
 
-## Table of Contents
-
-- [Metrics with Prometheus](#metrics-with-prometheus)
-  - [Table of Contents](#table-of-contents)
-  - [Metric types](#metric-types)
-  - [Naming conventions](#naming-conventions)
-  - [RED, USE, and the four golden signals](#red-use-and-the-four-golden-signals)
-  - [Cardinality discipline](#cardinality-discipline)
-    - [Safe label values](#safe-label-values)
-    - [Never use as labels](#never-use-as-labels)
-    - [Rule of thumb](#rule-of-thumb)
-  - [Histograms vs summaries](#histograms-vs-summaries)
-  - [Python](#python)
-    - [Decorator pattern (FastAPI)](#decorator-pattern-fastapi)
-    - [Exposition](#exposition)
-  - [Rust](#rust)
-  - [Exposing metrics](#exposing-metrics)
-  - [Exemplars (linking metrics to traces)](#exemplars-linking-metrics-to-traces)
-  - [PromQL essentials](#promql-essentials)
-  - [Validation](#validation)
-
 ## Metric types
 
 | Type      | Semantics                                      | Example                         |
@@ -133,7 +112,6 @@ POOL = Gauge(
 ```python
 import time
 from contextlib import contextmanager
-
 
 @contextmanager
 def track(method: str, route: str):

@@ -3,20 +3,6 @@
 Centralize logs from many services into one searchable store. Covers shippers (Vector, Fluent Bit,
 Filebeat), backends (Loki, ELK/Elastic), Kubernetes integration, and parsing.
 
-## Table of Contents
-
-- [Log Aggregation](#log-aggregation)
-  - [Table of Contents](#table-of-contents)
-  - [Choosing a stack](#choosing-a-stack)
-  - [Collection patterns](#collection-patterns)
-  - [Vector](#vector)
-  - [Fluent Bit](#fluent-bit)
-  - [Loki + Promtail / Grafana Agent](#loki--promtail--grafana-agent)
-  - [ELK / Elastic stack](#elk--elastic-stack)
-  - [Kubernetes patterns](#kubernetes-patterns)
-    - [Sidecar exception](#sidecar-exception)
-  - [Retention and cost](#retention-and-cost)
-
 ## Choosing a stack
 
 | Stack                                 | Best for                                          | Trade-off                             |                            |

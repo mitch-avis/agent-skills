@@ -5,28 +5,6 @@ Multiple isolated browser sessions with state persistence and concurrent browsin
 **Related**: [authentication.md](authentication.md) for login patterns, [SKILL.md](../SKILL.md) for
 quick start.
 
-## Contents
-
-- [Session Management](#session-management)
-  - [Contents](#contents)
-  - [Named Sessions](#named-sessions)
-  - [Session Isolation Properties](#session-isolation-properties)
-  - [Session State Persistence](#session-state-persistence)
-    - [Save Session State](#save-session-state)
-    - [Load Session State](#load-session-state)
-    - [State File Contents](#state-file-contents)
-  - [Common Patterns](#common-patterns)
-    - [Authenticated Session Reuse](#authenticated-session-reuse)
-    - [Concurrent Scraping](#concurrent-scraping)
-    - [A/B Testing Sessions](#ab-testing-sessions)
-  - [Default Session](#default-session)
-  - [Session Cleanup](#session-cleanup)
-  - [Best Practices](#best-practices)
-    - [1. Name Sessions Semantically](#1-name-sessions-semantically)
-    - [2. Always Clean Up](#2-always-clean-up)
-    - [3. Handle State Files Securely](#3-handle-state-files-securely)
-    - [4. Timeout Long Sessions](#4-timeout-long-sessions)
-
 ## Named Sessions
 
 Use `--session` flag to isolate browser contexts:

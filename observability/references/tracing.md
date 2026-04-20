@@ -3,24 +3,6 @@
 Traces show how time is spent across services. A trace is a tree of spans; each span has a name,
 start/end, attributes, and links. OpenTelemetry (OTel) is the vendor-neutral standard.
 
-## Table of Contents
-
-- [Distributed Tracing with OpenTelemetry](#distributed-tracing-with-opentelemetry)
-  - [Table of Contents](#table-of-contents)
-  - [Concepts](#concepts)
-  - [Context propagation](#context-propagation)
-  - [Sampling strategies](#sampling-strategies)
-  - [Python — OpenTelemetry SDK](#python--opentelemetry-sdk)
-    - [Bootstrap](#bootstrap)
-    - [Auto-instrumentation](#auto-instrumentation)
-    - [Manual spans](#manual-spans)
-  - [Rust — `tracing` + `tracing-opentelemetry`](#rust--tracing--tracing-opentelemetry)
-    - [Cross-service propagation (reqwest / axum)](#cross-service-propagation-reqwest--axum)
-  - [OTel Collector](#otel-collector)
-  - [Backends](#backends)
-  - [Span attributes — semantic conventions](#span-attributes--semantic-conventions)
-  - [Anti-patterns](#anti-patterns)
-
 ## Concepts
 
 | Term     | Meaning                                                           |
@@ -82,7 +64,6 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
 
-
 def init_tracing(service: str, otlp_endpoint: str, sample: float = 0.05) -> None:
     resource = Resource.create({
         "service.name": service,
@@ -117,7 +98,6 @@ SQLAlchemyInstrumentor().instrument(engine=engine)
 from opentelemetry import trace
 
 tracer = trace.get_tracer(__name__)
-
 
 async def process_order(order_id: str) -> Order:
     with tracer.start_as_current_span("process_order") as span:

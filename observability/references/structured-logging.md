@@ -3,32 +3,6 @@
 Production logs must be machine-parseable JSON with consistent fields. This guide covers
 configuration, level semantics, contextual fields, correlation IDs, PII redaction, and sampling.
 
-## Table of Contents
-
-- [Structured Logging (Python and Rust)](#structured-logging-python-and-rust)
-  - [Table of Contents](#table-of-contents)
-  - [Python: structlog](#python-structlog)
-    - [Configuration](#configuration)
-    - [Usage](#usage)
-    - [Bind context across a request](#bind-context-across-a-request)
-  - [Python: standard logging fallback](#python-standard-logging-fallback)
-  - [Rust: tracing](#rust-tracing)
-    - [Setup](#setup)
-    - [Events](#events)
-    - [Spans (mandatory for async)](#spans-mandatory-for-async)
-  - [Correlation IDs](#correlation-ids)
-    - [Python (FastAPI middleware + contextvars)](#python-fastapi-middleware--contextvars)
-    - [Rust (axum middleware)](#rust-axum-middleware)
-  - [PII and secret redaction](#pii-and-secret-redaction)
-    - [Field denylist (Python)](#field-denylist-python)
-    - [Masking helpers](#masking-helpers)
-    - [Rust — `tracing` field redaction](#rust--tracing-field-redaction)
-  - [High-volume sampling](#high-volume-sampling)
-    - [Python — random sample wrapper](#python--random-sample-wrapper)
-    - [Consistent (per-user) sampling](#consistent-per-user-sampling)
-    - [Rust — `tracing-subscriber` sampling layer](#rust--tracing-subscriber-sampling-layer)
-  - [Anti-patterns](#anti-patterns)
-
 ## Python: structlog
 
 `structlog` is the recommended Python logger. JSON in prod, key=value in dev.
@@ -40,7 +14,6 @@ import logging
 import sys
 
 import structlog
-
 
 def configure_logging(level: str = "INFO", json: bool = True) -> None:
     timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
@@ -98,7 +71,6 @@ import json
 import logging
 from datetime import datetime, timezone
 
-
 class JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         payload = {
@@ -112,7 +84,6 @@ class JsonFormatter(logging.Formatter):
         for key, value in record.__dict__.get("extra", {}).items():
             payload[key] = value
         return json.dumps(payload, default=str)
-
 
 handler = logging.StreamHandler()
 handler.setFormatter(JsonFormatter())
@@ -198,7 +169,6 @@ from fastapi import Request
 
 correlation_id: ContextVar[str] = ContextVar("correlation_id", default="")
 
-
 async def correlation_middleware(request: Request, call_next):
     cid = request.headers.get("X-Correlation-ID") or str(uuid.uuid4())
     correlation_id.set(cid)
@@ -262,14 +232,12 @@ scrubbing always misses things.
 ```python
 SENSITIVE = {"password", "token", "secret", "api_key", "authorization", "ssn", "credit_card"}
 
-
 def redact_processor(logger, method_name, event_dict):
     for key in list(event_dict):
         lk = key.lower()
         if any(s in lk for s in SENSITIVE):
             event_dict[key] = "[REDACTED]"
     return event_dict
-
 
 structlog.configure(
     processors=[
@@ -287,7 +255,6 @@ def mask_email(email: str) -> str:
     if len(local) <= 2:
         return f"*@{domain}"
     return f"{local[0]}{'*' * (len(local) - 2)}{local[-1]}@{domain}"
-
 
 def mask_card(pan: str) -> str:
     digits = "".join(c for c in pan if c.isdigit())
@@ -329,7 +296,6 @@ import random
 import structlog
 
 _log = structlog.get_logger()
-
 
 class SampledLogger:
     def __init__(self, rate: float = 0.1) -> None:

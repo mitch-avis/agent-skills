@@ -8,23 +8,6 @@ description: >-
 
 # Markdown Documentation
 
-## Table of Contents
-
-- [Markdown Documentation](#markdown-documentation)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [When to Use](#when-to-use)
-  - [Quick Start](#quick-start)
-  - [Reference Guides](#reference-guides)
-  - [Best Practices](#best-practices)
-    - [Line Length](#line-length)
-    - [Formatting Standards](#formatting-standards)
-    - [Code Blocks](#code-blocks)
-    - [Tables](#tables)
-    - [General Rules](#general-rules)
-    - [DO](#do)
-    - [DON'T](#dont)
-
 ## Overview
 
 Master markdown syntax and best practices for creating well-formatted, readable documentation using
