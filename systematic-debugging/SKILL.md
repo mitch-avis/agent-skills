@@ -1,10 +1,15 @@
 ---
 name: systematic-debugging
 description: >-
-  Systematic debugging methodology with four-phase root cause analysis. Covers reproduction,
-  evidence gathering, hypothesis testing, git bisect, differential debugging,
-  intermittent/performance/production bug patterns, and the 3-fix architectural escape hatch. Use
-  when encountering any bug, test failure, or unexpected behavior, before proposing fixes.
+  Systematic four-phase root-cause-analysis methodology for any bug, test failure, performance
+  regression, build break, or unexpected behaviour. Covers reproduction, evidence gathering,
+  differential debugging, hypothesis testing, git bisect, defense-in-depth validation,
+  condition-based waiting, and the 3-fix architectural escape hatch. Includes language-specific
+  toolkits for Python (pytest, traceback, py-spy) and Rust (RUST_BACKTRACE, dbg!, miri,
+  sanitizers, tokio-console, cargo bisect-rustc, flamegraph). USE BEFORE proposing any fix —
+  even for "obvious" or "simple" bugs, under time pressure, or after a previous fix failed. DO
+  NOT use for greenfield design work, code review without a reported bug, refactoring without a
+  failure, or general Q&A about how a library works.
 ---
 
 # Systematic Debugging
@@ -162,7 +167,8 @@ git bisect reset  # when done
 - **Profile first** — don't optimize blindly. Measure before and after.
 - Common culprits: N+1 queries, unnecessary re-renders, large data processing, synchronous I/O in
   async code
-- Rust: `cargo flamegraph`, `samply`, `criterion`
+- Rust: `cargo flamegraph`, `samply`, `criterion` — see
+  [rust-debugging.md](references/rust-debugging.md) § "Profiling Hot Paths"
 - Python: `cProfile`, `line_profiler`, `py-spy`
 
 ### Production Bugs
@@ -213,13 +219,12 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 Reference files in this directory:
 
-- [root-cause-tracing.md](references/root-cause-tracing.md) — trace bugs backward through call stack
-  to original trigger
-- [defense-in-depth.md](references/defense-in-depth.md) — add validation at multiple layers after
-  finding root cause
-- [condition-based-waiting.md](references/condition-based-waiting.md) — replace arbitrary timeouts
-  with condition polling
-- [condition-based-waiting-example.ts](references/condition-based-waiting-example.ts) — TypeScript
-  example implementing the condition polling pattern
-- [find-polluter.sh](references/find-polluter.sh) — script to identify test pollution (tests that
-  pass in isolation but fail when run together)
+| Reference | Purpose |
+| --- | --- |
+| [root-cause-tracing.md](references/root-cause-tracing.md) | Trace bugs backward through the call stack to the original trigger (Python + Rust examples) |
+| [defense-in-depth.md](references/defense-in-depth.md) | Add validation at four layers after finding root cause (Python + Rust examples, plus Rust newtype patterns) |
+| [condition-based-waiting.md](references/condition-based-waiting.md) | Replace arbitrary `sleep`/`time.sleep`/`thread::sleep` with condition polling |
+| [condition_based_waiting_example.py](references/condition_based_waiting_example.py) | Python reference implementation (sync + async via asyncio) |
+| [condition_based_waiting_example.rs](references/condition_based_waiting_example.rs) | Rust reference implementation (sync + async via Tokio) |
+| [rust-debugging.md](references/rust-debugging.md) | Rust toolkit — backtraces, `dbg!`, test isolation, Miri, sanitizers, `tokio-console`, `cargo bisect-rustc`, flamegraph |
+| [find-polluter.sh](references/find-polluter.sh) | Bisect helper for tests that pass in isolation but fail in suite (works with `pytest`, `cargo test`, `go test`, etc.) |

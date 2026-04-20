@@ -26,15 +26,15 @@ Error: git init failed in /Users/dev/project/packages/core
 
 **What code directly causes this?**
 
-```typescript
-await execFileAsync('git', ['init'], { cwd: projectDir });
+```python
+subprocess.run(["git", "init"], cwd=project_dir, check=True)
 ```
 
 ### 3. Ask: What Called This?
 
-```typescript
-WorktreeManager.createSessionWorktree(projectDir, sessionId)
-  → called by Session.initializeWorkspace()
+```text
+WorktreeManager.create_session_worktree(project_dir, session_id)
+  → called by Session.initialize_workspace()
   → called by Session.create()
   → called by test at Project.create()
 ```
@@ -43,45 +43,100 @@ WorktreeManager.createSessionWorktree(projectDir, sessionId)
 
 **What value was passed?**
 
-- `projectDir = ''` (empty string!)
-- Empty string as `cwd` resolves to `process.cwd()`
+- `project_dir = ""` (empty string!)
+- Empty string as `cwd` to `subprocess.run` resolves to `os.getcwd()`
 - That's the source code directory!
 
 ### 5. Find Original Trigger
 
 **Where did empty string come from?**
 
-```typescript
-// Returns { tempDir: '' }
-const context = setupCoreTest();
-// Accessed before beforeEach!
-Project.create('name', context.tempDir);
+```python
+# Returns SimpleNamespace(tmp_dir="")
+context = setup_core_test()
+# Accessed before fixture initialised it!
+Project.create("name", context.tmp_dir)
 ```
 
 ## Adding Stack Traces
 
 When you can't trace manually, add instrumentation:
 
-```typescript
-// Before the problematic operation
-async function gitInit(directory: string) {
-  const stack = new Error().stack;
-  console.error('DEBUG git init:', {
-    directory,
-    cwd: process.cwd(),
-    nodeEnv: process.env.NODE_ENV,
-    stack,
-  });
-  await execFileAsync('git', ['init'], { cwd: directory });
-}
+```python
+import os
+import subprocess
+import sys
+import traceback
+
+
+def git_init(directory: str) -> None:
+    print(
+        "DEBUG git init:",
+        {
+            "directory": directory,
+            "cwd": os.getcwd(),
+            "stack": "".join(traceback.format_stack()),
+        },
+        file=sys.stderr,
+    )
+    subprocess.run(["git", "init"], cwd=directory, check=True)
 ```
 
-Use `console.error()` in tests — logger output may be suppressed.
+Write to `sys.stderr` in tests — captured logger output may be suppressed by pytest.
 
 Run and capture:
 
 ```bash
-npm test 2>&1 | grep 'DEBUG git init'
+pytest 2>&1 | grep 'DEBUG git init'
+```
+
+### Rust Equivalent
+
+Capture a backtrace right before the dangerous operation. `Backtrace::force_capture()` works even
+when `RUST_BACKTRACE` is unset, which is what you want for ad-hoc debugging.
+
+```rust
+use std::backtrace::Backtrace;
+use std::env;
+use std::path::Path;
+use std::process::Command;
+
+fn git_init(directory: &Path) -> std::io::Result<()> {
+    eprintln!(
+        "DEBUG git init: directory={} cwd={:?}\n{}",
+        directory.display(),
+        env::current_dir().ok(),
+        Backtrace::force_capture(),
+    );
+    Command::new("git")
+        .arg("init")
+        .current_dir(directory)
+        .status()?;
+    Ok(())
+}
+```
+
+Write to `stderr` (not `tracing` / `log`) when debugging tests — `cargo test` captures stdout but
+leaves `eprintln!` visible without `--nocapture`. Run with:
+
+```bash
+cargo test 2>&1 | grep 'DEBUG git init'
+# Or, to see all output even from passing tests:
+cargo test -- --nocapture 2>&1 | grep 'DEBUG git init'
+```
+
+For a permanent instrumentation hook in async code, prefer the `tracing` crate so you can toggle
+with `RUST_LOG=debug`:
+
+```rust
+use tracing::debug;
+
+debug!(
+    directory = %directory.display(),
+    cwd = ?env::current_dir().ok(),
+    backtrace = ?Backtrace::capture(),
+    "about to git init",
+);
 ```
 
 Analyze stack traces:
@@ -95,7 +150,8 @@ Analyze stack traces:
 Use the bisection script `find-polluter.sh` in this directory:
 
 ```bash
-./find-polluter.sh '.git' 'src/**/*.test.ts'
+./find-polluter.sh '.git' 'pytest' 'tests/**/test_*.py'
+./find-polluter.sh '.git' 'cargo test --test' 'tests/*.rs'
 ```
 
 Runs tests one-by-one, stops at first polluter.
@@ -106,15 +162,15 @@ Runs tests one-by-one, stops at first polluter.
 
 **Trace chain:**
 
-1. `git init` runs in `process.cwd()` — empty cwd parameter
-2. WorktreeManager called with empty projectDir
-3. Session.create() passed empty string
-4. Test accessed `context.tempDir` before beforeEach
-5. setupCoreTest() returns `{ tempDir: '' }` initially
+1. `git init` runs in `os.getcwd()` — empty cwd parameter
+2. WorktreeManager called with empty `project_dir`
+3. `Session.create()` passed empty string
+4. Test accessed `context.tmp_dir` before pytest fixture ran
+5. `setup_core_test()` returns `tmp_dir=""` initially
 
-**Root cause:** Top-level variable initialization accessing empty value
+**Root cause:** Module-level variable initialization accessing empty value
 
-**Fix:** Made tempDir a getter that throws if accessed before beforeEach
+**Fix:** Made `tmp_dir` a property that raises if accessed before fixture setup
 
 **Also added defense-in-depth:**
 
@@ -130,7 +186,11 @@ validation at each layer so the bug becomes structurally impossible.
 
 ## Stack Trace Tips
 
-- **In tests:** Use `console.error()` — logger may be suppressed
-- **Before operation:** Log before the dangerous operation, not after it fails
-- **Include context:** Directory, cwd, environment variables, timestamps
-- **Capture stack:** `new Error().stack` shows complete call chain
+- **Python tests:** write to `sys.stderr` — captured logger output may be suppressed by pytest.
+- **Rust tests:** use `eprintln!` — `cargo test` only swallows stdout. Use
+  `Backtrace::force_capture()` to ignore `RUST_BACKTRACE`. For sustained instrumentation in async
+  code, use the `tracing` crate gated by `RUST_LOG`.
+- **Before operation:** log before the dangerous operation, not after it fails
+- **Include context:** directory, cwd, environment variables, timestamps
+- **Capture stack:** `traceback.format_stack()` (Python) or `std::backtrace::Backtrace` (Rust)
+  shows the complete call chain
