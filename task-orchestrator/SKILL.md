@@ -92,6 +92,11 @@ Map each subtask to the best available skill:
 | Creating / improving skills| skill-creator                  |
 | Multi-step orchestration   | task-orchestrator (self)       |
 | SQL schema / queries / ORM | sql-database                   |
+| Logging / metrics / tracing| observability                  |
+| OpenTelemetry / Prometheus | observability                  |
+| SLOs / alerting / runbooks | observability                  |
+| Log aggregation (ELK/Loki) | observability                  |
+| Service mesh observability | observability                  |
 
 ### 4. Execute
 
