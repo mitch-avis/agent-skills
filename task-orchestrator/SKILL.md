@@ -60,43 +60,43 @@ Request
 
 Map each subtask to the best available skill:
 
-| Domain                     | Skill                          |
-| -------------------------- | ------------------------------ |
-| Rust code                  | rust                           |
-| Rust async / Tokio         | rust-async                     |
-| Rust tests                 | rust-testing                   |
-| Python code                | python                         |
-| Python async               | python-async                   |
-| Python resilience          | python-resilience              |
-| Python tests               | python-testing                 |
-| Python packaging / infra   | python-infrastructure          |
-| Kubernetes manifests       | kubernetes                     |
-| Helm charts                | helm                           |
-| Dockerfiles / containers   | docker                         |
-| CI/CD pipelines            | cicd                           |
-| Markdown / docs            | markdown-documentation         |
-| Mermaid diagrams           | mermaid                        |
-| Shell scripts (bash, sh)   | shell-scripting                |
-| PowerShell scripts         | shell-scripting                |
-| ShellCheck / PSAnalyzer    | shell-scripting                |
-| Bats / Pester tests        | shell-scripting                |
-| Code quality               | clean-code                     |
-| Code review / PR audit     | code-review                    |
-| TDD methodology            | test-driven-development        |
-| Debugging / root cause     | systematic-debugging           |
-| Git commits                | committing-code                |
-| Browser automation (CLI)   | agent-browser                  |
-| Browser automation (daemon)| browser-use                    |
-| Finding / installing skills| find-skills                    |
-| Custom instruction files   | generating-custom-instructions |
-| Creating / improving skills| skill-creator                  |
-| Multi-step orchestration   | task-orchestrator (self)       |
-| SQL schema / queries / ORM | sql-database                   |
-| Logging / metrics / tracing| observability                  |
-| OpenTelemetry / Prometheus | observability                  |
-| SLOs / alerting / runbooks | observability                  |
-| Log aggregation (ELK/Loki) | observability                  |
-| Service mesh observability | observability                  |
+| Domain                      | Skill                          |
+| --------------------------- | ------------------------------ |
+| Rust code                   | rust                           |
+| Rust async / Tokio          | rust-async                     |
+| Rust tests                  | rust-testing                   |
+| Python code                 | python                         |
+| Python async                | python-async                   |
+| Python resilience           | python-resilience              |
+| Python tests                | python-testing                 |
+| Python packaging / infra    | python-infrastructure          |
+| Kubernetes manifests        | kubernetes                     |
+| Helm charts                 | helm                           |
+| Dockerfiles / containers    | docker                         |
+| CI/CD pipelines             | cicd                           |
+| Markdown / docs             | markdown-documentation         |
+| Mermaid diagrams            | mermaid                        |
+| Shell scripts (bash, sh)    | shell-scripting                |
+| PowerShell scripts          | shell-scripting                |
+| ShellCheck / PSAnalyzer     | shell-scripting                |
+| Bats / Pester tests         | shell-scripting                |
+| Code quality                | clean-code                     |
+| Code review / PR audit      | code-review                    |
+| TDD methodology             | test-driven-development        |
+| Debugging / root cause      | systematic-debugging           |
+| Git commits                 | committing-code                |
+| Browser automation (CLI)    | agent-browser                  |
+| Browser automation (daemon) | browser-use                    |
+| Finding / installing skills | find-skills                    |
+| Custom instruction files    | generating-custom-instructions |
+| Creating / improving skills | skill-creator                  |
+| Multi-step orchestration    | task-orchestrator (self)       |
+| SQL schema / queries / ORM  | sql-database                   |
+| Logging / metrics / tracing | observability                  |
+| OpenTelemetry / Prometheus  | observability                  |
+| SLOs / alerting / runbooks  | observability                  |
+| Log aggregation (ELK/Loki)  | observability                  |
+| Service mesh observability  | observability                  |
 
 ### 4. Execute
 
