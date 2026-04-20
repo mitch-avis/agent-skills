@@ -76,6 +76,10 @@ Map each subtask to the best available skill:
 | CI/CD pipelines            | cicd                           |
 | Markdown / docs            | markdown-documentation         |
 | Mermaid diagrams           | mermaid                        |
+| Shell scripts (bash, sh)   | shell-scripting                |
+| PowerShell scripts         | shell-scripting                |
+| ShellCheck / PSAnalyzer    | shell-scripting                |
+| Bats / Pester tests        | shell-scripting                |
 | Code quality               | clean-code                     |
 | Code review / PR audit     | code-review                    |
 | TDD methodology            | test-driven-development        |
