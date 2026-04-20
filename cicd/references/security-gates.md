@@ -41,10 +41,10 @@ codeql:
     security-events: write
   steps:
     - uses: actions/checkout@v4
-    - uses: github/codeql-action/init@v2
+    - uses: github/codeql-action/init@v3
       with:
         languages: javascript
-    - uses: github/codeql-action/analyze@v2
+    - uses: github/codeql-action/analyze@v3
 ```
 
 ### GitLab SAST
@@ -136,7 +136,7 @@ container-scan:
         output: trivy-results.sarif
         severity: CRITICAL,HIGH
         exit-code: 1
-    - uses: github/codeql-action/upload-sarif@v2
+    - uses: github/codeql-action/upload-sarif@v3
       if: always()
       with:
         sarif_file: trivy-results.sarif
