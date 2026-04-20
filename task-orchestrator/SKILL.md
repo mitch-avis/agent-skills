@@ -77,6 +77,7 @@ Map each subtask to the best available skill:
 | Markdown / docs            | markdown-documentation         |
 | Mermaid diagrams           | mermaid                        |
 | Code quality               | clean-code                     |
+| Code review / PR audit     | code-review                    |
 | TDD methodology            | test-driven-development        |
 | Debugging / root cause     | systematic-debugging           |
 | Git commits                | committing-code                |
