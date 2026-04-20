@@ -73,8 +73,8 @@ SELECT * FROM posts WHERE tags && ARRAY['db', 'sql'];    -- overlaps
 SELECT * FROM posts WHERE 'postgresql' = ANY(tags);      -- works but no GIN
 ```
 
-Prefer arrays for true unordered sets (tags, role lists). For ordered, queryable collections,
-use a child table.
+Prefer arrays for true unordered sets (tags, role lists). For ordered, queryable collections, use a
+child table.
 
 ## Generated Columns
 
@@ -107,8 +107,7 @@ CREATE TABLE orders (
 );
 ```
 
-Adding enum values requires `ALTER TYPE ... ADD VALUE` — plan ahead, since values cannot be
-removed.
+Adding enum values requires `ALTER TYPE ... ADD VALUE` — plan ahead, since values cannot be removed.
 
 ## Row Level Security (RLS)
 
@@ -128,8 +127,8 @@ Combine with role grants — the policy applies after table-level `GRANT`s.
 
 ## MVCC and Vacuum
 
-PostgreSQL uses Multi-Version Concurrency Control. `UPDATE` and `DELETE` mark old row versions
-dead; `VACUUM` reclaims them.
+PostgreSQL uses Multi-Version Concurrency Control. `UPDATE` and `DELETE` mark old row versions dead;
+`VACUUM` reclaims them.
 
 - **Hot updates** that don't change indexed columns are cheap and can stay in-page.
 - **Wide-row churn** (frequent updates to large rows) causes bloat — split tables vertically.
@@ -187,5 +186,5 @@ SELECT blocked.pid AS blocked_pid, blocking.pid AS blocking_pid,
 | Transaction | Default — short-lived statements                   | No session-level state survives  |
 | Statement   | Auto-commit only                                   | Rare — most apps use transaction |
 
-For prepared statements behind transaction pooling, use server-side protocol-level
-prepared statements (PG14+ `pgbouncer 1.21+`).
+For prepared statements behind transaction pooling, use server-side protocol-level prepared
+statements (PG14+ `pgbouncer 1.21+`).

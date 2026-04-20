@@ -156,8 +156,8 @@ main "$@"
 
 - The header comment is parsed by `usage()` via `sed`, so keep it formatted consistently.
 - `run` centralizes dry-run support — wrap any state-mutating command with it.
-- `require_cmd` fails fast if a dependency is missing instead of getting a confusing error 50
-  lines into the script.
+- `require_cmd` fails fast if a dependency is missing instead of getting a confusing error 50 lines
+  into the script.
 - `TMPDIR` is created lazily so a `--help` invocation doesn't pollute `/tmp`.
 - The ERR trap reports the location of the failing command before the EXIT trap cleans up.
 - For scripts that need lock files, add `flock -n 9 || die "already running"` at the top of

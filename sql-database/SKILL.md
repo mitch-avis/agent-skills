@@ -11,8 +11,8 @@ description: >-
 
 # SQL Database
 
-Design, query, and operate relational databases safely and performantly. Multi-dialect
-(PostgreSQL, MySQL, SQLite) with explicit guidance per engine where it matters.
+Design, query, and operate relational databases safely and performantly. Multi-dialect (PostgreSQL,
+MySQL, SQLite) with explicit guidance per engine where it matters.
 
 ## When to Use
 
@@ -67,15 +67,15 @@ Premature denormalization creates update anomalies and maintenance burden.
 
 - Avoid random UUIDs (UUIDv4) as **clustered** PKs — they fragment the heap and bloat indexes.
 - If global uniqueness is required, store the UUID in a secondary `UNIQUE` column.
-- Sequences and auto-increment counters have **gaps** after rollbacks or crashes — this is
-  expected, not a bug. Do not try to make IDs consecutive.
+- Sequences and auto-increment counters have **gaps** after rollbacks or crashes — this is expected,
+  not a bug. Do not try to make IDs consecutive.
 
 ### Foreign Keys
 
 - Always declare FKs at the database level. Application-only referential integrity drifts.
 - Specify `ON DELETE` / `ON UPDATE` behavior explicitly (`CASCADE`, `RESTRICT`, `SET NULL`).
-- **PostgreSQL and MySQL do not auto-index FK columns.** Add the index manually — without it,
-  joins are slow and `DELETE` on the parent acquires a full-table lock.
+- **PostgreSQL and MySQL do not auto-index FK columns.** Add the index manually — without it, joins
+  are slow and `DELETE` on the parent acquires a full-table lock.
 - **SQLite**: enable FKs explicitly per connection: `PRAGMA foreign_keys = ON;`.
 
 ### Naming Conventions
@@ -114,14 +114,14 @@ Every reference table gets:
 
 - **Money is `NUMERIC` / `DECIMAL`, never `FLOAT` or `DOUBLE`.** Floats lose pennies.
 - **Timestamps are timezone-aware.** Store UTC; convert at the edge.
-- **Use the smallest type that fits** — narrower rows mean more rows per page and better
-  cache behavior.
+- **Use the smallest type that fits** — narrower rows mean more rows per page and better cache
+  behavior.
 - **`NOT NULL` everywhere it is semantically required.** Provide `DEFAULT` for common values.
 
 ### PostgreSQL Type Notes
 
-- Prefer `TEXT` over `VARCHAR(n)` — there is no performance difference and length limits
-  belong in `CHECK` constraints.
+- Prefer `TEXT` over `VARCHAR(n)` — there is no performance difference and length limits belong in
+  `CHECK` constraints.
 - Prefer `TIMESTAMPTZ` — never `TIMESTAMP` (no timezone), `TIMETZ`, or `TIMESTAMP(n)`.
 - Avoid: `SERIAL` / `BIGSERIAL` (use `IDENTITY`), `MONEY` (use `NUMERIC`), `CHAR(n)`.
 - Use `CITEXT` (or an expression index on `LOWER(col)`) for case-insensitive lookups.
@@ -182,8 +182,8 @@ SELECT object_schema, object_name, index_name
 
 ## Query Patterns
 
-See [references/query-patterns.md](references/query-patterns.md) for the full cookbook
-(pagination styles, EXPLAIN walkthroughs, window functions, CTEs).
+See [references/query-patterns.md](references/query-patterns.md) for the full cookbook (pagination
+styles, EXPLAIN walkthroughs, window functions, CTEs).
 
 ### Anti-Patterns to Avoid
 
@@ -258,8 +258,8 @@ Red flags:
 ### Safe Schema Evolution
 
 - **Adding a column**: nullable + default `NULL` is instant. `NOT NULL` with a volatile default
-  (`NOW()`, `gen_random_uuid()`) requires a full rewrite — backfill in batches first, then add
-  the constraint.
+  (`NOW()`, `gen_random_uuid()`) requires a full rewrite — backfill in batches first, then add the
+  constraint.
 - **Renaming a column**: do it in three deploys — add new, dual-write, drop old.
 - **Adding indexes online**:
   - PostgreSQL: `CREATE INDEX CONCURRENTLY` (cannot run inside a transaction).
@@ -325,15 +325,15 @@ let user = sqlx::query_as::<_, User>(
 ## Connection Pooling
 
 - **Always pool.** Opening a connection per request exhausts file descriptors and wastes time.
-- **Pool size**: start at `2 * CPU cores` for the database server; tune from there. More
-  connections than the DB can usefully run causes contention, not throughput.
+- **Pool size**: start at `2 * CPU cores` for the database server; tune from there. More connections
+  than the DB can usefully run causes contention, not throughput.
 - **Set timeouts**: `acquire_timeout`, `idle_timeout`, `max_lifetime`.
 - **PostgreSQL at scale**: front the database with `pgbouncer` (transaction pooling mode for
   short-lived statements; session pooling if you use prepared statements or `SET LOCAL`).
-- **MySQL**: use a pool in the application (HikariCP, r2d2, sqlx pool). Match
-  `max_connections` on the server.
-- **Serverless / Lambda**: use a connection proxy (RDS Proxy, pgbouncer, PlanetScale). Direct
-  pools do not survive cold starts well.
+- **MySQL**: use a pool in the application (HikariCP, r2d2, sqlx pool). Match `max_connections` on
+  the server.
+- **Serverless / Lambda**: use a connection proxy (RDS Proxy, pgbouncer, PlanetScale). Direct pools
+  do not survive cold starts well.
 
 ## Security
 
@@ -359,12 +359,11 @@ Placeholder syntax: PostgreSQL `$1`, MySQL `?`, SQLite `?` or `:name`.
 
 ### Access Control
 
-- Grant the minimum privileges needed. Application roles get `SELECT`, `INSERT`, `UPDATE`,
-  `DELETE` on specific tables — never `ALL PRIVILEGES`, never `SUPERUSER`.
+- Grant the minimum privileges needed. Application roles get `SELECT`, `INSERT`, `UPDATE`, `DELETE`
+  on specific tables — never `ALL PRIVILEGES`, never `SUPERUSER`.
 - Separate read-only and read-write credentials; route reads to replicas with the read role.
-- For multi-tenant systems, enforce isolation in the database, not just the application —
-  PostgreSQL Row Level Security is the gold standard. See
-  [references/postgresql.md](references/postgresql.md).
+- For multi-tenant systems, enforce isolation in the database, not just the application — PostgreSQL
+  Row Level Security is the gold standard. See [references/postgresql.md](references/postgresql.md).
 
 ### Secrets
 

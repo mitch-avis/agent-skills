@@ -1,24 +1,28 @@
 # Bash Reference
 
-Comprehensive Bash scripting patterns. Apply these on top of the strict-mode foundation in the
-main SKILL.md.
+Comprehensive Bash scripting patterns. Apply these on top of the strict-mode foundation in the main
+SKILL.md.
 
 ## Table of Contents
 
-- [Strict Mode and the Mandatory Header](#strict-mode-and-the-mandatory-header)
-- [Variables and Scope](#variables-and-scope)
-- [Conditionals and Tests](#conditionals-and-tests)
-- [Loops and Iteration](#loops-and-iteration)
-- [Arrays](#arrays)
-- [Functions](#functions)
-- [Argument Parsing](#argument-parsing)
-- [Error Handling and Traps](#error-handling-and-traps)
-- [Command Substitution and Pipelines](#command-substitution-and-pipelines)
-- [Strings and Parameter Expansion](#strings-and-parameter-expansion)
-- [File and Path Operations](#file-and-path-operations)
-- [Process Management](#process-management)
-- [Performance](#performance)
-- [Common Anti-Patterns](#common-anti-patterns)
+- [Bash Reference](#bash-reference)
+  - [Table of Contents](#table-of-contents)
+  - [Strict Mode and the Mandatory Header](#strict-mode-and-the-mandatory-header)
+  - [Variables and Scope](#variables-and-scope)
+  - [Conditionals and Tests](#conditionals-and-tests)
+  - [Loops and Iteration](#loops-and-iteration)
+  - [Arrays](#arrays)
+  - [Functions](#functions)
+  - [Argument Parsing](#argument-parsing)
+    - [Manual `case` (most common)](#manual-case-most-common)
+    - [`getopts` (POSIX, short options only)](#getopts-posix-short-options-only)
+  - [Error Handling and Traps](#error-handling-and-traps)
+  - [Command Substitution and Pipelines](#command-substitution-and-pipelines)
+  - [Strings and Parameter Expansion](#strings-and-parameter-expansion)
+  - [File and Path Operations](#file-and-path-operations)
+  - [Process Management](#process-management)
+  - [Performance](#performance)
+  - [Common Anti-Patterns](#common-anti-patterns)
 
 ## Strict Mode and the Mandatory Header
 
@@ -354,8 +358,8 @@ printf '%s\0' "${files[@]}" | xargs -0 -P 4 -n 1 process_file
 
 ## Performance
 
-- Prefer Bash builtins (`[[`, `(( ))`, parameter expansion) over forking external commands
-  (`grep`, `sed`, `awk`) inside tight loops.
+- Prefer Bash builtins (`[[`, `(( ))`, parameter expansion) over forking external commands (`grep`,
+  `sed`, `awk`) inside tight loops.
 - Process files line-by-line with `while read` rather than reading the whole file repeatedly.
 - Avoid useless subshells: `var=$(echo "$x")` → `var=$x`.
 - Combine pipelines: `grep ... | sort | uniq` is one fork chain; `for f in $(grep ...); do ...`

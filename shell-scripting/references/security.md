@@ -1,14 +1,14 @@
 # Security
 
-Hardening guidance for shell scripts that handle untrusted input, secrets, or run with
-elevated privileges. Apply the relevant items to **every** production script.
+Hardening guidance for shell scripts that handle untrusted input, secrets, or run with elevated
+privileges. Apply the relevant items to **every** production script.
 
 ## Threat Model in One Paragraph
 
 The two dominant threats are **command injection** (an attacker controls part of a string that
-becomes a command) and **race conditions / TOCTOU** (file state changes between check and
-use). Defenses: never let untrusted data become code, validate at the boundary, use atomic
-operations, and run with least privilege.
+becomes a command) and **race conditions / TOCTOU** (file state changes between check and use).
+Defenses: never let untrusted data become code, validate at the boundary, use atomic operations, and
+run with least privilege.
 
 ## Command Injection
 
@@ -142,8 +142,8 @@ mv -- "$tmp" "$target"          # atomic rename on the same filesystem
 
 ## Secrets Handling
 
-- **Never** pass secrets on the command line — they appear in `ps aux`, shell history, and
-  process environment of children. Use stdin or a secret file with restricted perms.
+- **Never** pass secrets on the command line — they appear in `ps aux`, shell history, and process
+  environment of children. Use stdin or a secret file with restricted perms.
 - **Never** log secrets, even in DEBUG. Maintain an explicit allow-list of values to log.
 - **Never** commit secrets, including in test fixtures. Use `git-secrets`, `gitleaks`, or
   `pre-commit` hooks.
@@ -192,8 +192,8 @@ $cred = [PSCredential]::new($user, $pwd)
 
 ## SUID/SGID on Shell Scripts
 
-The Linux kernel **ignores** the SUID/SGID bit on `#!`-interpreted scripts (CVE history is
-brutal). Don't rely on it. If you need privileged operations:
+The Linux kernel **ignores** the SUID/SGID bit on `#!`-interpreted scripts (CVE history is brutal).
+Don't rely on it. If you need privileged operations:
 
 - Write a small `setuid` C wrapper, or
 - Configure `sudo` with a tightly scoped `NOPASSWD` rule for one specific command, or

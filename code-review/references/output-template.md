@@ -83,5 +83,5 @@ Nice cleanup of the error handling in `service.py`.
 - **Approve** — No P0/P1 issues. Minor suggestions are fine to defer.
 - **Approve with nits** — Only P3 issues; author may merge without addressing.
 - **Request Changes** — One or more P0/P1 issues, or multiple P2 issues that compound.
-- **Needs Discussion** — Architectural concerns or scope questions that require author input
-  before a clear verdict is possible.
+- **Needs Discussion** — Architectural concerns or scope questions that require author input before
+  a clear verdict is possible.

@@ -15,13 +15,13 @@ PRAGMA cache_size = -64000;      -- 64 MB page cache (negative = KiB)
 PRAGMA temp_store = MEMORY;      -- temp tables in RAM
 ```
 
-`journal_mode = WAL` is set per database file and persists. The others are per-connection
-and must be set after every `open()`.
+`journal_mode = WAL` is set per database file and persists. The others are per-connection and must
+be set after every `open()`.
 
 ## Type Affinity
 
-SQLite uses **type affinity**, not strict typing. Any column can hold any type unless you
-add explicit `CHECK` constraints.
+SQLite uses **type affinity**, not strict typing. Any column can hold any type unless you add
+explicit `CHECK` constraints.
 
 | Declared type             | Affinity | Storage class          |
 | ------------------------- | -------- | ---------------------- |
@@ -43,9 +43,9 @@ CREATE TABLE users (
 );
 ```
 
-- **`INTEGER PRIMARY KEY`** is special — it aliases `ROWID` and is the most efficient PK form.
-  Do not use `BIGINT` (no benefit) or `AUTOINCREMENT` unless you specifically need monotonic
-  IDs that never reuse deleted values.
+- **`INTEGER PRIMARY KEY`** is special — it aliases `ROWID` and is the most efficient PK form. Do
+  not use `BIGINT` (no benefit) or `AUTOINCREMENT` unless you specifically need monotonic IDs that
+  never reuse deleted values.
 - **Timestamps**: store as ISO-8601 `TEXT` (`'2024-04-01T12:30:45.000Z'`) or as Unix epoch
   `INTEGER`. Use the SQLite date/time functions consistently.
 - **Booleans**: `INTEGER` 0/1 with `CHECK (col IN (0, 1))`.
@@ -68,10 +68,10 @@ BEGIN IMMEDIATE;   -- acquire the write lock now (avoids upgrade deadlocks)
 COMMIT;
 ```
 
-- Use `BEGIN IMMEDIATE` instead of `BEGIN` (the default `DEFERRED`) when you know the
-  transaction will write — it acquires the write lock up front instead of upgrading later.
-- Wrap related operations in a transaction. Bare `INSERT`s are individual transactions and
-  are dramatically slower than batched ones.
+- Use `BEGIN IMMEDIATE` instead of `BEGIN` (the default `DEFERRED`) when you know the transaction
+  will write — it acquires the write lock up front instead of upgrading later.
+- Wrap related operations in a transaction. Bare `INSERT`s are individual transactions and are
+  dramatically slower than batched ones.
 
 ## Migrations
 
@@ -84,8 +84,8 @@ column types requires the **12-step recreation procedure**:
 4. Rename the new table.
 5. Recreate indexes, triggers, views, FK references in other tables.
 
-Track applied migrations in a `schema_migrations(version, name, applied_at)` table, same
-as other dialects.
+Track applied migrations in a `schema_migrations(version, name, applied_at)` table, same as other
+dialects.
 
 ## Full-Text Search (FTS5)
 
@@ -165,8 +165,8 @@ conn = sqlite3.connect(":memory:")
 .backup main 'backup.db'
 ```
 
-Or use the `sqlite3_backup_*` C API exposed by your driver. Plain file copy is unsafe while
-the database is open.
+Or use the `sqlite3_backup_*` C API exposed by your driver. Plain file copy is unsafe while the
+database is open.
 
 ## When SQLite Is the Wrong Choice
 

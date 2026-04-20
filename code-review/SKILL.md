@@ -10,8 +10,8 @@ description: >-
 
 # Code Review
 
-Perform thorough, constructive code reviews that catch real issues without bikeshedding. Default
-to review-only output unless the user explicitly asks to implement the suggested changes.
+Perform thorough, constructive code reviews that catch real issues without bikeshedding. Default to
+review-only output unless the user explicitly asks to implement the suggested changes.
 
 ## When to Use
 
@@ -40,15 +40,15 @@ Then orient:
 - Check CI status if available
 - Identify entry points and critical paths (auth, payments, data writes, network boundaries)
 
-**Checkpoint:** Summarize the change's intent in one sentence before proceeding. If you cannot,
-ask the author to clarify rather than guessing.
+**Checkpoint:** Summarize the change's intent in one sentence before proceeding. If you cannot, ask
+the author to clarify rather than guessing.
 
 **Edge cases:**
 
-- **No changes:** Inform the user and ask whether to review staged changes, a specific commit
-  range, or a different branch.
-- **Large diff (>500 lines):** Summarize by file first, then review in batches grouped by
-  module or feature. Recommend splitting if the changes are not tightly coupled.
+- **No changes:** Inform the user and ask whether to review staged changes, a specific commit range,
+  or a different branch.
+- **Large diff (>500 lines):** Summarize by file first, then review in batches grouped by module or
+  feature. Recommend splitting if the changes are not tightly coupled.
 - **Mixed concerns:** Group findings by logical feature, not just file order.
 
 ### Phase 2 — High-Level Review
@@ -56,10 +56,10 @@ ask the author to clarify rather than guessing.
 Before line-by-line analysis, evaluate:
 
 1. **Purpose** — Does the change actually do what it claims?
-2. **Architecture & design** — Does the solution fit the problem and existing patterns? Are
-   new abstractions justified, or is this premature generalization?
-3. **File organization** — Are new files in the right layer (controller/service/repository)?
-   Any duplication of existing utilities?
+2. **Architecture & design** — Does the solution fit the problem and existing patterns? Are new
+   abstractions justified, or is this premature generalization?
+3. **File organization** — Are new files in the right layer (controller/service/repository)? Any
+   duplication of existing utilities?
 4. **Testing strategy** — Are critical paths tested? Do tests assert behavior or just structure?
 
 ### Phase 3 — Line-by-Line Analysis
@@ -79,9 +79,9 @@ Skip what tools should catch: formatting, import order, lint violations, simple 
 
 ### Phase 4 — Produce the Report
 
-Use the structured template in [references/output-template.md](references/output-template.md).
-If P0/critical issues are found in Phase 3, surface them immediately rather than waiting for
-the final summary.
+Use the structured template in [references/output-template.md](references/output-template.md). If
+P0/critical issues are found in Phase 3, surface them immediately rather than waiting for the final
+summary.
 
 ## Severity Rubric
 
@@ -123,9 +123,9 @@ linter could enforce.
 
 ### Handle Disagreement Gracefully
 
-If the author left a comment explaining a non-obvious choice, acknowledge their reasoning
-before suggesting an alternative. Push back on technically wrong feedback with a concrete
-counter-example or test, not authority.
+If the author left a comment explaining a non-obvious choice, acknowledge their reasoning before
+suggesting an alternative. Push back on technically wrong feedback with a concrete counter-example
+or test, not authority.
 
 ## PR Size Guidelines
 
@@ -138,8 +138,8 @@ counter-example or test, not authority.
 
 ## Output Format
 
-See [references/output-template.md](references/output-template.md) for the full report
-template, including summary, findings grouped by severity, strengths, and verdict.
+See [references/output-template.md](references/output-template.md) for the full report template,
+including summary, findings grouped by severity, strengths, and verdict.
 
 ## Anti-Patterns
 

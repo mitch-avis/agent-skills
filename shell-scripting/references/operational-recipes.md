@@ -347,8 +347,8 @@ flock -n 9 || { echo "$(date): already running, skipping"; exit 0; }
 # ... actual work ...
 ```
 
-For systemd timers, prefer `Type=oneshot` units over cron — easier to manage, log via journald,
-and you get retries via `OnFailure=`.
+For systemd timers, prefer `Type=oneshot` units over cron — easier to manage, log via journald, and
+you get retries via `OnFailure=`.
 
 ## Sourcing Common Library
 

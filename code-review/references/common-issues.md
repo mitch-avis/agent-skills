@@ -107,8 +107,8 @@ API_KEY = os.environ["API_KEY"]
 ## Overly Long Function
 
 If a function spans more than ~50 lines or mixes concerns (validation + business logic + I/O),
-suggest extracting cohesive helpers. Cite the specific responsibilities you can see and where
-the seams are.
+suggest extracting cohesive helpers. Cite the specific responsibilities you can see and where the
+seams are.
 
 ## Premature Abstraction
 

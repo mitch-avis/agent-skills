@@ -1,7 +1,6 @@
 # Production PowerShell Script Template
 
-Copy as the starting point for any non-trivial `.ps1`. Replace placeholders, then delete this
-note.
+Copy as the starting point for any non-trivial `.ps1`. Replace placeholders, then delete this note.
 
 ```powershell
 <#
@@ -140,13 +139,13 @@ end {
 
 ## Notes on the template
 
-- `[CmdletBinding(SupportsShouldProcess)]` enables both `-WhatIf` and `-Confirm` for free —
-  use `$PSCmdlet.ShouldProcess(...)` to guard mutating actions.
-- All logging goes to stderr (`[Console]::Error`) so the pipeline (stdout) stays clean for
-  data output.
+- `[CmdletBinding(SupportsShouldProcess)]` enables both `-WhatIf` and `-Confirm` for free — use
+  `$PSCmdlet.ShouldProcess(...)` to guard mutating actions.
+- All logging goes to stderr (`[Console]::Error`) so the pipeline (stdout) stays clean for data
+  output.
 - `Test-Dependency` fails fast before any work happens.
-- `process { }` runs once per pipeline input, allowing the script to be used as both
-  `./script.ps1 -Path a, b, c` and `Get-Item a, b, c | ./script.ps1`.
+- `process { }` runs once per pipeline input, allowing the script to be used as both `./script.ps1
+  -Path a, b, c` and `Get-Item a, b, c | ./script.ps1`.
 - For long-running scripts that need cancellation, register an event:
 
   ```powershell

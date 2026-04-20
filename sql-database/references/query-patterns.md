@@ -6,8 +6,8 @@ Pagination, joins, subquery rewrites, window functions, and EXPLAIN walkthroughs
 
 ### Cursor / Keyset (Recommended)
 
-`OFFSET` re-scans skipped rows on every page request. Use a cursor over a unique, sortable
-key tuple — typically `(sort_column, primary_key)` to break ties.
+`OFFSET` re-scans skipped rows on every page request. Use a cursor over a unique, sortable key tuple
+— typically `(sort_column, primary_key)` to break ties.
 
 ```sql
 -- First page
@@ -193,8 +193,8 @@ Watch the `type` column:
 | `index`           | Full index scan — usually bad           |
 | `ALL`             | Full table scan — bad on large tables   |
 
-`Extra: Using filesort` or `Using temporary` usually means a missing index for `ORDER BY`
-or `GROUP BY`.
+`Extra: Using filesort` or `Using temporary` usually means a missing index for `ORDER BY` or `GROUP
+BY`.
 
 ### Refresh Statistics
 

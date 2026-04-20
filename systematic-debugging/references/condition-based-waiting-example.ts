@@ -1,6 +1,5 @@
-// Complete implementation of condition-based waiting utilities
-// From: Lace test infrastructure improvements (2025-10-03)
-// Context: Fixed 15 flaky tests by replacing arbitrary timeouts
+// Complete implementation of condition-based waiting utilities From: Lace test infrastructure
+// improvements (2025-10-03) Context: Fixed 15 flaky tests by replacing arbitrary timeouts
 
 import type { ThreadManager } from '~/threads/thread-manager';
 import type { LaceEvent, LaceEventType } from '~/threads/types';
@@ -14,8 +13,7 @@ import type { LaceEvent, LaceEventType } from '~/threads/types';
  * @param timeoutMs - Maximum time to wait (default 5000ms)
  * @returns Promise resolving to the first matching event
  *
- * Example:
- *   await waitForEvent(threadManager, agentThreadId, 'TOOL_RESULT');
+ * Example: await waitForEvent(threadManager, agentThreadId, 'TOOL_RESULT');
  */
 export function waitForEvent(
   threadManager: ThreadManager,
@@ -53,9 +51,8 @@ export function waitForEvent(
  * @param timeoutMs - Maximum time to wait (default 5000ms)
  * @returns Promise resolving to all matching events once count is reached
  *
- * Example:
- *   // Wait for 2 AGENT_MESSAGE events (initial response + continuation)
- *   await waitForEventCount(threadManager, agentThreadId, 'AGENT_MESSAGE', 2);
+ * Example: // Wait for 2 AGENT_MESSAGE events (initial response + continuation) await
+ *   waitForEventCount(threadManager, agentThreadId, 'AGENT_MESSAGE', 2);
  */
 export function waitForEventCount(
   threadManager: ThreadManager,
@@ -89,8 +86,8 @@ export function waitForEventCount(
 }
 
 /**
- * Wait for an event matching a custom predicate
- * Useful when you need to check event data, not just type
+ * Wait for an event matching a custom predicate Useful when you need to check event data, not just
+ * type
  *
  * @param threadManager - The thread manager to query
  * @param threadId - Thread to check for events
@@ -99,13 +96,9 @@ export function waitForEventCount(
  * @param timeoutMs - Maximum time to wait (default 5000ms)
  * @returns Promise resolving to the first matching event
  *
- * Example:
- *   // Wait for TOOL_RESULT with specific ID
- *   await waitForEventMatch(
- *     threadManager,
- *     agentThreadId,
- *     (e) => e.type === 'TOOL_RESULT' && e.data.id === 'call_123',
- *     'TOOL_RESULT with id=call_123'
+ * Example: // Wait for TOOL_RESULT with specific ID await waitForEventMatch( threadManager,
+ *   agentThreadId, (e) => e.type === 'TOOL_RESULT' && e.data.id === 'call_123', 'TOOL_RESULT with
+ *   id=call_123'
  *   );
  */
 export function waitForEventMatch(
@@ -139,20 +132,16 @@ export function waitForEventMatch(
 //
 // BEFORE (flaky):
 // ---------------
-// const messagePromise = agent.sendMessage('Execute tools');
-// await new Promise(r => setTimeout(r, 300)); // Hope tools start in 300ms
-// agent.abort();
-// await messagePromise;
-// await new Promise(r => setTimeout(r, 50));  // Hope results arrive in 50ms
-// expect(toolResults.length).toBe(2);         // Fails randomly
+// const messagePromise = agent.sendMessage('Execute tools'); await new Promise(r => setTimeout(r,
+// 300)); // Hope tools start in 300ms agent.abort(); await messagePromise; await new Promise(r =>
+// setTimeout(r, 50));  // Hope results arrive in 50ms expect(toolResults.length).toBe(2);
+// // Fails randomly
 //
 // AFTER (reliable):
 // ----------------
-// const messagePromise = agent.sendMessage('Execute tools');
-// await waitForEventCount(threadManager, threadId, 'TOOL_CALL', 2); // Wait for tools to start
-// agent.abort();
-// await messagePromise;
-// await waitForEventCount(threadManager, threadId, 'TOOL_RESULT', 2); // Wait for results
+// const messagePromise = agent.sendMessage('Execute tools'); await waitForEventCount(threadManager,
+// threadId, 'TOOL_CALL', 2); // Wait for tools to start agent.abort(); await messagePromise; await
+// waitForEventCount(threadManager, threadId, 'TOOL_RESULT', 2); // Wait for results
 // expect(toolResults.length).toBe(2); // Always succeeds
 //
 // Result: 60% pass rate → 100%, 40% faster execution

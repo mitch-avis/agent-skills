@@ -1,7 +1,7 @@
 # PowerShell Reference
 
-Comprehensive PowerShell scripting patterns for both Windows PowerShell 5.1 and PowerShell 7+
-on Linux/macOS/Windows. Default to PowerShell 7+ unless legacy 5.1 is required.
+Comprehensive PowerShell scripting patterns for both Windows PowerShell 5.1 and PowerShell 7+ on
+Linux/macOS/Windows. Default to PowerShell 7+ unless legacy 5.1 is required.
 
 ## Table of Contents
 
@@ -329,8 +329,8 @@ Get-ChildItem -LiteralPath $root -Recurse -File -Filter '*.log' |
     ForEach-Object { ... }
 ```
 
-Always prefer `-LiteralPath` over `-Path` when the path may contain wildcard characters
-(`[`, `]`, `*`, `?`).
+Always prefer `-LiteralPath` over `-Path` when the path may contain wildcard characters (`[`, `]`,
+`*`, `?`).
 
 ## Module Management (PSResourceGet)
 
@@ -370,8 +370,8 @@ Legacy `Install-Module` / `Find-Module` still work and now route through PSResou
 
 ## Security Hardening
 
-- **Execution policy** is not a security boundary. It's a speed bump. Real protection comes
-  from code signing + WDAC/AppLocker.
+- **Execution policy** is not a security boundary. It's a speed bump. Real protection comes from
+  code signing + WDAC/AppLocker.
 - **Sign production scripts**:
 
   ```powershell
@@ -379,8 +379,8 @@ Legacy `Install-Module` / `Find-Module` still work and now route through PSResou
   Set-AuthenticodeSignature -FilePath .\script.ps1 -Certificate $cert -TimestampServer http://timestamp.digicert.com
   ```
 
-- **Never** interpolate untrusted input into `Invoke-Expression` (`iex`). Use `&` with an
-  array of arguments instead:
+- **Never** interpolate untrusted input into `Invoke-Expression` (`iex`). Use `&` with an array of
+  arguments instead:
 
   ```powershell
   & $exe @argArray            # safe — args are not re-parsed
@@ -392,7 +392,7 @@ Legacy `Install-Module` / `Find-Module` still work and now route through PSResou
   `PSCredential` with the password as `[SecureString]`.
 - **Script Block Logging** + **Module Logging** + **Transcription**: enable via Group Policy or
   registry for production hosts (events 4103, 4104 in `Microsoft-Windows-PowerShell/Operational`).
-- **Constrained Language Mode** + **JEA** (Just Enough Administration) for delegated admin —
-  see Microsoft docs for full setup.
+- **Constrained Language Mode** + **JEA** (Just Enough Administration) for delegated admin — see
+  Microsoft docs for full setup.
 - **`-WhatIf` and `-Confirm`**: implement via `[CmdletBinding(SupportsShouldProcess)]` on any
   function that mutates state, then guard with `if ($PSCmdlet.ShouldProcess(...))`.

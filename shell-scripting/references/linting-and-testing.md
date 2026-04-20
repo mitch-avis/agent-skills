@@ -4,8 +4,8 @@ Static analysis and testing for shell scripts. **Required** before declaring any
 
 ## Bash: ShellCheck
 
-[ShellCheck](https://www.shellcheck.net/) catches the great majority of real bugs in shell
-scripts. Treat warnings as errors in CI.
+[ShellCheck](https://www.shellcheck.net/) catches the great majority of real bugs in shell scripts.
+Treat warnings as errors in CI.
 
 ### Installation
 

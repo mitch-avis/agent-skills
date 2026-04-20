@@ -4,8 +4,8 @@ InnoDB tuning, online DDL, isolation levels, partitioning, and operational gotch
 
 ## Storage Engine
 
-Use **InnoDB** for everything transactional. MyISAM has no foreign keys, no row-level locking,
-and crashes badly. MEMORY tables are for ephemeral compute caches only.
+Use **InnoDB** for everything transactional. MyISAM has no foreign keys, no row-level locking, and
+crashes badly. MEMORY tables are for ephemeral compute caches only.
 
 ```sql
 CREATE TABLE orders (
@@ -25,8 +25,8 @@ CREATE TABLE orders (
 
 InnoDB stores rows in B-tree order **by primary key**. The PK is part of every secondary index.
 
-- **Narrow, monotonic PKs** (`BIGINT UNSIGNED AUTO_INCREMENT`) keep inserts sequential and
-  secondary indexes small.
+- **Narrow, monotonic PKs** (`BIGINT UNSIGNED AUTO_INCREMENT`) keep inserts sequential and secondary
+  indexes small.
 - **Random UUIDs as PKs** cause page splits, fragmentation, and bloated secondary indexes.
 - If you need a UUID, store it in a `BINARY(16)` secondary `UNIQUE` column with `UUID_TO_BIN`.
 
@@ -104,8 +104,8 @@ For multi-TB tables, use **gh-ost** or **pt-online-schema-change** instead of na
 
 ## Transactions and Isolation
 
-Default isolation: `REPEATABLE READ`. Uses gap locks to prevent phantom reads — can deadlock
-under high contention.
+Default isolation: `REPEATABLE READ`. Uses gap locks to prevent phantom reads — can deadlock under
+high contention.
 
 | Level              | Notes                                                                    |
 | ------------------ | ------------------------------------------------------------------------ |
@@ -164,8 +164,8 @@ Rules:
 ## Replication and Reads
 
 - Use a read replica for reporting and analytical queries.
-- Replication is asynchronous by default — read-after-write may be stale. Route reads that
-  require freshness back to the primary.
+- Replication is asynchronous by default — read-after-write may be stale. Route reads that require
+  freshness back to the primary.
 - Monitor `Seconds_Behind_Master` (or `replication_lag` in MySQL 8.0+).
 
 ## Useful Diagnostics

@@ -15,8 +15,8 @@ description: >-
 
 # Shell Scripting
 
-Production-grade Bash and PowerShell scripting: safety, portability, security, performance,
-testing, and documentation. This skill is the single source of truth for any shell-related work.
+Production-grade Bash and PowerShell scripting: safety, portability, security, performance, testing,
+and documentation. This skill is the single source of truth for any shell-related work.
 
 ## When to Use
 
@@ -43,8 +43,8 @@ Trigger this skill for any of:
 | Object pipelines, COM/.NET interop | PowerShell |
 | One-liner pipelines with `grep`/`awk`/`sed` | Bash or POSIX `sh` |
 
-Bash is the default unless the user is on Windows or asks for PowerShell. Pick POSIX `sh` only
-when portability to non-Bash environments is a hard requirement — call this out explicitly.
+Bash is the default unless the user is on Windows or asks for PowerShell. Pick POSIX `sh` only when
+portability to non-Bash environments is a hard requirement — call this out explicitly.
 
 ## Reference Files
 
@@ -65,13 +65,13 @@ Load the relevant reference for deeper coverage:
 
 Follow these steps for every shell-scripting task:
 
-1. **Capture intent.** Confirm shell target, inputs/outputs, error behavior (fail-fast vs
-   continue), portability needs, and whether the script is one-shot or production.
+1. **Capture intent.** Confirm shell target, inputs/outputs, error behavior (fail-fast vs continue),
+   portability needs, and whether the script is one-shot or production.
 2. **Pick a foundation.** Use the templates in `references/bash-template.md` or
    `references/powershell-template.md` rather than starting from scratch.
 3. **Write defensively.** Apply the universal principles below from the first line.
-4. **Validate.** Run ShellCheck (Bash) or PSScriptAnalyzer (PowerShell) before declaring done.
-   Run `bash -n script.sh` / `pwsh -NoProfile -Command "& {. ./script.ps1}"` for syntax.
+4. **Validate.** Run ShellCheck (Bash) or PSScriptAnalyzer (PowerShell) before declaring done. Run
+   `bash -n script.sh` / `pwsh -NoProfile -Command "& {. ./script.ps1}"` for syntax.
 5. **Test.** Add Bats or Pester tests for any non-trivial logic.
 6. **Document.** Include a header comment, `--help`/`-h` output, and required dependencies.
 
@@ -82,8 +82,8 @@ These apply to both Bash and PowerShell:
 1. **Fail fast, fail loud.** Errors must abort the script with a clear message on stderr and a
    non-zero exit code, unless explicitly handled.
 2. **Quote everything.** Unquoted variables are the #1 source of shell bugs.
-3. **Validate inputs at the boundary.** Check files exist, arguments are present, formats match
-   — before doing any work.
+3. **Validate inputs at the boundary.** Check files exist, arguments are present, formats match —
+   before doing any work.
 4. **Clean up.** Use traps (Bash) or `try/finally` (PowerShell) to remove temp files, kill
    background jobs, and restore state on exit.
 5. **Be idempotent.** Re-running the script must be safe. Check before creating, deleting, or
@@ -251,8 +251,8 @@ $ErrorActionPreference = 'Stop'
 $PSDefaultParameterValues['*:ErrorAction'] = 'Stop'
 ```
 
-`Set-StrictMode -Version Latest` + `$ErrorActionPreference = 'Stop'` is the PowerShell
-equivalent of `set -euo pipefail`. Without them, errors are silently swallowed.
+`Set-StrictMode -Version Latest` + `$ErrorActionPreference = 'Stop'` is the PowerShell equivalent of
+`set -euo pipefail`. Without them, errors are silently swallowed.
 
 ### Naming and style
 
@@ -368,8 +368,9 @@ Before shipping any script that handles untrusted input or runs with elevated pr
 - [ ] Absolute paths used for security-critical commands, or `PATH` is explicitly set
 - [ ] No SUID/SGID bits on shell scripts (kernel ignores them anyway, but the intent is unsafe)
 - [ ] Secrets read from env vars or files with restricted permissions, never CLI args
-- [ ] Output of `printf '%q'` (Bash) or `[Management.Automation.Language.CodeGeneration]::EscapeFormatStringContent`
-      (PS) used when interpolating into shell strings is unavoidable
+- [ ] Output of `printf '%q'` (Bash) or
+      `[Management.Automation.Language.CodeGeneration]::EscapeFormatStringContent` (PS) used when
+      interpolating into shell strings is unavoidable
 
 See [references/security.md](references/security.md) for full guidance on injection prevention,
 secure temp files, secret handling, and command construction with arrays.
@@ -377,9 +378,9 @@ secure temp files, secret handling, and command construction with arrays.
 ## Operational Recipes
 
 For ready-to-adapt snippets covering structured logging with levels and timestamps, retry with
-exponential backoff, dependency checking, dry-run flag plumbing, atomic file writes, signal
-handling for background processes, and common admin patterns (backup, rotation, monitoring,
-user management), see [references/operational-recipes.md](references/operational-recipes.md).
+exponential backoff, dependency checking, dry-run flag plumbing, atomic file writes, signal handling
+for background processes, and common admin patterns (backup, rotation, monitoring, user management),
+see [references/operational-recipes.md](references/operational-recipes.md).
 
 ## Common Tasks
 
@@ -398,9 +399,8 @@ Almost always missing `set -Eeuo pipefail` (Bash) or `Set-StrictMode -Version La
 
 ### "Make this script portable to Alpine/BusyBox"
 
-Switch to POSIX `sh`. See [references/portability.md](references/portability.md) for the
-mapping table (no `[[ ]]`, no arrays, no `${var//pat/repl}`, etc.) and `shellcheck --shell=sh`
-to verify.
+Switch to POSIX `sh`. See [references/portability.md](references/portability.md) for the mapping
+table (no `[[ ]]`, no arrays, no `${var//pat/repl}`, etc.) and `shellcheck --shell=sh` to verify.
 
 ### "How do I test a shell script?"
 

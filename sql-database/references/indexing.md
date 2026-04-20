@@ -49,8 +49,8 @@ CREATE INDEX idx_orders_customer_date
 
 ## Covering Indexes
 
-Include non-key columns to enable **index-only scans** — the query is answered without
-visiting the table heap.
+Include non-key columns to enable **index-only scans** — the query is answered without visiting the
+table heap.
 
 ```sql
 -- PostgreSQL 11+

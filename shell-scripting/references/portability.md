@@ -1,7 +1,7 @@
 # Portability
 
-Guidance for writing shell scripts that work across multiple shells (POSIX `sh`, Bash, Dash,
-Ksh, Zsh) and operating systems (Linux distros, macOS, BSD, WSL, Git Bash).
+Guidance for writing shell scripts that work across multiple shells (POSIX `sh`, Bash, Dash, Ksh,
+Zsh) and operating systems (Linux distros, macOS, BSD, WSL, Git Bash).
 
 ## Choose the Right Shebang
 
@@ -12,8 +12,8 @@ Ksh, Zsh) and operating systems (Linux distros, macOS, BSD, WSL, Git Bash).
 | `#!/bin/sh` | True POSIX-only scripts. Cannot use any Bash-specific features. |
 | `#!/usr/bin/env pwsh` | Cross-platform PowerShell 7+. |
 
-`/bin/sh` is **not** Bash on Debian/Ubuntu (it's `dash`), Alpine (`busybox sh`), or Android.
-Writing `#!/bin/sh` and using `[[ ]]` will silently fail on those systems.
+`/bin/sh` is **not** Bash on Debian/Ubuntu (it's `dash`), Alpine (`busybox sh`), or Android. Writing
+`#!/bin/sh` and using `[[ ]]` will silently fail on those systems.
 
 ## Bashism Detection
 
@@ -166,8 +166,8 @@ $PSVersionTable.Platform   # 'Win32NT' or 'Unix'
 
 ## Locale and Encoding
 
-Force a deterministic locale at the top of any script that processes text, to avoid surprises
-with `sort`, `awk`, `tr`, regex character classes, etc.:
+Force a deterministic locale at the top of any script that processes text, to avoid surprises with
+`sort`, `awk`, `tr`, regex character classes, etc.:
 
 ```bash
 export LC_ALL=C        # POSIX/byte locale — fastest, most predictable
@@ -178,8 +178,8 @@ Use `LC_ALL=C.UTF-8` instead if you need UTF-8 awareness (available on most mode
 
 ## Git Bash / MSYS / Cygwin Pitfalls
 
-- Path translation: `C:\foo\bar` ↔ `/c/foo/bar`. MSYS auto-converts when calling Windows
-  binaries; this can mangle args. Disable with `MSYS_NO_PATHCONV=1`.
+- Path translation: `C:\foo\bar` ↔ `/c/foo/bar`. MSYS auto-converts when calling Windows binaries;
+  this can mangle args. Disable with `MSYS_NO_PATHCONV=1`.
 - Line endings: configure git with `core.autocrlf=input` on Linux/macOS, `true` on Windows.
 - Some commands (`ps`, `kill`) behave differently from native Linux equivalents.
 - Always test scripts on the target platform before shipping.
