@@ -3,8 +3,5 @@
     "type": "module",
     "dependencies": {
         "beautiful-mermaid": "latest"
-    },
-    "devDependencies": {
-        "@types/node": "latest"
     }
 }
