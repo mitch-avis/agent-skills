@@ -67,6 +67,9 @@ Scan the project to extract facts. Never assume — verify everything against ac
 - Documentation style (docstrings, JSDoc, XML comments)
 - Test organization, naming, and assertion style
 
+When documenting prose conventions, include a formatter-agnostic stability rule set for source-file
+comments/docstrings so repeated wrapping/formatting does not cause churn.
+
 **Architecture:**
 
 - Folder structure and layer boundaries
@@ -85,6 +88,7 @@ Write instructions based solely on observed patterns.
 - Naming conventions that diverge from language defaults
 - Error handling and logging patterns specific to the project
 - Testing approach: framework, patterns, what to test
+- Comment/docstring stability rules that are independent of any one formatting tool
 - Security practices enforced in the codebase
 - Architecture constraints and layer boundaries
 - Dependency management rules (lockfile policy, approved sources)

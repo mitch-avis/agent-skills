@@ -115,6 +115,17 @@ Configure `markdownlint` for enforcement. Recommended `.markdownlint.json`:
 - End files with a single newline
 - No consecutive blank lines
 
+### Prose Stability in Source Files
+
+When writing prose that will live inside source files (for example comments and docstrings), prefer
+structures that remain stable under repeated formatting and wrapping passes.
+
+- Use a clear one-line summary sentence first.
+- Separate summary and body with one blank line.
+- Use consistent section labels when documenting parameters, return values, and exceptions.
+- Wrap at semantic boundaries (sentence or clause), not visual alignment columns.
+- Avoid manual spacing schemes that depend on a specific formatter or editor plugin.
+
 ### DO
 
 - Use descriptive link text

@@ -57,6 +57,21 @@ uv python pin 3.12               # pin project to Python 3.12
 - Descriptive names — `user_repository` not `usr_repo`
 - Avoid generic names: `utils`, `helpers`, `common`, `shared`
 
+### Comment and Docstring Stability (Tool-Agnostic)
+
+Write comments and docstrings in a shape that remains stable under common editor reflow and code
+formatting tools.
+
+- Start docstrings with a single summary sentence ending in punctuation.
+- Use exactly one blank line between the summary and any extended description.
+- Keep section headers consistent when used: `Args:`, `Returns:`, `Raises:`.
+- Keep wrapped prose at natural clause boundaries; avoid manual alignment intended only for visual
+  columns.
+- Prefer plain sentences over mixed inline layout tricks that are likely to be reflowed
+  inconsistently.
+- Keep indentation uniform and derived from syntactic scope, not visual alignment.
+- Keep comments and docstrings structurally simple so repeated auto-formatting runs are idempotent.
+
 ## Type Safety
 
 - Annotate all public functions, methods, and class attributes
