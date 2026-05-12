@@ -44,30 +44,73 @@ downstream consumers test against the full version range.
 members = ["crates/*"]
 resolver = "3"  # edition 2024 default; explicit is clearer
 
+[lints]
+workspace = true
+
 [workspace.lints.rust]
-let_underscore_drop = "warn"
-missing_docs = "deny"
-rust-2018-idioms = { level = "warn", priority = -1 }
-rust-2024-compatibility = { level = "deny", priority = -1 }
-unreachable_pub = "warn"
-unsafe_code = "deny"
-unused = { level = "deny", priority = -2 }
+# Hard ban — override per-module only with an explicit #[allow] + reason
+unsafe_code = "forbid"
+
+# Deny outright: correctness and API-stability violations
+future_incompatible = { level = "deny", priority = -1 }
+nonstandard_style = { level = "deny", priority = -1 }
+
+# Warn: real problems worth fixing
+let_underscore = { level = "warn", priority = -1 }
+unused = { level = "warn", priority = -1 }
+deprecated = "warn"
+missing_docs = "warn"
 
 [workspace.lints.clippy]
-complexity = { level = "warn", priority = -1 }
-correctness = { level = "deny", priority = -1 }
-nursery = { level = "warn", priority = -1 }
-pedantic = { level = "warn", priority = -1 }
-perf = { level = "warn", priority = -1 }
-style = { level = "warn", priority = -1 }
-suspicious = { level = "warn", priority = -1 }
+# Baseline lint groups
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
 
-# Elevate individual lints above group defaults (implicit 0)
-wildcard_imports = "deny"
+# Restriction: meta-linting
+# Prefer `#[expect(...)]` over `#[allow(...)]` — fires a warning when the suppressed lint is no
+# longer triggered (dead suppression detection).
+allow_attributes = "deny"
+allow_attributes_without_reason = "deny"
 
-# `redundant_pub_crate` conflicts with `unreachable_pub` (rustc lint).
-# Prefer the stricter `pub(crate)` style enforced by `unreachable_pub`.
-redundant_pub_crate = "allow"
+# Restriction: unsafe hygiene
+# Every unsafe block must carry a `// SAFETY:` comment explaining the invariants.
+undocumented_unsafe_blocks = "deny"
+
+# Restriction: panic / unwrap discipline
+unwrap_used = "deny"
+expect_used = "deny"
+get_unwrap = "deny"    # `.get(i).unwrap()` should be indexing or explicit match
+panic = "deny"
+unimplemented = "deny"
+todo = "deny"
+
+# Restriction: cast safety
+# `as` conversions catches every `as`-cast; pedantic's cast_* lints provide specific diagnostics for
+# the individual failure modes (truncation, sign loss, etc.). Having both means you get targeted
+# advice AND a hard catch-all.
+as_conversions = "deny"
+
+# Restriction: string / formatting hygiene
+# `format!()` to grow a `String` should be `write!(&mut s, ...)` instead.
+format_push_string = "deny"
+# `dbg!` left in committed code is always a mistake
+dbg_macro = "deny"
+
+# Restriction: reference-counting visibility
+# `Arc::clone(&x)` is more explicit than `x.clone()` for Rc/Arc — makes reference-count bumps
+# visible at the call site.
+clone_on_ref_ptr = "warn"
+
+# Restriction: boolean ergonomics
+# Prefer `condition.then_some(value)` over `if condition { Some(value) } else { None }`.
+if_then_some_else_none = "warn"
+
+# Cargo: unavoidable noise
+# Transitive dep version conflicts come from upstream crates and cannot be resolved by this
+# workspace. Allow rather than generating unavoidable noise.
+multiple_crate_versions = "allow"
 ```
 
 Individual crates inherit workspace lints without duplication:
@@ -84,11 +127,11 @@ Priority determines which rule wins when a lint belongs to multiple groups or wh
 setting conflicts with a per-lint override. Lower numbers have lower priority and are overridden by
 higher ones. The implicit default is `0`.
 
-| Priority | What it covers |
-| --- | --- |
-| `-2` | `unused` (broad deny, overridden by everything below) |
-| `-1` | All group-level lints (carve exceptions from the `-2` deny) |
-| `0` | Individual lint overrides (e.g. `wildcard_imports = "deny"`) |
+| Priority | What it covers                                               |
+| -------- | ------------------------------------------------------------ |
+| `-2`     | `unused` (broad deny, overridden by everything below)        |
+| `-1`     | All group-level lints (carve exceptions from the `-2` deny)  |
+| `0`      | Individual lint overrides (e.g. `wildcard_imports = "deny"`) |
 
 An individual lint declared without an explicit priority sits at `0` and therefore always wins over
 group lints at `-1`. Use it to escalate specific lints above their group's level, or to allow
@@ -153,4 +196,9 @@ Use `clippy.toml` for lints that accept configuration rather than being on/off:
 cognitive-complexity-threshold = 15
 too-many-arguments-threshold   = 6
 type-complexity-threshold      = 250
+
+# Allow the common Rust test idiom of .unwrap() / .expect() / panic! in test functions.
+allow-unwrap-in-tests = true
+allow-expect-in-tests = true
+allow-panic-in-tests  = true
 ```
