@@ -23,6 +23,12 @@ follows its instructions.
 | [test-driven-development](test-driven-development/SKILL.md) | Strict TDD with red-green-refactor cycle, common rationalizations to avoid, and testing anti-patterns                                 |
 | [task-orchestrator](task-orchestrator/SKILL.md)             | Default entry point for complex or ambiguous tasks — decomposes into subtasks, assigns skills, runs parallel work                     |
 
+### Web & Frontend
+
+| Skill                                       | Description                                                                                                                   |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [frontend-design](frontend-design/SKILL.md) | Distinctive, production-grade UI for web components, pages, and apps — design thinking, typography, motion, and accessibility |
+
 ### Python
 
 | Skill                                                   | Description                                                                                                            |

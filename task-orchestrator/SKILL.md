@@ -76,6 +76,7 @@ Map each subtask to the best available skill:
 | CI/CD pipelines             | cicd                           |
 | Markdown / docs             | markdown-documentation         |
 | Mermaid diagrams            | mermaid                        |
+| Web components / pages / UI | frontend-design                |
 | Shell scripts (bash, sh)    | shell-scripting                |
 | PowerShell scripts          | shell-scripting                |
 | ShellCheck / PSAnalyzer     | shell-scripting                |
