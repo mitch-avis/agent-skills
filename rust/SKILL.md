@@ -23,8 +23,11 @@ projects with strict linting, strict formatting, and TDD discipline.
 
 ## Toolchain & Project Setup
 
-Pin the toolchain with `rust-toolchain.toml` at the workspace root. Use a workspace layout even for
-single-crate projects. Always commit `Cargo.lock` for binaries; `.gitignore` it for libraries.
+Select the latest stable toolchain with `rust-toolchain.toml` at the project or workspace root. Use
+a workspace layout for multi-crate applications and services; standalone libraries can remain a
+single crate when there is no real need for workspace indirection. Always commit `Cargo.lock` for
+binaries and workspaces; standalone libraries may omit it when downstream version-range testing is
+preferred.
 
 See [references/project-config.md](references/project-config.md) for complete `rust-toolchain.toml`,
 workspace `Cargo.toml`, `rustfmt.toml`, `clippy.toml`, and profile configuration.
@@ -105,12 +108,12 @@ src/
 
 Default every item to the most restrictive visibility. Work outward only when forced:
 
-| Visibility | When to use |
-| --- | --- |
-| (private) | Default — everything starts here |
+| Visibility   | When to use                                |
+| ------------ | ------------------------------------------ |
+| (private)    | Default — everything starts here           |
 | `pub(crate)` | Needed by another module in the same crate |
-| `pub(super)` | Needed only by the parent module |
-| `pub` | Part of the crate's public API |
+| `pub(super)` | Needed only by the parent module           |
+| `pub`        | Part of the crate's public API             |
 
 `unreachable_pub = "warn"` flags any `pub` item not reachable from the crate root.
 
@@ -240,7 +243,7 @@ fn main() -> anyhow::Result<()> {
 }
 ```
 
-### Rules
+### Error Handling Rules
 
 - No `.unwrap()` in library code. No `.expect()` in library code except during early prototyping
   (must be replaced before merge).
@@ -431,25 +434,25 @@ Use `cargo geiger` in CI to track the unsafe surface area.
 
 Follow the Rust API Guidelines without exception.
 
-| Item | Convention | Example |
-| --- | --- | --- |
-| Types, traits, enums | `UpperCamelCase` | `UserConfig` |
-| Functions, methods | `snake_case` | `parse_count` |
-| Constants, statics | `SCREAMING_SNAKE_CASE` | `MAX_RETRIES` |
-| Modules | `snake_case` | `http_client` |
-| Lifetimes | short, lowercase | `'a`, `'buf` |
-| Type parameters | single uppercase | `T`, `E`, `Key` |
+| Item                 | Convention             | Example         |
+| -------------------- | ---------------------- | --------------- |
+| Types, traits, enums | `UpperCamelCase`       | `UserConfig`    |
+| Functions, methods   | `snake_case`           | `parse_count`   |
+| Constants, statics   | `SCREAMING_SNAKE_CASE` | `MAX_RETRIES`   |
+| Modules              | `snake_case`           | `http_client`   |
+| Lifetimes            | short, lowercase       | `'a`, `'buf`    |
+| Type parameters      | single uppercase       | `T`, `E`, `Key` |
 
 ### Method Name Conventions
 
-| Pattern | Semantics |
-| --- | --- |
-| `new(...)` | Infallible constructor |
-| `try_new(...)` | Fallible constructor returning `Result` |
-| `from_*` / `into_*` / `as_*` | Conversions (From/Into/borrow) |
-| `with_*` | Builder-style setter returning `Self` |
-| `is_*` / `has_*` | Boolean predicates |
-| `to_*` | Expensive conversion (allocates) |
+| Pattern                      | Semantics                               |
+| ---------------------------- | --------------------------------------- |
+| `new(...)`                   | Infallible constructor                  |
+| `try_new(...)`               | Fallible constructor returning `Result` |
+| `from_*` / `into_*` / `as_*` | Conversions (From/Into/borrow)          |
+| `with_*`                     | Builder-style setter returning `Self`   |
+| `is_*` / `has_*`             | Boolean predicates                      |
+| `to_*`                       | Expensive conversion (allocates)        |
 
 No `get_` prefix on getters. No `-rs` / `_rs` suffix on crates.
 
