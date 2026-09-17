@@ -18,9 +18,9 @@ Install the standard pytest stack for all projects:
 uv pip install pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 ```
 
-| Plugin            | Purpose                                      |
-| ----------------- | -------------------------------------------- |
-| `pytest-cov`      | Coverage reporting (`--cov`, `--cov-report`) |
+| Plugin | Purpose |
+| --- | --- |
+| `pytest-cov` | Coverage reporting (`--cov`, `--cov-report`) |
 | `pytest-html`     | HTML test reports (`--html=report.html`)     |
 | `pytest-metadata` | Test session metadata for reports            |
 | `pytest-sugar`    | Progress bar and instant failure display     |
