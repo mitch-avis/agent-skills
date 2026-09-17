@@ -50,9 +50,9 @@ COPY --from=builder /app/package.json ./
 
 ### Image size comparison
 
-| Strategy                     | Typical Reduction |
-| ---------------------------- | ----------------- |
-| Multi-stage build            | 50–85%            |
+| Strategy | Typical Reduction |
+| --- | --- |
+| Multi-stage build | 50–85% |
 | Alpine base instead of full  | 70–90%            |
 | Distroless instead of Alpine | 10–30%            |
 | Pruning dev dependencies     | 20–50%            |
@@ -321,9 +321,9 @@ docker buildx build \
 
 ### Registry tagging strategy
 
-| Tag Pattern      | Use Case                    |
-| ---------------- | --------------------------- |
-| `git-sha`        | Immutable, traceable        |
+| Tag Pattern | Use Case |
+| --- | --- |
+| `git-sha` | Immutable, traceable |
 | `v1.2.3`         | Semantic version releases   |
 | `latest`         | Most recent build (mutable) |
 | `main`, `staging`| Branch-based deployments    |
