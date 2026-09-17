@@ -5,9 +5,9 @@ All template functions come from the **Sprig library** plus Helm built-ins (`inc
 
 ## Built-in Objects
 
-| Object              | Description                                    |
-| ------------------- | ---------------------------------------------- |
-| `.Release.Name`     | Release name                                   |
+| Object | Description |
+| --- | --- |
+| `.Release.Name` | Release name |
 | `.Release.Namespace`| Namespace the release is deployed to           |
 | `.Release.IsInstall`| `true` on install, `false` on upgrade          |
 | `.Release.IsUpgrade`| `true` on upgrade, `false` on install          |
