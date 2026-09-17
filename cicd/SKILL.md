@@ -185,9 +185,9 @@ variables:
 
 ### Scanning Stages
 
-| Scan Type  | GitHub Actions              | GitLab CI Template                           |
-| ---------- | --------------------------- | -------------------------------------------- |
-| SAST       | `semgrep/semgrep-action@v1` | `Security/SAST.gitlab-ci.yml`                |
+| Scan Type | GitHub Actions | GitLab CI Template |
+| --- | --- | --- |
+| SAST | `semgrep/semgrep-action@v1` | `Security/SAST.gitlab-ci.yml` |
 | SCA        | `snyk/actions/node@master`  | `Security/Dependency-Scanning.gitlab-ci.yml` |
 | Containers | `aquasecurity/trivy-action` | `Security/Container-Scanning.gitlab-ci.yml`  |
 | Secrets    | `gitleaks/gitleaks-action`  | `Security/Secret-Detection.gitlab-ci.yml`    |
@@ -267,9 +267,9 @@ frontend:
 
 ## Deployment Strategies
 
-| Strategy   | Mechanism                                     | Rollback               |
-| ---------- | --------------------------------------------- | ---------------------- |
-| Rolling    | Replace pods incrementally                    | `kubectl rollout undo` |
+| Strategy | Mechanism | Rollback |
+| --- | --- | --- |
+| Rolling | Replace pods incrementally | `kubectl rollout undo` |
 | Blue-green | Switch traffic between identical environments | Flip load balancer     |
 | Canary     | Route % of traffic to new version             | Scale canary to 0      |
 | GitOps     | ArgoCD syncs from Git state                   | Revert Git commit      |
@@ -402,9 +402,9 @@ jobs:
 
 ## Reference Guides
 
-| Topic                 | File                                                                       | Load When                                          |
-| --------------------- | -------------------------------------------------------------------------- | -------------------------------------------------- |
-| GitHub Actions        | [references/github-actions.md](references/github-actions.md)               | Creating or modifying GitHub Actions workflows     |
+| Topic | File | Load When |
+| --- | --- | --- |
+| GitHub Actions | [references/github-actions.md](references/github-actions.md) | Creating or modifying GitHub Actions workflows |
 | GitLab CI             | [references/gitlab-ci.md](references/gitlab-ci.md)                         | Creating or modifying GitLab CI pipelines          |
 | Jenkins               | [references/jenkins.md](references/jenkins.md)                             | Creating or modifying Jenkins pipelines            |
 | Security Gates        | [references/security-gates.md](references/security-gates.md)               | Adding SAST, SCA, DAST, signing, OWASP mapping     |
