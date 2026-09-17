@@ -74,9 +74,9 @@ while let Some(result) = set.join_next().await {
 
 ## Channels
 
-| Channel     | Pattern         | When to Use                |
-| ----------- | --------------- | -------------------------- |
-| `mpsc`      | Many-to-one     | Work queues, fan-in        |
+| Channel | Pattern | When to Use |
+| --- | --- | --- |
+| `mpsc` | Many-to-one | Work queues, fan-in |
 | `broadcast` | One-to-many     | Event bus, notifications   |
 | `watch`     | Latest-value    | Config updates, state sync |
 | `oneshot`   | Single response | Request-reply, futures     |
