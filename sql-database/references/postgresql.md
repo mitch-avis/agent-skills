@@ -15,9 +15,9 @@ PostgreSQL-specific features, types, and gotchas.
 
 ### Never Use
 
-| Avoid                  | Use instead                             | Why                                           |
-| ---------------------- | --------------------------------------- | --------------------------------------------- |
-| `SERIAL` / `BIGSERIAL` | `... GENERATED ALWAYS AS IDENTITY`      | Identity columns are SQL standard, safer      |
+| Avoid | Use instead | Why |
+| --- | --- | --- |
+| `SERIAL` / `BIGSERIAL` | `... GENERATED ALWAYS AS IDENTITY` | Identity columns are SQL standard, safer |
 | `TIMESTAMP`            | `TIMESTAMPTZ`                           | Loses timezone information                    |
 | `TIMETZ`               | `TIMESTAMPTZ` or `TIME` + separate date | Quirky semantics                              |
 | `MONEY`                | `NUMERIC(p, s)`                         | Locale-dependent, single currency only        |
@@ -180,9 +180,9 @@ SELECT blocked.pid AS blocked_pid, blocking.pid AS blocking_pid,
 
 ## Connection Pooling with pgbouncer
 
-| Mode        | Use when                                           | Caveats                          |
-| ----------- | -------------------------------------------------- | -------------------------------- |
-| Session     | App relies on `SET`, prepared statements, `LISTEN` | Lower throughput                 |
+| Mode | Use when | Caveats |
+| --- | --- | --- |
+| Session | App relies on `SET`, prepared statements, `LISTEN` | Lower throughput |
 | Transaction | Default — short-lived statements                   | No session-level state survives  |
 | Statement   | Auto-commit only                                   | Rare — most apps use transaction |
 
