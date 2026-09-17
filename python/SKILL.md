@@ -1,169 +1,226 @@
 ---
 name: python
 description: >-
-  Comprehensive Python development guide covering code style, design patterns, type safety, project
-  structure, configuration, and anti-patterns. Enforces ruff format, ruff check, pyright type
-  checking, and 100-character line length. Use for all Python coding, review, and architecture
-  tasks.
+  Core Python development guide covering modern uv-based workflows, ruff formatting and linting,
+  pyright and ty type checking, testing, architecture, packaging, configuration, and operational
+  safety. Use for most Python coding, review, refactoring, and project design tasks, then delegate
+  framework- or domain-specific work to the linked Python sub-skills.
 ---
 
 # Python Development
 
-Consolidated guide for writing clean, typed, well-structured Python.
+Use this skill as the default entry point for Python work. It defines the baseline toolchain,
+structure, and quality bar for the rest of the Python skill family.
 
 ## Standards
 
-- **Formatter:** `ruff format .`
-- **Linter:** `ruff check --fix .` (strict settings)
-- **Type checker:** `pyright` (standard mode, used via PyLance in VS Code)
-- **Line length:** 100 characters
-- **Python version:** 3.12+ for new projects
-- **Testing:** TDD — failing tests first, then implementation
-- **Package manager:** `uv` for installs, venvs, and Python version management
-- **Virtual environment:** Always use a `.venv` — never the system Python
+- **Python version:** Prefer 3.12+ for new projects. Follow the repo's declared minimum when
+  working in an existing codebase.
+- **Environment:** Use a project-local `.venv`, never system Python.
+- **Package manager:** Use `uv` for Python installation, dependency management, locking, and
+  command execution.
+- **Formatter:** `uv run ruff format .`
+- **Linter:** `uv run ruff check --fix .`
+- **Type checkers:** Run `uv run pyright` and `uv run ty check` in modern Python projects.
+- **Current stance:** Keep `pyright` as the stable baseline today. Use `ty` alongside it by
+  default where available, and be ready to drop `pyright` once `ty` is mature enough for the repo.
+- **Testing:** TDD first. Write or identify the failing test before editing production code.
+- **Line length:** 100 characters for prose and source.
+- **Build backend:** Prefer `hatchling` unless the repo already standardizes on something else.
 
-## Environment Management
+## Default Workflow
 
-**Always use a virtual environment.** If a `.venv` does not exist in the project, ask the user
-before creating one.
+1. Inspect the repo's `pyproject.toml`, Python version, and existing tooling before changing
+   anything.
+2. Reuse the existing `.venv` when present. If it is missing, confirm before creating it.
+3. Add or remove dependencies with `uv add` and `uv remove`, not by editing dependency lists by
+   hand.
+4. Sync the environment with `uv sync` and update the lock file with `uv lock` when dependencies
+   change.
+5. Run the narrowest failing test or validation first, then format, lint, type-check, and rerun
+   tests after changes.
 
-### uv (preferred tool)
-
-Keep `uv` up-to-date:
+Common commands:
 
 ```bash
 uv self update
+uv python install 3.12
+uv python pin 3.12
+uv venv
+uv add httpx
+uv add --group dev ruff pyright ty
+uv add --group test pytest pytest-cov pytest-xdist pytest-asyncio
+uv sync
+uv lock
+uv run pytest
+uv run pyright
+uv run ty check
+uv run ruff check .
+uv run ruff format .
 ```
 
-Common workflows:
+For single-file scripts, prefer PEP 723 metadata via `uv init --script`.
 
-```bash
-uv venv                          # create .venv in current directory
-uv pip install -e ".[dev]"       # editable install with dev extras
-uv pip install -r requirements.txt
-uv pip compile pyproject.toml -o requirements.txt
-uv run pytest                    # run command inside venv
-uv python install 3.12           # install a Python version
-uv python pin 3.12               # pin project to Python 3.12
-```
+## Project Layout
 
-## Code Style
-
-- Use absolute imports: `from myproject.services import UserService`
-- Google-style docstrings with Args, Returns, Raises sections
-- `snake_case` for files, modules, functions, variables
-- `PascalCase` for classes
-- `SCREAMING_SNAKE_CASE` for constants
-- Descriptive names — `user_repository` not `usr_repo`
-- Avoid generic names: `utils`, `helpers`, `common`, `shared`
-
-### Comment and Docstring Stability (Tool-Agnostic)
-
-Write comments and docstrings in a shape that remains stable under common editor reflow and code
-formatting tools.
-
-- Start docstrings with a single summary sentence ending in punctuation.
-- Use exactly one blank line between the summary and any extended description.
-- Keep section headers consistent when used: `Args:`, `Returns:`, `Raises:`.
-- Keep wrapped prose at natural clause boundaries; avoid manual alignment intended only for visual
-  columns.
-- Prefer plain sentences over mixed inline layout tricks that are likely to be reflowed
-  inconsistently.
-- Keep indentation uniform and derived from syntactic scope, not visual alignment.
-- Keep comments and docstrings structurally simple so repeated auto-formatting runs are idempotent.
-
-## Type Safety
-
-- Annotate all public functions, methods, and class attributes
-- Use `T | None` over `Optional[T]` (Python 3.10+ syntax)
-- Use generics (`TypeVar`, `Generic`) to preserve type information
-- Use `Protocol` for structural typing (duck typing with safety)
-- Minimize `Any` — use specific types or generics instead
-- Use `pyright` in standard mode — catches errors before runtime
-
-### Key Patterns
-
-```python
-from typing import Protocol, TypeVar
-
-class Serializable(Protocol):
-    def to_dict(self) -> dict[str, Any]: ...
-
-ModelT = TypeVar("ModelT", bound=BaseModel)
-
-class Repository(Generic[ModelT]):
-    def save(self, entity: ModelT) -> ModelT: ...
-```
-
-## Design Patterns
-
-### Layered Architecture
-
-API Layer → Service Layer (business logic) → Repository Layer (data access). Dependencies flow
-downward only.
-
-### KISS
-
-Do not add factories, registries, or abstractions unless they solve a real, current problem. A
-dictionary and a function often beat a factory class.
-
-### Single Responsibility
-
-Each class has one reason to change. Separate HTTP parsing from business logic from database access.
-
-### Composition Over Inheritance
-
-Pass dependencies through constructors. Do not inherit behaviors when you can compose multiple
-capabilities.
-
-### Dependency Injection
-
-```python
-class OrderService:
-    def __init__(
-        self,
-        repo: OrderRepository,
-        notifier: Notifier,
-    ) -> None:
-        self.repo = repo
-        self.notifier = notifier
-```
-
-Enables easy mocking in tests and swappable implementations.
-
-### Rule of Three
-
-Two instances of duplication are acceptable. Abstract only after three occurrences.
-
-## Project Structure
+Prefer `src/` layout for libraries and reusable packages. Applications may stay flatter, but keep
+module boundaries explicit.
 
 ```text
 myproject/
-  __init__.py
-  settings.py
-  users/
-    __init__.py
-    models.py
-    service.py
-    repository.py
-    api.py
-  orders/
-    ...
-tests/
-  ...
-pyproject.toml
-VERSION
+├── pyproject.toml
+├── README.md
+├── .python-version
+├── src/
+│   └── myproject/
+│       ├── __init__.py
+│       ├── settings.py
+│       ├── users/
+│       │   ├── __init__.py
+│       │   ├── api.py
+│       │   ├── models.py
+│       │   ├── repository.py
+│       │   └── service.py
+│       └── shared/
+└── tests/
+    ├── conftest.py
+    └── test_users.py
 ```
 
-- One concept per file; split at 300–500 lines
-- Define `__all__` for every module's public interface
-- Flat structure preferred — add depth only for genuine sub-domains
-- Organize large projects by business domain (domain-driven)
+- Keep one concept per file. Split files that drift past roughly 300-500 lines or mix concerns.
+- Prefer absolute imports.
+- Define `__all__` where a module exposes a deliberate public surface.
+- Organize large codebases by business domain or architectural boundary, not by catch-all folders
+  like `utils` or `helpers`.
+- Keep dependency flow one-way: API or CLI layer -> service layer -> repository or client layer.
 
-## pyproject.toml
+## Code Style
 
-Use `pyproject.toml` as the single source of project configuration. Preferred build backend is
-`hatchling`. Include tool configs for ruff, pyright, pytest, and coverage inline.
+- Use `snake_case` for modules, files, functions, and variables.
+- Use `PascalCase` for classes and `SCREAMING_SNAKE_CASE` for constants.
+- Prefer descriptive names over abbreviations.
+- Keep functions focused. Extract helpers when a function has multiple reasons to change or deep
+  nesting.
+- Write comments only when they explain intent, constraints, or a non-obvious tradeoff.
+- Use concise Google-style docstrings for public APIs when the behavior is not already obvious from
+  the signature.
+
+Docstring and comment stability matters:
+
+- Start with one summary sentence ending in punctuation.
+- Use one blank line between the summary and any extended text.
+- Keep section headers consistent: `Args:`, `Returns:`, `Raises:`.
+- Wrap prose at natural clause boundaries so repeated formatter passes remain stable.
+
+## Type Safety
+
+- Annotate all public functions, methods, and class attributes.
+- Prefer modern built-in generics and unions: `list[str]`, `dict[str, int]`, `User | None`.
+- Use `Protocol` for structural typing and `TypeAlias` for repeated complex shapes.
+- Minimize `Any`. Use it only for truly dynamic boundaries or untyped third-party interfaces.
+- Narrow optional values before use.
+- Keep `pyright` in standard mode as the stable default today, then tighten selected diagnostics.
+- Run `ty` alongside `pyright` in most modern Python projects so its faster checks can mature on
+  real code without replacing the stable baseline prematurely.
+
+```python
+from typing import Protocol, TypeAlias, TypeVar
+
+JsonDict: TypeAlias = dict[str, object]
+ModelT = TypeVar("ModelT")
+
+
+class Serializable(Protocol):
+    def to_dict(self) -> JsonDict: ...
+
+
+class Repository[ModelT]:
+    def save(self, entity: ModelT) -> ModelT: ...
+```
+
+## Testing
+
+Use pytest with a TDD workflow.
+
+```text
+RED -> write or expose one failing test
+GREEN -> implement the smallest fix
+REFACTOR -> improve structure with tests still green
+```
+
+- Prefer behavior-level tests over implementation-coupled tests.
+- Cover error paths and edge cases, not only happy paths.
+- Mock at I/O boundaries, not deep internals.
+- Use `pytest-asyncio` for async code and `monkeypatch` for environment-driven behavior.
+- Keep the standard pytest stack available when the repo supports it:
+  `pytest`, `pytest-cov`, `pytest-html`, `pytest-metadata`, `pytest-sugar`, `pytest-xdist`, and
+  `pytest-asyncio` when needed.
+
+## Design and Architecture
+
+Use straightforward, testable designs.
+
+- **KISS:** Prefer the simplest design that solves the current problem.
+- **Single responsibility:** Separate parsing, business rules, I/O, and presentation.
+- **Composition over inheritance:** Inject dependencies instead of inheriting behavior.
+- **Rule of three:** Wait for repeated pressure before abstracting.
+- **Dependency injection:** Pass repositories, clients, caches, and notifiers explicitly so tests
+  can swap them easily.
+- **Pure core, impure edges:** Keep business rules as side-effect-light as practical.
+
+```python
+class OrderService:
+    def __init__(self, repo: OrderRepository, notifier: Notifier) -> None:
+        self._repo = repo
+        self._notifier = notifier
+```
+
+## Configuration
+
+Use `pydantic-settings` or an equivalent typed settings layer. Load environment variables once at
+startup, validate them immediately, and pass settings inward.
+
+```python
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    db_host: str = Field(default="localhost", alias="DB_HOST")
+    db_port: int = Field(default=5432, alias="DB_PORT")
+    secret_key: str = Field(alias="SECRET_KEY")
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_nested_delimiter="__",
+        env_prefix="APP_",
+    )
+```
+
+- Never hardcode secrets.
+- Fail fast on missing required configuration.
+- Use sensible local defaults only for non-sensitive settings.
+- Support `secrets_dir` when targeting containers or Kubernetes.
+
+## Resilience and Resource Safety
+
+- Validate inputs at boundaries before expensive work.
+- Raise specific exceptions with enough context to debug the failure.
+- Centralize retry and timeout policy instead of scattering it across call sites.
+- Retry only transient failures.
+- Put timeouts on every network or external service call.
+- Use `with` and `async with` for files, sockets, pools, and transactions.
+- Track partial failures in batches instead of aborting entire runs on the first bad item.
+
+For deeper guidance on retries, cleanup, context managers, and batch error handling, use
+`python-resilience`.
+
+## Packaging and Tooling
+
+Keep `pyproject.toml` as the single source of truth. This top-level skill intentionally keeps the
+example minimal. The richer, application-grade example lives with
+`python-infrastructure/references/details.md` so the core skill does not spend context on repeated
+tooling detail.
 
 ```toml
 [build-system]
@@ -172,124 +229,76 @@ build-backend = "hatchling.build"
 
 [project]
 name = "myproject"
-dynamic = ["version"]
-description = "Project description"
-readme = "README.md"
-requires-python = ">=3.14"
-license = { text = "MIT" }
+requires-python = ">=3.12"
 dependencies = []
 
-[tool.hatch.build.targets.wheel]
-packages = ["myproject"]
+[dependency-groups]
+dev = ["ruff", "pyright", "ty", "pytest"]
 
-[tool.hatch.version]
-path = "VERSION"
+[tool.uv]
+default-groups = ["dev"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py314"
-extend-exclude = [
-    ".venv", ".git", "__pycache__",
-    ".pytest_cache", ".mypy_cache",
-    "build", "dist",
-]
-
-[tool.ruff.lint]
-select = [
-    "B",   # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "D",   # pydocstyle
-    "E",   # pycodestyle errors
-    "F",   # pyflakes
-    "I",   # isort
-    "N",   # pep8-naming
-    "S",   # bandit security
-    "SIM", # flake8-simplify
-    "UP",  # pyupgrade
-    "W",   # pycodestyle warnings
-]
-ignore = ["D203", "D213"]  # conflict with D211/D212
-
-[tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101"]
-
-[tool.ruff.lint.isort]
-known-first-party = ["myproject"]
-
-[tool.ruff.format]
-docstring-code-format = true
+target-version = "py312"
 
 [tool.pyright]
-pythonVersion = "3.14"
+pythonVersion = "3.12"
 typeCheckingMode = "standard"
-reportMissingImports = true
-reportMissingTypeStubs = false
-venvPath = "."
-venv = ".venv"
+
+[tool.ty.environment]
+python = ".venv"
 
 [tool.pytest.ini_options]
-minversion = "9.0"
 testpaths = ["tests"]
-addopts = [
-    "-ra",
-    "--strict-markers",
-    "--cov=myproject",
-    "--cov-report=term-missing",
-]
-filterwarnings = ["ignore::DeprecationWarning"]
-pythonpath = ["."]
-
-[tool.coverage.run]
-branch = true
-source = ["myproject"]
-
-[tool.coverage.report]
-show_missing = true
-skip_empty = true
-exclude_lines = ["pragma: no cover", "if __name__ == \"__main__\":"]
 ```
 
-## Configuration
+Guidance:
 
-Use `pydantic-settings` for typed, validated configuration:
+- Use `[dependency-groups]` for dev and test tooling.
+- Use `[project.optional-dependencies]` for optional runtime extras that package consumers install.
+- Add `py.typed` for typed distributable packages.
+- Commit `uv.lock` for applications, services, and CLIs where reproducibility matters.
+- For libraries, follow repo policy: some teams commit `uv.lock` for contributor reproducibility,
+  others omit it because downstream users resolve dependencies themselves.
+- Build with `uv build`. Publish with the repo's existing release flow.
+- Put strict, app-grade tool configuration in the infrastructure layer or its references, not here.
 
-```python
-from pydantic_settings import BaseSettings
-
-class Settings(BaseSettings):
-    db_host: str = "localhost"
-    db_port: int = 5432
-    secret_key: str  # no default = required
-
-    model_config = SettingsConfigDict(
-        env_prefix="APP_",
-        env_nested_delimiter="__",
-    )
-```
-
-- Never hardcode secrets or environment-specific values
-- Fail fast at startup on missing or invalid config
-- Provide dev defaults for local convenience
-- Use `secrets_dir` for Docker/Kubernetes mounted secrets
+Detailed toolchain, structure, typing, design, and configuration patterns live in
+`references/foundations.md`.
 
 ## Anti-Patterns
 
-- **No bare `except Exception: pass`** — catch specific exceptions
-- **No exposed ORM models in API responses** — use DTOs/schemas
-- **No mixed I/O and business logic** — separate into layers
-- **No hardcoded config or secrets** — use environment variables
-- **No missing type hints on public functions**
-- **No untyped collections** — `list[str]` not `list`
-- **No `time.sleep()` in async code** — use `await asyncio.sleep()`
-- **No scattered retry/timeout logic** — centralize in decorators
-- **No double retry** (app + infra both retrying)
-- **No tests that only cover happy paths** — test error paths too
+- No `uv pip install ...` or manual virtualenv drift when `uv add`, `uv sync`, and `uv lock` are
+  available.
+- No bare `except Exception: pass`.
+- No mixed I/O and business rules in the same function when a seam can make testing simpler.
+- No exposed ORM models or transport-layer objects as public API contracts.
+- No untyped collections on public interfaces.
+- No blocking calls such as `time.sleep()` or `requests` inside async code.
+- No scattered retry logic or double retries across application and infrastructure layers.
+- No tests that only cover the happy path.
 
-## Related Skills
+## Reference Files
 
-- [python-testing](../python-testing/SKILL.md) — pytest patterns, fixtures, coverage
-- [python-async](../python-async/SKILL.md) — asyncio patterns when building concurrent code
-- [python-resilience](../python-resilience/SKILL.md) — retries, timeouts, error handling
-- [python-infrastructure](../python-infrastructure/SKILL.md) — packaging, deployment, background
-  jobs
-- [observability](../observability/SKILL.md) — structured logging and metrics for Python services
+- `references/foundations.md` — detailed toolchain, module-structure, typing, and configuration
+  patterns
+
+## Routing to Curated Python Skills
+
+Use the dedicated curated Python skills when the task needs more depth than this overview.
+
+| Need | Skill |
+| --- | --- |
+| Async I/O, structured concurrency, cancellation, ASGI patterns | [python-async](../python-async/SKILL.md) |
+| FastAPI, ASGI handlers, dependency injection, response contracts | [python-web-apis](../python-web-apis/SKILL.md) |
+| Typed settings, env vars, and secrets files | [python-configuration](../python-configuration/SKILL.md) |
+| Pytest, fixtures, coverage, and TDD workflow | [python-testing](../python-testing/SKILL.md) |
+| Deeper typing, protocols, and pyright-first design | [python-type-safety](../python-type-safety/SKILL.md) |
+| Retries, timeouts, cleanup, and failure handling | [python-resilience](../python-resilience/SKILL.md) |
+| Packaging, performance, workers, and release mechanics | [python-infrastructure](../python-infrastructure/SKILL.md) |
+| Bootstrapping or migrating to modern Python tooling | [python-modernization](../python-modernization/SKILL.md) |
+| Final-pass Python review checklist | [python-anti-patterns](../python-anti-patterns/SKILL.md) |
+
+For logging, metrics, tracing, and production telemetry, also use
+[observability](../observability/SKILL.md).
