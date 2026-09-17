@@ -5,9 +5,9 @@ high-precision pages without the noise of threshold alerts.
 
 ## Vocabulary
 
-| Term         | Meaning                                                          |
-| ------------ | ---------------------------------------------------------------- |
-| SLI          | Indicator — a measurement (e.g. ratio of good requests to total) |
+| Term | Meaning |
+| --- | --- |
+| SLI | Indicator — a measurement (e.g. ratio of good requests to total) |
 | SLO          | Objective — target for the SLI (e.g. 99.9% over 30 days)         |
 | Error budget | `1 − SLO` — how much unreliability is allowed                    |
 | Burn rate    | Rate at which the budget is being consumed (1× = on track)       |
@@ -18,16 +18,16 @@ high-precision pages without the noise of threshold alerts.
 
 Pick SLIs from the user's perspective. For a request-driven service, the usual two:
 
-| SLI          | Definition                                  |
-| ------------ | ------------------------------------------- |
-| Availability | `successful_requests / total_requests`      |
+| SLI | Definition |
+| --- | --- |
+| Availability | `successful_requests / total_requests` |
 | Latency      | `requests_under_threshold / total_requests` |
 
 For a queue / batch worker:
 
-| SLI         | Definition                                          |
-| ----------- | --------------------------------------------------- |
-| Freshness   | `messages_processed_within_target / total_messages` |
+| SLI | Definition |
+| --- | --- |
+| Freshness | `messages_processed_within_target / total_messages` |
 | Correctness | `successful_outputs / total_outputs`                |
 
 Avoid CPU/memory as SLIs — they are causes, not symptoms.
@@ -109,8 +109,8 @@ precision and recall.
 Burn-rate factors map to budget-consumption percentages:
 
 | Burn rate | Time to exhaust 30-day budget | Page or ticket |
-| --------- | ----------------------------- | -------------- |
-| 14.4      | 2 days                        | Page (fast)    |
+| --- | --- | --- |
+| 14.4 | 2 days | Page (fast) |
 | 6         | 5 days                        | Ticket (slow)  |
 | 3         | 10 days                       | Ticket         |
 | 1         | 30 days                       | None           |
