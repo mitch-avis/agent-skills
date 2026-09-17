@@ -44,17 +44,17 @@ standard Markdown and GitHub Flavored Markdown (GFM).
 
 ```markdown
 | Column A | Column B |
-| -------- | -------- |
-| Cell 1   | Cell 2   |
+| --- | --- |
+| Cell 1 | Cell 2 |
 ```
 
 ## Reference Guides
 
 Detailed implementations in the `references/` directory:
 
-| Topic                | File                                                   | Load When                                     |
-| -------------------- | ------------------------------------------------------ | --------------------------------------------- |
-| Text Formatting      | references/text-formatting.md                          | Bold, italic, strikethrough, emphasis         |
+| Topic | File | Load When |
+| --- | --- | --- |
+| Text Formatting | references/text-formatting.md | Bold, italic, strikethrough, emphasis |
 | Lists                | references/lists.md                                    | Ordered, unordered, nested, task lists        |
 | Links and Images     | references/links-and-images.md                         | Hyperlinks, images, code blocks, tables       |
 | Extended GFM Syntax  | references/extended-syntax-github-flavored-markdown.md | Footnotes, task lists, autolinks, emoji       |
