@@ -422,9 +422,9 @@ istioctl dashboard jaeger
 
 ## Comparison: Istio vs Linkerd
 
-| Feature            | Istio                    | Linkerd                 |
-| ------------------ | ------------------------ | ----------------------- |
-| Sidecar proxy      | Envoy                    | linkerd2-proxy (Rust)   |
+| Feature | Istio | Linkerd |
+| --- | --- | --- |
+| Sidecar proxy | Envoy | linkerd2-proxy (Rust) |
 | Resource usage     | Higher                   | Lower                   |
 | Feature set        | Extensive                | Focused / simpler       |
 | mTLS               | Built-in                 | Built-in                |
