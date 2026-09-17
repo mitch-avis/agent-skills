@@ -5,9 +5,9 @@ start/end, attributes, and links. OpenTelemetry (OTel) is the vendor-neutral sta
 
 ## Concepts
 
-| Term     | Meaning                                                           |
-| -------- | ----------------------------------------------------------------- |
-| Trace    | The whole request — one trace ID end-to-end                       |
+| Term | Meaning |
+| --- | --- |
+| Trace | The whole request — one trace ID end-to-end |
 | Span     | A single operation within a trace (HTTP call, DB query, function) |
 | Parent   | The span that started the current one                             |
 | Baggage  | Key-value data propagated alongside trace context                 |
@@ -27,9 +27,9 @@ understand it.
 
 ## Sampling strategies
 
-| Strategy     | When to use                                             |
-| ------------ | ------------------------------------------------------- |
-| AlwaysOn     | Dev only                                                |
+| Strategy | When to use |
+| --- | --- |
+| AlwaysOn | Dev only |
 | AlwaysOff    | Disable tracing entirely                                |
 | TraceIdRatio | Head-based: keep N% of traces, decided at the root span |
 | ParentBased  | Honor the upstream service's sampling decision          |
@@ -258,9 +258,9 @@ service:
 
 ## Backends
 
-| Backend                        | Strengths                                              |
-| ------------------------------ | ------------------------------------------------------ |
-| Tempo                          | Cheap object-storage backend, integrates with Grafana  |
+| Backend | Strengths |
+| --- | --- |
+| Tempo | Cheap object-storage backend, integrates with Grafana |
 | Jaeger                         | Mature UI, good for self-hosted                        |
 | Zipkin                         | Lightweight, OK if already in use                      |
 | Honeycomb / Datadog / NewRelic | SaaS — pay for retention and high-cardinality querying |
@@ -270,9 +270,9 @@ service:
 Use [OTel semantic conventions](https://opentelemetry.io/docs/specs/semconv/) for attribute names;
 tooling depends on them.
 
-| Attribute                    | Example                |
-| ---------------------------- | ---------------------- |
-| `http.request.method`        | `GET`                  |
+| Attribute | Example |
+| --- | --- |
+| `http.request.method` | `GET` |
 | `http.route`                 | `/users/:id`           |
 | `http.response.status_code`  | `200`                  |
 | `db.system`                  | `postgresql`           |
