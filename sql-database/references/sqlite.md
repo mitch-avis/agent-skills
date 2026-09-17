@@ -23,9 +23,9 @@ be set after every `open()`.
 SQLite uses **type affinity**, not strict typing. Any column can hold any type unless you add
 explicit `CHECK` constraints.
 
-| Declared type             | Affinity | Storage class          |
-| ------------------------- | -------- | ---------------------- |
-| `INT`, `INTEGER`          | INTEGER  | INTEGER                |
+| Declared type | Affinity | Storage class |
+| --- | --- | --- |
+| `INT`, `INTEGER` | INTEGER | INTEGER |
 | `TEXT`, `VARCHAR`, `CHAR` | TEXT     | TEXT                   |
 | `BLOB`, no type           | BLOB     | BLOB                   |
 | `REAL`, `FLOAT`           | REAL     | REAL                   |
