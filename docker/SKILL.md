@@ -43,9 +43,9 @@ description: >-
 
 Pick the smallest image that supports the application's runtime needs.
 
-| Base Type     | Size       | Use Case                        |
-| ------------- | ---------- | ------------------------------- |
-| Full (Debian) | ~1 GB      | Development, debugging only     |
+| Base Type | Size | Use Case |
+| --- | --- | --- |
+| Full (Debian) | ~1 GB | Development, debugging only |
 | `-slim`       | ~200 MB    | General production              |
 | `-alpine`     | ~50–130 MB | Size-critical, compatible apps  |
 | Distroless    | ~20–120 MB | Maximum security, no shell      |
@@ -448,9 +448,9 @@ docker compose build --no-cache   # rebuild from scratch
 
 Load on demand — do not read all files upfront.
 
-| Topic                   | File                                      | Load When                                            |
-| ----------------------- | ----------------------------------------- | ---------------------------------------------------- |
-| Compose patterns        | `references/compose-patterns.md`          | Multi-container apps, networking, volumes, overrides |
+| Topic | File | Load When |
+| --- | --- | --- |
+| Compose patterns | `references/compose-patterns.md` | Multi-container apps, networking, volumes, overrides |
 | Language Dockerfiles    | `references/language-dockerfiles.md`      | Next.js, Java, or additional framework templates     |
 | Security & optimization | `references/security-and-optimization.md` | Image scanning, CI/CD, distroless, size reduction    |
 
