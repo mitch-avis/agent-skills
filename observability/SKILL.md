@@ -31,9 +31,9 @@ CI/CD).
 
 ## The Three Pillars
 
-| Pillar      | Question Answered               | Tooling                                  |
-| ----------- | ------------------------------- | ---------------------------------------- |
-| **Logs**    | What happened? (events, errors) | structlog, `tracing`, Loki, Elastic, ELK |
+| Pillar | Question Answered | Tooling |
+| --- | --- | --- |
+| **Logs** | What happened? (events, errors) | structlog, `tracing`, Loki, Elastic, ELK |
 | **Metrics** | How much/how fast? (aggregates) | Prometheus, OpenMetrics, Grafana         |
 | **Traces**  | Where did time go across calls? | OpenTelemetry, Tempo, Jaeger, Zipkin     |
 
@@ -102,17 +102,17 @@ http_request_duration_seconds_bucket{method,route}   # Histogram (Duration)
 
 ### RED (request-driven services)
 
-| Signal       | Metric type | What to alert on            |
-| ------------ | ----------- | --------------------------- |
-| **R**ate     | Counter     | Anomalous deviation         |
+| Signal | Metric type | What to alert on |
+| --- | --- | --- |
+| **R**ate | Counter | Anomalous deviation |
 | **E**rrors   | Counter     | Error ratio > SLO threshold |
 | **D**uration | Histogram   | p95/p99 > SLO threshold     |
 
 ### USE (resources / queues / pools)
 
-| Signal          | Metric type | Examples                       |
-| --------------- | ----------- | ------------------------------ |
-| **U**tilization | Gauge       | CPU %, pool used / pool size   |
+| Signal | Metric type | Examples |
+| --- | --- | --- |
+| **U**tilization | Gauge | CPU %, pool used / pool size |
 | **S**aturation  | Gauge       | Queue depth, wait time         |
 | **E**rrors      | Counter     | Connection failures, OOM kills |
 
@@ -122,9 +122,9 @@ Latency, traffic, errors, saturation. Same idea as RED + USE; track for every de
 
 ## Log Levels — Semantic Use
 
-| Level | Use For                                             | Production?        |
-| ----- | --------------------------------------------------- | ------------------ |
-| TRACE | Verbose flow tracing (Rust `tracing` only)          | Off                |
+| Level | Use For | Production? |
+| --- | --- | --- |
+| TRACE | Verbose flow tracing (Rust `tracing` only) | Off |
 | DEBUG | Variable values, internal state                     | Off (or sampled)   |
 | INFO  | Business events, request lifecycle, state changes   | On                 |
 | WARN  | Recoverable anomalies — retry, fallback, near-limit | On                 |
@@ -138,9 +138,9 @@ human.
 
 Load on demand based on the task:
 
-| Topic                                           | File                                                        | Load When                                             |                                                       |
-| ----------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| Structured logging in Python and Rust           | [structured-logging.md](references/structured-logging.md)   | Wiring `structlog` / `tracing`, levels, PII, sampling |                                                       |
+| Topic | File | Load When |  |
+| --- | --- | --- | --- |
+| Structured logging in Python and Rust | [structured-logging.md](references/structured-logging.md) | Wiring `structlog` / `tracing`, levels, PII, sampling |  |
 | Metrics with Prometheus                         | [metrics.md](references/metrics.md)                         | Adding counters/histograms, RED/USE, cardinality      |                                                       |
 | Distributed tracing with OpenTelemetry          | [tracing.md](references/tracing.md)                         | Adding spans, propagation, sampling, exporters        |                                                       |
 | Log aggregation (ELK, Loki, Vector, Fluent Bit) | [log-aggregation.md](references/log-aggregation.md)         | Standing up centralized logging, shippers, parsing    |                                                       |
@@ -180,9 +180,9 @@ Load on demand based on the task:
 
 Use these field names so logs interoperate with Elastic, Loki, OTel, and most dashboards:
 
-| Field                 | Meaning                                         |
-| --------------------- | ----------------------------------------------- |
-| `@timestamp`          | ISO-8601 event time                             |
+| Field | Meaning |
+| --- | --- |
+| `@timestamp` | ISO-8601 event time |
 | `log.level`           | DEBUG / INFO / WARN / ERROR                     |
 | `service.name`        | Logical service identifier                      |
 | `service.version`     | Build / release version                         |
