@@ -5,9 +5,9 @@ cardinality discipline, exemplars, Python and Rust integrations.
 
 ## Metric types
 
-| Type      | Semantics                                      | Example                         |
-| --------- | ---------------------------------------------- | ------------------------------- |
-| Counter   | Monotonic — only increases (resets on restart) | `http_requests_total`           |
+| Type | Semantics | Example |
+| --- | --- | --- |
+| Counter | Monotonic — only increases (resets on restart) | `http_requests_total` |
 | Gauge     | Arbitrary up/down value                        | `db_connections_in_use`         |
 | Histogram | Bucketed observations + count + sum            | `http_request_duration_seconds` |
 | Summary   | Pre-computed quantiles (rarely preferred)      | `gc_pause_quantile_seconds`     |
@@ -30,9 +30,9 @@ Rules:
 
 ## RED, USE, and the four golden signals
 
-| Method | For                 | Signals                              |
-| ------ | ------------------- | ------------------------------------ |
-| RED    | Request-driven code | Rate, Errors, Duration               |
+| Method | For | Signals |
+| --- | --- | --- |
+| RED | Request-driven code | Rate, Errors, Duration |
 | USE    | Resources / queues  | Utilization, Saturation, Errors      |
 | Golden | All services (SRE)  | Latency, Traffic, Errors, Saturation |
 
