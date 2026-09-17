@@ -3,7 +3,7 @@
 ## Command Reference
 
 | Command | Purpose |
-| ---- | ---- |
+| --- | --- |
 | `helm create <name>` | Scaffold a new chart |
 | `helm install <release> <chart>` | Install a chart |
 | `helm upgrade <release> <chart>` | Upgrade a release |
