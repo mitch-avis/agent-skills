@@ -148,9 +148,9 @@ logger.info(
 
 ### Log Levels
 
-| Level   | Use For                             |
-| ------- | ----------------------------------- |
-| DEBUG   | Development diagnostics             |
+| Level | Use For |
+| --- | --- |
+| DEBUG | Development diagnostics |
 | INFO    | Operational events, state changes   |
 | WARNING | Handled anomalies, degraded service |
 | ERROR   | Failures needing attention          |
