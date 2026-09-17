@@ -2,9 +2,9 @@
 
 ## OWASP CI/CD Top 10
 
-| Risk        | Category                        | Impact   | Mitigation                                         |
-| ----------- | ------------------------------- | -------- | -------------------------------------------------- |
-| CICD-SEC-1  | Insufficient Flow Control       | Critical | Branch protection, required reviews, status checks |
+| Risk | Category | Impact | Mitigation |
+| --- | --- | --- | --- |
+| CICD-SEC-1 | Insufficient Flow Control | Critical | Branch protection, required reviews, status checks |
 | CICD-SEC-2  | Inadequate Identity & Access    | Critical | OIDC, least privilege, short-lived tokens          |
 | CICD-SEC-3  | Dependency Chain Abuse          | High     | SCA scanning, dependency pinning, SBOM             |
 | CICD-SEC-4  | Poisoned Pipeline Execution     | Critical | Separate build/deploy, validate inputs             |
