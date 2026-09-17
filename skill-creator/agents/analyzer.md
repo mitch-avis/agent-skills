@@ -175,9 +175,9 @@ Write a JSON file with this structure:
 
 Use these categories to organize improvement suggestions:
 
-| Category         | Description                                    |
-| ---------------- | ---------------------------------------------- |
-| `instructions`   | Changes to the skill's prose instructions      |
+| Category | Description |
+| --- | --- |
+| `instructions` | Changes to the skill's prose instructions |
 | `tools`          | Scripts, templates, or utilities to add/modify |
 | `examples`       | Example inputs/outputs to include              |
 | `error_handling` | Guidance for handling failures                 |
