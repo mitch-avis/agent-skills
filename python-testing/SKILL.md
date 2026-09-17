@@ -15,7 +15,8 @@ Comprehensive pytest patterns following TDD methodology.
 Install the standard pytest stack for all projects:
 
 ```bash
-uv pip install pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
+uv add --group test pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
+uv sync --group test
 ```
 
 | Plugin | Purpose |
@@ -139,6 +140,7 @@ async def test_fetch_returns_data() -> None:
 ```
 
 - Use `pytest-asyncio` plugin
+- Add it with `uv add --group test pytest-asyncio`
 - Test timeouts with `asyncio.wait_for`
 
 ## Monkeypatching
@@ -240,6 +242,10 @@ Parallel execution: `pytest -n auto`
 ## Related Skills
 
 - [python](../python/SKILL.md) — core Python style and project layout
+- [python-type-safety](../python-type-safety/SKILL.md) — stronger contracts for refactors and test
+    doubles
+- [python-anti-patterns](../python-anti-patterns/SKILL.md) — review checklist for weak tests and
+    mocking mistakes
 - [test-driven-development](../test-driven-development/SKILL.md) — write the failing test first
 - [systematic-debugging](../systematic-debugging/SKILL.md) — reproduce a bug as a failing test
   before fixing
