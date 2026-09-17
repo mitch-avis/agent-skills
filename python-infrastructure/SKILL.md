@@ -169,9 +169,9 @@ chord(group(task.s(i) for i in items))(summarize.s())
 
 ### Alternatives
 
-| Queue    | Best For                         |
-| -------- | -------------------------------- |
-| Celery   | Full-featured, complex workflows |
+| Queue | Best For |
+| --- | --- |
+| Celery | Full-featured, complex workflows |
 | RQ       | Simple Redis-backed queues       |
 | Dramatiq | Celery alternative, simpler API  |
 | AWS SQS  | Cloud-native, serverless         |
