@@ -60,7 +60,9 @@ output first (e.g., snapshot to discover refs, then interact using those refs).
 
 When automating a site that requires login, choose the approach that fits:
 
-**Option 1: Import auth from the user's browser (fastest for one-off tasks)**
+### Option 1: Import auth from the user's browser
+
+Fastest for one-off tasks.
 
 ```bash
 # Connect to the user's running Chrome (they're already logged in)
@@ -72,7 +74,9 @@ agent-browser --state ./auth.json open https://app.example.com/dashboard
 State files contain session tokens in plaintext -- add to `.gitignore` and delete when no longer
 needed. Set `AGENT_BROWSER_ENCRYPTION_KEY` for encryption at rest.
 
-**Option 2: Persistent profile (simplest for recurring tasks)**
+### Option 2: Persistent profile
+
+Simplest for recurring tasks.
 
 ```bash
 # First run: login manually or via automation
@@ -83,7 +87,9 @@ agent-browser --profile ~/.myapp open https://app.example.com/login
 agent-browser --profile ~/.myapp open https://app.example.com/dashboard
 ```
 
-**Option 3: Session name (auto-save/restore cookies + localStorage)**
+### Option 3: Session name
+
+Auto-saves and restores cookies plus localStorage.
 
 ```bash
 agent-browser --session-name myapp open https://app.example.com/login
@@ -94,7 +100,9 @@ agent-browser close  # State auto-saved
 agent-browser --session-name myapp open https://app.example.com/dashboard
 ```
 
-**Option 4: Auth vault (credentials stored encrypted, login by name)**
+### Option 4: Auth vault
+
+Stores credentials encrypted and logs in by name.
 
 ```bash
 echo "$PASSWORD" | agent-browser auth save myapp --url https://app.example.com/login --username user --password-stdin
@@ -104,7 +112,9 @@ agent-browser auth login myapp
 `auth login` navigates with `load` and then waits for login form selectors to appear before
 filling/clicking, which is more reliable on delayed SPA login screens.
 
-**Option 5: State file (manual save/load)**
+### Option 5: State file
+
+Manual save and load flow.
 
 ```bash
 # After logging in:
