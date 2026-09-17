@@ -6,9 +6,9 @@ Phase 2 (pattern analysis).
 
 ## Quick Reference
 
-| Symptom                                    | First tool to reach for                                       |
-| ------------------------------------------ | ------------------------------------------------------------- |
-| `panicked at …`                            | `RUST_BACKTRACE=1 cargo test -- --nocapture`                  |
+| Symptom | First tool to reach for |
+| --- | --- |
+| `panicked at …` | `RUST_BACKTRACE=1 cargo test -- --nocapture` |
 | `unreachable!()` / `unwrap()` failure      | Backtrace + replace with `Result` propagation                 |
 | Wrong value, no panic                      | `dbg!(value)` macro                                           |
 | Test passes alone, fails in suite          | `cargo test -- --test-threads=1` then `find-polluter.sh`      |
