@@ -115,9 +115,9 @@ kubectl debug node/<node-name> -it --image=ubuntu:latest
 
 ### Pod Pending
 
-| Cause                    | Diagnosis                                                   |
-| ------------------------ | ----------------------------------------------------------- |
-| Insufficient resources   | `kubectl describe pod` — check Events for FailedScheduling  |
+| Cause | Diagnosis |
+| --- | --- |
+| Insufficient resources | `kubectl describe pod` — check Events for FailedScheduling |
 | PVC not bound            | `kubectl get pvc` — check status                            |
 | Node selector mismatch   | `kubectl get pod -o yaml` — check nodeSelector/affinity     |
 | Image pull failure       | `kubectl describe pod` — check Events for ImagePullBackOff  |
