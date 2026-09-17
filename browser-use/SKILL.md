@@ -182,9 +182,9 @@ browser-use open https://abc.trycloudflare.com     # Browse the tunnel
 
 ## Global Options
 
-| Option             | Description                                       |
-| ------------------ | ------------------------------------------------- |
-| `--headed`         | Show browser window                               |
+| Option | Description |
+| --- | --- |
+| `--headed` | Show browser window |
 | `--profile [NAME]` | Use real Chrome (bare `--profile` uses "Default") |
 | `--connect`        | Auto-discover running Chrome via CDP              |
 | `--cdp-url <url>`  | Connect via CDP URL (`http://` or `ws://`)        |
