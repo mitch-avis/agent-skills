@@ -5,9 +5,9 @@ Filebeat), backends (Loki, ELK/Elastic), Kubernetes integration, and parsing.
 
 ## Choosing a stack
 
-| Stack                                 | Best for                                          | Trade-off                             |                            |
-| ------------------------------------- | ------------------------------------------------- | ------------------------------------- | -------------------------- |
-| Loki + Grafana                        | Cheap, label-indexed, great with Prometheus/Tempo | Full-text search is slower            |                            |
+| Stack | Best for | Trade-off |  |
+| --- | --- | --- | --- |
+| Loki + Grafana | Cheap, label-indexed, great with Prometheus/Tempo | Full-text search is slower |  |
 | Elastic / ELK                         | Rich full-text search, Kibana, ES\                | QL, ML rules                          | Heavier infra, higher cost |
 | OpenSearch                            | OSS Elastic alternative                           | Some plugin gaps                      |                            |
 | Cloud SaaS (Datadog, Honeycomb, etc.) | No infra to run                                   | Per-GB ingest cost grows fast         |                            |
@@ -18,9 +18,9 @@ traces, Grafana for everything**.
 
 ## Collection patterns
 
-| Pattern              | When to use                                                    |
-| -------------------- | -------------------------------------------------------------- |
-| Stdout → node agent  | Containers / Kubernetes — agent reads container log files      |
+| Pattern | When to use |
+| --- | --- |
+| Stdout → node agent | Containers / Kubernetes — agent reads container log files |
 | Sidecar              | When stdout is unavailable or pre-processing per-pod is needed |
 | Direct push from app | Serverless / edge — app sends logs to ingest endpoint          |
 | Syslog / journald    | VMs and bare metal                                             |
