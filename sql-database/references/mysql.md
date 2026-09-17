@@ -43,9 +43,9 @@ SELECT * FROM users WHERE uuid = UUID_TO_BIN('550e8400-e29b-41d4-a716-4466554400
 
 ## Data Type Choices
 
-| Use                  | Type                               | Notes                                            |
-| -------------------- | ---------------------------------- | ------------------------------------------------ |
-| Integer ID           | `BIGINT UNSIGNED`                  | `INT` runs out at 2.1B                           |
+| Use | Type | Notes |
+| --- | --- | --- |
+| Integer ID | `BIGINT UNSIGNED` | `INT` runs out at 2.1B |
 | Money                | `DECIMAL(p, s)`                    | Never `FLOAT`                                    |
 | Time                 | `DATETIME(6)`                      | `TIMESTAMP` has 2038 cliff and TZ surprises      |
 | Boolean              | `TINYINT(1)`                       | No native `BOOLEAN`                              |
@@ -94,9 +94,9 @@ ALTER TABLE orders
   ALGORITHM=INPLACE, LOCK=NONE;
 ```
 
-| Algorithm   | Effect                                                           |
-| ----------- | ---------------------------------------------------------------- |
-| `INSTANT`   | Metadata-only (8.0.12+) — adding nullable columns at the end     |
+| Algorithm | Effect |
+| --- | --- |
+| `INSTANT` | Metadata-only (8.0.12+) — adding nullable columns at the end |
 | `INPLACE`   | Rebuilds in place; allows concurrent DML with `LOCK=NONE`        |
 | `COPY`      | Full table copy with table lock — last resort                    |
 
@@ -107,9 +107,9 @@ For multi-TB tables, use **gh-ost** or **pt-online-schema-change** instead of na
 Default isolation: `REPEATABLE READ`. Uses gap locks to prevent phantom reads — can deadlock under
 high contention.
 
-| Level              | Notes                                                                    |
-| ------------------ | ------------------------------------------------------------------------ |
-| `READ UNCOMMITTED` | Dirty reads. Almost never appropriate.                                   |
+| Level | Notes |
+| --- | --- |
+| `READ UNCOMMITTED` | Dirty reads. Almost never appropriate. |
 | `READ COMMITTED`   | Recommended for high-concurrency OLTP. No gap locks. Closer to Postgres. |
 | `REPEATABLE READ`  | Default. Watch for deadlocks from gap locks.                             |
 | `SERIALIZABLE`     | Implicit `LOCK IN SHARE MODE` on every read. Very low throughput.        |
