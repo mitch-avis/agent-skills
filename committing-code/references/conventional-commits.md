@@ -4,9 +4,9 @@ Format: `type(scope): description`
 
 ## Types
 
-| Type       | Purpose                                               |
-| ---------- | ----------------------------------------------------- |
-| `feat`     | New feature or capability                             |
+| Type | Purpose |
+| --- | --- |
+| `feat` | New feature or capability |
 | `fix`      | Bug fix                                               |
 | `docs`     | Documentation only                                    |
 | `style`    | Formatting, whitespace, semicolons (no logic change)  |
