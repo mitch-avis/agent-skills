@@ -85,9 +85,9 @@ summary.
 
 ## Severity Rubric
 
-| Level  | Name     | Examples                                                               | Action                       |
-| ------ | -------- | ---------------------------------------------------------------------- | ---------------------------- |
-| **P0** | Critical | Security vuln, data loss, correctness bug, breaking change             | Block merge                  |
+| Level | Name | Examples | Action |
+| --- | --- | --- | --- |
+| **P0** | Critical | Security vuln, data loss, correctness bug, breaking change | Block merge |
 | **P1** | High     | Logic error, significant SOLID violation, performance regression       | Fix before merge             |
 | **P2** | Medium   | Code smell, maintainability issue, missing test coverage               | Fix in PR or open follow-up  |
 | **P3** | Low      | Naming, minor refactor, optional improvement                           | Optional / nit               |
@@ -109,9 +109,9 @@ Show concrete code in suggestions when possible. Explain the *why*, not just the
 
 ### Prefix Comments with Intent
 
-| Prefix        | Meaning                                                |
-| ------------- | ------------------------------------------------------ |
-| `nit:`        | Minor style/preference — merge without fixing is fine  |
+| Prefix | Meaning |
+| --- | --- |
+| `nit:` | Minor style/preference — merge without fixing is fine |
 | `suggestion:` | Consider this alternative — not blocking               |
 | `question:`   | Seeking understanding — not requesting a change        |
 | `blocker:`    | Must fix before merge — explain why                    |
@@ -129,9 +129,9 @@ or test, not authority.
 
 ## PR Size Guidelines
 
-| Lines Changed | Reviewability                                      |
-| ------------- | -------------------------------------------------- |
-| < 100         | Easy to review thoroughly                          |
+| Lines Changed | Reviewability |
+| --- | --- |
+| < 100 | Easy to review thoroughly |
 | 100 – 400     | Reasonable — split if logically separable          |
 | 400 – 800     | Large — request splitting unless tightly coupled   |
 | > 800         | Too large — almost certainly needs splitting       |
@@ -153,9 +153,9 @@ including summary, findings grouped by severity, strengths, and verdict.
 
 ## Reference Files
 
-| Topic                    | File                                                          | Load When                                |
-| ------------------------ | ------------------------------------------------------------- | ---------------------------------------- |
-| Per-dimension checklists | [references/checklists.md](references/checklists.md)          | During Phase 3 line-by-line review       |
+| Topic | File | Load When |
+| --- | --- | --- |
+| Per-dimension checklists | [references/checklists.md](references/checklists.md) | During Phase 3 line-by-line review |
 | Output template          | [references/output-template.md](references/output-template.md)| When writing the final review report     |
 | Common issue patterns    | [references/common-issues.md](references/common-issues.md)    | When you spot N+1, magic numbers, smells |
 
