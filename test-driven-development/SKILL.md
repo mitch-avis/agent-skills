@@ -214,17 +214,17 @@ Next failing test for next feature.
 
 ## Good Tests
 
-| Quality          | Good                                | Bad                                                 |
-| ---------------- | ----------------------------------- | --------------------------------------------------- |
-| **Minimal**      | One thing. "and" in name? Split it. | `test('validates email and domain and whitespace')` |
+| Quality | Good | Bad |
+| --- | --- | --- |
+| **Minimal** | One thing. "and" in name? Split it. | `test('validates email and domain and whitespace')` |
 | **Clear**        | Name describes behavior             | `test('test1')`                                     |
 | **Shows intent** | Demonstrates desired API            | Obscures what code should do                        |
 
 ## Common Rationalizations
 
-| Excuse                                 | Reality                                                                 |
-| -------------------------------------- | ----------------------------------------------------------------------- |
-| "Too simple to test"                   | Simple code breaks. Test takes 30 seconds.                              |
+| Excuse | Reality |
+| --- | --- |
+| "Too simple to test" | Simple code breaks. Test takes 30 seconds. |
 | "I'll test after"                      | Tests passing immediately prove nothing.                                |
 | "Tests after achieve same goals"       | Tests-after = "what does this do?" Tests-first = "what should this do?" |
 | "Already manually tested"              | Ad-hoc ≠ systematic. No record, can't re-run.                           |
@@ -249,7 +249,7 @@ Any of these mean: **delete code, start over with TDD.**
 
 **Bug:** Empty email accepted
 
-**RED**
+### RED
 
 ```typescript
 test('rejects empty email', async () => {
@@ -258,14 +258,14 @@ test('rejects empty email', async () => {
 });
 ```
 
-**Verify RED**
+### Verify RED
 
 ```bash
 $ npm test
 FAIL: expected 'Email required', got undefined
 ```
 
-**GREEN**
+### GREEN
 
 ```typescript
 function submitForm(data: FormData) {
@@ -276,7 +276,7 @@ function submitForm(data: FormData) {
 }
 ```
 
-**Verify GREEN**
+### Verify GREEN
 
 ```bash
 $ npm test
@@ -302,8 +302,8 @@ Can't check all boxes? You skipped TDD. Start over.
 
 ## When Stuck
 
-| Problem                | Solution                                                             |
-| ---------------------- | -------------------------------------------------------------------- |
+| Problem | Solution |
+| --- | --- |
 | Don't know how to test | Write wished-for API. Write assertion first. Ask your human partner. |
 | Test too complicated   | Design too complicated. Simplify interface.                          |
 | Must mock everything   | Code too coupled. Use dependency injection.                          |
