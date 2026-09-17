@@ -66,10 +66,15 @@ Map each subtask to the best available skill:
 | Rust async / Tokio                  | rust-async                     |
 | Rust tests                          | rust-testing                   |
 | Python code                         | python                         |
-| Python async                        | python-async                   |
-| Python resilience                   | python-resilience              |
-| Python tests                        | python-testing                 |
-| Python packaging / infra            | python-infrastructure          |
+| Python async / ASGI services        | python-async                   |
+| Python web APIs / FastAPI           | python-web-apis                |
+| Python configuration / secrets      | python-configuration           |
+| Python resilience / cleanup         | python-resilience              |
+| Python tests / TDD                  | python-testing                 |
+| Python type safety / pyright / ty   | python-type-safety             |
+| Python packaging / infra / workers  | python-infrastructure          |
+| Python modernization / migration    | python-modernization           |
+| Python anti-pattern review          | python-anti-patterns           |
 | Kubernetes manifests                | kubernetes                     |
 | Helm charts                         | helm                           |
 | Dockerfiles / containers            | docker                         |
@@ -87,7 +92,7 @@ Map each subtask to the best available skill:
 | Code review / PR audit              | code-review                    |
 | TDD methodology                     | test-driven-development        |
 | Debugging / root cause              | systematic-debugging           |
-| Git commits                         | committing-code                |
+| Git commits / staging / commit prep | committing-code                |
 | Browser automation (CLI)            | agent-browser                  |
 | Browser automation (daemon)         | browser-use                    |
 | Finding / installing skills         | find-skills                    |
@@ -165,11 +170,11 @@ cargo test --all-targets --all-features
 ### Python
 
 ```bash
-ruff format --check .
-ruff check .
-ty check .       # primary type checker (Astral, still in beta)
-pyright .        # fallback type checker (stable)
-pytest --cov
+uv run ruff format --check .
+uv run ruff check .
+uv run pyright
+uv run ty check
+uv run pytest --cov
 ```
 
 ### Markdown
