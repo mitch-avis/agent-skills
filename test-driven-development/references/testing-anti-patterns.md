@@ -293,9 +293,9 @@ against real code first.
 
 ## Quick Reference
 
-| Anti-Pattern                    | Fix                                           |
-| ------------------------------- | --------------------------------------------- |
-| Assert on mock elements         | Test real component or unmock it              |
+| Anti-Pattern | Fix |
+| --- | --- |
+| Assert on mock elements | Test real component or unmock it |
 | Test-only methods in production | Move to test utilities                        |
 | Mock without understanding      | Understand dependencies first, mock minimally |
 | Incomplete mocks                | Mirror real API completely                    |
