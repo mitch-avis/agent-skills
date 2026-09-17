@@ -167,7 +167,7 @@ Use `pyproject.toml` as the single source of project configuration. Preferred bu
 
 ```toml
 [build-system]
-requires = ["hatchling>=1.26"]
+requires = ["hatchling>=1.32"]
 build-backend = "hatchling.build"
 
 [project]
@@ -175,7 +175,7 @@ name = "myproject"
 dynamic = ["version"]
 description = "Project description"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 license = { text = "MIT" }
 dependencies = []
 
@@ -187,7 +187,7 @@ path = "VERSION"
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
+target-version = "py314"
 extend-exclude = [
     ".venv", ".git", "__pycache__",
     ".pytest_cache", ".mypy_cache",
@@ -220,7 +220,7 @@ known-first-party = ["myproject"]
 docstring-code-format = true
 
 [tool.pyright]
-pythonVersion = "3.12"
+pythonVersion = "3.14"
 typeCheckingMode = "standard"
 reportMissingImports = true
 reportMissingTypeStubs = false
@@ -228,7 +228,7 @@ venvPath = "."
 venv = ".venv"
 
 [tool.pytest.ini_options]
-minversion = "7.0"
+minversion = "9.0"
 testpaths = ["tests"]
 addopts = [
     "-ra",
