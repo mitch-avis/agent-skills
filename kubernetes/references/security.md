@@ -312,9 +312,9 @@ automountServiceAccountToken: false
 
 ### Common Verbs
 
-| Verb               | Description                    |
-| ------------------ | ------------------------------ |
-| get                | Read a single resource         |
+| Verb | Description |
+| --- | --- |
+| get | Read a single resource |
 | list               | List resources in a namespace  |
 | watch              | Stream resource changes        |
 | create             | Create a resource              |
@@ -327,8 +327,8 @@ automountServiceAccountToken: false
 ### Resource Scope
 
 | Cluster-Scoped (ClusterRole only) | Namespace-Scoped (Role or ClusterRole) |
-| --------------------------------- | -------------------------------------- |
-| Nodes                             | Pods                                   |
+| --- | --- |
+| Nodes | Pods |
 | PersistentVolumes                 | Services                               |
 | ClusterRoles / ClusterRoleBindings| Deployments, StatefulSets, DaemonSets  |
 | Namespaces                        | ConfigMaps, Secrets                    |
