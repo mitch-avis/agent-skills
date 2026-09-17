@@ -65,9 +65,9 @@ spec:
 
 ### Useful baseline metrics
 
-| Source             | Metric examples                                                           |
-| ------------------ | ------------------------------------------------------------------------- |
-| kube-state-metrics | `kube_pod_status_phase`, `kube_deployment_status_replicas`                |
+| Source | Metric examples |
+| --- | --- |
+| kube-state-metrics | `kube_pod_status_phase`, `kube_deployment_status_replicas` |
 | node-exporter      | `node_cpu_seconds_total`, `node_memory_MemAvailable_bytes`                |
 | cAdvisor (kubelet) | `container_cpu_usage_seconds_total`, `container_memory_working_set_bytes` |
 | API server         | `apiserver_request_duration_seconds`                                      |
@@ -235,9 +235,9 @@ something changed. GitHub Actions example:
 
 Useful counters/gauges to expose from a CI runner or scrape from the SCM API:
 
-| Metric                         | Purpose                       |
-| ------------------------------ | ----------------------------- |
-| `ci_pipeline_duration_seconds` | DORA: lead time for changes   |
+| Metric | Purpose |
+| --- | --- |
+| `ci_pipeline_duration_seconds` | DORA: lead time for changes |
 | `ci_pipeline_failures_total`   | DORA: change failure rate     |
 | `ci_pipeline_queue_seconds`    | Runner saturation             |
 | `cd_deployment_total`          | DORA: deployment frequency    |
@@ -266,9 +266,9 @@ spec:
 
 Useful Argo metrics:
 
-| Metric                                        | Meaning                        |
-| --------------------------------------------- | ------------------------------ |
-| `argocd_app_info{sync_status, health_status}` | App sync/health state          |
+| Metric | Meaning |
+| --- | --- |
+| `argocd_app_info{sync_status, health_status}` | App sync/health state |
 | `argocd_app_sync_total`                       | Sync attempts                  |
 | `argocd_app_reconcile_bucket`                 | Reconcile latency histogram    |
 | `argocd_kubectl_exec_pending`                 | Backpressure on the controller |
