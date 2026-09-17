@@ -166,9 +166,9 @@ SELECT u.id, u.email, COUNT(o.id) AS orders
 
 Read top-down. Look for:
 
-| Symptom                                   | Likely cause / fix                                                       |
-| ----------------------------------------- | ------------------------------------------------------------------------ |
-| `Seq Scan` on a large table               | Missing index, or the planner thinks scan is cheaper — check selectivity |
+| Symptom | Likely cause / fix |
+| --- | --- |
+| `Seq Scan` on a large table | Missing index, or the planner thinks scan is cheaper — check selectivity |
 | `actual rows ≫ estimated rows`            | Stale statistics — run `ANALYZE table`                                   |
 | `Buffers: shared read` ≫ `shared hit`     | Cold cache or missing index — lots of disk reads                         |
 | `Sort` followed by `Seq Scan`             | `ORDER BY` cannot use an index                                           |
@@ -184,9 +184,9 @@ EXPLAIN FORMAT=JSON SELECT ... ;
 
 Watch the `type` column:
 
-| `type`            | Meaning                                 |
-| ----------------- | --------------------------------------- |
-| `system`, `const` | Single-row lookup — best                |
+| `type` | Meaning |
+| --- | --- |
+| `system`, `const` | Single-row lookup — best |
 | `eq_ref`          | One row per join — very good            |
 | `ref`             | Indexed lookup, multiple matches — good |
 | `range`           | Indexed range — acceptable              |
