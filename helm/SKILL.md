@@ -32,7 +32,7 @@ description: >-
 Load on demand — do not read all files upfront.
 
 | Topic | File | Load When |
-| ---- | ---- | ---- |
+| --- | --- | --- |
 | Template Patterns | references/templates.md | Writing or reviewing chart template files |
 | Go Templates | references/go-templates.md | Writing or debugging Go template syntax |
 | Operations | references/operations.md | CLI commands, packaging, distribution, plugins |
@@ -256,8 +256,8 @@ helm install myapp ./myapp -f values-prod.yaml -n production
 
 ## Chart Types
 
-| Type        | Description                                            |
-| ----------- | ------------------------------------------------------ |
+| Type | Description |
+| --- | --- |
 | application | Default. Installs Kubernetes resources into a cluster. |
 | library     | Provides helpers only. Cannot be installed directly.   |
 
@@ -317,9 +317,9 @@ separately.
 
 ## Hook Types
 
-| Hook                | Fires                                    |
-| ------------------- | ---------------------------------------- |
-| pre-install         | Before resources are created             |
+| Hook | Fires |
+| --- | --- |
+| pre-install | Before resources are created |
 | post-install        | After all resources are created          |
 | pre-upgrade         | Before resources are upgraded            |
 | post-upgrade        | After all resources are upgraded         |
