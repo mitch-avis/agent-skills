@@ -115,9 +115,9 @@ Select the right file type for each set of instructions. See
 [instruction-file-formats.md](references/instruction-file-formats.md) for full format
 specifications.
 
-| Scope             | File                                     | When to use                                               |
-| ----------------- | ---------------------------------------- | --------------------------------------------------------- |
-| Repository-wide   | `.github/copilot-instructions.md`        | Stack overview, build/test commands, global conventions   |
+| Scope | File | When to use |
+| --- | --- | --- |
+| Repository-wide | `.github/copilot-instructions.md` | Stack overview, build/test commands, global conventions |
 | Path-specific     | `.github/instructions/*.instructions.md` | Rules for specific file types, frameworks, or directories |
 | Multi-agent       | `AGENTS.md` (root or subfolder)          | When multiple AI agents share the workspace               |
 | Claude-compatible | `CLAUDE.md`                              | When Claude Code is used alongside other agents           |
