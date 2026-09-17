@@ -1,119 +1,127 @@
 ---
 name: python-infrastructure
 description: >-
-  Python infrastructure patterns covering packaging (pyproject.toml, PyPI), performance optimization
-  (profiling, caching), background jobs (Celery, task queues), and deployment workflows. Use when
-  packaging libraries, optimizing performance, or building async task processing systems.
+  Python infrastructure guidance covering uv workflows, dependency groups, packaging, lockfiles,
+  performance profiling, background jobs, release practices, and strict project configuration. Use
+  when bootstrapping or maintaining Python project tooling, packaging libraries, profiling code, or
+  implementing worker and queue systems.
 ---
 
 # Python Infrastructure
 
-Packaging, performance, background jobs, and deployment patterns.
+Use this skill for the mechanics around Python projects after the language basics are settled:
+environments, packaging, performance, workers, release flows, and reproducibility.
 
-## Packaging
+## Core Responsibilities
 
-### Project Layout
+- Manage Python versions, virtual environments, dependencies, and lock files with `uv`.
+- Define packaging metadata and build configuration in `pyproject.toml`.
+- Profile before optimizing.
+- Design job queues and worker processes for long-running or unreliable work.
+- Keep CI and release flows reproducible.
 
-```text
-mypackage/
-  __init__.py
-  py.typed
-  core.py
-pyproject.toml
-VERSION
-README.md
-LICENSE
-tests/
+## Environment and Dependency Management
+
+Use `uv` as the control plane for Python project tooling.
+
+```bash
+uv self update
+uv python install 3.12
+uv python pin 3.12
+uv venv
+uv add fastapi
+uv add --group dev ruff pyright ty
+uv add --group test pytest pytest-cov pytest-xdist
+uv sync
+uv lock
+uv run pytest
+uv run ty check
+uv build
 ```
 
-### pyproject.toml
+- Prefer `uv add` and `uv remove` over manual dependency edits.
+- Use `[dependency-groups]` for dev, test, docs, and audit tooling.
+- Use `[project.optional-dependencies]` only for optional runtime extras that downstream consumers
+  install.
+- Commit `uv.lock` for applications, services, and CLIs where reproducible deploys matter.
+- For libraries, follow repo policy on whether contributor reproducibility outweighs the extra file.
+
+## Packaging and Distribution
+
+Prefer `src/` layout for packages and libraries.
 
 ```toml
 [build-system]
-requires = ["hatchling>=1.26"]
+requires = ["hatchling>=1.32"]
 build-backend = "hatchling.build"
 
 [project]
 name = "mypackage"
-dynamic = ["version"]
+version = "0.1.0"
 description = "What it does"
 readme = "README.md"
 requires-python = ">=3.12"
-license = { text = "MIT" }
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-cov", "pytest-xdist", "ruff", "pyright"]
+postgres = ["psycopg[binary]>=3.2"]
 
 [project.scripts]
 mycli = "mypackage.cli:main"
 
+[dependency-groups]
+lint = ["ruff", "pyright", "ty"]
+test = ["pytest", "pytest-cov", "pytest-xdist"]
+dev = [{ include-group = "lint" }, { include-group = "test" }]
+
+[tool.uv]
+default-groups = ["dev"]
+required-version = ">=0.11.21"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "standard"
+
+[tool.ty.environment]
+python = ".venv"
+[tool.ty.src]
+include = ["src", "tests"]
+
 [tool.hatch.build.targets.wheel]
-packages = ["mypackage"]
-
-[tool.hatch.version]
-path = "VERSION"
+packages = ["src/mypackage"]
 ```
 
-- Include `py.typed` for type hint discovery
-- Use `[project.scripts]` for CLI entry points
-- Use `hatchling` as the build backend
-- Build: `uv run python -m build` or `uv pip install build && python -m build`
-- Publish: test on TestPyPI first, then `twine upload dist/*`
+- Include `py.typed` in typed packages.
+- Define CLI entry points in `[project.scripts]`.
+- Build with `uv build` and publish using the repo's existing release process.
+- Test installation from built artifacts before cutting releases.
 
-### uv Workflows
+## Performance Work
+
+Profile first, then optimize the verified hot path.
 
 ```bash
-uv self update                                     # keep uv current
-uv python upgrade                                  # upgrade all installed Python versions
-uv venv                                            # create .venv with latest Python
-# Alt: uv venv --python 3.12
-uv pip install -e ".[dev]"                         # editable install with dev extras
-uv pip compile pyproject.toml -o requirements.txt  # lock deps
-uv run pytest                                      # run inside venv (no activation needed)
+python -m cProfile -o output.prof script.py
+kernprof -l -v script.py
+python -m memory_profiler script.py
+py-spy record -o profile.svg -- python script.py
 ```
 
-## Performance Optimization
+Guidance:
 
-### Profiling (always profile first)
+- Improve algorithms and data structures before micro-optimizing syntax.
+- Use generators for large streams and `"".join(...)` for string accumulation.
+- Use `asyncio` for I/O-bound concurrency and `multiprocessing` for CPU-bound work.
+- Batch network and database operations where semantics allow.
+- Cache only when invalidation and memory growth are understood.
 
-```bash
-python -m cProfile -o output.prof script.py   # CPU
-kernprof -l -v script.py                       # line-by-line
-python -m memory_profiler script.py             # memory
-py-spy record -o profile.svg -- python script.py  # production
-```
+## Background Jobs and Workers
 
-### Key Optimization Patterns
-
-- **List comprehensions** beat loops by 10–50%
-- **Generators** for large datasets — constant memory
-- **`"".join(parts)`** not `result += item` — O(n) vs O(n²)
-- **Dict lookups** are O(1) vs list search O(n)
-- **Local variables** are 5–10% faster than globals in tight loops
-- **`@lru_cache`** for expensive pure computations
-- **`__slots__`** reduces per-instance memory for many objects
-- **NumPy vectorization** beats Python loops by 100–1000× for numerical work
-
-### Concurrency Strategy
-
-- I/O-bound → `asyncio`
-- CPU-bound → `multiprocessing.Pool`
-- Mixed → `asyncio.to_thread()` for blocking calls
-
-### Database
-
-- Batch operations: single commit beats 1000 individual commits
-- Use connection pooling (SQLAlchemy pool, asyncpg pool)
-
-## Background Jobs
-
-### When to Use
-
-Return a job ID immediately for operations exceeding a few seconds. Process asynchronously via task
-queue.
-
-### Celery Setup
+Use a queue boundary when work is slow, retryable, or too fragile for the request path.
 
 ```python
 from celery import Celery
@@ -125,61 +133,45 @@ app.conf.update(
     worker_prefetch_multiplier=1,
 )
 
-@app.task(
-    bind=True,
-    max_retries=3,
-    soft_time_limit=3000,
-    time_limit=3600,
-)
+
+@app.task(bind=True, max_retries=3, soft_time_limit=3000, time_limit=3600)
 def process_order(self, order_id: str) -> None:
     try:
         do_work(order_id)
     except TransientError as exc:
-        raise self.retry(
-            exc=exc,
-            countdown=2 ** self.request.retries * 60,
-        )
+        raise self.retry(exc=exc, countdown=2 ** self.request.retries * 60)
 ```
 
-### Key Principles
+- Return a job ID immediately for workflows that exceed a few seconds.
+- Persist job state transitions.
+- Make tasks idempotent.
+- Retry only transient failures and send exhausted jobs to a dead-letter path.
+- Expose status polling or completion callbacks when callers need visibility.
 
-- **Idempotency:** Retries must be safe — check state before acting, use idempotency keys with
-  external services
-- **Job states:** `pending → running → succeeded | failed`
-- **Only retry transient failures** — validation errors and bad credentials fail permanently
-- **Exponential backoff:** `2^attempt * base_delay`, capped
-- **Dead letter queue:** Move permanently failed tasks to DLQ after max retries for manual
-  inspection
-- **Status polling:** Expose a `GET /jobs/{id}` endpoint for clients to check progress
-
-### Task Composition
-
-```python
-from celery import chain, group, chord
-
-# Sequential
-chain(step1.s(), step2.s(), step3.s())()
-
-# Parallel
-group(task.s(item) for item in items)()
-
-# Parallel + callback
-chord(group(task.s(i) for i in items))(summarize.s())
-```
-
-### Alternatives
+Queue choices:
 
 | Queue | Best For |
 | --- | --- |
-| Celery | Full-featured, complex workflows |
-| RQ       | Simple Redis-backed queues       |
-| Dramatiq | Celery alternative, simpler API  |
-| AWS SQS  | Cloud-native, serverless         |
+| Celery | Mature workflows, scheduling, rich ecosystems |
+| Dramatiq | Simpler actor-style APIs |
+| RQ | Small Redis-backed job systems |
+| Cloud queues | Managed serverless or multi-service architectures |
+
+## Detailed Patterns
+
+Detailed packaging, profiling, worker, and release patterns live in `references/details.md`,
+including a strict application-grade `pyproject.toml` example that generalizes the strongest parts
+of your current project setup.
 
 ## Related Skills
 
-- [python](../python/SKILL.md) — core Python style and project layout
-- [python-resilience](../python-resilience/SKILL.md) — fault-tolerant background jobs
-- [cicd](../cicd/SKILL.md) — building and publishing Python packages
-- [docker](../docker/SKILL.md) — containerizing Python services
-- [observability](../observability/SKILL.md) — instrumenting workers and queues
+- [python](../python/SKILL.md) — core coding standards and project defaults
+- [python-modernization](../python-modernization/SKILL.md) — migrating to uv-native, lockfile-based
+  workflows
+- [python-configuration](../python-configuration/SKILL.md) — settings patterns that shape runtime
+  packaging and deploy behavior
+- [python-resilience](../python-resilience/SKILL.md) — retries, timeouts, and cleanup behavior
+- [python-async](../python-async/SKILL.md) — async runtime and event-loop concerns
+- [cicd](../cicd/SKILL.md) — CI pipelines and publishing automation
+- [docker](../docker/SKILL.md) — container packaging and runtime images
+- [observability](../observability/SKILL.md) — metrics, traces, and logs for jobs and releases
