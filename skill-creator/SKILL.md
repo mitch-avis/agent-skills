@@ -405,9 +405,9 @@ Reviews".
 
 ### Scripts
 
-| Script                           | Purpose                                        |
-| -------------------------------- | ---------------------------------------------- |
-| `scripts/run_eval.py`            | Trigger evaluation for a skill description     |
+| Script | Purpose |
+| --- | --- |
+| `scripts/run_eval.py` | Trigger evaluation for a skill description |
 | `scripts/run_loop.py`            | Eval + improve loop with train/test split      |
 | `scripts/improve_description.py` | LLM-powered description improvement            |
 | `scripts/aggregate_benchmark.py` | Aggregate run results into benchmark stats     |
