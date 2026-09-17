@@ -54,19 +54,19 @@ console.log(x);
 ```markdown
 Simple table:
 | Column 1 | Column 2 | Column 3 |
-| -------- | -------- | -------- |
-| Row 1    | Data     | Data     |
+| --- | --- | --- |
+| Row 1 | Data | Data |
 | Row 2    | Data     | Data     |
 
 Aligned columns:
 | Left | Center | Right |
-| :--- | :----: | ----: |
+| --- | --- | --- |
 | Left | Center | Right |
 | Text |  Text  |  Text |
 
 Minimal table:
 | Column 1 | Column 2 |
-| -------- | -------- |
-| Data     | Data     |
+| --- | --- |
+| Data | Data |
 | Data     | Data     |
 ```
