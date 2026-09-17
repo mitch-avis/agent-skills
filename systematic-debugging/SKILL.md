@@ -103,9 +103,9 @@ Complete each phase before proceeding to the next.
 
 Build a comparison table:
 
-| Aspect          | Working     | Broken         |
-| --------------- | ----------- | -------------- |
-| Environment     | Development | Production     |
+| Aspect | Working | Broken |
+| --- | --- | --- |
+| Environment | Development | Production |
 | Runtime version | 1.85        | 1.82           |
 | Data            | Empty DB    | 1M records     |
 | User            | Admin       | Regular user   |
@@ -196,9 +196,9 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 ## Common Rationalizations
 
-| Excuse                              | Reality                                       |
-| ----------------------------------- | --------------------------------------------- |
-| "Issue is simple, skip process"     | Simple issues have root causes too            |
+| Excuse | Reality |
+| --- | --- |
+| "Issue is simple, skip process" | Simple issues have root causes too |
 | "Emergency, no time"                | Systematic debugging is FASTER than thrashing |
 | "Just try this first"               | First fix sets the pattern — do it right      |
 | "I'll write test after fix works"   | Untested fixes don't stick                    |
@@ -208,9 +208,9 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 ## Quick Reference
 
-| Phase             | Key Activities                      | Done When                   |
-| ----------------- | ----------------------------------- | --------------------------- |
-| 1. Root Cause     | Read errors, reproduce, trace data  | Understand WHAT and WHY     |
+| Phase | Key Activities | Done When |
+| --- | --- | --- |
+| 1. Root Cause | Read errors, reproduce, trace data | Understand WHAT and WHY |
 | 2. Pattern        | Find working examples, diff, bisect | Differences identified      |
 | 3. Hypothesis     | Form theory, test minimally         | Confirmed or new hypothesis |
 | 4. Implementation | Create test, fix, verify            | Bug resolved, tests pass    |
@@ -219,9 +219,9 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 Reference files in this directory:
 
-| Reference                                                                           | Purpose                                                                                                                |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [root-cause-tracing.md](references/root-cause-tracing.md)                           | Trace bugs backward through the call stack to the original trigger (Python + Rust examples)                            |
+| Reference | Purpose |
+| --- | --- |
+| [root-cause-tracing.md](references/root-cause-tracing.md) | Trace bugs backward through the call stack to the original trigger (Python + Rust examples) |
 | [defense-in-depth.md](references/defense-in-depth.md)                               | Add validation at four layers after finding root cause (Python + Rust examples, plus Rust newtype patterns)            |
 | [condition-based-waiting.md](references/condition-based-waiting.md)                 | Replace arbitrary `sleep`/`time.sleep`/`thread::sleep` with condition polling                                          |
 | [condition_based_waiting_example.py](references/condition_based_waiting_example.py) | Python reference implementation (sync + async via asyncio)                                                             |
