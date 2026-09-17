@@ -1,13 +1,21 @@
 {
+    "default": true,
+    "no-hard-tabs": true,
     "line-length": {
         "line_length": 100,
-        "heading_line_length": 100,
         "code_blocks": false,
         "tables": false
     },
-    "no-inline-html": false,
-    "no-emphasis-as-heading": false,
     "no-duplicate-heading": {
         "siblings_only": true
+    },
+    "table-column-style": false,
+    "no-inline-html": {
+        "allowed_elements": [
+            "br",
+            "hr",
+            "kbd",
+            "sup"
+        ]
     }
 }
