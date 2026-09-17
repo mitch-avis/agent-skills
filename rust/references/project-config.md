@@ -394,7 +394,7 @@ setting conflicts with a per-lint override. Lower numbers have lower priority an
 higher ones. The implicit default is `0`.
 
 | Priority | What it covers |
-| -------- | -------------- |
+| --- | --- |
 | `-2` | Broad Clippy groups such as `all`, `pedantic`, `nursery`, and `cargo`. |
 | `-1` | Higher-signal Clippy groups such as `correctness` and `suspicious`. |
 | `0` | Individual lint policy and exceptions such as `wildcard_imports` or `multiple_crate_versions`. |
