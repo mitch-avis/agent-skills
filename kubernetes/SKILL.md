@@ -38,9 +38,9 @@ description: >-
 
 Load on demand based on the task:
 
-| Topic              | Reference                           | Load When                                                       |
-| ------------------ | ----------------------------------- | --------------------------------------------------------------- |
-| Workloads          | `references/workloads.md`           | Deployments, StatefulSets, DaemonSets, Jobs, CronJobs           |
+| Topic | Reference | Load When |
+| --- | --- | --- |
+| Workloads | `references/workloads.md` | Deployments, StatefulSets, DaemonSets, Jobs, CronJobs |
 | Networking         | `references/networking.md`          | Services, Ingress, NetworkPolicies, DNS, service mesh           |
 | Security           | `references/security.md`            | Pod Security Standards, RBAC, OPA Gatekeeper, Istio, compliance |
 | Configuration      | `references/configuration.md`       | ConfigMaps, Secrets, env vars, External Secrets Operator        |
