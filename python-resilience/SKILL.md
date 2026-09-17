@@ -1,103 +1,93 @@
 ---
 name: python-resilience
 description: >-
-  Fault-tolerant Python patterns including retries with exponential backoff, timeouts, context
-  managers, resource cleanup, error handling, partial failure handling, and observability. Use when
-  building robust services, handling transient failures, or managing resources.
+  Fault-tolerant Python patterns covering validation, exception design, retries, timeouts,
+  resource cleanup, partial failures, and observability. Use when building resilient services,
+  handling external I/O, or protecting long-running workflows from transient failure.
 ---
 
 # Python Resilience and Resource Management
 
-Patterns for building fault-tolerant Python applications.
+Use this skill when the main question is how Python code fails, recovers, cleans up, or exposes the
+right telemetry under stress.
 
-## Error Handling
+## Core Principles
 
-### Validate Early
+- Validate inputs and external data early.
+- Distinguish permanent failures from transient ones.
+- Keep cleanup unconditional.
+- Make retry policy explicit and centralized.
+- Preserve error context for debugging.
+- Report enough state to understand degraded behavior without leaking secrets.
 
-Validate at API boundaries before expensive operations:
+## Validation and Exception Design
+
+Validate at boundaries before expensive work:
 
 ```python
-def create_order(data: dict[str, Any]) -> Order:
+def create_order(data: dict[str, object]) -> Order:
     if not data.get("items"):
         raise ValueError("'items' must be non-empty")
-    if data["quantity"] < 1:
-        raise ValueError(
-            f"'quantity' must be >= 1, got {data['quantity']}"
-        )
+    quantity = data.get("quantity")
+    if not isinstance(quantity, int) or quantity < 1:
+        raise ValueError(f"'quantity' must be >= 1, got {quantity!r}")
+    return build_order(data)
 ```
 
-- Meaningful messages: what failed, why, how to fix
-- Use specific exceptions: `ValueError`, `TypeError`, `KeyError`, `RuntimeError`, `TimeoutError`
-- Chain exceptions: `raise X from e` preserves debug trail
+- Use `ValueError`, `TypeError`, `KeyError`, `TimeoutError`, and domain-specific exceptions where
+  they fit.
+- Raise messages that explain what failed and how to correct it.
+- Chain exceptions with `raise DomainError(...) from exc` when translating low-level failures.
+- Map domain errors to transport errors at the boundary, not deep inside business logic.
 
-### Custom Exceptions
+## Partial Failures
 
-```python
-from dataclasses import dataclass
-
-@dataclass
-class ApiError(Exception):
-    status_code: int
-    message: str
-    retry_after: float | None = None
-```
-
-Use hierarchies: base exception per domain, specific subclasses for each failure mode.
-
-### Partial Failures
-
-Batch operations must not abort on first error:
+Batch and fan-out operations must retain both successes and failures.
 
 ```python
 @dataclass
-class BatchResult(Generic[K, V]):
-    successes: dict[K, V]
-    failures: dict[K, Exception]
+class BatchResult[T]:
+    succeeded: dict[int, T]
+    failed: dict[int, Exception]
 ```
 
-Track successes AND failures. Report both.
+- Do not abort an entire batch on the first bad item unless the workflow demands all-or-nothing
+  semantics.
+- Return enough indexing or identity information for callers to retry, inspect, or compensate.
 
-## Retry Logic
+## Retries and Timeouts
 
-Use `tenacity` for production retry logic:
+Use retries only for transient failures.
 
 ```python
-from tenacity import (
-    retry, stop_after_attempt, wait_exponential,
-    retry_if_exception_type,
-)
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
+
 
 @retry(
     stop=stop_after_attempt(5),
     wait=wait_exponential(multiplier=1, max=30),
-    retry=retry_if_exception_type(
-        (ConnectionError, TimeoutError)
-    ),
+    retry=retry_if_exception_type((ConnectionError, TimeoutError)),
 )
-async def fetch_data(url: str) -> dict[str, Any]:
+async def fetch_data(url: str) -> dict[str, object]:
     ...
 ```
 
-- Retry only transient errors: `ConnectionError`, `TimeoutError`, HTTP 5xx
-- Never retry permanent failures: `ValueError`, bad credentials, HTTP 4xx
-- Exponential backoff with jitter to prevent thundering herd
-- Bound retries by count AND duration
-- Always log retry attempts with attempt number and exception
+- Retry network errors, timeouts, and retryable 5xx failures.
+- Do not retry validation errors, bad credentials, or other permanent 4xx-style failures.
+- Bound retry count and total duration.
+- Add jitter when many workers may retry together.
+- Put a timeout on every external call.
 
-## Timeouts
-
-Set timeouts on every network call:
+For async code, prefer scoped timeouts on Python 3.11+:
 
 ```python
-result = await asyncio.wait_for(operation(), timeout=30.0)
+async with asyncio.timeout(30):
+    await operation()
 ```
-
-- Every external call needs a timeout
-- Use `asyncio.wait_for` for async, `signal.alarm` or `concurrent.futures` for sync
 
 ## Resource Management
 
-### Context Managers
+Use context managers for anything that must be released reliably.
 
 ```python
 class DatabasePool:
@@ -105,95 +95,48 @@ class DatabasePool:
         self.pool = await create_pool(self.dsn)
         return self
 
-    async def __aexit__(
-        self, exc_type: type | None, *args: object,
-    ) -> None:
+    async def __aexit__(self, *exc: object) -> None:
         await self.pool.close()
 ```
 
-- Always use `with` / `async with` for resources
-- `__exit__` executes regardless of exception
-- Return `None`/`False` from `__exit__` to propagate exceptions
-- Return `True` only to intentionally suppress (document it)
-
-### ExitStack for Dynamic Resources
-
-```python
-from contextlib import AsyncExitStack
-
-async with AsyncExitStack() as stack:
-    connections = [
-        await stack.enter_async_context(connect(host))
-        for host in hosts
-    ]
-```
+- Use `with` and `async with` for files, transactions, clients, and pools.
+- Return `False` or `None` from `__exit__` unless intentional suppression is part of the contract.
+- Use `AsyncExitStack` when the number of managed resources is dynamic.
+- Prefer list accumulation plus `"".join(...)` when streaming content must also be retained.
 
 ## Observability
 
-### Structured Logging
+Structured telemetry turns resilience code from guesswork into debuggable behavior.
 
-Use `structlog` for machine-readable JSON logs:
+- Log retries with attempt number, operation name, and failure class.
+- Propagate correlation IDs through request boundaries and worker hops.
+- Track latency, traffic, errors, and saturation at every service boundary.
+- Emit warnings for handled anomalies and errors for failures that still require attention.
+- Avoid unbounded labels or secret-bearing values in logs and metrics.
 
-```python
-import structlog
+## Detailed Patterns
 
-logger = structlog.get_logger()
-logger.info(
-    "order_created",
-    order_id=order.id,
-    user_id=user.id,
-    item_count=len(order.items),
-)
-```
-
-### Log Levels
-
-| Level | Use For |
-| --- | --- |
-| DEBUG | Development diagnostics |
-| INFO    | Operational events, state changes   |
-| WARNING | Handled anomalies, degraded service |
-| ERROR   | Failures needing attention          |
-
-Never log expected behavior (invalid password) as ERROR.
-
-### Correlation IDs
-
-Propagate a unique request ID through all logs and spans:
-
-```python
-from contextvars import ContextVar
-
-correlation_id: ContextVar[str] = ContextVar("correlation_id")
-```
-
-Pass `X-Correlation-ID` header to downstream services.
-
-### Metrics (Four Golden Signals)
-
-Track at every service boundary:
-
-- **Latency** — histogram of request duration
-- **Traffic** — counter of requests
-- **Errors** — counter of failures
-- **Saturation** — gauge of resource utilization
-
-Never use unbounded values (user IDs) as metric labels.
+Detailed validation, exception, cleanup, and `ExitStack` patterns live in `references/details.md`.
 
 ## Anti-Patterns
 
-- **No silent retries** — always log attempts
-- **No retrying permanent failures** — fail immediately
-- **No unbounded retries** — cap by count and duration
-- **No missing timeouts** — every external call needs one
-- **No unclosed resources** — always use context managers
-- **No `except Exception: pass`** — handle or propagate
-- **No logging expected behavior as ERROR**
+- No silent retries.
+- No retrying permanent failures.
+- No missing timeouts on external I/O.
+- No `except Exception: pass`.
+- No cleanup paths that depend on the happy path finishing first.
+- No logging expected user behavior as `ERROR`.
 
 ## Related Skills
 
-- [python](../python/SKILL.md) — core Python style and project layout
-- [python-async](../python-async/SKILL.md) — async retries, timeouts, cancellation
-- [observability](../observability/SKILL.md) — log and trace failures so retries are debuggable
-- [systematic-debugging](../systematic-debugging/SKILL.md) — diagnose root causes of transient
-  failures
+- [python](../python/SKILL.md) — core standards and toolchain
+- [python-async](../python-async/SKILL.md) — async cancellation and timeout integration
+- [python-configuration](../python-configuration/SKILL.md) — failing fast on invalid settings and
+  secret handling
+- [python-infrastructure](../python-infrastructure/SKILL.md) — workers, queues, and deployment-side
+  resilience concerns
+- [python-anti-patterns](../python-anti-patterns/SKILL.md) — final-pass checklist for cleanup and
+  failure hazards
+- [observability](../observability/SKILL.md) — tracing, logging, metrics, and alerting
+- [systematic-debugging](../systematic-debugging/SKILL.md) — root-cause workflows for failures that
+  are already happening
