@@ -1,9 +1,10 @@
 ---
 name: find-skills
 description: >-
-  Discovers and installs agent skills from the open skills ecosystem via the Skills CLI. Use when
-  looking for functionality that might exist as an installable skill, or when asked to find, search
-  for, or add a skill.
+  Helps users discover and install agent skills when they ask questions like "how do I do X", "find
+  a skill for X", "is there a skill that can...", or express interest in extending capabilities.
+  This skill should be used when the user is looking for functionality that might exist as an
+  installable skill.
 ---
 
 # Find Skills
@@ -28,9 +29,9 @@ modular packages that extend agent capabilities with specialized knowledge, work
 
 **Key commands:**
 
-- `npx skills find [query]` - Search for skills interactively or by keyword
+- `npx skills find [query] [--owner <owner>]` - Search for skills interactively or by keyword,
+  optionally scoped to a GitHub owner
 - `npx skills add <package>` - Install a skill from GitHub or other sources
-- `npx skills check` - Check for skill updates
 - `npx skills update` - Update all installed skills
 
 **Browse skills at:** <https://skills.sh/>
@@ -61,7 +62,7 @@ For example, top skills for web development include:
 If the leaderboard doesn't cover the user's need, run the find command:
 
 ```bash
-npx skills find [query]
+npx skills find [query] [--owner <owner>]
 ```
 
 For example:
@@ -76,7 +77,7 @@ For example:
 
 1. **Install count** — Prefer skills with 1K+ installs. Be cautious with anything under 100.
 2. **Source reputation** — Official sources (`vercel-labs`, `anthropics`, `microsoft`) are more
-   trustworthy.
+   trustworthy than unknown authors.
 3. **GitHub stars** — Check the source repository. A skill from a repo with <100 stars should be
    treated with skepticism.
 
@@ -92,9 +93,8 @@ When you find relevant skills, present them to the user with:
 Example response:
 
 ```text
-I found a skill that might help! The "react-best-practices"
-skill provides React and Next.js performance optimization
-guidelines from Vercel Engineering.
+I found a skill that might help! The "react-best-practices" skill provides
+React and Next.js performance optimization guidelines from Vercel Engineering.
 (185K installs)
 
 To install it:
@@ -120,12 +120,12 @@ When searching, consider these common categories:
 | Category | Example Queries |
 | --- | --- |
 | Web Development | react, nextjs, typescript, css, tailwind |
-| Testing         | testing, jest, playwright, e2e           |
-| DevOps          | deploy, docker, kubernetes, ci-cd        |
-| Documentation   | docs, readme, changelog, api-docs        |
-| Code Quality    | review, lint, refactor, best-practices   |
-| Design          | ui, ux, design-system, accessibility     |
-| Productivity    | workflow, automation, git                |
+| Testing | testing, jest, playwright, e2e |
+| DevOps | deploy, docker, kubernetes, ci-cd |
+| Documentation | docs, readme, changelog, api-docs |
+| Code Quality | review, lint, refactor, best-practices |
+| Design | ui, ux, design-system, accessibility |
+| Productivity | workflow, automation, git |
 
 ## Tips for Effective Searches
 
@@ -145,11 +145,9 @@ If no relevant skills exist:
 Example:
 
 ```text
-I searched for skills related to "xyz" but didn't find
-any matches. I can still help you with this task directly!
-Would you like me to proceed?
+I searched for skills related to "xyz" but didn't find any matches.
+I can still help you with this task directly! Would you like me to proceed?
 
-If this is something you do often, you could create your
-own skill:
+If this is something you do often, you could create your own skill:
 npx skills init my-xyz-skill
 ```
