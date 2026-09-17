@@ -350,13 +350,13 @@ printf '%s\0' "${files[@]}" | xargs -0 -P 4 -n 1 process_file
 
 | Anti-pattern | Fix |
 | --- | --- |
-| `cat file \| grep pat` | `grep pat file` |
+| `cat file then pipe to grep` | `grep pat file` |
 | `for f in $(ls *.txt)` | `for f in *.txt` |
 | `if [ $? -eq 0 ]` | `if cmd; then` |
 | `which cmd` | `command -v cmd` |
 | `` `cmd` `` (backticks) | `$(cmd)` |
 | `echo -e "$x"` | `printf '%b\n' "$x"` |
-| `cd dir; cmd` | `(cd dir && cmd)` or `cd dir \|\| exit` |
+| `cd dir; cmd` | `(cd dir && cmd)` or `cd dir`, then handle failure explicitly |
 | `[[ $count > 10 ]]` (string compare!) | `(( count > 10 ))` |
 | `eval "$cmd"` with user input | Build an array: `cmd=(grep "$pat" "$file"); "${cmd[@]}"` |
 | `rm -rf $dir/*` (unquoted!) | `rm -rf -- "${dir:?}"/*` (the `:?` aborts if `$dir` is empty) |
