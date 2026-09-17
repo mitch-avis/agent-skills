@@ -16,9 +16,9 @@ exclude noise (NOT)** until a small interesting subset remains.
 
 When a tool wraps these queries, prefer these parameter names:
 
-| Parameter   | Type   | Description                                                     |
-| ----------- | ------ | --------------------------------------------------------------- |
-| `start`     | string | Start of range (date math, e.g. `now-1h`)                       |
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `start` | string | Start of range (date math, e.g. `now-1h`) |
 | `end`       | string | End of range (e.g. `now`)                                       |
 | `kqlFilter` | string | KQL string used inside `KQL("...")`. Not `query` or `filter`    |
 | `limit`     | number | Max log samples (10–100; cap at 500)                            |
@@ -68,9 +68,9 @@ Stopping early reports noise, not failures.
 Always use `POST /_query`. Use `FORK` to fan out trend, total, samples, and categorization in **one
 round-trip**. Output:
 
-| Branch | Meaning                                               |
-| ------ | ----------------------------------------------------- |
-| fork1  | Trend (count per time bucket)                         |
+| Branch | Meaning |
+| --- | --- |
+| fork1 | Trend (count per time bucket) |
 | fork2  | Total count                                           |
 | fork3  | Sample logs (10–20 docs)                              |
 | fork4  | Top message patterns by count (CATEGORIZE, sort DESC) |
@@ -147,9 +147,9 @@ signal.
 
 Use ECS field names; OTel fields are aliased to ECS in Observability index templates.
 
-| Concern       | ECS field                                                                                                                 |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Service       | `service.name`, `service.environment`, `service.version`                                                                  |
+| Concern | ECS field |
+| --- | --- |
+| Service | `service.name`, `service.environment`, `service.version` |
 | Host          | `host.name`, `host.ip`                                                                                                    |
 | Container     | `container.id`, `container.name`, `container.image.name`                                                                  |
 | Kubernetes    | `kubernetes.namespace`, `kubernetes.pod.name`, `kubernetes.node.name`, `kubernetes.container.name`, `kubernetes.labels.*` |
