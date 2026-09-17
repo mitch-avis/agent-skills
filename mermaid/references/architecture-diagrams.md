@@ -125,9 +125,9 @@ architecture-beta
 
 **Popular icon packs:**
 
-| Icon Pack                    | Description                                   | Install                            |
-| ---------------------------- | --------------------------------------------- | ---------------------------------- |
-| `@iconify-json/logos`        | Technology brands (Docker, AWS, GitHub, etc.) | `npm i @iconify-json/logos`        |
+| Icon Pack | Description | Install |
+| --- | --- | --- |
+| `@iconify-json/logos` | Technology brands (Docker, AWS, GitHub, etc.) | `npm i @iconify-json/logos` |
 | `@iconify-json/bi`           | Bootstrap icons                               | `npm i @iconify-json/bi`           |
 | `@iconify-json/mdi`          | Material Design icons                         | `npm i @iconify-json/mdi`          |
 | `@iconify-json/simple-icons` | Simple icons                                  | `npm i @iconify-json/simple-icons` |
@@ -156,9 +156,9 @@ architecture-beta
 
 ## Edge Patterns
 
-| Pattern              | Description               |
-| -------------------- | ------------------------- |
-| `A:R -- L:B`         | Horizontal edge           |
+| Pattern | Description |
+| --- | --- |
+| `A:R -- L:B` | Horizontal edge |
 | `A:T -- B:B`         | Vertical edge (90 degree) |
 | `A:R --> L:B`        | Edge with arrow           |
 | `A:R <--> L:B`       | Bidirectional edge        |
