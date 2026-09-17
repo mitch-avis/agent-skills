@@ -108,9 +108,9 @@ src/
 
 Default every item to the most restrictive visibility. Work outward only when forced:
 
-| Visibility   | When to use                                |
-| ------------ | ------------------------------------------ |
-| (private)    | Default — everything starts here           |
+| Visibility | When to use |
+| --- | --- |
+| (private) | Default — everything starts here |
 | `pub(crate)` | Needed by another module in the same crate |
 | `pub(super)` | Needed only by the parent module           |
 | `pub`        | Part of the crate's public API             |
@@ -434,9 +434,9 @@ Use `cargo geiger` in CI to track the unsafe surface area.
 
 Follow the Rust API Guidelines without exception.
 
-| Item                 | Convention             | Example         |
-| -------------------- | ---------------------- | --------------- |
-| Types, traits, enums | `UpperCamelCase`       | `UserConfig`    |
+| Item | Convention | Example |
+| --- | --- | --- |
+| Types, traits, enums | `UpperCamelCase` | `UserConfig` |
 | Functions, methods   | `snake_case`           | `parse_count`   |
 | Constants, statics   | `SCREAMING_SNAKE_CASE` | `MAX_RETRIES`   |
 | Modules              | `snake_case`           | `http_client`   |
@@ -445,9 +445,9 @@ Follow the Rust API Guidelines without exception.
 
 ### Method Name Conventions
 
-| Pattern                      | Semantics                               |
-| ---------------------------- | --------------------------------------- |
-| `new(...)`                   | Infallible constructor                  |
+| Pattern | Semantics |
+| --- | --- |
+| `new(...)` | Infallible constructor |
 | `try_new(...)`               | Fallible constructor returning `Result` |
 | `from_*` / `into_*` / `as_*` | Conversions (From/Into/borrow)          |
 | `with_*`                     | Builder-style setter returning `Self`   |
