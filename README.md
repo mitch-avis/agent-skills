@@ -18,7 +18,7 @@ follows its instructions.
 | --- | --- |
 | [clean-code](clean-code/SKILL.md) | Clean Code principles from Robert C. Martin — naming, functions, comments, formatting, error handling, classes, and code smells |
 | [code-review](code-review/SKILL.md) | Phased PR review with severity rubric (P0–P3), per-dimension checklists, structured output template, feedback patterns, PR-size guide |
-| [committing-code](committing-code/SKILL.md) | High-quality git commits — Conventional Commits, selective staging, logical splitting, safety checks |
+| [committing-code](committing-code/SKILL.md) | High-quality git commits — Conventional Commits, selective staging, logical splitting, commit-message prep, and pre-commit safety checks |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Four-phase root cause analysis — reproduction, evidence, hypothesis, git bisect, differential debugging, Python + Rust toolkits |
 | [test-driven-development](test-driven-development/SKILL.md) | Strict TDD with red-green-refactor cycle, common rationalizations to avoid, and testing anti-patterns |
 | [task-orchestrator](task-orchestrator/SKILL.md) | Default entry point for complex or ambiguous tasks — decomposes into subtasks, assigns skills, runs parallel work |
@@ -35,11 +35,20 @@ follows its instructions.
 
 | Skill | Description |
 | --- | --- |
-| [python](python/SKILL.md) | Comprehensive guide — code style (ruff), design patterns, type safety, project structure, configuration, anti-patterns |
-| [python-async](python-async/SKILL.md) | asyncio patterns — event loops, coroutines, tasks, gather, semaphores, channels, async context managers |
-| [python-infrastructure](python-infrastructure/SKILL.md) | Packaging (pyproject.toml), performance optimization, background jobs (Celery), deployment workflows |
-| [python-resilience](python-resilience/SKILL.md) | Fault tolerance — retries with backoff, timeouts, context managers, resource cleanup, observability |
-| [python-testing](python-testing/SKILL.md) | pytest patterns — fixtures, mocking, parameterization, async tests, coverage, property-based testing |
+| [python](python/SKILL.md) | Core Python workflow — uv, ruff, pyright and ty, testing, architecture, packaging, configuration, and operational safety |
+| [python-async](python-async/SKILL.md) | asyncio and ASGI patterns — structured concurrency, cancellation, timeouts, queues, and FastAPI-style services |
+| [python-web-apis](python-web-apis/SKILL.md) | HTTP and ASGI service patterns — FastAPI handlers, dependency injection, response contracts, error mapping, and API tests |
+| [python-configuration](python-configuration/SKILL.md) | Typed settings and deployment config — environment variables, startup validation, secret files, and env-specific behavior |
+| [python-infrastructure](python-infrastructure/SKILL.md) | Project mechanics — uv workflows, dependency groups, strict `pyproject.toml` structure, lockfiles, profiling, workers, and release practices |
+| [python-modernization](python-modernization/SKILL.md) | Modern Python workflow upgrades — uv-native setup, pyright and ty, lockfiles, dependency groups, PEP 723 scripts, and legacy-tool migration |
+| [python-resilience](python-resilience/SKILL.md) | Failure-handling patterns — validation, exception design, retries, timeouts, cleanup, partial failures, and telemetry |
+| [python-testing](python-testing/SKILL.md) | pytest and TDD patterns — fixtures, mocks, async tests, coverage, markers, and property-based testing |
+| [python-type-safety](python-type-safety/SKILL.md) | pyright- and ty-aware typing patterns — annotations, protocols, generics, narrowing, and safer Python interfaces |
+| [python-anti-patterns](python-anti-patterns/SKILL.md) | Review checklist for common Python mistakes across architecture, async, typing, testing, config, and operations |
+
+The curated Python family also includes bundled reference docs for foundations, packaging,
+profiling, migration workflows, background jobs, cleanup-heavy failure handling, and web API
+details.
 
 ### Rust
 
@@ -156,7 +165,7 @@ the curated frontend skill family, then removed from the published set.
 | --- | --- | --- |
 | [404kidwiz/claude-supercode-skills](https://github.com/404kidwiz/claude-supercode-skills) | rust-engineer | rust |
 | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | frontend-ui-engineering | frontend-design, frontend-react |
-| [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | rust-patterns, rust-testing | rust, rust-testing |
+| [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | rust-patterns, rust-testing, python-patterns | rust, rust-testing, python |
 | [ailabs-393/ai-labs-claude-skills](https://github.com/ailabs-393/ai-labs-claude-skills) | docker-containerization | docker |
 | [aj-geddes/useful-ai-prompts](https://github.com/aj-geddes/useful-ai-prompts) | markdown-documentation, kubernetes-deployment, docker-containerization, gitlab-cicd-pipeline, cicd-pipeline-setup, code-review-analysis, logging-best-practices, application-logging | markdown-documentation, kubernetes, docker, cicd, code-review, observability |
 | [akin-ozer/cc-devops-skills](https://github.com/akin-ozer/cc-devops-skills) | bash-script-generator | shell-scripting |
@@ -180,7 +189,7 @@ the curated frontend skill family, then removed from the published set.
 | [manutej/luxor-claude-marketplace](https://github.com/manutej/luxor-claude-marketplace) | docker-compose-orchestration | docker |
 | [martinholovsky/claude-skills-generator](https://github.com/martinholovsky/claude-skills-generator) | cicd-expert, SQLite Database Expert | cicd, sql-database |
 | [millionco/react-doctor](https://github.com/millionco/react-doctor) | react-doctor | frontend-react |
-| [mindrally/skills](https://github.com/mindrally/skills)| gitlab-workflow, mysql-best-practices | cicd, sql-database |
+| [mindrally/skills](https://github.com/mindrally/skills) | gitlab-workflow, mysql-best-practices, fastapi-python | cicd, sql-database, python-web-apis |
 | [obra/superpowers](https://github.com/obra/superpowers) | test-driven-development, systematic-debugging, requesting-code-review | test-driven-development, systematic-debugging, code-review |
 | [onewave-ai/claude-skills](https://github.com/onewave-ai/claude-skills) | code-review-pro | code-review |
 | [patricio0312rev/skills](https://github.com/patricio0312rev/skills) | dockerfile-optimizer | docker |
@@ -198,7 +207,8 @@ the curated frontend skill family, then removed from the published set.
 | [vercel-labs/skills](https://github.com/vercel-labs/skills) | find-skills, vercel-react-best-practices, vercel-react-view-transitions, vercel-composition-patterns, vercel-microfrontends, web-design-guidelines | find-skills, frontend-design, frontend-react |
 | [vince-winkintel/gitlab-cli-skills](https://github.com/vince-winkintel/gitlab-cli-skills) | gitlab-cli-skills | cicd |
 | [wispbit-ai/skills](https://github.com/wispbit-ai/skills) | rust-expert-best-practices-code-review | rust |
-| [wshobson/agents](https://github.com/wshobson/agents) | python-code-style, python-design-patterns, python-project-structure, python-error-handling, python-anti-patterns, python-type-safety, python-configuration, async-python-patterns, python-testing-patterns, python-packaging, python-performance-optimization, python-background-jobs, python-resilience, python-resource-management, python-observability, service-mesh-observability, rust-async-patterns, k8s-manifest-generator, k8s-security-policies, helm-chart-scaffolding, gitlab-ci-patterns, sql-optimization-patterns, postgresql-table-design, code-review-excellence, shellcheck-configuration, bash-defensive-patterns | python, python-async, python-testing, python-infrastructure, python-resilience, observability, rust-async, kubernetes, helm, cicd, sql-database, code-review, shell-scripting |
+| [trailofbits/skills](https://github.com/trailofbits/skills) | modern-python | python, python-infrastructure, python-modernization |
+| [wshobson/agents](https://github.com/wshobson/agents) | python-code-style, python-design-patterns, python-project-structure, python-error-handling, python-anti-patterns, python-type-safety, python-configuration, async-python-patterns, python-testing-patterns, python-packaging, python-performance-optimization, python-background-jobs, python-resilience, python-resource-management, uv-package-manager, python-observability, service-mesh-observability, rust-async-patterns, k8s-manifest-generator, k8s-security-policies, helm-chart-scaffolding, gitlab-ci-patterns, sql-optimization-patterns, postgresql-table-design, code-review-excellence, shellcheck-configuration, bash-defensive-patterns | python, python-async, python-testing, python-infrastructure, python-resilience, python-configuration, python-type-safety, python-anti-patterns, python-modernization, observability, rust-async, kubernetes, helm, cicd, sql-database, code-review, shell-scripting |
 | [zhanghandong/rust-skills](https://github.com/zhanghandong/rust-skills) | rust-router, rust-refactor-helper, rust-trait-explorer, rust-code-navigator, rust-learner, rust-symbol-analyzer, rust-call-graph, rust-deps-visualizer, rust-skill-creator, rust-daily | rust |
 
 ## License
