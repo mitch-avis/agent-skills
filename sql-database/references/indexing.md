@@ -4,9 +4,9 @@ Detailed index design patterns and dialect-specific syntax.
 
 ## Index Types
 
-| Type     | Best For                                | PostgreSQL         | MySQL         | SQLite        |
-| -------- | --------------------------------------- | ------------------ | ------------- | ------------- |
-| B-Tree   | Equality, range, sorting (default)      | `USING btree`      | default       | default       |
+| Type | Best For | PostgreSQL | MySQL | SQLite |
+| --- | --- | --- | --- | --- |
+| B-Tree | Equality, range, sorting (default) | `USING btree` | default | default |
 | Hash     | Equality only                           | `USING hash`       | MEMORY engine | —             |
 | GIN      | JSONB, arrays, full-text                | `USING gin`        | —             | —             |
 | GiST     | Ranges, geometry, exclusion constraints | `USING gist`       | —             | —             |
