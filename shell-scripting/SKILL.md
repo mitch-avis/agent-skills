@@ -116,6 +116,12 @@ readonly SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
 
 For Bash 4.4+, also add `shopt -s inherit_errexit` so `-e` propagates into command substitutions.
 
+**`IFS` pitfall:** the same `IFS=$'\n\t'` also stops `read` and unquoted expansions from splitting
+on spaces. `read -r name value <<< "load 12.5"` puts the whole line in `name` and leaves `value`
+empty, with no error, so any logic that reads it silently goes wrong. Set `IFS` for that one command
+(`IFS=' ' read -r name value <<< "$line"`), and test any parsing logic under the script's own
+header, not in an interactive shell.
+
 ### Quoting and variables
 
 ```bash
