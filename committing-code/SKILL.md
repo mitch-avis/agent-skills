@@ -41,13 +41,28 @@ If unrelated changes exist in the same file, use patch staging in step 3.
 # Specific files
 git add path/to/file
 
-# Interactive hunk selection (preferred for mixed changes)
+# Interactive hunk selection (preferred for mixed changes in a terminal)
 git add -p
 
 # Unstage mistakes
 git restore --staged <path>
 git restore --staged -p   # unstage specific hunks
 ```
+
+`git add -p` and `git restore --staged -p` need an interactive terminal. Agents and scripts stage
+hunks through a patch file instead:
+
+```bash
+# Stage some hunks: write the diff, delete the unwanted hunks (keep the file headers), apply it
+git diff -- path/to/file > /path/to/tmp/hunks.patch
+git apply --cached --recount /path/to/tmp/hunks.patch
+
+# Unstage some hunks: keep only the hunks to remove, then reverse-apply them to the index
+git diff --cached -- path/to/file > /path/to/tmp/staged.patch
+git apply --cached --reverse --recount /path/to/tmp/staged.patch
+```
+
+Write the patch outside the repo, or delete it before committing.
 
 Never use `git add .` or `git add -A` without reviewing first.
 
@@ -89,7 +104,9 @@ Rules:
 - Subject line: imperative mood, under 72 characters
 - Body: explain what and why, not how
 - Footer: issue references, `BREAKING CHANGE:` if applicable
-- Prefer `git commit -v` for multi-line messages (shows diff in editor)
+- Prefer `git commit -v` for multi-line messages in a terminal (shows diff in editor); without an
+  editor, write the message to a file and use `git commit -F <file>`, or pass the subject and body
+  as separate `-m` arguments
 
 ### 7. Verify
 
