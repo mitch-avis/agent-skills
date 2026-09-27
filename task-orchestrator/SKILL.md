@@ -115,6 +115,18 @@ Launch independent subtasks as parallel subagents. Each subagent receives:
 - The subtask description
 - Relevant skill context
 - Input artifacts from prior steps (if any)
+- The repo rules that apply to it, because a subagent starts without your context: which
+  instruction files to read, the validation command, and the actions it must not take without
+  asking
+- What to return: files changed, check results, and open questions
+
+Respect concurrency limits even when subtasks are logically independent:
+
+- Heavy jobs that saturate CPU, GPU, or memory (model training, long builds, large backtests) run one
+  at a time. Parallelize the light work around them.
+- Two subagents never edit the same working tree at the same time. Give each its own git worktree,
+  or run them in sequence.
+- When the repo's instructions set their own concurrency or delegation rules, follow those.
 
 **Sequential execution** — for subtasks with dependencies:
 
@@ -157,6 +169,10 @@ Combine subtask outputs into a coherent final result:
 
 ## Standards Enforcement
 
+If the repo defines a validation script or gate (in `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, or
+CI), run that script: it alone decides whether the checks pass, and it uses the repo's own command
+forms. The commands below are the defaults for repos that don't define one.
+
 Apply these checks to every output:
 
 ### Rust
@@ -185,9 +201,9 @@ markdownlint .
 
 ### Universal
 
-- Line length: 100 characters
-- TDD: Failing test before implementation
-- Coverage target: 100% where achievable
+- Line length: the repo's configured limit, 100 characters by default
+- TDD: Failing test before implementation (characterization tests for behavior-preserving changes)
+- Coverage target: the repo's floor when it sets one; otherwise 100% where achievable
 
 ## Error Recovery
 
