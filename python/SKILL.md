@@ -14,6 +14,9 @@ structure, and quality bar for the rest of the Python skill family.
 
 ## Standards
 
+These are defaults. When the repo's instruction files (`AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`)
+or its CI declare a command form, a validation script, or a threshold, follow the repo instead.
+
 - **Python version:** Prefer 3.12+ for new projects. Follow the repo's declared minimum when
   working in an existing codebase.
 - **Environment:** Use a project-local `.venv`, never system Python.
@@ -22,6 +25,9 @@ structure, and quality bar for the rest of the Python skill family.
 - **Formatter:** `uv run ruff format .`
 - **Linter:** `uv run ruff check --fix .`
 - **Type checkers:** Run `uv run pyright` and `uv run ty check` in modern Python projects.
+- **Command forms:** The `uv run ...` forms above are the fallback. Use the repo's documented forms
+  (for example `.venv/bin/ruff`) when it states them. When the repo has a single validation script
+  or gate, that script alone decides whether the checks pass; individual tools are for iteration.
 - **Current stance:** Keep `pyright` as the stable baseline today. Use `ty` alongside it by
   default where available, and be ready to drop `pyright` once `ty` is mature enough for the repo.
 - **Testing:** TDD first. Write or identify the failing test before editing production code.
@@ -87,11 +93,13 @@ myproject/
     └── test_users.py
 ```
 
-- Keep one concept per file. Split files that drift past roughly 300-500 lines or mix concerns.
+- Keep one concept per file. Split files that mix concerns; in new code, roughly 300-500 lines is
+  the signal to look for a split. When the repo states its own size threshold, use that one.
 - Prefer absolute imports.
 - Define `__all__` where a module exposes a deliberate public surface.
 - Organize large codebases by business domain or architectural boundary, not by catch-all folders
-  like `utils` or `helpers`.
+  like `utils` or `helpers`. In an existing repo already built around such a package, follow its
+  layout; reorganizing it is a separate, agreed task, not a side effect of other work.
 - Keep dependency flow one-way: API or CLI layer -> service layer -> repository or client layer.
 
 ## Code Style
