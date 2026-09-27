@@ -41,7 +41,9 @@ Use this skill when:
 - **One Level of Abstraction**: Don't mix high-level business logic with low-level details (like
   regex).
 - **Descriptive Names**: `isPasswordValid` is better than `check`.
-- **Arguments**: 0 is ideal, 1-2 is okay, 3+ requires a very strong justification.
+- **Arguments**: 0 is ideal, 1-2 is okay, 3+ requires a very strong justification. In Python,
+  keyword-only arguments (`*, ...`) or a small config object keep longer signatures readable; data
+  pipelines and model code often legitimately take more.
 - **No Side Effects**: Functions shouldn't secretly change global state.
 
 ## 3. Comments
@@ -82,8 +84,11 @@ Use this skill when:
 
 - **Use Exceptions instead of Return Codes**: Keeps logic clean.
 - **Write Try-Catch-Finally First**: Defines the scope of the operation.
-- **Don't Return Null**: It forces the caller to check for null every time.
-- **Don't Pass Null**: Leads to `NullPointerException`.
+- **Don't Return Null**: It forces the caller to check for null every time. In typed Python,
+  returning `None` is fine when absence is a normal outcome and the signature says so (`User | None`);
+  raise an exception when it means failure.
+- **Don't Pass Null**: Leads to `NullPointerException`. In typed Python, accept `None` only where the
+  signature declares it.
 
 ## 7. Unit Tests
 
@@ -108,7 +113,7 @@ Use this skill when:
 
 ## Implementation Checklist
 
-- [ ] Is this function smaller than 20 lines?
+- [ ] Is this function short enough to read at a glance (about 20 lines is a target, not a limit)?
 - [ ] Does this function do exactly one thing?
 - [ ] Are all names searchable and intention-revealing?
 - [ ] Have I avoided comments by making the code clearer?
