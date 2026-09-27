@@ -22,7 +22,8 @@ Write the test first. Watch it fail. Write minimal code to pass.
 
 - New features
 - Bug fixes
-- Refactoring
+- Refactoring (with characterization tests, see
+  [Behavior-Preserving Changes](#behavior-preserving-changes-characterization-tests))
 - Behavior changes
 
 **Exceptions (ask your human partner):**
@@ -49,6 +50,21 @@ Write code before the test? Delete it. Start over.
 - Delete means delete
 
 Implement fresh from tests. Period.
+
+## Behavior-Preserving Changes: Characterization Tests
+
+A pure refactor or move (same inputs, same outputs) has no new behavior for a test to fail on. Pin
+the current behavior first instead:
+
+1. Write tests that capture what the code does today. Run them on the unchanged code and confirm
+   they **pass**.
+2. Prove each pin is real: temporarily break the code it covers, watch the test fail, then restore
+   the code.
+3. Make the refactor.
+4. Run the pins again. They must pass without being edited.
+
+If the refactor also changes any behavior, split that part out and apply the Iron Law to it. When
+the repo's own instructions define a characterization or coverage-first rule, follow them.
 
 ## Red-Green-Refactor
 
@@ -136,7 +152,9 @@ Confirm:
 - Failure message is expected
 - Fails because feature missing (not typos)
 
-**Test passes?** You're testing existing behavior. Fix test.
+**Test passes?** For a behavior change, you're testing existing behavior. Fix test. For a
+behavior-preserving change, a passing pin is the goal; see
+[Behavior-Preserving Changes](#behavior-preserving-changes-characterization-tests).
 
 **Test errors?** Fix error, re-run until it fails correctly.
 
@@ -290,7 +308,8 @@ PASS
 Before marking work complete:
 
 - [ ] Every new function/method has a test
-- [ ] Watched each test fail before implementing
+- [ ] Watched each test fail before implementing (behavior changes), or saw each characterization
+  pin pass before and after and fail when the covered code was broken (refactors)
 - [ ] Each test failed for expected reason (feature missing, not typo)
 - [ ] Wrote minimal code to pass each test
 - [ ] All tests pass
