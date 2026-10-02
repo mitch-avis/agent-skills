@@ -3,39 +3,32 @@
 Detailed configuration for Rust projects. The canonical standards are in the parent
 [SKILL.md](../SKILL.md); this file contains ready-to-copy configuration blocks and rationale.
 
-These templates cover strict linting, edition 2024, latest-stable toolchains, nightly rustfmt
-support when desired, and centralized policy that is easy to copy into new applications, workspaces,
-and standalone libraries.
+These templates cover strict linting, edition 2024, the nightly toolchain, and centralized policy
+that is easy to copy into new applications, workspaces, and standalone libraries.
 
 ## Policy Summary
 
-- Use the latest stable Rust toolchain through `rust-toolchain.toml`.
-- Do not set `rust-version` in `Cargo.toml`. Always use the latest stable toolchain.
+- Use the nightly Rust toolchain through `rust-toolchain.toml`, and run cargo as `cargo +nightly`.
+- Do not set `rust-version` in `Cargo.toml`.
 - Use edition 2024 for new projects.
 - Keep lint levels in `Cargo.toml`; keep Clippy thresholds in `clippy.toml`.
 - Run Clippy with `-D warnings` in CI and before merge.
-- Keep stable rustfmt as the default formatter, with nightly rustfmt available for the nightly-only
-  options in `rustfmt.toml`.
+- Nightly rustfmt enforces the nightly-only options in `rustfmt.toml`.
 
 ## rust-toolchain.toml
 
-Use `stable` instead of a numbered release so `rustup update` moves projects to the latest stable
-compiler, rustfmt, and Clippy. This intentionally prioritizes current Rust standards over old-MSRV
-compatibility.
+Use the `nightly` channel so `rustup update` moves projects to the newest compiler, rustfmt, and
+Clippy. This intentionally prioritizes current Rust over old-MSRV compatibility. Date-pin
+(`nightly-YYYY-MM-DD`) only while a nightly regression blocks the build.
 
 ```toml
 # rust-toolchain.toml (project or workspace root)
 [toolchain]
-# Use the latest stable Rust toolchain. Run `rustup update` regularly so local development and CI
-# pick up current compiler, rustfmt, and Clippy behavior.
-channel = "stable"
+# Use the nightly toolchain. Run `rustup update` regularly so local development and CI pick up
+# current compiler, rustfmt, and Clippy behavior.
+channel = "nightly"
 profile = "minimal"
 components = ["rust-src", "rustfmt", "clippy"]
-
-# This project intentionally keeps a few nightly-only rustfmt options in `rustfmt.toml`. Use a
-# one-off nightly formatter when you want those options enforced locally:
-#
-# cargo +nightly-YYYY-MM-DD fmt --all
 ```
 
 ## Layouts
@@ -139,9 +132,8 @@ opt-level = 1
 # files. This crate is standalone, so it uses `[lints.*]` directly instead of workspace lint
 # inheritance.
 #
-# Local `cargo clippy` stays readable by reporting most style/design feedback as warnings. CI and
-# pre-merge checks should run `cargo clippy --all-targets --all-features -- -D warnings`, which
-# promotes those warnings to hard failures without making every local exploratory run hostile.
+# Clippy groups and policy lints are hard errors. The few compiler lints left at `warn` keep a
+# half-finished edit building; the gate (`cargo +nightly clippy ... -- -D warnings`) fails on them.
 [lints.rust]
 # Unsafe is forbidden by default for this library. If unsafe code ever becomes necessary, isolate it
 # behind a small safe API and document the invariants before relaxing this lint locally.
@@ -152,8 +144,7 @@ unsafe_code = "forbid"
 future_incompatible = { level = "deny", priority = -1 }
 nonstandard_style = { level = "deny", priority = -1 }
 
-# Warnings are still enforced in CI with `-D warnings`, but keeping them as warnings in the
-# manifest makes day-to-day local iteration less brittle.
+# Warn-level so in-progress code still builds; the `-D warnings` gate turns them into failures.
 deprecated = "warn"
 let_underscore = { level = "warn", priority = -1 }
 unused = { level = "warn", priority = -1 }
@@ -169,19 +160,13 @@ broken_intra_doc_links = "deny"
 bare_urls = "deny"
 
 [lints.clippy]
-# Broad coverage: Clippy's stable, pedantic, nursery, and Cargo lint groups catch most issues we
-# care about. They are warnings here, then become failures under the standard `-D warnings` check.
-# Priority -2 lets the high-signal groups and individual policy lints below override cleanly.
-all = { level = "warn", priority = -2 }
-pedantic = { level = "warn", priority = -2 }
-nursery = { level = "warn", priority = -2 }
-cargo = { level = "warn", priority = -2 }
-
-# Correctness and suspicious-code lints point at likely bugs. Keep them as hard errors even without
-# `-D warnings` so local runs fail fast on high-signal findings. Priority -1 keeps individual
-# project exceptions at the default priority 0 available when a lint needs a documented carve-out.
-correctness = { level = "deny", priority = -1 }
-suspicious = { level = "deny", priority = -1 }
+# Broad coverage: Clippy's default (`all`), pedantic, nursery, and Cargo groups are hard errors.
+# Priority -1 lets the individual policy lints below, at the default priority 0, override a group
+# cleanly when a lint needs a different level.
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
 
 # Prefer `#[expect(...)]` over `#[allow(...)]`: it warns when the suppression is no longer needed.
 # If an allow is unavoidable, require a reason so suppressions stay auditable.
@@ -214,7 +199,7 @@ dbg_macro = "deny"
 wildcard_imports = "deny"
 
 # `Arc::clone(&x)` is more explicit than `x.clone()` for Rc/Arc and makes reference-count bumps
-# visible at the call site without forcing this stylistic lint to block local work immediately.
+# visible at the call site. Warn-level for iteration; the `-D warnings` gate enforces it.
 clone_on_ref_ptr = "warn"
 
 # Prefer `condition.then_some(value)` over `if condition { Some(value) } else { None }`.
@@ -285,9 +270,9 @@ opt-level = 1
 # [lints]
 # workspace = true
 #
-# Local `cargo clippy` stays readable by reporting most style/design feedback as warnings. CI and
-# pre-merge checks should run `cargo clippy --workspace --all-targets --all-features -- -D warnings`,
-# which promotes those warnings to hard failures for review gates.
+# Clippy groups and policy lints are hard errors. The few compiler lints left at `warn` keep a
+# half-finished edit building; the gate (`cargo +nightly clippy --workspace ... -- -D warnings`)
+# fails on them.
 [workspace.lints.rust]
 # Unsafe is forbidden by default for this workspace. If unsafe code ever becomes necessary, isolate
 # it behind a small safe API and document the invariants before relaxing this lint locally.
@@ -298,8 +283,7 @@ unsafe_code = "forbid"
 future_incompatible = { level = "deny", priority = -1 }
 nonstandard_style = { level = "deny", priority = -1 }
 
-# Warnings are still enforced in CI with `-D warnings`, but keeping them as warnings in the
-# manifest makes day-to-day local iteration less brittle.
+# Warn-level so in-progress code still builds; the `-D warnings` gate turns them into failures.
 deprecated = "warn"
 let_underscore = { level = "warn", priority = -1 }
 unused = { level = "warn", priority = -1 }
@@ -315,19 +299,13 @@ broken_intra_doc_links = "deny"
 bare_urls = "deny"
 
 [workspace.lints.clippy]
-# Broad coverage: Clippy's stable, pedantic, nursery, and Cargo lint groups catch most issues we
-# care about. They are warnings here, then become failures under the standard `-D warnings` check.
-# Priority -2 lets the high-signal groups and individual policy lints below override cleanly.
-all = { level = "warn", priority = -2 }
-pedantic = { level = "warn", priority = -2 }
-nursery = { level = "warn", priority = -2 }
-cargo = { level = "warn", priority = -2 }
-
-# Correctness and suspicious-code lints point at likely bugs. Keep them as hard errors even without
-# `-D warnings` so local runs fail fast on high-signal findings. Priority -1 keeps individual
-# project exceptions at the default priority 0 available when a lint needs a documented carve-out.
-correctness = { level = "deny", priority = -1 }
-suspicious = { level = "deny", priority = -1 }
+# Broad coverage: Clippy's default (`all`), pedantic, nursery, and Cargo groups are hard errors.
+# Priority -1 lets the individual policy lints below, at the default priority 0, override a group
+# cleanly when a lint needs a different level.
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
 
 # Prefer `#[expect(...)]` over `#[allow(...)]`: it warns when the suppression is no longer needed.
 # If an allow is unavoidable, require a reason so suppressions stay auditable.
@@ -360,7 +338,7 @@ dbg_macro = "deny"
 wildcard_imports = "deny"
 
 # `Arc::clone(&x)` is more explicit than `x.clone()` for Rc/Arc and makes reference-count bumps
-# visible at the call site without forcing this stylistic lint to block local work immediately.
+# visible at the call site. Warn-level for iteration; the `-D warnings` gate enforces it.
 clone_on_ref_ptr = "warn"
 
 # Prefer `condition.then_some(value)` over `if condition { Some(value) } else { None }`.
@@ -395,8 +373,7 @@ higher ones. The implicit default is `0`.
 
 | Priority | What it covers |
 | --- | --- |
-| `-2` | Broad Clippy groups such as `all`, `pedantic`, `nursery`, and `cargo`. |
-| `-1` | Higher-signal Clippy groups such as `correctness` and `suspicious`. |
+| `-1` | Lint groups: Clippy `all`, `pedantic`, `nursery`, and `cargo`; rustc `unused` and friends. |
 | `0` | Individual lint policy and exceptions such as `wildcard_imports` or `multiple_crate_versions`. |
 
 Do not put broad groups and individual overrides at the same priority. Clippy's
@@ -477,20 +454,14 @@ allow-panic-in-tests = true
 
 ## Validation Commands
 
-Standalone crates:
-
 ```bash
-cargo fmt --check
-cargo +nightly fmt --all --check
-cargo clippy --all-targets --all-features -- -D warnings
-cargo test --all-targets --all-features
+cargo +nightly fmt --all
+cargo +nightly clippy --workspace --all-features --all-targets -- -D warnings
+cargo +nightly build --workspace --all-features --all-targets
+cargo +nightly test --doc --workspace --all-features
+cargo +nightly nextest run --workspace --all-features --all-targets
 ```
 
-Workspaces:
-
-```bash
-cargo fmt --all --check
-cargo +nightly fmt --all --check
-cargo clippy --workspace --all-targets --all-features -- -D warnings
-cargo test --workspace --all-targets --all-features
-```
+The same commands cover standalone crates and workspaces. For crates with feature flags, also run
+`cargo hack clippy --workspace --each-feature -- -D warnings`; before a release, rerun the gates
+with `--release`.

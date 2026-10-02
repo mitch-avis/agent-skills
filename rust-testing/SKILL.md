@@ -16,8 +16,8 @@ Write a failing test first. Implement the minimum code to make it pass. Refactor
 commit code that adds functionality without a corresponding test.
 
 1. **RED** — Write one failing test with a descriptive name
-2. **Verify RED** — Run `cargo test`, confirm it fails for the expected reason (not a compile error
-   or typo)
+2. **Verify RED** — Run `cargo +nightly nextest run <filter>`, confirm it fails for the expected
+   reason (not a compile error or typo)
 3. **GREEN** — Write the minimum code to make the test pass
 4. **Verify GREEN** — All tests pass, no warnings
 5. **REFACTOR** — Improve code structure while keeping tests green
@@ -216,12 +216,14 @@ criterion::criterion_main!(benches);
 ## CI Integration
 
 ```bash
-cargo test --all-targets --all-features
-cargo clippy --all-targets --all-features -- -D warnings
-cargo fmt --check
+cargo +nightly fmt --all
+cargo +nightly clippy --workspace --all-features --all-targets -- -D warnings
+cargo +nightly build --workspace --all-features --all-targets
+cargo +nightly test --doc --workspace --all-features
+cargo +nightly nextest run --workspace --all-features --all-targets
 ```
 
-- Run all three checks in CI for every commit
+- Run all five checks in CI for every commit; nextest skips doctests, so keep `cargo test --doc`
 - Use `cargo llvm-cov` or `cargo tarpaulin` for coverage
 - Target 100% coverage wherever achievable
 

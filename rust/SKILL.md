@@ -14,16 +14,23 @@ projects with strict linting, strict formatting, and TDD discipline.
 
 ## Standards
 
-- **Formatter:** `rustfmt` (enforced via `cargo fmt --check` in CI)
-- **Linter:** `clippy` with `-D warnings` — all warnings are errors
+- **Toolchain:** nightly, pinned by `rust-toolchain.toml`; run every cargo command as
+  `cargo +nightly ...`
+- **Formatter:** `rustfmt` (`cargo +nightly fmt --all`; `--check` in CI)
+- **Linter:** `cargo +nightly clippy --workspace --all-features --all-targets -- -D warnings` — all
+  warnings are errors
+- **Tests:** `cargo +nightly nextest run --workspace --all-features --all-targets`, plus
+  `cargo +nightly test --doc --workspace --all-features` because nextest skips doctests
 - **Line length:** 100 characters (`max_width = 100`)
-- **Testing:** TDD — failing tests first, then implementation
+- **Testing:** TDD for new features and modules — failing tests first, then implementation; small
+  targeted fixes are exempt but keep the suite green
 - **Coverage target:** 100% wherever achievable
 - **Edition:** 2024
 
 ## Toolchain & Project Setup
 
-Select the latest stable toolchain with `rust-toolchain.toml` at the project or workspace root. Use
+Select the `nightly` channel with `rust-toolchain.toml` at the project or workspace root; date-pin
+it (`nightly-YYYY-MM-DD`) only while a nightly regression blocks the build. Use
 a workspace layout for multi-crate applications and services; standalone libraries can remain a
 single crate when there is no real need for workspace indirection. Always commit `Cargo.lock` for
 binaries and workspaces; standalone libraries may omit it when downstream version-range testing is
@@ -63,25 +70,28 @@ Declare all lint configuration in the workspace `Cargo.toml` using `[workspace.l
 with `lints.workspace = true` per crate. Never scatter `#![warn(...)]` / `#![deny(...)]` inner
 attributes across `lib.rs` / `main.rs`.
 
-Key settings: `missing_docs = "deny"`, `unsafe_code = "deny"`, `unreachable_pub = "warn"`, all
-clippy groups at `warn` with `correctness` at `deny`, `wildcard_imports = "deny"`.
+Key settings: Clippy `all`, `pedantic`, `nursery`, and `cargo` at `deny`; restriction lints
+`unwrap_used`, `expect_used`, `panic`, `as_conversions`, `allow_attributes`,
+`allow_attributes_without_reason`, `undocumented_unsafe_blocks`, and `wildcard_imports` at `deny`;
+`unsafe_code = "forbid"`; `missing_docs = "deny"`. The few warn-level compiler lints fail under the
+`-D warnings` gate.
 
 ## Lint Governance
 
-Every `#[allow(...)]` annotation requires a comment explaining why that lint is suppressed for that
-specific site. No silent suppressions.
+Suppress a lint only at the narrowest site, with `#[expect(..., reason = "...")]` instead of
+`#[allow]`: the compiler warns when the exception is no longer needed, and the reason is mandatory.
+Enforce this with `allow_attributes = "deny"` and `allow_attributes_without_reason = "deny"`. No
+crate-level or blanket suppressions.
 
 ```rust
-// `exhaustive_structs` would prevent downstream pattern matching,
-// which we explicitly want to allow here for ergonomics.
-#[allow(clippy::exhaustive_structs)]
+#[expect(
+    clippy::exhaustive_structs,
+    reason = "downstream crates pattern-match on Config by design"
+)]
 pub struct Config {
     pub timeout_ms: u64,
 }
 ```
-
-Prefer `#[expect(clippy::lint_name)]` over `#[allow]` — the compiler warns when the exception is no
-longer needed.
 
 ## Module & File Structure
 
@@ -490,10 +500,12 @@ tools table.
 Essential commands:
 
 ```bash
-cargo fmt --all -- --check
-cargo clippy --all-targets --all-features -- -D warnings
-cargo test --all-targets --all-features
-RUSTDOCFLAGS="-D warnings" cargo doc --all-features --no-deps
+cargo +nightly fmt --all
+cargo +nightly clippy --workspace --all-features --all-targets -- -D warnings
+cargo +nightly build --workspace --all-features --all-targets
+cargo +nightly test --doc --workspace --all-features
+cargo +nightly nextest run --workspace --all-features --all-targets
+RUSTDOCFLAGS="-D warnings" cargo +nightly doc --workspace --all-features --no-deps
 cargo deny check && cargo audit
 ```
 
