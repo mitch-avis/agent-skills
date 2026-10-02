@@ -141,7 +141,9 @@ git bisect reset  # when done
 ### Phase 4: Implementation
 
 1. **Create Failing Test Case** — simplest possible reproduction. Automated test if possible. MUST
-   exist before fixing. Use the **test-driven-development** skill.
+   exist before fixing unless the fix is a small targeted fix (a local correction with no new API,
+   module, or feature); then reproduce it manually and keep the existing suite green. Use the
+   **test-driven-development** skill.
 2. **Implement Single Fix** — address the root cause. ONE change at a time. No "while I'm here"
    improvements.
 3. **Verify Fix** — test passes now? No other tests broken? Issue actually resolved?

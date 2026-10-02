@@ -118,7 +118,7 @@ Use this skill when:
 - [ ] Are all names searchable and intention-revealing?
 - [ ] Have I avoided comments by making the code clearer?
 - [ ] Am I passing too many arguments?
-- [ ] Is there a failing test for this change?
+- [ ] For a new feature or module, did a failing test come first?
 
 ## Related Skills
 

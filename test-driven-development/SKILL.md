@@ -1,9 +1,10 @@
 ---
 name: test-driven-development
 description: >-
-  Enforces strict TDD methodology with red-green-refactor cycle. No production code without a
-  failing test first. Covers the TDD workflow, common rationalizations to avoid, debugging
-  integration, and testing anti-patterns. Use before writing any feature or bugfix implementation.
+  Enforces strict TDD methodology with red-green-refactor cycle for new features and modules: no
+  new production code without a failing test first. Covers the TDD workflow, common
+  rationalizations to avoid, debugging integration, and testing anti-patterns. Use before
+  implementing a new feature, module, or behavior change; small targeted fixes are exempt.
 ---
 
 # Test-Driven Development (TDD)
@@ -20,11 +21,15 @@ Write the test first. Watch it fail. Write minimal code to pass.
 
 **Always:**
 
-- New features
-- Bug fixes
+- New features and new modules
+- Behavior changes, including bug fixes that change or add behavior beyond a local correction
 - Refactoring (with characterization tests, see
   [Behavior-Preserving Changes](#behavior-preserving-changes-characterization-tests))
-- Behavior changes
+
+**Exempt (test-first not required):**
+
+- Small targeted fixes: a local correction to existing code that adds no new public API, module,
+  or feature. The existing suite must still pass afterward.
 
 **Exceptions (ask your human partner):**
 
@@ -32,13 +37,16 @@ Write the test first. Watch it fail. Write minimal code to pass.
 - Generated code
 - Configuration files
 
-Thinking "skip TDD just this once"? Stop. That's rationalization.
+Thinking "skip TDD just this once" for anything bigger than a small targeted fix? Stop. That's
+rationalization.
 
 ## The Iron Law
 
 ```text
-NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
+NO NEW PRODUCTION CODE WITHOUT A FAILING TEST FIRST
 ```
+
+Applies to new features, modules, and behavior changes. Small targeted fixes are the only exemption.
 
 Write code before the test? Delete it. Start over.
 
@@ -330,10 +338,11 @@ Can't check all boxes? You skipped TDD. Start over.
 
 ## Debugging Integration
 
-Bug found? Write failing test reproducing it. Follow TDD cycle. Test proves fix and prevents
-regression.
+Bug found that needs more than a small targeted fix? Write a failing test reproducing it. Follow
+the TDD cycle. The test proves the fix and prevents regression.
 
-Never fix bugs without a test.
+For a small targeted fix, test-first is optional; run the existing suite to confirm nothing
+regressed.
 
 ## Testing Anti-Patterns
 
@@ -347,11 +356,11 @@ When adding mocks or test utilities, read
 ## Final Rule
 
 ```text
-Production code → test exists and failed first
+New production code → test exists and failed first
 Otherwise → not TDD
 ```
 
-No exceptions without your human partner's permission.
+No exceptions beyond small targeted fixes without your human partner's permission.
 
 ## Related Skills
 
