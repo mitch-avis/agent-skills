@@ -101,7 +101,9 @@ Refs #123
 
 Rules:
 
-- Subject line: imperative mood, under 72 characters
+- Subject line: lowercase imperative summary, under 72 characters, no trailing period
+- Type matches the change: test-only commits are `test`, not `feat(tests)`; dependency refreshes
+  are `chore: update deps`
 - Body: explain what and why, not how
 - Footer: issue references, `BREAKING CHANGE:` if applicable
 - Prefer `git commit -v` for multi-line messages in a terminal (shows diff in editor); without an
