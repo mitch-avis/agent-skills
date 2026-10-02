@@ -178,31 +178,34 @@ Apply these checks to every output:
 ### Rust
 
 ```bash
-cargo fmt --check
-cargo clippy --all-targets --all-features -- -D warnings
-cargo test --all-targets --all-features
+cargo +nightly fmt --all --check
+cargo +nightly clippy --workspace --all-features --all-targets -- -D warnings
+cargo +nightly build --workspace --all-features --all-targets
+cargo +nightly test --doc --workspace --all-features
+cargo +nightly nextest run --workspace --all-features --all-targets
 ```
 
 ### Python
 
 ```bash
-uv run ruff format --check .
-uv run ruff check .
-uv run pyright
-uv run ty check
-uv run pytest --cov
+.venv/bin/ruff format --check .
+.venv/bin/ruff check .
+.venv/bin/pyright
+.venv/bin/ty check
+.venv/bin/pytest --cov
 ```
 
 ### Markdown
 
 ```bash
-markdownlint .
+markdownlint-cli2 "**/*.md" "#.venv" "#node_modules" "#target"
 ```
 
 ### Universal
 
 - Line length: the repo's configured limit, 100 characters by default
-- TDD: Failing test before implementation (characterization tests for behavior-preserving changes)
+- TDD: Failing test before implementing new features and modules (characterization tests for
+  behavior-preserving changes); small targeted fixes are exempt but keep the suite green
 - Coverage target: the repo's floor when it sets one; otherwise 100% where achievable
 
 ## Error Recovery
