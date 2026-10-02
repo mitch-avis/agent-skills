@@ -5,19 +5,18 @@
 Use a project-local `.venv` and drive it with `uv`.
 
 ```bash
-uv python install 3.12
-uv python pin 3.12
-uv venv
+uv python install 3.14
+uv init --build-backend uv --python 3.14 myproject
 uv add httpx
-uv add --group dev ruff pyright ty
-uv add --group test pytest pytest-cov pytest-xdist pytest-asyncio
+uv add --group dev ruff pyright ty pytest pytest-cov pytest-xdist
 uv sync
-uv lock
+uv lock --check
 ```
 
 - Reuse the existing environment when one already exists.
 - Confirm before creating a new `.venv` in an existing repo.
-- Use `uv run ...` instead of manual activation when possible.
+- Run tools as `.venv/bin/<tool>` instead of relying on activation or `uv run`, which re-syncs
+  the environment first and can replace packages installed outside the lockfile.
 
 ## Naming and Docstrings
 
@@ -25,7 +24,7 @@ uv lock
 - Use `PascalCase` for classes and `SCREAMING_SNAKE_CASE` for constants.
 - Avoid vague buckets such as `helpers`, `common`, or `misc`.
 
-Google-style docstrings remain the most interoperable default:
+Use Google-style docstrings, enforced by Ruff's `D` rules with `convention = "google"`:
 
 ```python
 def process_batch(items: list[Item]) -> BatchResult:

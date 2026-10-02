@@ -74,7 +74,7 @@ codebase becomes more explicit.
 
 ```toml
 [tool.pyright]
-pythonVersion = "3.12"
+pythonVersion = "3.14"
 typeCheckingMode = "standard"
 venvPath = "."
 venv = ".venv"

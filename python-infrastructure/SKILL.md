@@ -26,16 +26,15 @@ Use `uv` as the control plane for Python project tooling.
 
 ```bash
 uv self update
-uv python install 3.12
-uv python pin 3.12
-uv venv
+uv python install 3.14
+uv init --build-backend uv --python 3.14 mypackage
 uv add fastapi
 uv add --group dev ruff pyright ty
 uv add --group test pytest pytest-cov pytest-xdist
 uv sync
-uv lock
-uv run pytest
-uv run ty check
+uv lock --check
+.venv/bin/pytest
+.venv/bin/ty check
 uv build
 ```
 
@@ -52,15 +51,15 @@ Prefer `src/` layout for packages and libraries.
 
 ```toml
 [build-system]
-requires = ["hatchling>=1.32"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
 
 [project]
 name = "mypackage"
 version = "0.1.0"
 description = "What it does"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = []
 
 [project.optional-dependencies]
@@ -80,20 +79,29 @@ required-version = ">=0.11.21"
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["COM812", "CPY001", "D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.pyright]
-pythonVersion = "3.12"
+pythonVersion = "3.14"
 typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
 
 [tool.ty.environment]
 python = ".venv"
 [tool.ty.src]
 include = ["src", "tests"]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/mypackage"]
 ```
+
+`uv_build` finds `src/mypackage` from the project name; set `[tool.uv.build-backend]`
+`module-name` or `module-root` only when the layout differs.
 
 - Include `py.typed` in typed packages.
 - Define CLI entry points in `[project.scripts]`.

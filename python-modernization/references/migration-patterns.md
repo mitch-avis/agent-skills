@@ -30,8 +30,8 @@ compatibility.
 
 ```bash
 uv add --group dev ruff
-uv run ruff check --fix .
-uv run ruff format .
+.venv/bin/ruff check --fix .
+.venv/bin/ruff format .
 ```
 
 ## Typing Migration
@@ -39,7 +39,8 @@ uv run ruff format .
 - Start with `pyright` in standard mode.
 - Fix import and optional issues first.
 - Tighten diagnostics gradually.
-- Run `ty` only where the repo already expects it.
+- Add `ty` alongside `pyright` and keep both at 0 errors; `ty` is expected to replace `pyright`
+  as it matures.
 
 ## PEP 723 Scripts
 
@@ -48,7 +49,7 @@ Use inline metadata for standalone tools instead of creating a whole project for
 ```python
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.12"
+# requires-python = ">=3.14"
 # dependencies = ["httpx", "rich"]
 # ///
 ```

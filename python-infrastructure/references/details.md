@@ -26,14 +26,14 @@ Use `pyproject.toml` as the single source of truth for packaging and tool config
 
 ```toml
 [build-system]
-requires = ["hatchling>=1.32"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
 
 [project]
 name = "mypackage"
 version = "0.1.0"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = ["httpx>=0.28"]
 
 [project.optional-dependencies]
@@ -60,15 +60,15 @@ and then trim the repo-specific parts.
 
 ```toml
 [build-system]
-requires = ["hatchling>=1.32"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
 
 [project]
 name = "myproject"
 version = "0.1.0"
 description = "Application description"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 keywords = ["domain", "service", "application"]
 authors = [{ name = "Your Name", email = "you@example.com" }]
 license = { text = "MIT" }
@@ -78,7 +78,7 @@ dependencies = [
     "requests",
 ]
 classifiers = [
-    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.14",
     "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX :: Linux",
 ]
@@ -107,17 +107,14 @@ dev = [
     "ty",
 ]
 
-[tool.hatch.build.targets.wheel]
-packages = ["myproject"]
-
 [tool.uv]
 default-groups = ["dev"]
 required-version = ">=0.11.21"
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
-src = ["."]
+target-version = "py314"
+src = ["src", "tests"]
 extend-exclude = [
     ".venv",
     ".git",
@@ -128,11 +125,17 @@ extend-exclude = [
 ]
 
 [tool.ruff.lint]
-select = ["B", "C4", "D", "E", "F", "I", "N", "NPY", "PGH", "S", "SIM", "UP", "W"]
-ignore = ["D203", "D213"]
+select = ["ALL"]
+ignore = ["COM812", "CPY001", "D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101", "S105", "S106"]
+"tests/**" = [
+    "ANN", "ARG001", "ARG002", "D", "INP001", "PLC0415", "PLR2004", "S101", "S105", "S106",
+    "SLF001",
+]
 
 [tool.ruff.lint.isort]
 known-first-party = ["myproject"]
@@ -142,13 +145,13 @@ docstring-code-format = true
 
 [tool.ty.environment]
 python = ".venv"
-python-version = "3.12"
+python-version = "3.14"
 
 [tool.ty.src]
-include = ["myproject", "scripts", "tests"]
+include = ["src", "scripts", "tests"]
 
 [tool.pyright]
-pythonVersion = "3.12"
+pythonVersion = "3.14"
 typeCheckingMode = "standard"
 venvPath = "."
 venv = ".venv"
@@ -226,14 +229,16 @@ uv remove httpx
 uv sync
 uv sync --group test
 uv lock
+uv lock --check
 uv export --format requirements-txt > requirements.txt
-uv run pyright
-uv run ty check
-uv run pytest
+.venv/bin/pyright
+.venv/bin/ty check
+.venv/bin/pytest
 uv build
 ```
 
-- Prefer `uv run` to manual virtualenv activation.
+- Run tools as `.venv/bin/<tool>`: `uv run` re-syncs the environment first and can replace packages
+  installed outside the lockfile, such as CUDA or torch builds.
 - Regenerate the lock file when dependency constraints change.
 - Export `requirements.txt` only when another tool or platform requires it.
 

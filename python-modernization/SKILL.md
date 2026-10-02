@@ -22,27 +22,25 @@ Use this skill when the job is not just writing Python, but upgrading the projec
 ## Decision Rules
 
 - New script with dependencies -> use a PEP 723 script.
-- New application or CLI -> use `uv init` and commit `uv.lock`.
-- New library or package -> use `src/` layout and the repo's preferred build backend.
+- New application or CLI -> use `uv init --build-backend uv` and commit `uv.lock`.
+- New library or package -> use `src/` layout and the `uv_build` backend.
 - Legacy repo using pip, Poetry, Black, isort, or mypy -> migrate incrementally, keeping behavior
   stable while the tooling changes.
 
 ## Baseline Workflow
 
 ```bash
-uv init myproject
+uv init --build-backend uv --python 3.14 myproject
 cd myproject
-uv python pin 3.12
 uv add httpx
-uv add --group dev ruff pyright ty
-uv add --group test pytest pytest-cov pytest-xdist
+uv add --group dev ruff pyright ty pytest pytest-cov pytest-xdist
 uv sync
-uv lock
-uv run ruff check .
-uv run ruff format .
-uv run pyright
-uv run ty check
-uv run pytest
+uv lock --check
+.venv/bin/ruff format .
+.venv/bin/ruff check .
+.venv/bin/pyright
+.venv/bin/ty check
+.venv/bin/pytest
 ```
 
 ## Migration Principles
@@ -56,8 +54,10 @@ uv run pytest
 ## Common Migrations
 
 - `requirements.txt` and ad hoc virtualenvs -> `uv add`, `uv sync`, `uv lock`
-- Black + isort + flake8 -> `ruff format` and `ruff check`
+- Black + isort + flake8 -> `ruff format` and `ruff check`, tightened to `select = ["ALL"]` once
+  the curated rule set passes
 - mypy-heavy setups -> `pyright` and `ty`, with gradual diagnostic tightening
+- `hatchling` or `setuptools` -> `uv_build` when the package layout allows it
 - one-off Python utilities -> PEP 723 scripts
 
 ## CI and Release Expectations

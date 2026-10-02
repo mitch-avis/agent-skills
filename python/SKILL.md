@@ -17,22 +17,29 @@ structure, and quality bar for the rest of the Python skill family.
 These are defaults. When the repo's instruction files (`AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`)
 or its CI declare a command form, a validation script, or a threshold, follow the repo instead.
 
-- **Python version:** Prefer 3.12+ for new projects. Follow the repo's declared minimum when
-  working in an existing codebase.
+- **Python version:** Use the latest stable Python (currently 3.14), installed and pinned by uv,
+  for new projects. Follow the repo's declared minimum when working in an existing codebase.
 - **Environment:** Use a project-local `.venv`, never system Python.
 - **Package manager:** Use `uv` for Python installation, dependency management, locking, and
   command execution.
-- **Formatter:** `uv run ruff format .`
-- **Linter:** `uv run ruff check --fix .`
-- **Type checkers:** Run `uv run pyright` and `uv run ty check` in modern Python projects.
-- **Command forms:** The `uv run ...` forms above are the fallback. Use the repo's documented forms
-  (for example `.venv/bin/ruff`) when it states them. When the repo has a single validation script
-  or gate, that script alone decides whether the checks pass; individual tools are for iteration.
-- **Current stance:** Keep `pyright` as the stable baseline today. Use `ty` alongside it by
-  default where available, and be ready to drop `pyright` once `ty` is mature enough for the repo.
-- **Testing:** TDD first. Write or identify the failing test before editing production code.
+- **Formatter:** `.venv/bin/ruff format .`
+- **Linter:** `.venv/bin/ruff check .` (add `--fix` while iterating), with `select = ["ALL"]` and
+  a short, documented `ignore` list.
+- **Type checkers:** Run `.venv/bin/pyright` and `.venv/bin/ty check`; both must report 0 errors.
+  Configure both in `pyproject.toml`, stricter than pyright's `standard` defaults.
+- **Command forms:** Run tools from the project venv as `.venv/bin/<tool>`. `uv run` syncs the
+  environment before every command and can replace packages installed outside the lockfile (CUDA
+  or torch builds), so use it only where the repo documents it. When the repo has a single
+  validation script or gate, that script alone decides whether the checks pass; individual tools
+  are for iteration.
+- **Current stance:** Run `pyright` and `ty` together today; plan to drop `pyright` once `ty` is
+  mature enough for the repo.
+- **Testing:** TDD for new features and modules: write the failing test before the production
+  code. Small targeted fixes don't require test-first, but must keep the suite green.
 - **Line length:** 100 characters for prose and source.
-- **Build backend:** Prefer `hatchling` unless the repo already standardizes on something else.
+- **Docstrings:** Google style, enforced by Ruff's `D` rules with `convention = "google"`.
+- **Build backend:** `uv_build` for new projects (`uv init --build-backend uv`). Keep an existing
+  backend unless the task is a migration.
 
 ## Default Workflow
 
@@ -50,19 +57,17 @@ Common commands:
 
 ```bash
 uv self update
-uv python install 3.12
-uv python pin 3.12
-uv venv
+uv python install 3.14
+uv init --build-backend uv --python 3.14 myproject
 uv add httpx
-uv add --group dev ruff pyright ty
-uv add --group test pytest pytest-cov pytest-xdist pytest-asyncio
+uv add --group dev ruff pyright ty pytest pytest-cov pytest-xdist
 uv sync
-uv lock
-uv run pytest
-uv run pyright
-uv run ty check
-uv run ruff check .
-uv run ruff format .
+uv lock --check
+.venv/bin/ruff format .
+.venv/bin/ruff check .
+.venv/bin/pyright
+.venv/bin/ty check
+.venv/bin/pytest
 ```
 
 For single-file scripts, prefer PEP 723 metadata via `uv init --script`.
@@ -110,8 +115,8 @@ myproject/
 - Keep functions focused. Extract helpers when a function has multiple reasons to change or deep
   nesting.
 - Write comments only when they explain intent, constraints, or a non-obvious tradeoff.
-- Use concise Google-style docstrings for public APIs when the behavior is not already obvious from
-  the signature.
+- Give public modules, classes, and functions Google-style docstrings; Ruff's `D` rules enforce
+  them. Keep them concise when the signature already says most of it.
 
 Docstring and comment stability matters:
 
@@ -232,27 +237,33 @@ tooling detail.
 
 ```toml
 [build-system]
-requires = ["hatchling>=1.32"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
 
 [project]
 name = "myproject"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = []
 
 [dependency-groups]
-dev = ["ruff", "pyright", "ty", "pytest"]
-
-[tool.uv]
-default-groups = ["dev"]
+dev = ["ruff", "pyright", "ty", "pytest", "pytest-cov"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["COM812", "CPY001", "D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.pyright]
-pythonVersion = "3.12"
+pythonVersion = "3.14"
 typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
 
 [tool.ty.environment]
 python = ".venv"
