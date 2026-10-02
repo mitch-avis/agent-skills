@@ -73,7 +73,9 @@ Detailed implementations in the `references/` directory:
 
 ### Formatting Standards
 
-Configure `markdownlint` for enforcement. Recommended `.markdownlint.json`:
+Enforce with `markdownlint-cli2` on every changed Markdown file, including agent instruction files
+(`AGENTS.md`, `CLAUDE.md`, `SKILL.md`): `markdownlint-cli2 <files>`. Recommended
+`.markdownlint.json`:
 
 ```json
 {
