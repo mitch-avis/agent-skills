@@ -1,11 +1,11 @@
 ---
 name: generating-custom-instructions
 description: >-
-  Generates and maintains custom instruction files for AI coding agents. Analyzes codebase patterns,
-  conventions, and tooling to produce agent-agnostic instruction files (copilot-instructions.md,
-  .instructions.md, AGENTS.md, CLAUDE.md). Use when setting up a new project for AI assistance,
-  onboarding a repository, updating stale instructions, or refreshing conventions after a major
-  refactor or migration.
+  Use when creating, refreshing, or consolidating agent instruction files (AGENTS.md, CLAUDE.md,
+  .claude/rules, Copilot instruction files): setting up a repo for AI agents, onboarding a
+  repository, fixing stale or contradictory instructions, or updating conventions after a major
+  refactor or migration. Analyzes the codebase and writes an AGENTS.md-first layout with a thin
+  CLAUDE.md that imports it.
 ---
 
 # Generating Custom Instructions
@@ -29,12 +29,10 @@ conventions, tooling, and architecture. Works for any agent that reads Markdown 
 Before creating anything, discover what already exists:
 
 ```bash
-find . -name 'copilot-instructions.md' \
-       -o -name '*.instructions.md' \
-       -o -name 'AGENTS.md' \
-       -o -name 'CLAUDE.md' \
-       -o -name 'GEMINI.md' \
-       -o -name 'SKILL.md' \
+find . \( -name node_modules -o -name .venv -o -name .git \) -prune -o \( \
+       -name 'AGENTS.md' -o -name 'CLAUDE.md' -o -name 'CLAUDE.local.md' -o -name 'GEMINI.md' \
+       -o -name 'copilot-instructions.md' -o -name '*.instructions.md' -o -name 'SKILL.md' \
+       -o -path '*/.claude/rules/*.md' \) -print \
   | head -50
 ```
 
@@ -67,9 +65,6 @@ Scan the project to extract facts. Never assume — verify everything against ac
 - Documentation style (docstrings, JSDoc, XML comments)
 - Test organization, naming, and assertion style
 
-When documenting prose conventions, include a formatter-agnostic stability rule set for source-file
-comments/docstrings so repeated wrapping/formatting does not cause churn.
-
 **Architecture:**
 
 - Folder structure and layer boundaries
@@ -88,7 +83,7 @@ Write instructions based solely on observed patterns.
 - Naming conventions that diverge from language defaults
 - Error handling and logging patterns specific to the project
 - Testing approach: framework, patterns, what to test
-- Comment/docstring stability rules that are independent of any one formatting tool
+- Comment and docstring wrapping rules, when the repo already follows one
 - Security practices enforced in the codebase
 - Architecture constraints and layer boundaries
 - Dependency management rules (lockfile policy, approved sources)
@@ -102,7 +97,8 @@ Write instructions based solely on observed patterns.
 
 **Writing style:**
 
-- State rules directly: "Do X" / "Never Y" / "Prefer X over Y"
+- State rules plainly at normal volume ("Do X", "Prefer X over Y"); keep "never" for hard
+  constraints and put the reason beside it
 - Include reasoning behind non-obvious rules: "Use `date-fns` instead of `moment.js` — moment is
   deprecated and bloats the bundle"
 - Show preferred and avoided patterns with short code examples
@@ -115,39 +111,43 @@ Select the right file type for each set of instructions. See
 [instruction-file-formats.md](references/instruction-file-formats.md) for full format
 specifications.
 
+The default layout is AGENTS.md-first: the rules live in one file every agent reads, and Claude
+Code gets them through an import. Add Copilot files only when the repo uses Copilot.
+
 | Scope | File | When to use |
 | --- | --- | --- |
-| Repository-wide | `.github/copilot-instructions.md` | Stack overview, build/test commands, global conventions |
-| Path-specific     | `.github/instructions/*.instructions.md` | Rules for specific file types, frameworks, or directories |
-| Multi-agent       | `AGENTS.md` (root or subfolder)          | When multiple AI agents share the workspace               |
-| Claude-compatible | `CLAUDE.md`                              | When Claude Code is used alongside other agents           |
-| Reusable skill    | `~/.agents/skills/*/SKILL.md`            | Patterns reusable across multiple projects                |
+| Repository-wide | `AGENTS.md` (root, or a subfolder for a subtree) | Stack, commands, structure, conventions; the single source of truth |
+| Claude Code bridge | `CLAUDE.md` containing `@AGENTS.md` | Always, next to each `AGENTS.md`; Claude-only notes go below the import |
+| Path-specific | `.claude/rules/*.md` with `paths:` | Rules that apply only to some file types or directories |
+| Copilot (opt-in) | `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md` | When the repo also uses Copilot |
+| Reusable skill | A skill directory linked into each agent's skills path | Patterns reusable across projects |
 
-**Frontmatter** for path-specific files:
+**Frontmatter** for path-specific Claude rules (`paths` is the only field Claude Code reads):
 
 ```yaml
 ---
-description: 'Brief third-person description of what these rules cover'
-applyTo: '**/*.py'
+paths:
+  - '**/*.py'
 ---
 ```
 
-- `description`: what the instructions cover (third person, used for discovery)
-- `applyTo`: glob pattern relative to workspace root; omit to require manual attachment
+Copilot's equivalent uses `applyTo: '**/*.py'` plus an optional `description`.
 
 ### 5. Organize the File Set
 
 Structure instructions by concern, not by agent:
 
 ```text
-.github/
-├── copilot-instructions.md          # Repository-wide: stack, build, test, structure
-└── instructions/
-    ├── python.instructions.md       # Python conventions
-    ├── typescript.instructions.md   # TypeScript conventions
-    ├── testing.instructions.md      # Test-writing rules
-    └── docs.instructions.md         # Documentation standards
-AGENTS.md                            # (optional) Multi-agent portable copy
+AGENTS.md                    # Repository-wide: stack, commands, structure, conventions
+CLAUDE.md                    # @AGENTS.md, then any Claude Code-only notes
+.claude/
+└── rules/
+    ├── python.md            # paths: ['**/*.py']
+    ├── testing.md           # paths: ['tests/**']
+    └── docs.md              # paths: ['**/*.md']
+web/
+├── AGENTS.md                # Subtree rules for the frontend
+└── CLAUDE.md                # @AGENTS.md
 ```
 
 **Principles:**
@@ -170,8 +170,8 @@ After generating instructions:
 
 ## Content Template
 
-Starting point for `.github/copilot-instructions.md`. Strip sections that do not apply; add
-project-specific ones as needed.
+Starting point for `AGENTS.md`. Strip sections that do not apply; add project-specific ones as
+needed. Pair it with a `CLAUDE.md` whose first line is `@AGENTS.md`.
 
 ```markdown
 # Project Instructions
@@ -226,7 +226,7 @@ Example migration note:
 ```markdown
 ## Migration: React class components → hooks (in progress)
 
-- All new components MUST use functional components with hooks
+- New components use functional components with hooks
 - Existing class components in `src/legacy/` will be migrated incrementally
 - Do not convert class components unless explicitly asked
 - When modifying a class component, prefer minimal changes over full conversion

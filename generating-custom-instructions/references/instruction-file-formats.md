@@ -2,7 +2,61 @@
 
 Reference for all instruction file types recognized by major AI coding agents.
 
-## Repository-Wide: `copilot-instructions.md`
+## Multi-Agent Portable: `AGENTS.md`
+
+- **Path**: repository root (and optionally subfolders)
+- **Scope**: all chat requests in the workspace (or subfolder if nested)
+- **Recognized by**: GitHub Copilot, Codex, VS Code agents, and Claude Code (see below)
+- **Format**: plain Markdown, no special frontmatter required
+
+The default home for a repository's rules: one file that every agent can read. Subfolder
+`AGENTS.md` files apply instructions scoped to that subtree, which is useful in monorepos.
+
+Claude Code reads `AGENTS.md` directly only when there is no `CLAUDE.md`, `.claude/CLAUDE.md`, or
+`CLAUDE.local.md` in the working directory or above it. As soon as any of those exists, it reads
+the `CLAUDE.md` files instead. The reliable bridge is a thin `CLAUDE.md` whose first line imports
+the shared file:
+
+```markdown
+@AGENTS.md
+
+<!-- Claude Code-only notes go below the import. -->
+```
+
+Claude Code never reads anything under a `.agents/` directory on its own; reference those files
+from `AGENTS.md` if agents need them.
+
+## Claude Code: `CLAUDE.md`
+
+- **Path**: workspace root, `.claude/CLAUDE.md`, or `~/.claude/CLAUDE.md`
+- **Scope**: always-on for the workspace or user
+- **Recognized by**: Claude Code, VS Code (when enabled)
+- **Format**: plain Markdown
+
+Keep it thin: `@AGENTS.md` plus any Claude Code-only notes, so the rules live in one place. VS Code
+also reads `CLAUDE.md` as always-on instructions when the `chat.useClaudeMdFile` setting is
+enabled.
+
+Local variant `CLAUDE.local.md` is for machine-specific instructions not committed to version
+control.
+
+### Claude Rules Files
+
+- **Path**: `.claude/rules/*.md` (project) or `~/.claude/rules/*.md` (user)
+- **Format**: Markdown with optional frontmatter. `paths` is the only field Claude Code reads; any
+  other field (such as `description`) is ignored.
+- **Loading**: a rule without `paths` loads at session start; a rule with `paths` loads when Claude
+  reads or edits a matching file.
+
+```markdown
+---
+paths:
+  - '**/*.py'
+---
+# Python rules for Claude
+```
+
+## Copilot Repository-Wide: `copilot-instructions.md`
 
 - **Path**: `.github/copilot-instructions.md`
 - **Scope**: every chat request and agent task in the repository
@@ -24,7 +78,7 @@ applyTo: "**"
 - Lint: `make lint`
 ```
 
-## Path-Specific: `*.instructions.md`
+## Copilot Path-Specific: `*.instructions.md`
 
 - **Path**: `.github/instructions/**/*.instructions.md`
 - **Scope**: files matching the `applyTo` glob, or semantically matched to the current task via the
@@ -77,50 +131,14 @@ Organize by subdirectory for large projects:
     └── unit-tests.instructions.md
 ```
 
-## Multi-Agent Portable: `AGENTS.md`
-
-- **Path**: repository root (and optionally subfolders)
-- **Scope**: all chat requests in the workspace (or subfolder if nested)
-- **Recognized by**: GitHub Copilot, Claude Code, VS Code agents
-- **Format**: plain Markdown, no special frontmatter required
-
-Use when multiple AI agents share the workspace and you want a single set of instructions recognized
-by all of them. Subfolder `AGENTS.md` files apply instructions scoped to that subtree — useful in
-monorepos.
-
-## Claude-Compatible: `CLAUDE.md`
-
-- **Path**: workspace root, `.claude/CLAUDE.md`, or `~/.claude/CLAUDE.md`
-- **Scope**: always-on for the workspace or user
-- **Recognized by**: Claude Code, VS Code (when enabled)
-- **Format**: plain Markdown
-
-Use when Claude Code is a primary agent. VS Code also reads `CLAUDE.md` as always-on instructions
-when the `chat.useClaudeMdFile` setting is enabled.
-
-Local variant `CLAUDE.local.md` is for machine-specific instructions not committed to version
-control.
-
-### Claude Rules Files
-
-- **Path**: `.claude/rules/*.md`
-- **Format**: Markdown with optional `paths` array (not `applyTo`)
-
-```markdown
----
-description: 'Python conventions'
-paths:
-  - '**/*.py'
----
-# Python rules for Claude
-```
-
 ## Reusable Skills: `SKILL.md`
 
-- **Path**: `~/.agents/skills/<name>/SKILL.md` (global) or `.agents/skills/<name>/SKILL.md`
-  (project-local)
+- **Path**: depends on the agent. Claude Code loads only `~/.claude/skills/<name>/SKILL.md`
+  (personal) and `.claude/skills/<name>/SKILL.md` (project); a shared collection elsewhere, such as
+  `~/.agents/skills/`, needs a symlink per skill into `~/.claude/skills/`. Other agents may read
+  `~/.agents/skills/` or `.agents/skills/` directly; check their docs.
 - **Scope**: loaded on demand when the skill description matches the task
-- **Recognized by**: Claude Code, VS Code agents with skill discovery
+- **Recognized by**: Claude Code, VS Code agents with skill discovery, and other Agent Skills hosts
 - **Format**: Markdown with required YAML frontmatter
 
 Use for patterns reusable across multiple projects. Skills are not always-on — they are loaded only
@@ -158,25 +176,27 @@ main file.
 
 ## Instruction Priority
 
-When multiple instruction types coexist, all are provided to the agent. In case of conflict,
-higher-priority instructions take precedence:
+Precedence differs by tool:
 
-1. Personal / user-level instructions (highest)
-2. Repository instructions (`copilot-instructions.md`, `AGENTS.md`)
-3. Organization-level instructions (lowest)
+- **Claude Code**: every discovered file is concatenated into context; none overrides another.
+  User files load before project files and directories load from the root down, so the most
+  specific file is read last, but on a direct conflict Claude may follow either. Keep the layers
+  consistent, and state precedence in words where it matters (for example, "this repo's
+  `AGENTS.md` wins over personal defaults").
+- **GitHub Copilot**: all instruction types are provided, and on conflict personal instructions
+  win over repository instructions, which win over organization instructions.
 
-## Organization-Level Instructions
+### Copilot Organization-Level Instructions
 
-Defined at the GitHub organization level and automatically applied to all repositories the user has
-access to. Lowest priority — repository instructions override them.
+Defined at the GitHub organization level and applied to every repository the user can access.
+Lowest priority in Copilot; repository instructions override them.
 
 ## Choosing the Right Format
 
 | Question | Recommendation |
 | --- | --- |
-| One set of rules for the whole repo? | `copilot-instructions.md` |
-| Different rules for different file types? | `*.instructions.md` with `applyTo` |
-| Multiple AI agents in use? | `AGENTS.md` |
-| Claude Code as primary agent? | `CLAUDE.md` |
-| Patterns reusable across repos? | `SKILL.md` in `~/.agents/skills/` |
-| Monorepo with distinct subprojects? | Subfolder `AGENTS.md` or scoped `*.instructions.md` |
+| One set of rules for the whole repo? | `AGENTS.md`, plus a thin `CLAUDE.md` with `@AGENTS.md` |
+| Different rules for different file types? | `.claude/rules/*.md` with `paths` (Copilot: `*.instructions.md` with `applyTo`) |
+| Copilot also in use? | Optional `.github/copilot-instructions.md` pointing at or mirroring `AGENTS.md` |
+| Patterns reusable across repos? | A skill, linked into each agent's skills directory |
+| Monorepo with distinct subprojects? | Subfolder `AGENTS.md` (with its own thin `CLAUDE.md`) |
