@@ -62,17 +62,36 @@ class BatchResult[T]:
 Use retries only for transient failures.
 
 ```python
-from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
+import httpx
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    stop_after_delay,
+    wait_random_exponential,
+)
+
+
+def is_transient(exc: BaseException) -> bool:
+    # httpx errors don't subclass the builtin ConnectionError or TimeoutError
+    if isinstance(exc, httpx.TransportError):  # connect failures, timeouts, dropped connections
+        return True
+    return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code >= 500
 
 
 @retry(
-    stop=stop_after_attempt(5),
-    wait=wait_exponential(multiplier=1, max=30),
-    retry=retry_if_exception_type((ConnectionError, TimeoutError)),
+    retry=retry_if_exception(is_transient),
+    wait=wait_random_exponential(multiplier=1, max=30),  # jitter spreads out retrying workers
+    stop=stop_after_attempt(5) | stop_after_delay(60),
+    reraise=True,
 )
-async def fetch_data(url: str) -> dict[str, object]:
-    ...
+async def fetch_data(client: httpx.AsyncClient, url: str) -> dict[str, object]:
+    response = await client.get(url, timeout=10.0)
+    response.raise_for_status()
+    return response.json()
 ```
+
+Match the retry predicate to the exceptions your client actually raises.
 
 - Retry network errors, timeouts, and retryable 5xx failures.
 - Do not retry validation errors, bad credentials, or other permanent 4xx-style failures.

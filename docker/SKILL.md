@@ -208,7 +208,7 @@ RUN adduser -D appuser
 COPY package.json package-lock.json ./
 
 # 4. Install deps      (cached if lockfile unchanged)
-RUN npm ci --production
+RUN npm ci --omit=dev
 
 # 5. Source code        (changes frequently)
 COPY --chown=appuser:appuser . .

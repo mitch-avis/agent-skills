@@ -33,7 +33,7 @@ step.
 
 ```dockerfile
 # Fewer layers, smaller image
-RUN npm ci --production && \
+RUN npm ci --omit=dev && \
     npm cache clean --force && \
     rm -rf /tmp/*
 ```

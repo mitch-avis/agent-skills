@@ -24,7 +24,6 @@ environments, packaging, performance, workers, release flows, and reproducibilit
 Use `uv` as the control plane for Python project tooling.
 
 ```bash
-uv self update
 uv python install 3.14
 uv init --build-backend uv --python 3.14 mypackage
 uv add fastapi
@@ -167,8 +166,7 @@ Queue choices:
 ## Detailed Patterns
 
 Detailed packaging, profiling, worker, and release patterns live in `references/details.md`,
-including a strict application-grade `pyproject.toml` example that generalizes the strongest parts
-of your current project setup.
+including a strict application-grade `pyproject.toml` example.
 
 ## Related Skills
 

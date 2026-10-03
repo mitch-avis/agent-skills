@@ -55,7 +55,6 @@ or its CI declare a command form, a validation script, or a threshold, follow th
 Common commands:
 
 ```bash
-uv self update
 uv python install 3.14
 uv init --build-backend uv --python 3.14 myproject
 uv add httpx
