@@ -5,15 +5,17 @@
 Keep API handlers thin and typed.
 
 ```python
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-@router.get("/{user_id}", response_model=UserResponse)
+@router.get("/{user_id}")
 async def get_user(
     user_id: str,
-    service: UserService = Depends(get_user_service),
+    service: Annotated[UserService, Depends(get_user_service)],
 ) -> UserResponse:
     user = await service.get_user(user_id)
     if user is None:
@@ -23,7 +25,8 @@ async def get_user(
 
 - Put request parsing and HTTP-specific error mapping in the route layer.
 - Put business rules in service objects or pure functions.
-- Use `response_model` or return annotations to keep contracts explicit.
+- Declare the response model as the return annotation; FastAPI uses it for validation and the
+  OpenAPI schema, so `response_model=` is only needed when the two must differ.
 - Do not return raw ORM models directly.
 
 ## Dependencies and Lifespan

@@ -284,7 +284,7 @@ class User(Base):
     __tablename__ = "user"
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(unique=True, index=True)
-    orders: Mapped[list["Order"]] = relationship(back_populates="user")
+    orders: Mapped[list["Order"]] = relationship(back_populates="user")  # noqa: UP037  # SQLAlchemy resolves by name
 
 
 class Order(Base):
@@ -338,6 +338,8 @@ let user = sqlx::query_as::<_, User>(
 ## Security
 
 ### Parameterized Queries (Mandatory)
+
+<!-- check-examples: skip -->
 
 ```python
 # BAD — SQL injection

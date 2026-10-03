@@ -17,7 +17,8 @@ class Settings(BaseSettings):
 try:
     settings = Settings()
 except ValidationError as exc:
-    raise SystemExit(f"Configuration error: {exc}")
+    msg = f"Configuration error: {exc}"
+    raise SystemExit(msg) from exc
 ```
 
 ## Environment-Specific Behavior
@@ -148,11 +149,11 @@ DEBUG=true
 Use an environment enum to switch behavior.
 
 ```python
-from enum import Enum
+from enum import StrEnum
 from pydantic_settings import BaseSettings
 from pydantic import Field, computed_field
 
-class Environment(str, Enum):
+class Environment(StrEnum):
     LOCAL = "local"
     STAGING = "staging"
     PRODUCTION = "production"
@@ -260,10 +261,11 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_replica_settings(self):
-        if self.read_replica_host and self.read_replica_port == self.db_port:
-            if self.read_replica_host == self.db_host:
-                raise ValueError(
-                    "Read replica cannot be the same as primary database"
-                )
+        if (
+            self.read_replica_host == self.db_host
+            and self.read_replica_port == self.db_port
+        ):
+            msg = "Read replica cannot be the same as primary database"
+            raise ValueError(msg)
         return self
 ```

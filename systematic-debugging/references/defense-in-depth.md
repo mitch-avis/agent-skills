@@ -26,9 +26,11 @@ Different layers catch different cases:
 ```python
 def create_project(name: str, working_directory: str) -> Project:
     if not working_directory or not working_directory.strip():
-        raise ValueError("working_directory cannot be empty")
+        msg = "working_directory cannot be empty"
+        raise ValueError(msg)
     if not Path(working_directory).exists():
-        raise FileNotFoundError(f"working_directory does not exist: {working_directory}")
+        msg = f"working_directory does not exist: {working_directory}"
+        raise FileNotFoundError(msg)
     # ... proceed
 ```
 
@@ -39,7 +41,8 @@ def create_project(name: str, working_directory: str) -> Project:
 ```python
 def initialize_workspace(project_dir: str, session_id: str) -> None:
     if not project_dir:
-        raise ValueError("project_dir required for workspace initialization")
+        msg = "project_dir required for workspace initialization"
+        raise ValueError(msg)
     # ... proceed
 ```
 
@@ -53,9 +56,8 @@ def git_init(directory: str) -> None:
         normalized = Path(directory).resolve()
         tmp_dir = Path(tempfile.gettempdir()).resolve()
         if not str(normalized).startswith(str(tmp_dir)):
-            raise RuntimeError(
-                f"Refusing git init outside temp dir during tests: {directory}"
-            )
+            msg = f"Refusing git init outside temp dir during tests: {directory}"
+            raise RuntimeError(msg)
     # ... proceed
 ```
 

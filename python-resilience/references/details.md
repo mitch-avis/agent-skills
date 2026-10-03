@@ -5,10 +5,10 @@
 Validate inputs at the boundary, then work with typed domain values internally.
 
 ```python
-from enum import Enum
+from enum import StrEnum
 
 
-class OutputFormat(str, Enum):
+class OutputFormat(StrEnum):
     JSON = "json"
     CSV = "csv"
 
@@ -17,7 +17,8 @@ def parse_output_format(value: str) -> OutputFormat:
     try:
         return OutputFormat(value.lower())
     except ValueError as exc:
-        raise ValueError(f"Unsupported format: {value}") from exc
+        msg = f"Unsupported format: {value}"
+        raise ValueError(msg) from exc
 ```
 
 - Convert strings, raw JSON, and external payloads as soon as they cross the boundary.
@@ -40,7 +41,8 @@ def upload_file(path: str) -> str:
     try:
         return do_upload(path)
     except FileNotFoundError as exc:
-        raise ServiceError(f"Upload failed: missing file at {path}") from exc
+        msg = f"Upload failed: missing file at {path}"
+        raise ServiceError(msg) from exc
 ```
 
 - Preserve original exceptions with `from exc`.
@@ -62,7 +64,7 @@ def process_batch(items: list[Item]) -> BatchResult[ProcessedItem]:
     for index, item in enumerate(items):
         try:
             succeeded[index] = process_single_item(item)
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001  # one bad item must not abort the batch
             failed[index] = exc
 
     return BatchResult(succeeded=succeeded, failed=failed)

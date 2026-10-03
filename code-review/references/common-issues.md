@@ -31,6 +31,8 @@ if status == ORDER_STATUS_SHIPPED:
 
 ## SQL Injection
 
+<!-- check-examples: skip -->
+
 ```python
 # BAD: string interpolation
 query = f"SELECT * FROM users WHERE email = '{email}'"
@@ -41,6 +43,8 @@ db.execute("SELECT * FROM users WHERE email = ?", (email,))
 ```
 
 ## Swallowed Exception
+
+<!-- check-examples: skip -->
 
 ```python
 # BAD: silent failure

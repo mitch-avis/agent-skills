@@ -27,10 +27,12 @@ Validate at boundaries before expensive work:
 ```python
 def create_order(data: dict[str, object]) -> Order:
     if not data.get("items"):
-        raise ValueError("'items' must be non-empty")
+        msg = "'items' must be non-empty"
+        raise ValueError(msg)
     quantity = data.get("quantity")
     if not isinstance(quantity, int) or quantity < 1:
-        raise ValueError(f"'quantity' must be >= 1, got {quantity!r}")
+        msg = f"'quantity' must be >= 1, got {quantity!r}"
+        raise ValueError(msg)
     return build_order(data)
 ```
 

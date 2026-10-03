@@ -73,12 +73,9 @@ Python generic polling function:
 ```python
 import time
 from collections.abc import Callable
-from typing import TypeVar
-
-T = TypeVar("T")
 
 
-def wait_for(
+def wait_for[T](
     condition: Callable[[], T | None],
     *,
     description: str = "condition",
@@ -91,7 +88,8 @@ def wait_for(
         if result:
             return result
         if time.monotonic() >= deadline:
-            raise AssertionError(f"Timed out after {timeout}s waiting for {description}")
+            msg = f"Timed out after {timeout}s waiting for {description}"
+            raise AssertionError(msg)
         time.sleep(interval)
 ```
 
@@ -134,7 +132,7 @@ Python:
 
 ```python
 # Tool ticks every 100ms — need 2 ticks for partial output
-wait_for(lambda: tool_started_event(), description="TOOL_STARTED")
+wait_for(tool_started_event, description="TOOL_STARTED")
 # 200ms = 2 ticks at 100ms intervals — documented
 time.sleep(0.2)
 ```

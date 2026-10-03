@@ -293,7 +293,7 @@ py-spy record -o profile.svg --pid 12345
 Use explicit job states such as `pending`, `running`, `succeeded`, and `failed`.
 
 ```python
-class JobStatus(str, Enum):
+class JobStatus(StrEnum):
     PENDING = "pending"
     RUNNING = "running"
     SUCCEEDED = "succeeded"

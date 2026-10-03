@@ -129,7 +129,8 @@ Docstring and comment stability matters:
 
 - Annotate all public functions, methods, and class attributes.
 - Prefer modern built-in generics and unions: `list[str]`, `dict[str, int]`, `User | None`.
-- Use `Protocol` for structural typing and `TypeAlias` for repeated complex shapes.
+- Use `Protocol` for structural typing, `type` aliases for repeated complex shapes, and PEP 695
+  type parameters (`def f[T]`, `class C[T]`) instead of module-level `TypeVar`s.
 - Minimize `Any`. Use it only for truly dynamic boundaries or untyped third-party interfaces.
 - Narrow optional values before use.
 - Keep `pyright` in standard mode as the stable default today, then tighten selected diagnostics.
@@ -137,10 +138,9 @@ Docstring and comment stability matters:
   real code without replacing the stable baseline prematurely.
 
 ```python
-from typing import Protocol, TypeAlias, TypeVar
+from typing import Protocol
 
-JsonDict: TypeAlias = dict[str, object]
-ModelT = TypeVar("ModelT")
+type JsonDict = dict[str, object]
 
 
 class Serializable(Protocol):

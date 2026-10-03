@@ -89,10 +89,9 @@ myproject/
 Annotate public interfaces and use modern type features.
 
 ```python
-from typing import Protocol, TypeAlias, TypeVar
+from typing import Protocol
 
-JsonValue: TypeAlias = str | int | float | bool | None | dict[str, object] | list[object]
-ModelT = TypeVar("ModelT")
+type JsonValue = str | int | float | bool | dict[str, object] | list[object] | None
 
 
 class Serializable(Protocol):
@@ -101,7 +100,7 @@ class Serializable(Protocol):
 
 - Prefer `User | None` over `Optional[User]` when the project supports Python 3.10+.
 - Use `Protocol` for structural interfaces.
-- Use `TypeAlias` for repeated shapes.
+- Use `type` aliases for repeated shapes and PEP 695 type parameters for generics.
 - Keep `pyright` as the stable default type checker today.
 - Run `ty` alongside `pyright` in most modern Python projects.
 

@@ -5,26 +5,23 @@
 Use aliases for repeated or domain-specific shapes.
 
 ```python
-from typing import TypeAlias
-
-JsonObject: TypeAlias = dict[str, object]
-UserId: TypeAlias = str
+type JsonObject = dict[str, object]
+type UserId = str
 ```
 
 Aliases reduce noise only when they reveal intent.
 
-## Bounded Type Variables
+## Bounded Type Parameters
 
-Bound a type variable when the generic code depends on a shared contract.
+Bound a type parameter when the generic code depends on a shared contract.
 
 ```python
-from typing import TypeVar
 from pydantic import BaseModel
 
-ModelT = TypeVar("ModelT", bound=BaseModel)
 
-
-def validate_model(model_cls: type[ModelT], payload: dict[str, object]) -> ModelT:
+def validate_model[ModelT: BaseModel](
+    model_cls: type[ModelT], payload: dict[str, object]
+) -> ModelT:
     return model_cls.model_validate(payload)
 ```
 
@@ -47,14 +44,10 @@ Wrap success and failure when callers need explicit branching.
 
 ```python
 from dataclasses import dataclass
-from typing import Generic, TypeVar
-
-ValueT = TypeVar("ValueT")
-ErrorT = TypeVar("ErrorT", bound=Exception)
 
 
 @dataclass
-class Result(Generic[ValueT, ErrorT]):
+class Result[ValueT, ErrorT: Exception]:
     value: ValueT | None = None
     error: ErrorT | None = None
 ```
@@ -67,9 +60,8 @@ Type repeated callbacks explicitly.
 
 ```python
 from collections.abc import Callable
-from typing import TypeAlias
 
-ProgressCallback: TypeAlias = Callable[[int, int], None]
+type ProgressCallback = Callable[[int, int], None]
 ```
 
 ## Pyright Tightening

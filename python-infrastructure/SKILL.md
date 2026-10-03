@@ -146,7 +146,7 @@ def process_order(self, order_id: str) -> None:
     try:
         do_work(order_id)
     except TransientError as exc:
-        raise self.retry(exc=exc, countdown=2 ** self.request.retries * 60)
+        raise self.retry(exc=exc, countdown=2**self.request.retries * 60) from exc
 ```
 
 - Return a job ID immediately for workflows that exceed a few seconds.

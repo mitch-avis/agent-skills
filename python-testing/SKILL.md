@@ -172,7 +172,8 @@ from hypothesis import strategies as st
 
 @given(st.lists(st.integers()))
 def test_sort_is_idempotent(xs: list[int]) -> None:
-    assert sorted(sorted(xs)) == sorted(xs)
+    once = sorted(xs)
+    assert sorted(once) == once
 ```
 
 ## Time-Dependent Tests (freezegun)

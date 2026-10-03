@@ -63,10 +63,10 @@ Project.create("name", context.tmp_dir)
 When you can't trace manually, add instrumentation:
 
 ```python
-import os
 import subprocess
 import sys
 import traceback
+from pathlib import Path
 
 
 def git_init(directory: str) -> None:
@@ -74,12 +74,12 @@ def git_init(directory: str) -> None:
         "DEBUG git init:",
         {
             "directory": directory,
-            "cwd": os.getcwd(),
+            "cwd": str(Path.cwd()),
             "stack": "".join(traceback.format_stack()),
         },
         file=sys.stderr,
     )
-    subprocess.run(["git", "init"], cwd=directory, check=True)
+    subprocess.run(["git", "init"], cwd=directory, check=True)  # noqa: S607  # git from PATH
 ```
 
 Write to `sys.stderr` in tests — captured logger output may be suppressed by pytest.

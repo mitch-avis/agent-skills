@@ -7,21 +7,19 @@ Pattern adapted for Python (sync and async variants). Use these helpers in pytes
 sprinkling `time.sleep(0.05)` to "give things time to settle".
 """
 
-from __future__ import annotations
-
 import asyncio
 import time
-from collections.abc import Awaitable, Callable
-from typing import TypeVar
+from typing import TYPE_CHECKING
 
-T = TypeVar("T")
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
 
 
 class WaitTimeoutError(AssertionError):
     """Raised when a condition does not become truthy within the timeout."""
 
 
-def wait_for(
+def wait_for[T](
     condition: Callable[[], T | None],
     *,
     description: str = "condition",
@@ -45,15 +43,16 @@ def wait_for(
         if result:
             return result
         if time.monotonic() >= deadline:
-            raise WaitTimeoutError(f"Timed out after {timeout}s waiting for {description}")
+            msg = f"Timed out after {timeout}s waiting for {description}"
+            raise WaitTimeoutError(msg)
         time.sleep(interval)
 
 
-async def wait_for_async(
+async def wait_for_async[T](
     condition: Callable[[], Awaitable[T | None] | T | None],
     *,
     description: str = "condition",
-    timeout: float = 5.0,
+    timeout: float = 5.0,  # noqa: ASYNC109  # mirrors wait_for's signature for test helpers
     interval: float = 0.01,
 ) -> T:
     """Async version of `wait_for`. Accepts sync or async condition callables."""
@@ -65,11 +64,12 @@ async def wait_for_async(
         if result:
             return result  # type: ignore[return-value]
         if asyncio.get_event_loop().time() >= deadline:
-            raise WaitTimeoutError(f"Timed out after {timeout}s waiting for {description}")
+            msg = f"Timed out after {timeout}s waiting for {description}"
+            raise WaitTimeoutError(msg)
         await asyncio.sleep(interval)
 
 
-def wait_for_count(
+def wait_for_count[T](
     items: Callable[[], list[T]],
     count: int,
     *,

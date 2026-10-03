@@ -22,7 +22,8 @@ boundary, and push business rules into testable services.
 
 - Use Pydantic models for request validation and response contracts.
 - Keep route handlers small and explicit.
-- Use FastAPI dependency injection or equivalent framework seams for services and settings.
+- Use FastAPI dependency injection (`Annotated[T, Depends(...)]`) or equivalent framework seams
+  for services and settings.
 - Reuse shared clients and pools via lifespan-managed resources.
 - Return DTOs or response models, not raw ORM entities.
 - Treat authorization, validation, and error translation as boundary concerns.
@@ -30,15 +31,17 @@ boundary, and push business rules into testable services.
 ## FastAPI Baseline
 
 ```python
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-@router.get("/{user_id}", response_model=UserResponse)
+@router.get("/{user_id}")
 async def get_user(
     user_id: str,
-    service: UserService = Depends(get_user_service),
+    service: Annotated[UserService, Depends(get_user_service)],
 ) -> UserResponse:
     user = await service.get_user(user_id)
     if user is None:

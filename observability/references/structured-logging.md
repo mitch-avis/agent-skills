@@ -15,7 +15,7 @@ import sys
 
 import structlog
 
-def configure_logging(level: str = "INFO", json: bool = True) -> None:
+def configure_logging(level: str = "INFO", *, json: bool = True) -> None:
     timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
 
     shared_processors: list = [
@@ -50,7 +50,7 @@ log.info("order_created", order_id=order.id, user_id=user.id, total=order.total)
 try:
     charge(order)
 except PaymentError as exc:
-    log.error("payment_failed", order_id=order.id, error_type=type(exc).__name__, exc_info=exc)
+    log.exception("payment_failed", order_id=order.id, error_type=type(exc).__name__)
     raise
 ```
 
@@ -69,20 +69,19 @@ When a dependency forces `logging`, configure a JSON formatter so output stays u
 ```python
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 class JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         payload = {
-            "@timestamp": datetime.now(timezone.utc).isoformat(),
+            "@timestamp": datetime.now(UTC).isoformat(),
             "log.level": record.levelname,
             "logger": record.name,
             "message": record.getMessage(),
         }
         if record.exc_info:
             payload["error.stack_trace"] = self.formatException(record.exc_info)
-        for key, value in record.__dict__.get("extra", {}).items():
-            payload[key] = value
+        payload.update(record.__dict__.get("extra", {}))
         return json.dumps(payload, default=str)
 
 handler = logging.StreamHandler()

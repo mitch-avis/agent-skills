@@ -51,12 +51,7 @@ class Notifier(Protocol):
 ### Generic Reuse
 
 ```python
-from typing import TypeVar
-
-ItemT = TypeVar("ItemT")
-
-
-def first(items: list[ItemT]) -> ItemT | None:
+def first[ItemT](items: list[ItemT]) -> ItemT | None:
     return items[0] if items else None
 ```
 
