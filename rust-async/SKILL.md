@@ -41,7 +41,7 @@ tokio = { version = "1", features = [
   but prefer message passing
 - **Never block the async executor** — no `std::thread::sleep()`, no synchronous I/O, no heavy
   computation
-- **Use `tokio::spawn_blocking()`** for CPU-bound or blocking work
+- **Use `tokio::task::spawn_blocking()`** for CPU-bound or blocking work
 - **Use `tokio::fs`** instead of `std::fs` for file operations
 - **Clone `Arc` before moving into spawned tasks** — the clone must happen before the `move` closure
 
@@ -138,12 +138,12 @@ while let Some(item) = stream.next().await {
 ### Fan-out / Fan-in
 
 ```rust
+let mut results = Vec::with_capacity(work_items.len());
 let mut set = JoinSet::new();
 for item in work_items {
     let client = client.clone();
     set.spawn(async move { client.process(item).await });
 }
-let mut results = Vec::with_capacity(work_items.len());
 while let Some(res) = set.join_next().await {
     results.push(res??);
 }

@@ -184,7 +184,9 @@ proptest! {
 ## Benchmarks (criterion)
 
 ```rust
-use criterion::{black_box, criterion_group, Criterion};
+use std::hint::black_box;
+
+use criterion::{criterion_group, Criterion};
 
 fn bench_parse(c: &mut Criterion) {
     c.bench_function("parse_input", |b| {
@@ -197,7 +199,7 @@ criterion::criterion_main!(benches);
 ```
 
 - Always profile before optimizing
-- Use `black_box()` to prevent the compiler from eliding benchmarked code
+- Use `std::hint::black_box()` to prevent the compiler from eliding benchmarked code
 - Place benchmarks in `benches/` directory
 
 ## Doctests

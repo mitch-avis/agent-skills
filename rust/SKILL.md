@@ -85,13 +85,19 @@ crate-level or blanket suppressions.
 
 ```rust
 #[expect(
-    clippy::exhaustive_structs,
-    reason = "downstream crates pattern-match on Config by design"
+    clippy::struct_excessive_bools,
+    reason = "mirrors the on-disk flag layout one field per bit"
 )]
-pub struct Config {
-    pub timeout_ms: u64,
+pub struct Flags {
+    pub compressed: bool,
+    pub encrypted: bool,
+    pub signed: bool,
+    pub archived: bool,
 }
 ```
+
+`#[expect]` must name a lint that would fire at that site. If the lint is not enabled or never
+triggers, `unfulfilled_lint_expectations` warns, and `-D warnings` fails the build.
 
 ## Module & File Structure
 
@@ -255,10 +261,9 @@ fn main() -> anyhow::Result<()> {
 
 ### Error Handling Rules
 
-- No `.unwrap()` in library code. No `.expect()` in library code except during early prototyping
-  (must be replaced before merge).
-- `.unwrap()` / `.expect()` permitted in tests and in `main` during POC. `.expect()` always
-  preferred over `.unwrap()`.
+- No `.unwrap()`, `.expect()`, or `panic!` outside tests; the workspace lints deny them. In tests,
+  prefer `?` with a `Result`-returning test, then `.expect("why it holds")` over `.unwrap()`.
+- `main` returns `anyhow::Result<()>` and propagates with `?` or `.context(...)`.
 - Use `?` for propagation. Avoid explicit `match` on `Result` unless arms require meaningfully
   different handling.
 - Prefer `map_err` over `unwrap_or_else` for error transformation.
@@ -422,8 +427,11 @@ let sum: u64 = items
 
 ## Safety & Unsafe
 
-`unsafe_code = "deny"` is set. No `unsafe` blocks in library code without an explicit
-workspace-level override and documented justification.
+`unsafe_code = "forbid"` is set workspace-wide, and `forbid` cannot be lifted with `#[allow]` or
+`#[expect]`. A crate that truly needs `unsafe` (FFI, intrinsics) can't override one lint while
+inheriting the rest (`lints.workspace = true` admits no other keys), so it replaces that line with
+a full copy of the workspace lint tables, changes `unsafe_code` to `"deny"` with a comment saying
+why, and allows it only at the specific sites with `#[expect(unsafe_code, reason = "...")]`.
 
 When `unsafe` is genuinely required (FFI, performance-critical intrinsics), isolate it behind a safe
 abstraction boundary. The `unsafe` block must be the smallest possible scope.
@@ -437,8 +445,6 @@ requires a `# Safety` doc section.
 // points to lives for at least `'a`.
 let slice = unsafe { std::slice::from_raw_parts(ptr, len) };
 ```
-
-Use `cargo geiger` in CI to track the unsafe surface area.
 
 ## Naming Conventions
 

@@ -36,7 +36,6 @@ that `clippy` does not cover (e.g., dead code warnings from the compiler itself)
 | `cargo-deny` | License & vulnerability policy | `cargo install cargo-deny` |
 | `cargo-audit` | CVE auditing | `cargo install cargo-audit` |
 | `cargo-nextest` | Test runner (required by the gates above) | `cargo install cargo-nextest` |
-| `cargo-geiger` | Unsafe surface tracking | `cargo install cargo-geiger` |
 | `cargo-flamegraph` | Profiling | `cargo install flamegraph` |
 | `criterion` | Benchmarking | add as `[dev-dependency]` |
 | `cargo-llvm-cov` | Coverage | `cargo install cargo-llvm-cov` |
