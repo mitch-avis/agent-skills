@@ -16,10 +16,10 @@ follows its instructions.
 
 | Skill | Description |
 | --- | --- |
-| [code-review](code-review/SKILL.md) | Phased PR review with severity rubric (P0–P3), per-dimension checklists, structured output template, feedback patterns, PR-size guide |
-| [committing-code](committing-code/SKILL.md) | High-quality git commits — Conventional Commits, selective staging, logical splitting, commit-message prep, and pre-commit safety checks |
+| [code-review](code-review/SKILL.md) | Read-only review of diffs, branches, and PRs — phased workflow, severity rubric (P0–P3), per-dimension checklists, structured report template |
+| [committing-code](committing-code/SKILL.md) | Conventional Commits — logical commit boundaries with tests kept beside their code, selective staging, checks before committing |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Four-phase root cause analysis — reproduction, evidence, hypothesis, git bisect, differential debugging, Python + Rust toolkits |
-| [test-driven-development](test-driven-development/SKILL.md) | Strict TDD with red-green-refactor cycle, common rationalizations to avoid, and testing anti-patterns |
+| [test-driven-development](test-driven-development/SKILL.md) | Red-green-refactor, Arrange-Act-Assert test structure, characterization tests for refactors, rationalizations to avoid, testing anti-patterns |
 | [task-orchestrator](task-orchestrator/SKILL.md) | Delegating to subagents — decides when it pays off, writes self-contained briefs, limits concurrency, verifies and merges results |
 
 ### Web & Frontend
@@ -41,7 +41,7 @@ follows its instructions.
 | [python-infrastructure](python-infrastructure/SKILL.md) | Project mechanics — uv workflows, dependency groups, strict `pyproject.toml` structure, lockfiles, profiling, workers, and release practices |
 | [python-modernization](python-modernization/SKILL.md) | Modern Python workflow upgrades — uv-native setup, pyright and ty, lockfiles, dependency groups, PEP 723 scripts, and legacy-tool migration |
 | [python-resilience](python-resilience/SKILL.md) | Failure-handling patterns — validation, exception design, retries, timeouts, cleanup, partial failures, and telemetry |
-| [python-testing](python-testing/SKILL.md) | pytest and TDD patterns — fixtures, mocks, async tests, coverage, markers, and property-based testing |
+| [python-testing](python-testing/SKILL.md) | pytest patterns — Arrange-Act-Assert, fixtures, mocks, async tests, coverage, markers, and property-based testing |
 | [python-type-safety](python-type-safety/SKILL.md) | pyright- and ty-aware typing patterns — annotations, protocols, generics, narrowing, and safer Python interfaces |
 | [python-anti-patterns](python-anti-patterns/SKILL.md) | Review checklist for common Python mistakes across architecture, async, typing, testing, config, and operations |
 
@@ -55,7 +55,7 @@ details.
 | --- | --- |
 | [rust](rust/SKILL.md) | Comprehensive guide — ownership, borrowing, lifetimes, error handling, traits, generics, API design, clippy |
 | [rust-async](rust-async/SKILL.md) | Async Rust with Tokio — runtime setup, task spawning, JoinSet, channels, streams, select, cancellation |
-| [rust-testing](rust-testing/SKILL.md) | Testing patterns — unit/integration/async tests, rstest, proptest, criterion benchmarks, doctests |
+| [rust-testing](rust-testing/SKILL.md) | Testing patterns — Arrange-Act-Assert, unit/integration/async tests, rstest, proptest, criterion benchmarks, doctests |
 
 ### Kubernetes & Helm
 
@@ -68,13 +68,13 @@ details.
 
 | Skill | Description |
 | --- | --- |
-| [docker](docker/SKILL.md) | Dockerfiles, multi-stage builds, image optimization, security hardening, health checks, Docker Compose orchestration |
+| [docker](docker/SKILL.md) | Dockerfiles (uv-based Python builds), multi-stage builds, image optimization, security hardening, health checks, Docker Compose |
 
 ### CI/CD
 
 | Skill | Description |
 | --- | --- |
-| [cicd](cicd/SKILL.md) | Pipeline design for GitHub Actions, GitLab CI, Jenkins, and ArgoCD -- security gates, caching, deployment strategies, GitOps |
+| [cicd](cicd/SKILL.md) | Pipelines for GitHub Actions (uv and cargo starters), GitLab CI, Jenkins, and ArgoCD — security gates, action pinning, caching, deployment strategies |
 
 ### Databases
 
@@ -86,8 +86,8 @@ details.
 
 | Skill | Description |
 | --- | --- |
-| [generating-custom-instructions](generating-custom-instructions/SKILL.md) | Generates and maintains custom instruction files for AI coding agents by analyzing codebase patterns |
-| [markdown-documentation](markdown-documentation/SKILL.md) | Markdown and GitHub Flavored Markdown formatting for documentation and technical writing |
+| [generating-custom-instructions](generating-custom-instructions/SKILL.md) | AGENTS.md-first instruction files (thin `@AGENTS.md` CLAUDE.md, `.claude/rules`, optional Copilot files) built from codebase analysis |
+| [markdown-documentation](markdown-documentation/SKILL.md) | House Markdown rules — 100-column fill, code fences, tables, links, and the markdownlint-cli2 check |
 | [skill-creator](skill-creator/SKILL.md) | Create, evaluate, and iteratively improve agent skills with eval-driven benchmarking |
 
 ### Diagramming
@@ -100,13 +100,13 @@ details.
 
 | Skill | Description |
 | --- | --- |
-| [observability](observability/SKILL.md) | End-to-end observability — structured logs, Prometheus metrics, OpenTelemetry tracing, log aggregation, ES\|QL search, K8s/mesh/CI-CD, and SLOs |
+| [observability](observability/SKILL.md) | Logging for CLIs and scripts; for services, Prometheus metrics, OpenTelemetry tracing, log aggregation, ES\|QL search, and SLOs |
 
 ### Shell Scripting
 
 | Skill | Description |
 | --- | --- |
-| [shell-scripting](shell-scripting/SKILL.md) | Bash and PowerShell — strict mode, defensive patterns, traps, arg parsing, security, portability, ShellCheck/PSScriptAnalyzer, Bats/Pester, recipes |
+| [shell-scripting](shell-scripting/SKILL.md) | Bash and PowerShell — light and full workflows, strict mode, traps, arg parsing, security, portability, ShellCheck/PSScriptAnalyzer, Bats/Pester |
 
 ## Directory Structure
 
@@ -127,26 +127,33 @@ the skill's instructions in the body.
 
 ## Installation
 
-Clone this repo into your agent's skills directory:
+Clone the repo, then link each skill into the directory your agent reads:
 
 ```bash
 git clone git@github.com:mitch-avis/agent-skills.git ~/.agents/skills
+
+# Claude Code loads personal skills only from ~/.claude/skills/
+mkdir -p ~/.claude/skills
+for skill in ~/.agents/skills/*/; do
+    [[ -f "${skill}SKILL.md" ]] && ln -sfn "${skill%/}" ~/.claude/skills/
+done
 ```
 
-Most AI coding agents discover skills in `~/.agents/skills/` or `.agents/skills/` at the project
-level. Consult your agent's documentation for the exact paths it searches.
+Other agents look in different places (some read `~/.agents/skills/` directly); check your
+agent's documentation.
 
-## Linting
+## Checks
 
-All Markdown files are validated with
-[markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2):
+Markdown is linted with [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2), and
+the Python and Bash code examples in every skill are linted by `scripts/check_examples.py` (ruff
+with house rules, and ShellCheck). Run both before committing; [AGENTS.md](AGENTS.md) has the full
+gate list and the steps for adding or removing a skill.
 
 ```bash
+uv sync
 markdownlint-cli2 "**/*.md"
+.venv/bin/python scripts/check_examples.py
 ```
-
-Lines are wrapped at 100 characters. See [.markdownlint.json](.markdownlint.json) for the full
-configuration.
 
 ## Acknowledgments
 
