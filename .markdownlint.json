@@ -9,7 +9,6 @@
     "no-duplicate-heading": {
         "siblings_only": true
     },
-    "table-column-style": false,
     "no-inline-html": {
         "allowed_elements": [
             "br",

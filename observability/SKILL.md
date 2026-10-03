@@ -30,8 +30,8 @@ logs and secrets, and the Log Levels table, are all that apply.
 | Pillar | Question Answered | Tooling |
 | --- | --- | --- |
 | **Logs** | What happened? (events, errors) | structlog, `tracing`, Loki, Elastic, ELK |
-| **Metrics** | How much/how fast? (aggregates) | Prometheus, OpenMetrics, Grafana         |
-| **Traces**  | Where did time go across calls? | OpenTelemetry, Tempo, Jaeger, Zipkin     |
+| **Metrics** | How much/how fast? (aggregates) | Prometheus, OpenMetrics, Grafana |
+| **Traces** | Where did time go across calls? | OpenTelemetry, Tempo, Jaeger, Zipkin |
 
 The three are correlated by a **trace ID / correlation ID** propagated through every request. Every
 log line, metric exemplar, and span carries that ID — that is what makes telemetry investigatable.
@@ -101,16 +101,16 @@ http_request_duration_seconds_bucket{method,route}   # Histogram (Duration)
 | Signal | Metric type | What to alert on |
 | --- | --- | --- |
 | **R**ate | Counter | Anomalous deviation |
-| **E**rrors   | Counter     | Error ratio > SLO threshold |
-| **D**uration | Histogram   | p95/p99 > SLO threshold     |
+| **E**rrors | Counter | Error ratio > SLO threshold |
+| **D**uration | Histogram | p95/p99 > SLO threshold |
 
 ### USE (resources / queues / pools)
 
 | Signal | Metric type | Examples |
 | --- | --- | --- |
 | **U**tilization | Gauge | CPU %, pool used / pool size |
-| **S**aturation  | Gauge       | Queue depth, wait time         |
-| **E**rrors      | Counter     | Connection failures, OOM kills |
+| **S**aturation | Gauge | Queue depth, wait time |
+| **E**rrors | Counter | Connection failures, OOM kills |
 
 ### The Four Golden Signals (SRE)
 
@@ -121,11 +121,11 @@ Latency, traffic, errors, saturation. Same idea as RED + USE; track for every de
 | Level | Use For | Production? |
 | --- | --- | --- |
 | TRACE | Verbose flow tracing (Rust `tracing` only) | Off |
-| DEBUG | Variable values, internal state                     | Off (or sampled)   |
-| INFO  | Business events, request lifecycle, state changes   | On                 |
-| WARN  | Recoverable anomalies — retry, fallback, near-limit | On                 |
-| ERROR | Failures requiring investigation                    | On (alert on rate) |
-| FATAL | Process must exit                                   | On (page)          |
+| DEBUG | Variable values, internal state | Off (or sampled) |
+| INFO | Business events, request lifecycle, state changes | On |
+| WARN | Recoverable anomalies — retry, fallback, near-limit | On |
+| ERROR | Failures requiring investigation | On (alert on rate) |
+| FATAL | Process must exit | On (page) |
 
 A user typing the wrong password is `INFO`, not `ERROR`. Reserve `ERROR` for things that need a
 human.
@@ -179,20 +179,20 @@ Use these field names so logs interoperate with Elastic, Loki, OTel, and most da
 | Field | Meaning |
 | --- | --- |
 | `@timestamp` | ISO-8601 event time |
-| `log.level`           | DEBUG / INFO / WARN / ERROR                     |
-| `service.name`        | Logical service identifier                      |
-| `service.version`     | Build / release version                         |
-| `service.environment` | dev / staging / prod                            |
-| `trace.id`            | OpenTelemetry trace ID                          |
-| `span.id`             | OpenTelemetry span ID                           |
-| `correlation.id`      | App-defined request ID (not an ECS field)       |
-| `user.id`             | Authenticated principal (hash if PII-sensitive) |
-| `http.method`         | GET / POST / ...                                |
-| `http.route`          | Templated route, not raw URL                    |
-| `http.status_code`    | Numeric response code                           |
-| `error.type`          | Exception class / Rust error variant            |
-| `error.message`       | Human-readable error                            |
-| `error.stack_trace`   | Full stack (server-side only)                   |
+| `log.level` | DEBUG / INFO / WARN / ERROR |
+| `service.name` | Logical service identifier |
+| `service.version` | Build / release version |
+| `service.environment` | dev / staging / prod |
+| `trace.id` | OpenTelemetry trace ID |
+| `span.id` | OpenTelemetry span ID |
+| `correlation.id` | App-defined request ID (not an ECS field) |
+| `user.id` | Authenticated principal (hash if PII-sensitive) |
+| `http.method` | GET / POST / ... |
+| `http.route` | Templated route, not raw URL |
+| `http.status_code` | Numeric response code |
+| `error.type` | Exception class / Rust error variant |
+| `error.message` | Human-readable error |
+| `error.stack_trace` | Full stack (server-side only) |
 
 ## Verification Checklist (Services)
 

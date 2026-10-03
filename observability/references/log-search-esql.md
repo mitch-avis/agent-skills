@@ -19,10 +19,10 @@ When a tool wraps these queries, prefer these parameter names:
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `start` | string | Start of range (date math, e.g. `now-1h`) |
-| `end`       | string | End of range (e.g. `now`)                                       |
-| `kqlFilter` | string | KQL string used inside `KQL("...")`. Not `query` or `filter`    |
-| `limit`     | number | Max log samples (10–100; cap at 500)                            |
-| `groupBy`   | string | Optional histogram dimension (e.g. `log.level`, `service.name`) |
+| `end` | string | End of range (e.g. `now`) |
+| `kqlFilter` | string | KQL string used inside `KQL("...")`. Not `query` or `filter` |
+| `limit` | number | Max log samples (10–100; cap at 500) |
+| `groupBy` | string | Optional histogram dimension (e.g. `log.level`, `service.name`) |
 
 ### Context minimization
 
@@ -71,10 +71,10 @@ round-trip**. Output:
 | Branch | Meaning |
 | --- | --- |
 | fork1 | Trend (count per time bucket) |
-| fork2  | Total count                                           |
-| fork3  | Sample logs (10–20 docs)                              |
-| fork4  | Top message patterns by count (CATEGORIZE, sort DESC) |
-| fork5  | Rare message patterns (CATEGORIZE, sort ASC)          |
+| fork2 | Total count |
+| fork3 | Sample logs (10–20 docs) |
+| fork4 | Top message patterns by count (CATEGORIZE, sort DESC) |
+| fork5 | Rare message patterns (CATEGORIZE, sort ASC) |
 
 ### Five-way FORK with histogram, samples, and categorization
 
@@ -150,10 +150,10 @@ Use ECS field names; OTel fields are aliased to ECS in Observability index templ
 | Concern | ECS field |
 | --- | --- |
 | Service | `service.name`, `service.environment`, `service.version` |
-| Host          | `host.name`, `host.ip`                                                                                                    |
-| Container     | `container.id`, `container.name`, `container.image.name`                                                                  |
-| Kubernetes    | `kubernetes.namespace`, `kubernetes.pod.name`, `kubernetes.node.name`, `kubernetes.container.name`, `kubernetes.labels.*` |
-| Trace context | `trace.id`, `span.id`, `transaction.id`                                                                                   |
-| HTTP          | `http.request.method`, `http.response.status_code`, `url.path`                                                            |
-| Error         | `error.message`, `error.type`, `error.stack_trace`                                                                        |
-| Log           | `log.level`, `log.logger`, `@timestamp`, `message`                                                                        |
+| Host | `host.name`, `host.ip` |
+| Container | `container.id`, `container.name`, `container.image.name` |
+| Kubernetes | `kubernetes.namespace`, `kubernetes.pod.name`, `kubernetes.node.name`, `kubernetes.container.name`, `kubernetes.labels.*` |
+| Trace context | `trace.id`, `span.id`, `transaction.id` |
+| HTTP | `http.request.method`, `http.response.status_code`, `url.path` |
+| Error | `error.message`, `error.type`, `error.stack_trace` |
+| Log | `log.level`, `log.logger`, `@timestamp`, `message` |

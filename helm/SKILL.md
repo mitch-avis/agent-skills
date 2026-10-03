@@ -256,7 +256,7 @@ helm install myapp ./myapp -f values-prod.yaml -n production
 | Type | Description |
 | --- | --- |
 | application | Default. Installs Kubernetes resources into a cluster. |
-| library     | Provides helpers only. Cannot be installed directly.   |
+| library | Provides helpers only. Cannot be installed directly. |
 
 Set in `Chart.yaml`:
 
@@ -317,14 +317,14 @@ separately.
 | Hook | Fires |
 | --- | --- |
 | pre-install | Before resources are created |
-| post-install        | After all resources are created          |
-| pre-upgrade         | Before resources are upgraded            |
-| post-upgrade        | After all resources are upgraded         |
-| pre-delete          | Before any resources are deleted         |
-| post-delete         | After all resources are deleted          |
-| pre-rollback        | Before resources are rolled back         |
-| post-rollback       | After all resources are rolled back      |
-| test                | When `helm test` is invoked              |
+| post-install | After all resources are created |
+| pre-upgrade | Before resources are upgraded |
+| post-upgrade | After all resources are upgraded |
+| pre-delete | Before any resources are deleted |
+| post-delete | After all resources are deleted |
+| pre-rollback | Before resources are rolled back |
+| post-rollback | After all resources are rolled back |
+| test | When `helm test` is invoked |
 
 Use `helm.sh/hook-weight` (string integer) to order hooks within the same phase — lower weights
 execute first.

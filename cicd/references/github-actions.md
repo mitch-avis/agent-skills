@@ -398,9 +398,9 @@ jobs:
 | Target | Cache Key | Path |
 | --- | --- | --- |
 | npm deps | `${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}` | `~/.npm` |
-| Build outputs | `${{ runner.os }}-build-${{ hashFiles('src/**') }}`             | `dist/`, `.next/cache` |
-| Docker layers | BuildKit GHA cache                                              | `type=gha`             |
-| pip deps      | `${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}` | `~/.cache/pip`         |
+| Build outputs | `${{ runner.os }}-build-${{ hashFiles('src/**') }}` | `dist/`, `.next/cache` |
+| Docker layers | BuildKit GHA cache | `type=gha` |
+| pip deps | `${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}` | `~/.cache/pip` |
 
 ## Validation
 

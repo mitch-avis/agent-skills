@@ -315,25 +315,25 @@ automountServiceAccountToken: false
 | Verb | Description |
 | --- | --- |
 | get | Read a single resource |
-| list               | List resources in a namespace  |
-| watch              | Stream resource changes        |
-| create             | Create a resource              |
-| update             | Replace a resource             |
-| patch              | Partially modify a resource    |
-| delete             | Delete a resource              |
-| deletecollection   | Delete multiple resources      |
-| `*`                | All verbs (avoid in production)|
+| list | List resources in a namespace |
+| watch | Stream resource changes |
+| create | Create a resource |
+| update | Replace a resource |
+| patch | Partially modify a resource |
+| delete | Delete a resource |
+| deletecollection | Delete multiple resources |
+| `*` | All verbs (avoid in production) |
 
 ### Resource Scope
 
 | Cluster-Scoped (ClusterRole only) | Namespace-Scoped (Role or ClusterRole) |
 | --- | --- |
 | Nodes | Pods |
-| PersistentVolumes                 | Services                               |
-| ClusterRoles / ClusterRoleBindings| Deployments, StatefulSets, DaemonSets  |
-| Namespaces                        | ConfigMaps, Secrets                    |
-| StorageClasses                    | Roles / RoleBindings                   |
-| CustomResourceDefinitions         | Jobs, CronJobs                         |
+| PersistentVolumes | Services |
+| ClusterRoles / ClusterRoleBindings | Deployments, StatefulSets, DaemonSets |
+| Namespaces | ConfigMaps, Secrets |
+| StorageClasses | Roles / RoleBindings |
+| CustomResourceDefinitions | Jobs, CronJobs |
 
 ## NIST Cybersecurity Framework
 

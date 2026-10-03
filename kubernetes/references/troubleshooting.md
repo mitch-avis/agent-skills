@@ -122,9 +122,9 @@ kubectl debug node/<node-name> -it --image=ubuntu:26.04
 | Cause | Diagnosis |
 | --- | --- |
 | Insufficient resources | `kubectl describe pod` — check Events for FailedScheduling |
-| PVC not bound            | `kubectl get pvc` — check status                            |
-| Node selector mismatch   | `kubectl get pod -o yaml` — check nodeSelector/affinity     |
-| Image pull failure       | `kubectl describe pod` — check Events for ImagePullBackOff  |
+| PVC not bound | `kubectl get pvc` — check status |
+| Node selector mismatch | `kubectl get pod -o yaml` — check nodeSelector/affinity |
+| Image pull failure | `kubectl describe pod` — check Events for ImagePullBackOff |
 
 ### CrashLoopBackOff
 

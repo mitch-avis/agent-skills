@@ -28,10 +28,10 @@ Load on demand — do not read all files upfront.
 | Topic | File | Load When |
 | --- | --- | --- |
 | Indexing strategy | references/indexing.md | Designing or auditing indexes |
-| Query patterns       | references/query-patterns.md      | Tuning, pagination, N+1, EXPLAIN deep dives     |
-| PostgreSQL specifics | references/postgresql.md          | JSONB, arrays, RLS, MVCC, type quirks           |
-| MySQL specifics      | references/mysql.md               | InnoDB, online DDL, isolation, partitioning     |
-| SQLite specifics     | references/sqlite.md              | Embedded apps, FTS5, WAL mode, pragmas          |
+| Query patterns | references/query-patterns.md | Tuning, pagination, N+1, EXPLAIN deep dives |
+| PostgreSQL specifics | references/postgresql.md | JSONB, arrays, RLS, MVCC, type quirks |
+| MySQL specifics | references/mysql.md | InnoDB, online DDL, isolation, partitioning |
+| SQLite specifics | references/sqlite.md | Embedded apps, FTS5, WAL mode, pragmas |
 
 ## Core Rules
 
@@ -53,8 +53,8 @@ Premature denormalization creates update anomalies and maintenance burden.
 | Engine | Recommended PK | Notes |
 | --- | --- | --- |
 | PostgreSQL | `BIGINT GENERATED ALWAYS AS IDENTITY` | Use `uuidv7()` (PG18+) only when needed |
-| MySQL      | `BIGINT UNSIGNED AUTO_INCREMENT`            | InnoDB clusters by PK — keep narrow + monotonic |
-| SQLite     | `INTEGER PRIMARY KEY`                       | Aliases `ROWID`; do not use `BIGINT`            |
+| MySQL | `BIGINT UNSIGNED AUTO_INCREMENT` | InnoDB clusters by PK — keep narrow + monotonic |
+| SQLite | `INTEGER PRIMARY KEY` | Aliases `ROWID`; do not use `BIGINT` |
 
 - Avoid random UUIDs (UUIDv4) as **clustered** PKs — they fragment the heap and bloat indexes.
 - If global uniqueness is required, store the UUID in a secondary `UNIQUE` column.
@@ -92,14 +92,14 @@ Every reference table gets:
 | Purpose | PostgreSQL | MySQL | SQLite |
 | --- | --- | --- | --- |
 | Integer ID | `BIGINT GENERATED ALWAYS AS IDENTITY` | `BIGINT UNSIGNED AUTO_INCREMENT` | `INTEGER PRIMARY KEY` |
-| Timestamp          | `TIMESTAMPTZ`                           | `DATETIME(6)`                      | `TEXT` (ISO-8601)     |
-| Money / decimal    | `NUMERIC(p, s)`                         | `DECIMAL(p, s)`                    | `NUMERIC`             |
-| Variable text      | `TEXT`                                  | `VARCHAR(n)` + `utf8mb4`           | `TEXT`                |
-| Boolean            | `BOOLEAN`                               | `TINYINT(1)`                       | `INTEGER` 0/1         |
-| JSON               | `JSONB` (always — never `JSON`)         | `JSON`                             | `TEXT` + JSON1 ext.   |
-| Enum               | `CREATE TYPE foo AS ENUM (...)`         | lookup table (preferred)           | `TEXT` + `CHECK`      |
-| UUID               | `UUID`                                  | `BINARY(16)` (use `UUID_TO_BIN`)   | `BLOB` or `TEXT`      |
-| Bytes              | `BYTEA`                                 | `VARBINARY(n)` / `BLOB`            | `BLOB`                |
+| Timestamp | `TIMESTAMPTZ` | `DATETIME(6)` | `TEXT` (ISO-8601) |
+| Money / decimal | `NUMERIC(p, s)` | `DECIMAL(p, s)` | `NUMERIC` |
+| Variable text | `TEXT` | `VARCHAR(n)` + `utf8mb4` | `TEXT` |
+| Boolean | `BOOLEAN` | `TINYINT(1)` | `INTEGER` 0/1 |
+| JSON | `JSONB` (always — never `JSON`) | `JSON` | `TEXT` + JSON1 ext. |
+| Enum | `CREATE TYPE foo AS ENUM (...)` | lookup table (preferred) | `TEXT` + `CHECK` |
+| UUID | `UUID` | `BINARY(16)` (use `UUID_TO_BIN`) | `BLOB` or `TEXT` |
+| Bytes | `BYTEA` | `VARBINARY(n)` / `BLOB` | `BLOB` |
 
 ### Universal Type Rules
 
@@ -181,12 +181,12 @@ styles, EXPLAIN walkthroughs, window functions, CTEs).
 | Anti-pattern | Why it hurts | Fix |
 | --- | --- | --- |
 | `SELECT *` | Wastes I/O; breaks index-only scans | Name the columns |
-| Function in `WHERE`       | `WHERE YEAR(created_at) = 2024` skips index  | `created_at >= '2024-01-01' AND <  '2025-01-01'` |
-| `OFFSET` pagination       | `OFFSET 100000` re-scans skipped rows        | Cursor / keyset pagination                       |
-| Correlated subquery       | Runs once per outer row                      | Convert to `JOIN` + `GROUP BY`, or window fn     |
-| `DISTINCT` to fix joins   | Hides a missing or wrong join condition      | Fix the join; aggregate intentionally            |
-| N+1 queries from ORM      | One query per parent row                     | Eager-load, batch-load, or join                  |
-| Implicit `CROSS JOIN`     | Comma-separated `FROM` without `ON`          | Use explicit `INNER JOIN ... ON`                 |
+| Function in `WHERE` | `WHERE YEAR(created_at) = 2024` skips index | `created_at >= '2024-01-01' AND <  '2025-01-01'` |
+| `OFFSET` pagination | `OFFSET 100000` re-scans skipped rows | Cursor / keyset pagination |
+| Correlated subquery | Runs once per outer row | Convert to `JOIN` + `GROUP BY`, or window fn |
+| `DISTINCT` to fix joins | Hides a missing or wrong join condition | Fix the join; aggregate intentionally |
+| N+1 queries from ORM | One query per parent row | Eager-load, batch-load, or join |
+| Implicit `CROSS JOIN` | Comma-separated `FROM` without `ON` | Use explicit `INNER JOIN ... ON` |
 
 ### Cursor (Keyset) Pagination
 
@@ -372,9 +372,9 @@ Placeholder syntax: PostgreSQL `$1`, MySQL `?`, SQLite `?` or `:name`.
 | Need | Pick |
 | --- | --- |
 | OLTP with rich types, JSONB, RLS, advanced indexing | PostgreSQL |
-| OLTP at very high write throughput, mature tooling  | MySQL (InnoDB) — consider PlanetScale for managed Vitess                   |
-| Embedded, single-writer, zero-config                | SQLite                                                                     |
-| Analytics over warehoused data                      | Use a warehouse (Snowflake, BigQuery, Databricks) — not a transactional DB |
+| OLTP at very high write throughput, mature tooling | MySQL (InnoDB) — consider PlanetScale for managed Vitess |
+| Embedded, single-writer, zero-config | SQLite |
+| Analytics over warehoused data | Use a warehouse (Snowflake, BigQuery, Databricks) — not a transactional DB |
 
 ## Anti-Patterns Recap
 

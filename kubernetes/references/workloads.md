@@ -460,8 +460,8 @@ priority under node pressure:
 | QoS Class | Criteria | Eviction Order |
 | --- | --- | --- |
 | Guaranteed | Every container has equal requests and limits | Last (safest) |
-| Burstable  | At least one container has requests < limits  | Middle         |
-| BestEffort | No requests or limits set                     | First (risky)  |
+| Burstable | At least one container has requests < limits | Middle |
+| BestEffort | No requests or limits set | First (risky) |
 
 ```yaml
 # Guaranteed — requests == limits

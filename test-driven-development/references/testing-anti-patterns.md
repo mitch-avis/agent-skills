@@ -307,11 +307,11 @@ against real code first.
 | Anti-Pattern | Fix |
 | --- | --- |
 | Assert on mock elements | Test real component or unmock it |
-| Test-only methods in production | Move to test utilities                        |
-| Mock without understanding      | Understand dependencies first, mock minimally |
-| Incomplete mocks                | Mirror real API completely                    |
-| Tests as afterthought           | TDD - tests first                             |
-| Over-complex mocks              | Consider integration tests                    |
+| Test-only methods in production | Move to test utilities |
+| Mock without understanding | Understand dependencies first, mock minimally |
+| Incomplete mocks | Mirror real API completely |
+| Tests as afterthought | TDD - tests first |
+| Over-complex mocks | Consider integration tests |
 
 ## Red Flags
 

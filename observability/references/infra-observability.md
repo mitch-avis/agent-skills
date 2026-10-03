@@ -68,9 +68,9 @@ spec:
 | Source | Metric examples |
 | --- | --- |
 | kube-state-metrics | `kube_pod_status_phase`, `kube_deployment_status_replicas` |
-| node-exporter      | `node_cpu_seconds_total`, `node_memory_MemAvailable_bytes`                |
+| node-exporter | `node_cpu_seconds_total`, `node_memory_MemAvailable_bytes` |
 | cAdvisor (kubelet) | `container_cpu_usage_seconds_total`, `container_memory_working_set_bytes` |
-| API server         | `apiserver_request_duration_seconds`                                      |
+| API server | `apiserver_request_duration_seconds` |
 
 ### PromQL recipes
 
@@ -236,11 +236,11 @@ Useful counters/gauges to expose from a CI runner or scrape from the SCM API:
 | Metric | Purpose |
 | --- | --- |
 | `ci_pipeline_duration_seconds` | DORA: lead time for changes |
-| `ci_pipeline_failures_total`   | DORA: change failure rate     |
-| `ci_pipeline_queue_seconds`    | Runner saturation             |
-| `cd_deployment_total`          | DORA: deployment frequency    |
-| `cd_rollback_total`            | DORA: change failure rate     |
-| `cd_mttr_seconds`              | DORA: time to restore service |
+| `ci_pipeline_failures_total` | DORA: change failure rate |
+| `ci_pipeline_queue_seconds` | Runner saturation |
+| `cd_deployment_total` | DORA: deployment frequency |
+| `cd_rollback_total` | DORA: change failure rate |
+| `cd_mttr_seconds` | DORA: time to restore service |
 
 Track the [DORA metrics](https://dora.dev/) — they correlate strongly with delivery health.
 
@@ -267,9 +267,9 @@ Useful Argo metrics:
 | Metric | Meaning |
 | --- | --- |
 | `argocd_app_info{sync_status, health_status}` | App sync/health state |
-| `argocd_app_sync_total`                       | Sync attempts                  |
-| `argocd_app_reconcile_bucket`                 | Reconcile latency histogram    |
-| `argocd_kubectl_exec_pending`                 | Backpressure on the controller |
+| `argocd_app_sync_total` | Sync attempts |
+| `argocd_app_reconcile_bucket` | Reconcile latency histogram |
+| `argocd_kubectl_exec_pending` | Backpressure on the controller |
 
 Alert when `sync_status != Synced` or `health_status != Healthy` for > 10 minutes.
 

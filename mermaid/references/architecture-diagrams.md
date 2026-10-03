@@ -128,9 +128,9 @@ architecture-beta
 | Icon Pack | Description | Install |
 | --- | --- | --- |
 | `@iconify-json/logos` | Technology brands (Docker, AWS, GitHub, etc.) | `npm i @iconify-json/logos` |
-| `@iconify-json/bi`           | Bootstrap icons                               | `npm i @iconify-json/bi`           |
-| `@iconify-json/mdi`          | Material Design icons                         | `npm i @iconify-json/mdi`          |
-| `@iconify-json/simple-icons` | Simple icons                                  | `npm i @iconify-json/simple-icons` |
+| `@iconify-json/bi` | Bootstrap icons | `npm i @iconify-json/bi` |
+| `@iconify-json/mdi` | Material Design icons | `npm i @iconify-json/mdi` |
+| `@iconify-json/simple-icons` | Simple icons | `npm i @iconify-json/simple-icons` |
 
 Usage: `pack:icon-name` (e.g., `logos:docker`, `mdi:database`)
 
@@ -159,10 +159,10 @@ architecture-beta
 | Pattern | Description |
 | --- | --- |
 | `A:R -- L:B` | Horizontal edge |
-| `A:T -- B:B`         | Vertical edge (90 degree) |
-| `A:R --> L:B`        | Edge with arrow           |
-| `A:R <--> L:B`       | Bidirectional edge        |
-| `A{group}:R --> L:B` | Edge from group boundary  |
+| `A:T -- B:B` | Vertical edge (90 degree) |
+| `A:R --> L:B` | Edge with arrow |
+| `A:R <--> L:B` | Bidirectional edge |
+| `A{group}:R --> L:B` | Edge from group boundary |
 
 ## Group Edges
 

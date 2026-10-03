@@ -128,8 +128,8 @@ Default every item to the most restrictive visibility. Work outward only when fo
 | --- | --- |
 | (private) | Default — everything starts here |
 | `pub(crate)` | Needed by another module in the same crate |
-| `pub(super)` | Needed only by the parent module           |
-| `pub`        | Part of the crate's public API             |
+| `pub(super)` | Needed only by the parent module |
+| `pub` | Part of the crate's public API |
 
 `unreachable_pub = "warn"` flags any `pub` item not reachable from the crate root.
 
@@ -454,22 +454,22 @@ Follow the Rust API Guidelines without exception.
 | Item | Convention | Example |
 | --- | --- | --- |
 | Types, traits, enums | `UpperCamelCase` | `UserConfig` |
-| Functions, methods   | `snake_case`           | `parse_count`   |
-| Constants, statics   | `SCREAMING_SNAKE_CASE` | `MAX_RETRIES`   |
-| Modules              | `snake_case`           | `http_client`   |
-| Lifetimes            | short, lowercase       | `'a`, `'buf`    |
-| Type parameters      | single uppercase       | `T`, `E`, `Key` |
+| Functions, methods | `snake_case` | `parse_count` |
+| Constants, statics | `SCREAMING_SNAKE_CASE` | `MAX_RETRIES` |
+| Modules | `snake_case` | `http_client` |
+| Lifetimes | short, lowercase | `'a`, `'buf` |
+| Type parameters | single uppercase | `T`, `E`, `Key` |
 
 ### Method Name Conventions
 
 | Pattern | Semantics |
 | --- | --- |
 | `new(...)` | Infallible constructor |
-| `try_new(...)`               | Fallible constructor returning `Result` |
-| `from_*` / `into_*` / `as_*` | Conversions (From/Into/borrow)          |
-| `with_*`                     | Builder-style setter returning `Self`   |
-| `is_*` / `has_*`             | Boolean predicates                      |
-| `to_*`                       | Expensive conversion (allocates)        |
+| `try_new(...)` | Fallible constructor returning `Result` |
+| `from_*` / `into_*` / `as_*` | Conversions (From/Into/borrow) |
+| `with_*` | Builder-style setter returning `Self` |
+| `is_*` / `has_*` | Boolean predicates |
+| `to_*` | Expensive conversion (allocates) |
 
 No `get_` prefix on getters. No `-rs` / `_rs` suffix on crates.
 

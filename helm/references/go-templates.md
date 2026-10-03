@@ -8,19 +8,19 @@ All template functions come from the **Sprig library** plus Helm built-ins (`inc
 | Object | Description |
 | --- | --- |
 | `.Release.Name` | Release name |
-| `.Release.Namespace`| Namespace the release is deployed to           |
-| `.Release.IsInstall`| `true` on install, `false` on upgrade          |
-| `.Release.IsUpgrade`| `true` on upgrade, `false` on install          |
-| `.Release.Revision` | Revision number (starts at 1)                  |
-| `.Release.Service`  | Rendering service (always "Helm")              |
-| `.Chart.Name`       | Chart name from Chart.yaml                     |
-| `.Chart.Version`    | Chart version from Chart.yaml                  |
-| `.Chart.AppVersion` | Application version from Chart.yaml            |
-| `.Values`           | Merged values (defaults + overrides)           |
-| `.Template.Name`    | Current template file path                     |
-| `.Template.BasePath`| Base directory of templates                    |
-| `.Files`            | Access non-template files in the chart         |
-| `.Capabilities`     | Cluster capabilities (API versions, K8s ver.)  |
+| `.Release.Namespace` | Namespace the release is deployed to |
+| `.Release.IsInstall` | `true` on install, `false` on upgrade |
+| `.Release.IsUpgrade` | `true` on upgrade, `false` on install |
+| `.Release.Revision` | Revision number (starts at 1) |
+| `.Release.Service` | Rendering service (always "Helm") |
+| `.Chart.Name` | Chart name from Chart.yaml |
+| `.Chart.Version` | Chart version from Chart.yaml |
+| `.Chart.AppVersion` | Application version from Chart.yaml |
+| `.Values` | Merged values (defaults + overrides) |
+| `.Template.Name` | Current template file path |
+| `.Template.BasePath` | Base directory of templates |
+| `.Files` | Access non-template files in the chart |
+| `.Capabilities` | Cluster capabilities (API versions, K8s ver.) |
 
 ## Flow Control
 

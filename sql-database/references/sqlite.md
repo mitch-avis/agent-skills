@@ -26,10 +26,10 @@ explicit `CHECK` constraints.
 | Declared type | Affinity | Storage class |
 | --- | --- | --- |
 | `INT`, `INTEGER` | INTEGER | INTEGER |
-| `TEXT`, `VARCHAR`, `CHAR` | TEXT     | TEXT                   |
-| `BLOB`, no type           | BLOB     | BLOB                   |
-| `REAL`, `FLOAT`           | REAL     | REAL                   |
-| `NUMERIC`, `DECIMAL`      | NUMERIC  | INTEGER, REAL, or TEXT |
+| `TEXT`, `VARCHAR`, `CHAR` | TEXT | TEXT |
+| `BLOB`, no type | BLOB | BLOB |
+| `REAL`, `FLOAT` | REAL | REAL |
+| `NUMERIC`, `DECIMAL` | NUMERIC | INTEGER, REAL, or TEXT |
 
 ### Recommended Types
 

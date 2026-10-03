@@ -8,11 +8,11 @@ start/end, attributes, and links. OpenTelemetry (OTel) is the vendor-neutral sta
 | Term | Meaning |
 | --- | --- |
 | Trace | The whole request — one trace ID end-to-end |
-| Span     | A single operation within a trace (HTTP call, DB query, function) |
-| Parent   | The span that started the current one                             |
-| Baggage  | Key-value data propagated alongside trace context                 |
-| Exporter | Sends spans to a backend (OTLP, Jaeger, Zipkin)                   |
-| Sampler  | Decides which traces to keep                                      |
+| Span | A single operation within a trace (HTTP call, DB query, function) |
+| Parent | The span that started the current one |
+| Baggage | Key-value data propagated alongside trace context |
+| Exporter | Sends spans to a backend (OTLP, Jaeger, Zipkin) |
+| Sampler | Decides which traces to keep |
 
 ## Context propagation
 
@@ -30,10 +30,10 @@ understand it.
 | Strategy | When to use |
 | --- | --- |
 | AlwaysOn | Dev only |
-| AlwaysOff    | Disable tracing entirely                                |
+| AlwaysOff | Disable tracing entirely |
 | TraceIdRatio | Head-based: keep N% of traces, decided at the root span |
-| ParentBased  | Honor the upstream service's sampling decision          |
-| Tail-based   | Keep all errors / slow traces (collector-side)          |
+| ParentBased | Honor the upstream service's sampling decision |
+| Tail-based | Keep all errors / slow traces (collector-side) |
 
 Recommended production setup: `ParentBased(TraceIdRatio(0.05))` at the SDK plus tail-based rules in
 the OTel Collector to keep all errors.
@@ -267,8 +267,8 @@ service:
 | Backend | Strengths |
 | --- | --- |
 | Tempo | Cheap object-storage backend, integrates with Grafana |
-| Jaeger                         | Mature UI, good for self-hosted                        |
-| Zipkin                         | Lightweight, OK if already in use                      |
+| Jaeger | Mature UI, good for self-hosted |
+| Zipkin | Lightweight, OK if already in use |
 | Honeycomb / Datadog / NewRelic | SaaS — pay for retention and high-cardinality querying |
 
 ## Span attributes — semantic conventions
@@ -279,14 +279,14 @@ tooling depends on them.
 | Attribute | Example |
 | --- | --- |
 | `http.request.method` | `GET` |
-| `http.route`                 | `/users/:id`           |
-| `http.response.status_code`  | `200`                  |
-| `db.system`                  | `postgresql`           |
-| `db.statement`               | `SELECT id FROM users` |
-| `messaging.system`           | `kafka`                |
-| `messaging.destination.name` | `orders`               |
-| `rpc.system`                 | `grpc`                 |
-| `error.type`                 | Exception class        |
+| `http.route` | `/users/:id` |
+| `http.response.status_code` | `200` |
+| `db.system` | `postgresql` |
+| `db.statement` | `SELECT id FROM users` |
+| `messaging.system` | `kafka` |
+| `messaging.destination.name` | `orders` |
+| `rpc.system` | `grpc` |
+| `error.type` | Exception class |
 
 ## Anti-patterns
 

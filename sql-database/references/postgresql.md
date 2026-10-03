@@ -18,12 +18,12 @@ PostgreSQL-specific features, types, and gotchas.
 | Avoid | Use instead | Why |
 | --- | --- | --- |
 | `SERIAL` / `BIGSERIAL` | `... GENERATED ALWAYS AS IDENTITY` | Identity columns are SQL standard, safer |
-| `TIMESTAMP`            | `TIMESTAMPTZ`                           | Loses timezone information                    |
-| `TIMETZ`               | `TIMESTAMPTZ` or `TIME` + separate date | Quirky semantics                              |
-| `MONEY`                | `NUMERIC(p, s)`                         | Locale-dependent, single currency only        |
-| `CHAR(n)`              | `TEXT` + `CHECK (length(col) = n)`      | Pads with spaces                              |
-| `VARCHAR(n)`           | `TEXT` + `CHECK (length(col) <= n)`     | No performance benefit; constraint is clearer |
-| `JSON`                 | `JSONB`                                 | Plain `JSON` cannot be indexed efficiently    |
+| `TIMESTAMP` | `TIMESTAMPTZ` | Loses timezone information |
+| `TIMETZ` | `TIMESTAMPTZ` or `TIME` + separate date | Quirky semantics |
+| `MONEY` | `NUMERIC(p, s)` | Locale-dependent, single currency only |
+| `CHAR(n)` | `TEXT` + `CHECK (length(col) = n)` | Pads with spaces |
+| `VARCHAR(n)` | `TEXT` + `CHECK (length(col) <= n)` | No performance benefit; constraint is clearer |
+| `JSON` | `JSONB` | Plain `JSON` cannot be indexed efficiently |
 
 ## JSONB
 
@@ -183,8 +183,8 @@ SELECT blocked.pid AS blocked_pid, blocking.pid AS blocking_pid,
 | Mode | Use when | Caveats |
 | --- | --- | --- |
 | Session | App relies on `SET`, prepared statements, `LISTEN` | Lower throughput |
-| Transaction | Default — short-lived statements                   | No session-level state survives  |
-| Statement   | Auto-commit only                                   | Rare — most apps use transaction |
+| Transaction | Default — short-lived statements | No session-level state survives |
+| Statement | Auto-commit only | Rare — most apps use transaction |
 
 For prepared statements behind transaction pooling, use server-side protocol-level prepared
 statements (PG14+ `pgbouncer 1.21+`).

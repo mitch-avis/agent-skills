@@ -169,11 +169,11 @@ Read top-down. Look for:
 | Symptom | Likely cause / fix |
 | --- | --- |
 | `Seq Scan` on a large table | Missing index, or the planner thinks scan is cheaper — check selectivity |
-| `actual rows ≫ estimated rows`            | Stale statistics — run `ANALYZE table`                                   |
-| `Buffers: shared read` ≫ `shared hit`     | Cold cache or missing index — lots of disk reads                         |
-| `Sort` followed by `Seq Scan`             | `ORDER BY` cannot use an index                                           |
-| `Hash Join` with huge inner relation      | Increase `work_mem` or filter inner side first                           |
-| `Nested Loop` with millions of outer rows | Poor join order — usually a missing index                                |
+| `actual rows ≫ estimated rows` | Stale statistics — run `ANALYZE table` |
+| `Buffers: shared read` ≫ `shared hit` | Cold cache or missing index — lots of disk reads |
+| `Sort` followed by `Seq Scan` | `ORDER BY` cannot use an index |
+| `Hash Join` with huge inner relation | Increase `work_mem` or filter inner side first |
+| `Nested Loop` with millions of outer rows | Poor join order — usually a missing index |
 
 ### MySQL
 
@@ -187,11 +187,11 @@ Watch the `type` column:
 | `type` | Meaning |
 | --- | --- |
 | `system`, `const` | Single-row lookup — best |
-| `eq_ref`          | One row per join — very good            |
-| `ref`             | Indexed lookup, multiple matches — good |
-| `range`           | Indexed range — acceptable              |
-| `index`           | Full index scan — usually bad           |
-| `ALL`             | Full table scan — bad on large tables   |
+| `eq_ref` | One row per join — very good |
+| `ref` | Indexed lookup, multiple matches — good |
+| `range` | Indexed range — acceptable |
+| `index` | Full index scan — usually bad |
+| `ALL` | Full table scan — bad on large tables |
 
 `Extra: Using filesort` or `Using temporary` usually means a missing index for `ORDER BY` or `GROUP
 BY`.

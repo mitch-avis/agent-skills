@@ -9,19 +9,19 @@ Phase 2 (pattern analysis).
 | Symptom | First tool to reach for |
 | --- | --- |
 | `panicked at …` | `RUST_BACKTRACE=1 cargo test -- --nocapture` |
-| `unreachable!()` / `unwrap()` failure      | Backtrace + replace with `Result` propagation                 |
-| Wrong value, no panic                      | `dbg!(value)` macro                                           |
-| Test passes alone, fails in suite          | `cargo test -- --test-threads=1` then `find-polluter.sh`      |
-| Intermittent / heisenbug                   | `cargo test -- --test-threads=1` and rerun in a loop          |
-| "Works on my machine"                      | `cargo test --release` (different optimisations)              |
-| Suspected UB / use-after-free              | Miri: `cargo +nightly miri test`                              |
-| Suspected data race                        | ThreadSanitizer: `RUSTFLAGS=-Zsanitizer=thread cargo test`    |
-| Suspected leak / OOB                       | AddressSanitizer: `RUSTFLAGS=-Zsanitizer=address cargo test`  |
-| Async hang                                 | `tokio-console` + `#[tokio::main(flavor = "current_thread")]` |
-| Slow test / hot path                       | `cargo flamegraph` or `samply`                                |
-| Regression between commits                 | `cargo bisect-rustc` (toolchain) or `git bisect` (code)       |
-| Unclear which feature flag is on           | `cargo tree -e features`                                      |
-| Unexpected dependency version              | `cargo tree -i <crate>` (inverted)                            |
+| `unreachable!()` / `unwrap()` failure | Backtrace + replace with `Result` propagation |
+| Wrong value, no panic | `dbg!(value)` macro |
+| Test passes alone, fails in suite | `cargo test -- --test-threads=1` then `find-polluter.sh` |
+| Intermittent / heisenbug | `cargo test -- --test-threads=1` and rerun in a loop |
+| "Works on my machine" | `cargo test --release` (different optimisations) |
+| Suspected UB / use-after-free | Miri: `cargo +nightly miri test` |
+| Suspected data race | ThreadSanitizer: `RUSTFLAGS=-Zsanitizer=thread cargo test` |
+| Suspected leak / OOB | AddressSanitizer: `RUSTFLAGS=-Zsanitizer=address cargo test` |
+| Async hang | `tokio-console` + `#[tokio::main(flavor = "current_thread")]` |
+| Slow test / hot path | `cargo flamegraph` or `samply` |
+| Regression between commits | `cargo bisect-rustc` (toolchain) or `git bisect` (code) |
+| Unclear which feature flag is on | `cargo tree -e features` |
+| Unexpected dependency version | `cargo tree -i <crate>` (inverted) |
 
 ## 1. Backtraces and Panics
 

@@ -81,9 +81,9 @@ summary.
 | Level | Name | Examples | Action |
 | --- | --- | --- | --- |
 | **P0** | Critical | Security vuln, data loss, correctness bug, breaking change | Block merge |
-| **P1** | High     | Logic error, significant SOLID violation, performance regression       | Fix before merge             |
-| **P2** | Medium   | Code smell, maintainability issue, missing test coverage               | Fix in PR or open follow-up  |
-| **P3** | Low      | Naming, minor refactor, optional improvement                           | Optional / nit               |
+| **P1** | High | Logic error, significant SOLID violation, performance regression | Fix before merge |
+| **P2** | Medium | Code smell, maintainability issue, missing test coverage | Fix in PR or open follow-up |
+| **P3** | Low | Naming, minor refactor, optional improvement | Optional / nit |
 
 ## Feedback Patterns
 
@@ -116,8 +116,8 @@ including summary, findings grouped by severity, strengths, and verdict.
 | Topic | File | Load When |
 | --- | --- | --- |
 | Per-dimension checklists | [references/checklists.md](references/checklists.md) | During Phase 3 line-by-line review |
-| Output template          | [references/output-template.md](references/output-template.md)| When writing the final review report     |
-| Common issue patterns    | [references/common-issues.md](references/common-issues.md)    | When you spot N+1, magic numbers, smells |
+| Output template | [references/output-template.md](references/output-template.md) | When writing the final review report |
+| Common issue patterns | [references/common-issues.md](references/common-issues.md) | When you spot N+1, magic numbers, smells |
 
 ## Related Skills
 

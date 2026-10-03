@@ -23,11 +23,11 @@ In an existing repo, use the plugins it already has and ask before adding more.
 | Plugin | Purpose |
 | --- | --- |
 | `pytest-cov` | Coverage reporting (`--cov`, `--cov-report`) |
-| `pytest-html`     | HTML test reports (`--html=report.html`)     |
-| `pytest-metadata` | Test session metadata for reports            |
-| `pytest-sugar`    | Progress bar and instant failure display     |
-| `pytest-xdist`    | Parallel test execution (`-n auto`)          |
-| `pytest-asyncio`  | Async test support (`@pytest.mark.asyncio`)  |
+| `pytest-html` | HTML test reports (`--html=report.html`) |
+| `pytest-metadata` | Test session metadata for reports |
+| `pytest-sugar` | Progress bar and instant failure display |
+| `pytest-xdist` | Parallel test execution (`-n auto`) |
+| `pytest-asyncio` | Async test support (`@pytest.mark.asyncio`) |
 
 ## TDD Cycle
 

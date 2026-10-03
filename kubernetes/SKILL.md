@@ -33,16 +33,16 @@ Load on demand based on the task:
 | Topic | Reference | Load When |
 | --- | --- | --- |
 | Workloads | `references/workloads.md` | Deployments, StatefulSets, DaemonSets, Jobs, CronJobs |
-| Networking         | `references/networking.md`          | Services, Ingress, NetworkPolicies, DNS, service mesh           |
-| Security           | `references/security.md`            | Pod Security Standards, RBAC, OPA Gatekeeper, Istio, compliance |
-| Configuration      | `references/configuration.md`       | ConfigMaps, Secrets, env vars, External Secrets Operator        |
-| Storage            | `references/storage.md`             | PV, PVC, StorageClasses, snapshots, CSI drivers                 |
-| Troubleshooting    | `references/troubleshooting.md`     | kubectl debug, logs, events, common failure patterns            |
-| Custom Operators   | `references/custom-operators.md`    | CRDs, Operator SDK, controller reconciliation loops             |
-| Service Mesh       | `references/service-mesh.md`        | Istio, Linkerd, traffic management, mTLS, observability         |
-| GitOps             | `references/gitops.md`              | ArgoCD, Flux, progressive delivery, secret management           |
-| Cost Optimization  | `references/cost-optimization.md`   | VPA, HPA, right-sizing, spot nodes, FinOps, quotas              |
-| Multi-Cluster      | `references/multi-cluster.md`       | Cluster API, federation, cross-cluster networking, DR           |
+| Networking | `references/networking.md` | Services, Ingress, NetworkPolicies, DNS, service mesh |
+| Security | `references/security.md` | Pod Security Standards, RBAC, OPA Gatekeeper, Istio, compliance |
+| Configuration | `references/configuration.md` | ConfigMaps, Secrets, env vars, External Secrets Operator |
+| Storage | `references/storage.md` | PV, PVC, StorageClasses, snapshots, CSI drivers |
+| Troubleshooting | `references/troubleshooting.md` | kubectl debug, logs, events, common failure patterns |
+| Custom Operators | `references/custom-operators.md` | CRDs, Operator SDK, controller reconciliation loops |
+| Service Mesh | `references/service-mesh.md` | Istio, Linkerd, traffic management, mTLS, observability |
+| GitOps | `references/gitops.md` | ArgoCD, Flux, progressive delivery, secret management |
+| Cost Optimization | `references/cost-optimization.md` | VPA, HPA, right-sizing, spot nodes, FinOps, quotas |
+| Multi-Cluster | `references/multi-cluster.md` | Cluster API, federation, cross-cluster networking, DR |
 
 ## Defaults
 

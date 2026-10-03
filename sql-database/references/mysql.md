@@ -46,13 +46,13 @@ SELECT * FROM users WHERE uuid = UUID_TO_BIN('550e8400-e29b-41d4-a716-4466554400
 | Use | Type | Notes |
 | --- | --- | --- |
 | Integer ID | `BIGINT UNSIGNED` | `INT` runs out at 2.1B |
-| Money                | `DECIMAL(p, s)`                    | Never `FLOAT`                                    |
-| Time                 | `DATETIME(6)`                      | `TIMESTAMP` has 2038 cliff and TZ surprises      |
-| Boolean              | `TINYINT(1)`                       | No native `BOOLEAN`                              |
-| Short text           | `VARCHAR(n)` + `utf8mb4`           |                                                  |
-| Long text            | `TEXT` / `MEDIUMTEXT` / `LONGTEXT` | Stored off-page                                  |
-| Bytes                | `VARBINARY(n)` / `BLOB`            |                                                  |
-| Semi-structured data | `JSON` + generated columns         | `JSON` is validated; index via generated columns |
+| Money | `DECIMAL(p, s)` | Never `FLOAT` |
+| Time | `DATETIME(6)` | `TIMESTAMP` has 2038 cliff and TZ surprises |
+| Boolean | `TINYINT(1)` | No native `BOOLEAN` |
+| Short text | `VARCHAR(n)` + `utf8mb4` | |
+| Long text | `TEXT` / `MEDIUMTEXT` / `LONGTEXT` | Stored off-page |
+| Bytes | `VARBINARY(n)` / `BLOB` | |
+| Semi-structured data | `JSON` + generated columns | `JSON` is validated; index via generated columns |
 
 ### Avoid
 
@@ -97,8 +97,8 @@ ALTER TABLE orders
 | Algorithm | Effect |
 | --- | --- |
 | `INSTANT` | Metadata-only (8.0.12+) — adding nullable columns at the end |
-| `INPLACE`   | Rebuilds in place; allows concurrent DML with `LOCK=NONE`        |
-| `COPY`      | Full table copy with table lock — last resort                    |
+| `INPLACE` | Rebuilds in place; allows concurrent DML with `LOCK=NONE` |
+| `COPY` | Full table copy with table lock — last resort |
 
 For multi-TB tables, use **gh-ost** or **pt-online-schema-change** instead of native ALTER.
 
@@ -110,9 +110,9 @@ high contention.
 | Level | Notes |
 | --- | --- |
 | `READ UNCOMMITTED` | Dirty reads. Almost never appropriate. |
-| `READ COMMITTED`   | Recommended for high-concurrency OLTP. No gap locks. Closer to Postgres. |
-| `REPEATABLE READ`  | Default. Watch for deadlocks from gap locks.                             |
-| `SERIALIZABLE`     | Implicit `LOCK IN SHARE MODE` on every read. Very low throughput.        |
+| `READ COMMITTED` | Recommended for high-concurrency OLTP. No gap locks. Closer to Postgres. |
+| `REPEATABLE READ` | Default. Watch for deadlocks from gap locks. |
+| `SERIALIZABLE` | Implicit `LOCK IN SHARE MODE` on every read. Very low throughput. |
 
 Set per session:
 

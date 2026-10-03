@@ -53,10 +53,10 @@ COPY --from=builder /app/package.json ./
 | Strategy | Typical Reduction |
 | --- | --- |
 | Multi-stage build | 50–85% |
-| Alpine base instead of full  | 70–90%            |
-| Distroless instead of Alpine | 10–30%            |
-| Pruning dev dependencies     | 20–50%            |
-| `.dockerignore`              | Faster builds     |
+| Alpine base instead of full | 70–90% |
+| Distroless instead of Alpine | 10–30% |
+| Pruning dev dependencies | 20–50% |
+| `.dockerignore` | Faster builds |
 
 ## Distroless Images
 
@@ -324,9 +324,9 @@ docker buildx build \
 | Tag Pattern | Use Case |
 | --- | --- |
 | `git-sha` | Immutable, traceable |
-| `v1.2.3`         | Semantic version releases   |
-| `latest`         | Most recent build (mutable) |
-| `main`, `staging`| Branch-based deployments    |
+| `v1.2.3` | Semantic version releases |
+| `latest` | Most recent build (mutable) |
+| `main`, `staging` | Branch-based deployments |
 
 ## Docker Commands Reference
 

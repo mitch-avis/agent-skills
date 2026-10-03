@@ -190,9 +190,9 @@ Resolve a tag to its commit with
 | Scan Type | GitHub Actions | GitLab CI Template |
 | --- | --- | --- |
 | SAST | `semgrep/semgrep:1.179.0` container running `semgrep scan` | `Security/SAST.gitlab-ci.yml` |
-| SCA        | `snyk/actions/node@v1.0.0`  | `Security/Dependency-Scanning.gitlab-ci.yml` |
-| Containers | `aquasecurity/trivy-action` | `Security/Container-Scanning.gitlab-ci.yml`  |
-| Secrets    | `gitleaks/gitleaks-action`  | `Security/Secret-Detection.gitlab-ci.yml`    |
+| SCA | `snyk/actions/node@v1.0.0` | `Security/Dependency-Scanning.gitlab-ci.yml` |
+| Containers | `aquasecurity/trivy-action` | `Security/Container-Scanning.gitlab-ci.yml` |
+| Secrets | `gitleaks/gitleaks-action` | `Security/Secret-Detection.gitlab-ci.yml` |
 
 ### Supply Chain Integrity
 
@@ -272,9 +272,9 @@ frontend:
 | Strategy | Mechanism | Rollback |
 | --- | --- | --- |
 | Rolling | Replace pods incrementally | `kubectl rollout undo` |
-| Blue-green | Switch traffic between identical environments | Flip load balancer     |
-| Canary     | Route % of traffic to new version             | Scale canary to 0      |
-| GitOps     | ArgoCD syncs from Git state                   | Revert Git commit      |
+| Blue-green | Switch traffic between identical environments | Flip load balancer |
+| Canary | Route % of traffic to new version | Scale canary to 0 |
+| GitOps | ArgoCD syncs from Git state | Revert Git commit |
 
 ### Multi-Environment Pattern
 
@@ -407,11 +407,11 @@ jobs:
 | Topic | File | Load When |
 | --- | --- | --- |
 | GitHub Actions | [references/github-actions.md](references/github-actions.md) | Creating or modifying GitHub Actions workflows |
-| GitLab CI             | [references/gitlab-ci.md](references/gitlab-ci.md)                         | Creating or modifying GitLab CI pipelines          |
-| Jenkins               | [references/jenkins.md](references/jenkins.md)                             | Creating or modifying Jenkins pipelines            |
-| Security Gates        | [references/security-gates.md](references/security-gates.md)               | Adding SAST, SCA, DAST, signing, OWASP mapping     |
-| Deployment Strategies | [references/deployment-strategies.md](references/deployment-strategies.md) | Blue-green, canary, Terraform deployments          |
-| ArgoCD GitOps         | [references/argocd-gitops.md](references/argocd-gitops.md)                 | ArgoCD apps, ApplicationSets, sync, RBAC, CLI      |
+| GitLab CI | [references/gitlab-ci.md](references/gitlab-ci.md) | Creating or modifying GitLab CI pipelines |
+| Jenkins | [references/jenkins.md](references/jenkins.md) | Creating or modifying Jenkins pipelines |
+| Security Gates | [references/security-gates.md](references/security-gates.md) | Adding SAST, SCA, DAST, signing, OWASP mapping |
+| Deployment Strategies | [references/deployment-strategies.md](references/deployment-strategies.md) | Blue-green, canary, Terraform deployments |
+| ArgoCD GitOps | [references/argocd-gitops.md](references/argocd-gitops.md) | ArgoCD apps, ApplicationSets, sync, RBAC, CLI |
 
 ## Related Skills
 

@@ -426,12 +426,12 @@ istioctl dashboard jaeger
 | Feature | Istio | Linkerd |
 | --- | --- | --- |
 | Sidecar proxy | Envoy | linkerd2-proxy (Rust) |
-| Resource usage     | Higher                   | Lower                   |
-| Feature set        | Extensive                | Focused / simpler       |
-| mTLS               | Built-in                 | Built-in                |
-| Traffic management | Advanced (VS, DR, fault) | Basic (SMI)             |
-| Multi-cluster      | Native support           | Requires setup          |
-| Learning curve     | Steeper                  | Gentler                 |
+| Resource usage | Higher | Lower |
+| Feature set | Extensive | Focused / simpler |
+| mTLS | Built-in | Built-in |
+| Traffic management | Advanced (VS, DR, fault) | Basic (SMI) |
+| Multi-cluster | Native support | Requires setup |
+| Learning curve | Steeper | Gentler |
 
 ## Best Practices
 

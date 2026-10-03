@@ -7,16 +7,16 @@ Format: `type(scope): description`
 | Type | Purpose |
 | --- | --- |
 | `feat` | New feature or capability |
-| `fix`      | Bug fix                                               |
-| `docs`     | Documentation only                                    |
-| `style`    | Formatting, whitespace, semicolons (no logic change)  |
-| `refactor` | Code restructuring (no feature, no fix)               |
-| `perf`     | Performance improvement                               |
-| `test`     | Add or update tests                                   |
-| `build`    | Build system or dependency changes                    |
-| `ci`       | CI configuration and scripts                          |
-| `chore`    | Maintenance, tooling, or other non-production changes |
-| `revert`   | Revert a previous commit                              |
+| `fix` | Bug fix |
+| `docs` | Documentation only |
+| `style` | Formatting, whitespace, semicolons (no logic change) |
+| `refactor` | Code restructuring (no feature, no fix) |
+| `perf` | Performance improvement |
+| `test` | Add or update tests |
+| `build` | Build system or dependency changes |
+| `ci` | CI configuration and scripts |
+| `chore` | Maintenance, tooling, or other non-production changes |
+| `revert` | Revert a previous commit |
 
 ## Subject Line
 

@@ -77,9 +77,9 @@ while let Some(result) = set.join_next().await {
 | Channel | Pattern | When to Use |
 | --- | --- | --- |
 | `mpsc` | Many-to-one | Work queues, fan-in |
-| `broadcast` | One-to-many     | Event bus, notifications   |
-| `watch`     | Latest-value    | Config updates, state sync |
-| `oneshot`   | Single response | Request-reply, futures     |
+| `broadcast` | One-to-many | Event bus, notifications |
+| `watch` | Latest-value | Config updates, state sync |
+| `oneshot` | Single response | Request-reply, futures |
 
 - **Always use bounded channels** for backpressure — unbounded channels can cause memory exhaustion
 - Prefer `mpsc` as the default choice

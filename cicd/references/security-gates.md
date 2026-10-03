@@ -5,15 +5,15 @@
 | Risk | Category | Impact | Mitigation |
 | --- | --- | --- | --- |
 | CICD-SEC-1 | Insufficient Flow Control | Critical | Branch protection, required reviews, status checks |
-| CICD-SEC-2  | Inadequate Identity & Access    | Critical | OIDC, least privilege, short-lived tokens          |
-| CICD-SEC-3  | Dependency Chain Abuse          | High     | SCA scanning, dependency pinning, SBOM             |
-| CICD-SEC-4  | Poisoned Pipeline Execution     | Critical | Separate build/deploy, validate inputs             |
-| CICD-SEC-5  | Insufficient PBAC               | High     | Environment protection, manual approvals           |
-| CICD-SEC-6  | Insufficient Credential Hygiene | Critical | Secrets scanning, rotation, vault integration      |
-| CICD-SEC-7  | Insecure System Configuration   | High     | Harden runners, network isolation                  |
-| CICD-SEC-8  | Ungoverned Usage                | Medium   | Policy as code, compliance gates                   |
-| CICD-SEC-9  | Improper Artifact Integrity     | High     | Sign artifacts, verify provenance                  |
-| CICD-SEC-10 | Insufficient Logging            | Medium   | Structured logs, audit trails, SIEM integration    |
+| CICD-SEC-2 | Inadequate Identity & Access | Critical | OIDC, least privilege, short-lived tokens |
+| CICD-SEC-3 | Dependency Chain Abuse | High | SCA scanning, dependency pinning, SBOM |
+| CICD-SEC-4 | Poisoned Pipeline Execution | Critical | Separate build/deploy, validate inputs |
+| CICD-SEC-5 | Insufficient PBAC | High | Environment protection, manual approvals |
+| CICD-SEC-6 | Insufficient Credential Hygiene | Critical | Secrets scanning, rotation, vault integration |
+| CICD-SEC-7 | Insecure System Configuration | High | Harden runners, network isolation |
+| CICD-SEC-8 | Ungoverned Usage | Medium | Policy as code, compliance gates |
+| CICD-SEC-9 | Improper Artifact Integrity | High | Sign artifacts, verify provenance |
+| CICD-SEC-10 | Insufficient Logging | Medium | Structured logs, audit trails, SIEM integration |
 
 ## SAST Integration
 

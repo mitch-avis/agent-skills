@@ -82,10 +82,10 @@ Build a comparison table:
 | Aspect | Working | Broken |
 | --- | --- | --- |
 | Environment | Development | Production |
-| Runtime version | 1.85        | 1.82           |
-| Data            | Empty DB    | 1M records     |
-| User            | Admin       | Regular user   |
-| Time            | During day  | After midnight |
+| Runtime version | 1.85 | 1.82 |
+| Data | Empty DB | 1M records |
+| User | Admin | Regular user |
+| Time | During day | After midnight |
 
 The difference often points directly to the root cause.
 
@@ -157,9 +157,9 @@ business logic validation, environment guards, and debug instrumentation.
 | Phase | Key Activities | Done When |
 | --- | --- | --- |
 | 1. Root Cause | Read errors, reproduce, trace data | Understand what and why |
-| 2. Pattern        | Find working examples, diff, bisect | Differences identified      |
-| 3. Hypothesis     | Form theory, test minimally         | Confirmed or new hypothesis |
-| 4. Implementation | Create test, fix, verify            | Bug resolved, tests pass    |
+| 2. Pattern | Find working examples, diff, bisect | Differences identified |
+| 3. Hypothesis | Form theory, test minimally | Confirmed or new hypothesis |
+| 4. Implementation | Create test, fix, verify | Bug resolved, tests pass |
 
 ## Supporting Techniques
 
@@ -168,12 +168,12 @@ Reference files in this directory:
 | Reference | Purpose |
 | --- | --- |
 | [root-cause-tracing.md](references/root-cause-tracing.md) | Trace bugs backward through the call stack to the original trigger (Python + Rust examples) |
-| [defense-in-depth.md](references/defense-in-depth.md)                               | Add validation at four layers after finding root cause (Python + Rust examples, plus Rust newtype patterns)            |
-| [condition-based-waiting.md](references/condition-based-waiting.md)                 | Replace arbitrary `sleep`/`time.sleep`/`thread::sleep` with condition polling                                          |
-| [condition_based_waiting_example.py](references/condition_based_waiting_example.py) | Python reference implementation (sync + async via asyncio)                                                             |
-| [condition_based_waiting_example.rs](references/condition_based_waiting_example.rs) | Rust reference implementation (sync + async via Tokio)                                                                 |
-| [rust-debugging.md](references/rust-debugging.md)                                   | Rust toolkit — backtraces, `dbg!`, test isolation, Miri, sanitizers, `tokio-console`, `cargo bisect-rustc`, flamegraph |
-| [find-polluter.sh](references/find-polluter.sh)                                     | Bisect helper for tests that pass in isolation but fail in suite (works with `pytest`, `cargo test`, `go test`, etc.)  |
+| [defense-in-depth.md](references/defense-in-depth.md) | Add validation at four layers after finding root cause (Python + Rust examples, plus Rust newtype patterns) |
+| [condition-based-waiting.md](references/condition-based-waiting.md) | Replace arbitrary `sleep`/`time.sleep`/`thread::sleep` with condition polling |
+| [condition_based_waiting_example.py](references/condition_based_waiting_example.py) | Python reference implementation (sync + async via asyncio) |
+| [condition_based_waiting_example.rs](references/condition_based_waiting_example.rs) | Rust reference implementation (sync + async via Tokio) |
+| [rust-debugging.md](references/rust-debugging.md) | Rust toolkit — backtraces, `dbg!`, test isolation, Miri, sanitizers, `tokio-console`, `cargo bisect-rustc`, flamegraph |
+| [find-polluter.sh](references/find-polluter.sh) | Bisect helper for tests that pass in isolation but fail in suite (works with `pytest`, `cargo test`, `go test`, etc.) |
 
 ## Related Skills
 
