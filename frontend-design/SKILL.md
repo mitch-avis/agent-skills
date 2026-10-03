@@ -177,12 +177,16 @@ Name the surface mode before making major decisions.
 Avoid the defaults that make frontend work look generated instead of designed:
 
 - purple or indigo gradients on white when the brand did not ask for them
-- Inter, Arial, Roboto, or system fonts as the automatic answer
-- centered hero plus three equal feature cards as the default layout
+- on Persuade and Experience surfaces: Inter, Arial, Roboto, or system fonts as the automatic
+  answer, and a centered hero plus three equal feature cards as the default layout (Operate
+  surfaces keep the design system's type, where a system font stack is often right)
 - `h-screen` full-height sections instead of `min-h-[100dvh]`
 - card-inside-card sprawl, oversized rounding, and shadow-heavy surfaces
 - fake names, round numbers, and filler marketing copy
 - `transition-all`, layout-property animations, and perpetual motion everywhere
+
+Before finalizing, name the look your first draft fell back on and change it unless the brief
+asked for it.
 
 For a fuller anti-pattern list, use
 [references/audit-anti-patterns.md](references/audit-anti-patterns.md).
