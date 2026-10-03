@@ -129,8 +129,10 @@ See [references/schemas.md](references/schemas.md) for the full schema.
 
 ## Running and Evaluating Test Cases
 
-Execute this as one continuous sequence. Organize results in `<skill-name>-workspace/` as a sibling
-to the skill directory, with `iteration-<N>/eval-<ID>/` subdirectories created as needed.
+Execute this as one continuous sequence. Organize results in
+`~/.cache/skill-evals/<skill-name>-workspace/`, outside the skills repository so eval outputs never
+land in its git tree, with `iteration-<N>/eval-<ID>/` subdirectories created as needed. Keep the
+`-workspace` suffix: the review viewer derives the skill name from it.
 
 ### Step 1: Spawn All Runs
 
