@@ -8,150 +8,70 @@ description: >-
 
 # Markdown Documentation
 
-## Overview
-
-Master markdown syntax and best practices for creating well-formatted, readable documentation using
-standard Markdown and GitHub Flavored Markdown (GFM).
-
-## When to Use
-
-- README files
-- Documentation pages
-- GitHub/GitLab wikis
-- Blog posts
-- Technical writing
-- Project documentation
-
-## Quick Start
-
-```markdown
-# Heading 1
-
-## Heading 2
-
-**Bold text**, *italic text*, ~~strikethrough~~
-
-- Unordered list item
-- Another item
-
-1. Ordered list item
-2. Another item
-
-[Link text](https://example.com)
-
-![Alt text](image.png)
-```
-
-```markdown
-| Column A | Column B |
-| --- | --- |
-| Cell 1 | Cell 2 |
-```
+House rules for Markdown that renders well on GitHub and passes markdownlint. Syntax details live
+in the references; load one only when the task needs it.
 
 ## Reference Guides
 
-Detailed implementations in the `references/` directory:
-
 | Topic | File | Load When |
 | --- | --- | --- |
-| Text Formatting | references/text-formatting.md | Bold, italic, strikethrough, emphasis |
-| Lists                | references/lists.md                                    | Ordered, unordered, nested, task lists        |
-| Links and Images     | references/links-and-images.md                         | Hyperlinks, images, code blocks, tables       |
-| Extended GFM Syntax  | references/extended-syntax-github-flavored-markdown.md | Footnotes, task lists, autolinks, emoji       |
-| Collapsible Sections | references/collapsible-sections.md                     | Details/summary, syntax highlighting, badges  |
-| Alerts and Callouts  | references/alerts-and-callouts.md                      | Note, tip, important, warning, caution blocks |
-| Mermaid Diagrams | [mermaid skill](../mermaid/SKILL.md) | Embedding diagrams in Markdown documents |
+| Text formatting | [text-formatting.md](references/text-formatting.md) | Bold, italic, strikethrough, emphasis |
+| Lists | [lists.md](references/lists.md) | Ordered, unordered, nested, and task lists |
+| Links, images, code blocks, tables | [links-and-images.md](references/links-and-images.md) | Link and image syntax, fenced code, table syntax |
+| Extended GFM syntax | [extended-syntax-github-flavored-markdown.md](references/extended-syntax-github-flavored-markdown.md) | Footnotes, task lists, autolinks, emoji |
+| Collapsible sections, highlighting, badges | [collapsible-sections.md](references/collapsible-sections.md) | `<details>`/`<summary>`, syntax highlighting, badges |
+| Alerts and callouts | [alerts-and-callouts.md](references/alerts-and-callouts.md) | Note, tip, important, warning, caution blocks |
+| Mermaid diagrams | [mermaid skill](../mermaid/SKILL.md) | Embedding diagrams in Markdown documents |
+| New document skeleton | [doc-template.md](templates/doc-template.md) | Writing a new README or doc page from scratch |
 
-## Best Practices
+## Line Length and Wrapping
 
-### Line Length
+- Fill prose to 100 columns: wrap each paragraph so lines run as close to 100 characters as they
+  can, not one sentence per line.
+- When you edit a paragraph, re-fill only that paragraph; leave untouched paragraphs alone so the
+  diff stays small.
+- Code blocks and tables are exempt from the limit. Table rows stay on one line.
 
-- **Maximum line length: 100 characters** for prose text
-- Code blocks and tables are exempt from the line-length limit
-- Wrap long prose at natural sentence or clause boundaries
-- Use semantic line breaks — start a new line after each sentence or at logical clause boundaries
+## Linting
 
-### Formatting Standards
+Run `markdownlint-cli2` on every changed Markdown file, including agent instruction files
+(`AGENTS.md`, `CLAUDE.md`, `SKILL.md`), and fix what it reports:
 
-Enforce with `markdownlint-cli2` on every changed Markdown file, including agent instruction files
-(`AGENTS.md`, `CLAUDE.md`, `SKILL.md`): `markdownlint-cli2 <files>`. Recommended
-`.markdownlint.json`:
+- If the repo has its own config (`.markdownlint.json`, `.markdownlint.yaml`, or
+  `.markdownlint-cli2.*`), run `markdownlint-cli2 <files>` from the repo root so that config
+  applies.
+- Otherwise run `markdownlint-cli2 --config ~/.markdownlint-cli2.yaml <files>`.
 
-```json
-{
-    "line-length": {
-        "line_length": 100,
-        "heading_line_length": 100,
-        "code_blocks": false,
-        "tables": false
-    },
-    "no-inline-html": false,
-    "no-emphasis-as-heading": false,
-    "no-duplicate-heading": {
-        "siblings_only": true
-    }
-}
-```
+Don't create a markdownlint config in a repo that lacks one unless asked.
 
-### Code Blocks
+## Code Blocks
 
-- **Always specify a language** on fenced code blocks — never use bare `` ``` ``. Use `text` for
-  plain text or pseudocode.
-- Common languages: `rust`, `python`, `bash`, `toml`, `json`, `yaml`, `typescript`, `sql`,
-  `markdown`, `text`
-- Use the correct language for the content — syntax highlighting depends on it
+- Give every fenced block a language. Use `text` for plain output or pseudocode.
+- Pick the language that matches the content (`bash`, `python`, `rust`, `toml`, `yaml`, `json`,
+  `sql`, `markdown`), because syntax highlighting depends on it.
 
-### Tables
+## Tables
 
-- Surround tables with blank lines (before and after)
-- Ensure consistent column counts across all rows
-- Use leading and trailing pipes on every row
-- Simple separator style (`| --- | --- |`) is preferred over padded separators for maintainability
+- Surround tables with blank lines, and give every row the same number of cells.
+- Use leading and trailing pipes, and the simple `| --- |` separator rather than padded columns.
 
-### General Rules
+## General Rules
 
-- Use blank lines around headings, lists, code blocks, and tables
-- Don't wrap text mid-table-row — table rows must be single lines
-- Use ATX-style headings (`#` prefix), not setext (underline)
-- No trailing whitespace on any line
-- End files with a single newline
-- No consecutive blank lines
+- ATX headings (`#`), with blank lines around headings, lists, code blocks, and tables.
+- No trailing whitespace, no consecutive blank lines, and a single newline at the end of the file.
 
-### Prose Stability in Source Files
+## Links, Images, and Accessibility
 
-When writing prose that will live inside source files (for example comments and docstrings), prefer
-structures that remain stable under repeated formatting and wrapping passes.
+- Use descriptive link text, not "click here".
+- Use relative links for files inside the repo.
+- Give every image alt text, and don't put text content in images.
 
-- Use a clear one-line summary sentence first.
-- Separate summary and body with one blank line.
-- Use consistent section labels when documenting parameters, return values, and exceptions.
-- Wrap at semantic boundaries (sentence or clause), not visual alignment columns.
-- Avoid manual spacing schemes that depend on a specific formatter or editor plugin.
+## Prose in Source Files
 
-### DO
-
-- Use descriptive link text
-- Include table of contents for long documents
-- Add alt text to images
-- Use code blocks with language specification
-- Keep prose lines under 100 characters
-- Use relative links for internal docs
-- Add badges for build status, coverage, etc.
-- Include examples and screenshots
-- Use semantic line breaks
-- Test all links regularly
-
-### DON'T
-
-- Use "click here" as link text
-- Forget alt text on images
-- Mix HTML and Markdown unnecessarily
-- Use absolute paths for local files
-- Create walls of text without breaks
-- Skip language specification in code blocks
-- Use images for text content (accessibility)
-- Use bare `` ``` `` without a language tag
-- Wrap lines mid-table-row
+Comments and docstrings follow the language's own conventions (for example, Google-style
+docstrings in Python). Start with a one-line summary, separate it from the body with a blank line,
+use consistent section labels, and fill the body to the same 100-column limit instead of aligning
+text into columns.
 
 ## Related Skills
 
