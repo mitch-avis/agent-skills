@@ -307,7 +307,8 @@ pub struct Config<'a> {
 ### Clone Discipline
 
 Never `.clone()` to satisfy the borrow checker without first asking whether restructured ownership
-eliminates the need. If cloning is genuinely correct, leave a comment explaining why.
+eliminates the need. Routine clones need no comment (an `Arc` before `tokio::spawn`, a small
+`String` into an owned struct); explain only clones of large data or clones on a hot path.
 
 ### `From` / `Into` over Bespoke Converters
 
