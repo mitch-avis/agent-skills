@@ -169,12 +169,16 @@ Write the simplest code that passes the test.
 **Good:**
 
 ```python
+MAX_ATTEMPTS = 3
+
+
 def retry_operation[T](operation: Callable[[], T]) -> T:
-    for attempt in range(3):
+    """Call ``operation``, retrying connection errors up to three attempts in total."""
+    for attempt in range(MAX_ATTEMPTS):
         try:
             return operation()
         except ConnectionError:
-            if attempt == 2:
+            if attempt == MAX_ATTEMPTS - 1:
                 raise
     msg = "unreachable"
     raise AssertionError(msg)
@@ -185,8 +189,10 @@ Just enough to pass.
 **Bad:**
 
 ```python
-from collections.abc import Callable
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def retry_operation[T](
@@ -195,7 +201,8 @@ def retry_operation[T](
     max_retries: int = 3,
     backoff: Literal["linear", "exponential"] = "exponential",
     on_retry: Callable[[int], None] | None = None,
-) -> T: ...
+) -> T:
+    """Call ``operation`` with configurable retries, backoff, and a retry callback."""
 ```
 
 Over-engineered: no test asked for those options.
@@ -319,6 +326,7 @@ AssertionError: assert None == 'Email required'
 
 ```python
 def submit_form(data: FormData) -> FormResult:
+    """Validate and save a submitted form."""
     if not data.email.strip():
         return FormResult(error="Email required")
     return save(data)

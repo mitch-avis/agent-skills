@@ -5,6 +5,8 @@ flagging the issue in a review report.
 
 ## N+1 Query
 
+<!-- check-examples: skip -->
+
 ```python
 # BAD: query inside loop
 for user in users:
@@ -17,6 +19,8 @@ for user in users:
 ```
 
 ## Magic Number
+
+<!-- check-examples: skip -->
 
 ```python
 # BAD
@@ -77,6 +81,8 @@ return result[0]
 
 ## Unbounded Loop or Query
 
+<!-- check-examples: skip -->
+
 ```python
 # BAD: returns every row regardless of size
 rows = db.query("SELECT * FROM events")
@@ -97,6 +103,8 @@ db.execute("INSERT INTO t (key, value) VALUES (?, ?) ON CONFLICT (key) DO NOTHIN
 ```
 
 ## Hardcoded Secret
+
+<!-- check-examples: skip -->
 
 ```python
 # BAD

@@ -22,6 +22,8 @@ takes.
 
 Python:
 
+<!-- check-examples: skip -->
+
 ```python
 # BAD: Guessing at timing
 time.sleep(0.05)
@@ -72,7 +74,10 @@ Python generic polling function:
 
 ```python
 import time
-from collections.abc import Callable
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def wait_for[T](
@@ -82,6 +87,20 @@ def wait_for[T](
     timeout: float = 5.0,
     interval: float = 0.01,
 ) -> T:
+    """Poll ``condition`` until it returns a truthy value or ``timeout`` seconds pass.
+
+    Args:
+        condition: Callable to poll; its truthy result is returned.
+        description: What is being waited for, used in the timeout message.
+        timeout: Seconds to wait before failing.
+        interval: Seconds between polls.
+
+    Returns:
+        The first truthy value ``condition`` returned.
+
+    Raises:
+        AssertionError: If ``timeout`` passes first.
+    """
     deadline = time.monotonic() + timeout
     while True:
         result = condition()

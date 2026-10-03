@@ -28,6 +28,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Typed application settings, validated once at startup."""
+
     environment: str = Field(default="local", alias="ENVIRONMENT")
     database_url: str = Field(alias="DATABASE_URL")
     redis_url: str = Field(default="redis://localhost:6379", alias="REDIS_URL")

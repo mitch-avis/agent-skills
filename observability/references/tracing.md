@@ -66,6 +66,7 @@ from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
 
 
 def init_tracing(service: str, otlp_endpoint: str, sample: float = 0.05) -> None:
+    """Export a ``sample`` fraction of traces to an OTLP collector, following parent decisions."""
     resource = Resource.create(
         {
             "service.name": service,
@@ -104,6 +105,7 @@ tracer = trace.get_tracer(__name__)
 
 
 async def process_order(order_id: str) -> Order:
+    """Process an order inside a span, with child spans for each step."""
     with tracer.start_as_current_span("process_order") as span:
         span.set_attribute("order.id", order_id)
 
@@ -114,7 +116,7 @@ async def process_order(order_id: str) -> Order:
             charge(order_id)
 
         span.set_attribute("order.status", "complete")
-        return order
+        return load_order(order_id)
 ```
 
 Record exceptions on spans:

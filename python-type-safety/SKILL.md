@@ -24,7 +24,8 @@ make interfaces safer to change and misuse harder to express.
 ### Public API Annotations
 
 ```python
-def get_user(user_id: str) -> User | None: ...
+def get_user(user_id: str) -> User | None:
+    """Return the user with ``user_id``, or ``None`` if there is none."""
 ```
 
 ### Type Narrowing
@@ -44,13 +45,17 @@ from typing import Protocol
 
 
 class Notifier(Protocol):
-    def send(self, message: str) -> None: ...
+    """Anything that can deliver a message to a user."""
+
+    def send(self, message: str) -> None:
+        """Deliver ``message``."""
 ```
 
 ### Generic Reuse
 
 ```python
 def first[ItemT](items: list[ItemT]) -> ItemT | None:
+    """Return the first item, or ``None`` for an empty list."""
     return items[0] if items else None
 ```
 

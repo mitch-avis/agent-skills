@@ -23,6 +23,7 @@ Use dependency functions to construct services from settings, repositories, and 
 
 ```python
 def get_user_service(request: Request) -> UserService:
+    """Build the user service from shared resources created at startup."""
     return UserService(
         repository=request.app.state.user_repository,
         notifier=request.app.state.notifier,
@@ -38,6 +39,7 @@ Map domain exceptions to HTTP responses once.
 ```python
 @app.exception_handler(UserNotFoundError)
 async def user_not_found_handler(_: Request, exc: UserNotFoundError) -> JSONResponse:
+    """Map a missing user to a 404 response."""
     return JSONResponse(status_code=404, content={"detail": str(exc)})
 ```
 
@@ -56,12 +58,17 @@ async def user_not_found_handler(_: Request, exc: UserNotFoundError) -> JSONResp
 ## Test Patterns
 
 ```python
+from typing import TYPE_CHECKING
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 
+if TYPE_CHECKING:
+    from fastapi import FastAPI
+
 
 @pytest.mark.asyncio
-async def test_get_user_missing_id_returns_404(app) -> None:
+async def test_get_user_missing_id_returns_404(app: FastAPI) -> None:
     # Arrange
     transport = ASGITransport(app=app)
 

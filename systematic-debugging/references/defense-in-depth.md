@@ -25,13 +25,14 @@ Different layers catch different cases:
 
 ```python
 def create_project(name: str, working_directory: str) -> Project:
+    """Create a project, rejecting a missing or empty working directory at the entry point."""
     if not working_directory or not working_directory.strip():
         msg = "working_directory cannot be empty"
         raise ValueError(msg)
     if not Path(working_directory).exists():
         msg = f"working_directory does not exist: {working_directory}"
         raise FileNotFoundError(msg)
-    # ... proceed
+    return Project(name=name, working_directory=Path(working_directory))
 ```
 
 ### Layer 2: Business Logic Validation
@@ -40,10 +41,11 @@ def create_project(name: str, working_directory: str) -> Project:
 
 ```python
 def initialize_workspace(project_dir: str, session_id: str) -> None:
+    """Set up a session workspace, re-checking the directory the business layer depends on."""
     if not project_dir:
         msg = "project_dir required for workspace initialization"
         raise ValueError(msg)
-    # ... proceed
+    create_workspace(Path(project_dir), session_id)
 ```
 
 ### Layer 3: Environment Guards
@@ -52,6 +54,7 @@ def initialize_workspace(project_dir: str, session_id: str) -> None:
 
 ```python
 def git_init(directory: str) -> None:
+    """Initialize a repository, refusing to touch real directories while tests run."""
     if os.environ.get("PYTEST_CURRENT_TEST"):
         normalized = Path(directory).resolve()
         tmp_dir = Path(tempfile.gettempdir()).resolve()
@@ -73,11 +76,12 @@ logger = logging.getLogger(__name__)
 
 
 def git_init(directory: str) -> None:
+    """Initialize a repository, logging where the call came from for later diagnosis."""
     logger.debug(
         "About to git init",
         extra={
             "directory": directory,
-            "cwd": os.getcwd(),
+            "cwd": str(Path.cwd()),
             "stack": "".join(traceback.format_stack()),
         },
     )

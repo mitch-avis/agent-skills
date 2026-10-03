@@ -95,7 +95,10 @@ type JsonValue = str | int | float | bool | dict[str, object] | list[object] | N
 
 
 class Serializable(Protocol):
-    def to_dict(self) -> dict[str, object]: ...
+    """Anything that can render itself as a JSON object."""
+
+    def to_dict(self) -> dict[str, object]:
+        """Return a JSON-compatible representation."""
 ```
 
 - Prefer `User | None` over `Optional[User]` when the project supports Python 3.10+.
@@ -117,6 +120,7 @@ FORMATTERS = {
 
 
 def get_formatter(name: str) -> Formatter:
+    """Return a new formatter for a registered format name."""
     return FORMATTERS[name]()
 ```
 
@@ -132,7 +136,10 @@ Inject dependencies so tests can swap them easily.
 
 ```python
 class UserService:
+    """User business rules, with storage and notification injected."""
+
     def __init__(self, repository: UserRepository, notifier: Notifier) -> None:
+        """Wire the service to its collaborators."""
         self._repository = repository
         self._notifier = notifier
 ```
@@ -151,6 +158,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Typed application settings, validated once at startup."""
+
     environment: str = Field(default="local", alias="ENVIRONMENT")
     database_url: str = Field(alias="DATABASE_URL")
     debug: bool = Field(default=False, alias="DEBUG")

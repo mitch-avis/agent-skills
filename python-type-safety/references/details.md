@@ -22,6 +22,7 @@ from pydantic import BaseModel
 def validate_model[ModelT: BaseModel](
     model_cls: type[ModelT], payload: dict[str, object]
 ) -> ModelT:
+    """Validate ``payload`` as an instance of ``model_cls``."""
     return model_cls.model_validate(payload)
 ```
 
@@ -34,8 +35,13 @@ from typing import Protocol
 
 
 class Cache(Protocol):
-    async def get(self, key: str) -> str | None: ...
-    async def set(self, key: str, value: str, ttl: int) -> None: ...
+    """Async key-value cache with expiry."""
+
+    async def get(self, key: str) -> str | None:
+        """Return the cached value, or ``None`` when absent or expired."""
+
+    async def set(self, key: str, value: str, ttl: int) -> None:
+        """Store ``value`` for ``ttl`` seconds."""
 ```
 
 ## Typed Results
@@ -48,6 +54,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Result[ValueT, ErrorT: Exception]:
+    """Either a value or the error that prevented it."""
+
     value: ValueT | None = None
     error: ErrorT | None = None
 ```

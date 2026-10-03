@@ -10,6 +10,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    """Application settings loaded from the environment."""
+
     api_key: str = Field(alias="API_KEY")
     database_url: str = Field(alias="DATABASE_URL")
 
@@ -30,6 +32,8 @@ from enum import StrEnum
 
 
 class Environment(StrEnum):
+    """Deployment environment the process runs in."""
+
     LOCAL = "local"
     STAGING = "staging"
     PRODUCTION = "production"
@@ -48,16 +52,22 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class DatabaseSettings(BaseModel):
+    """Database connection settings (DATABASE__HOST, DATABASE__PORT, ...)."""
+
     host: str = "localhost"
     port: int = 5432
     name: str
 
 
 class RedisSettings(BaseModel):
+    """Redis connection settings (REDIS__URL)."""
+
     url: str = "redis://localhost:6379"
 
 
 class Settings(BaseSettings):
+    """Application settings, grouped by double-underscore environment variable prefixes."""
+
     database: DatabaseSettings
     redis: RedisSettings
 
@@ -77,6 +87,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Settings that read secrets from mounted files when the variable is unset."""
+
     db_password: str = Field(alias="DB_PASSWORD")
 
     model_config = SettingsConfigDict(secrets_dir="/run/secrets")
@@ -92,11 +104,14 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    """Settings with a comma-separated host list."""
+
     allowed_hosts: list[str] = Field(default_factory=list, alias="ALLOWED_HOSTS")
 
     @field_validator("allowed_hosts", mode="before")
     @classmethod
     def parse_allowed_hosts(cls, value: str | list[str]) -> list[str]:
+        """Split a comma-separated string into host names; pass lists through."""
         if isinstance(value, str):
             return [host.strip() for host in value.split(",") if host.strip()]
         return value
@@ -120,6 +135,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    """Settings whose values pydantic converts from environment strings."""
+
     # Automatically converts "true", "1", "yes" to True
     debug: bool = False
 
@@ -132,6 +149,7 @@ class Settings(BaseSettings):
     @field_validator("allowed_hosts", mode="before")
     @classmethod
     def parse_allowed_hosts(cls, v: str | list[str]) -> list[str]:
+        """Split a comma-separated string into host names; pass lists through."""
         if isinstance(v, str):
             return [host.strip() for host in v.split(",") if host.strip()]
         return v
@@ -157,12 +175,16 @@ from pydantic_settings import BaseSettings
 
 
 class Environment(StrEnum):
+    """Deployment environment the process runs in."""
+
     LOCAL = "local"
     STAGING = "staging"
     PRODUCTION = "production"
 
 
 class Settings(BaseSettings):
+    """Settings whose behavior depends on the deployment environment."""
+
     environment: Environment = Field(
         default=Environment.LOCAL,
         alias="ENVIRONMENT",
@@ -174,11 +196,13 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def is_production(self) -> bool:
+        """Whether the process runs in production."""
         return self.environment == Environment.PRODUCTION
 
     @computed_field
     @property
     def is_local(self) -> bool:
+        """Whether the process runs on a developer machine."""
         return self.environment == Environment.LOCAL
 
 
@@ -195,10 +219,12 @@ Organize related settings into nested models.
 
 ```python
 from pydantic import BaseModel
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class DatabaseSettings(BaseModel):
+    """Database connection settings."""
+
     host: str = "localhost"
     port: int = 5432
     name: str
@@ -207,19 +233,20 @@ class DatabaseSettings(BaseModel):
 
 
 class RedisSettings(BaseModel):
+    """Redis connection settings."""
+
     url: str = "redis://localhost:6379"
     max_connections: int = 10
 
 
 class Settings(BaseSettings):
+    """Application settings from the environment and an optional .env file."""
+
     database: DatabaseSettings
     redis: RedisSettings
     debug: bool = False
 
-    model_config = {
-        "env_nested_delimiter": "__",
-        "env_file": ".env",
-    }
+    model_config = SettingsConfigDict(env_nested_delimiter="__", env_file=".env")
 ```
 
 Environment variables use double underscore for nesting:
@@ -239,16 +266,15 @@ For container environments, read secrets from mounted files.
 
 ```python
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # Read from environment variable or file
+    """Settings that read the database password from a variable or a mounted secret file."""
+
     db_password: str = Field(alias="DB_PASSWORD")
 
-    model_config = {
-        "secrets_dir": "/run/secrets",  # Docker secrets location
-    }
+    model_config = SettingsConfigDict(secrets_dir="/run/secrets")  # Docker secrets location
 ```
 
 Pydantic will look for `/run/secrets/db_password` if the env var isn't set.
@@ -258,18 +284,23 @@ Pydantic will look for `/run/secrets/db_password` if the env var isn't set.
 Add custom validation for complex requirements.
 
 ```python
+from typing import Self
+
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    """Database settings with an optional read replica."""
+
     db_host: str = Field(alias="DB_HOST")
     db_port: int = Field(alias="DB_PORT")
     read_replica_host: str | None = Field(default=None, alias="READ_REPLICA_HOST")
     read_replica_port: int = Field(default=5432, alias="READ_REPLICA_PORT")
 
     @model_validator(mode="after")
-    def validate_replica_settings(self):
+    def validate_replica_settings(self) -> Self:
+        """Reject a read replica that points at the primary database."""
         if self.read_replica_host == self.db_host and self.read_replica_port == self.db_port:
             msg = "Read replica cannot be the same as primary database"
             raise ValueError(msg)

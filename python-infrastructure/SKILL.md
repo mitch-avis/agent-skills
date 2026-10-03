@@ -130,7 +130,7 @@ Guidance:
 Use a queue boundary when work is slow, retryable, or too fragile for the request path.
 
 ```python
-from celery import Celery
+from celery import Celery, Task
 
 app = Celery("tasks", broker="redis://localhost:6379/0")
 app.conf.update(
@@ -141,7 +141,8 @@ app.conf.update(
 
 
 @app.task(bind=True, max_retries=3, soft_time_limit=3000, time_limit=3600)
-def process_order(self, order_id: str) -> None:
+def process_order(self: Task, order_id: str) -> None:
+    """Process an order, retrying transient failures with exponential backoff."""
     try:
         do_work(order_id)
     except TransientError as exc:

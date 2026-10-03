@@ -112,10 +112,15 @@ POOL = Gauge(
 ```python
 import time
 from contextlib import contextmanager
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 @contextmanager
-def track(method: str, route: str):
+def track(method: str, route: str) -> Iterator[None]:
+    """Count the request and record its latency, labeled 500 unless the block completes."""
     start = time.perf_counter()
     status = "500"
     try:

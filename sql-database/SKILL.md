@@ -268,10 +268,12 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship,
 
 
 class Base(DeclarativeBase):
-    pass
+    """Declarative base for the ORM models."""
 
 
 class User(Base):
+    """An account that places orders."""
+
     __tablename__ = "user"
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(unique=True, index=True)
@@ -279,6 +281,8 @@ class User(Base):
 
 
 class Order(Base):
+    """An order placed by one user."""
+
     __tablename__ = "order"
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), index=True)

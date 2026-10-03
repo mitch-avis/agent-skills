@@ -70,7 +70,8 @@ from pathlib import Path
 
 
 def git_init(directory: str) -> None:
-    print(
+    """Initialize a repository, printing temporary debug context about the caller."""
+    print(  # noqa: T201  # temporary debug instrumentation, removed after the root cause is found
         "DEBUG git init:",
         {
             "directory": directory,

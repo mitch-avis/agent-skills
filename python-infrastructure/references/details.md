@@ -272,6 +272,8 @@ Use explicit job states such as `pending`, `running`, `succeeded`, and `failed`.
 
 ```python
 class JobStatus(StrEnum):
+    """Lifecycle state of a background job."""
+
     PENDING = "pending"
     RUNNING = "running"
     SUCCEEDED = "succeeded"

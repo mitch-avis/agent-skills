@@ -17,6 +17,7 @@ async def get_user(
     user_id: str,
     service: Annotated[UserService, Depends(get_user_service)],
 ) -> UserResponse:
+    """Return a user, or 404 when the ID is unknown."""
     user = await service.get_user(user_id)
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -36,13 +37,18 @@ resources.
 
 ```python
 from contextlib import asynccontextmanager
+from typing import TYPE_CHECKING
 
 import httpx
 from fastapi import FastAPI
 
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
+
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    """Create shared clients at startup and close them at shutdown."""
     app.state.http_client = httpx.AsyncClient(timeout=10.0)
     try:
         yield
@@ -72,12 +78,17 @@ retryable, or long-running work, hand off to a proper queue or worker boundary.
 ## Testing ASGI Apps
 
 ```python
+from typing import TYPE_CHECKING
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 
+if TYPE_CHECKING:
+    from fastapi import FastAPI
+
 
 @pytest.mark.asyncio
-async def test_get_user_missing_id_returns_404(app) -> None:
+async def test_get_user_missing_id_returns_404(app: FastAPI) -> None:
     # Arrange
     transport = ASGITransport(app=app)
 

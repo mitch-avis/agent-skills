@@ -209,6 +209,8 @@ ANALYZE TABLE orders;
 
 ## Avoiding N+1 from ORMs
 
+<!-- check-examples: skip -->
+
 ```python
 # BAD: 1 + N queries
 users = session.scalars(select(User)).all()

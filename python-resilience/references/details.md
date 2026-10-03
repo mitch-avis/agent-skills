@@ -9,11 +9,14 @@ from enum import StrEnum
 
 
 class OutputFormat(StrEnum):
+    """Supported export formats."""
+
     JSON = "json"
     CSV = "csv"
 
 
 def parse_output_format(value: str) -> OutputFormat:
+    """Convert user input to an ``OutputFormat``, rejecting unknown values."""
     try:
         return OutputFormat(value.lower())
     except ValueError as exc:
@@ -38,6 +41,7 @@ class ExternalApiError(ServiceError):
 
 
 def upload_file(path: str) -> str:
+    """Upload a file, translating low-level failures into ``ServiceError``."""
     try:
         return do_upload(path)
     except FileNotFoundError as exc:
@@ -53,11 +57,14 @@ def upload_file(path: str) -> str:
 ```python
 @dataclass
 class BatchResult[T]:
+    """Successes and failures of a batch, keyed by input index."""
+
     succeeded: dict[int, T]
     failed: dict[int, Exception]
 
 
 def process_batch(items: list[Item]) -> BatchResult[ProcessedItem]:
+    """Process every item, collecting failures instead of stopping at the first."""
     succeeded: dict[int, ProcessedItem] = {}
     failed: dict[int, Exception] = {}
 
@@ -80,6 +87,7 @@ from contextlib import AsyncExitStack
 
 
 async def fetch_many(hosts: list[str]) -> list[bytes]:
+    """Fetch from every host, closing all connections even if one fetch fails."""
     async with AsyncExitStack() as stack:
         connections = [await stack.enter_async_context(connect(host)) for host in hosts]
         return [await conn.fetch() for conn in connections]
@@ -108,6 +116,7 @@ When streaming output must also be retained, accumulate chunks efficiently.
 
 ```python
 def accumulate(chunks: list[str]) -> str:
+    """Join streamed chunks once, instead of concatenating in a loop."""
     return "".join(chunks)
 ```
 

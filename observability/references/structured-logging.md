@@ -17,6 +17,12 @@ import structlog
 
 
 def configure_logging(level: str = "INFO", *, json: bool = True) -> None:
+    """Configure structlog for JSON lines in production or readable console output locally.
+
+    Args:
+        level: Minimum log level name, such as ``"INFO"``.
+        json: Render JSON lines when true, colored console output otherwise.
+    """
     timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
 
     shared_processors: list = [
@@ -74,7 +80,10 @@ from datetime import UTC, datetime
 
 
 class JsonFormatter(logging.Formatter):
+    """Format standard-library log records as ECS-style JSON lines."""
+
     def format(self, record: logging.LogRecord) -> str:
+        """Render the record as one JSON object."""
         payload = {
             "@timestamp": datetime.now(UTC).isoformat(),
             "log.level": record.levelname,
@@ -165,14 +174,21 @@ A correlation ID (or trace ID) connects every log line for one request across se
 ```python
 import uuid
 from contextvars import ContextVar
+from typing import TYPE_CHECKING
 
 import structlog
-from fastapi import Request
+from fastapi import Request, Response  # noqa: TC002  # FastAPI resolves annotations at runtime
+
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
 
 correlation_id: ContextVar[str] = ContextVar("correlation_id", default="")
 
 
-async def correlation_middleware(request: Request, call_next):
+async def correlation_middleware(
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
+    """Bind a correlation ID for the request and echo it in the response header."""
     cid = request.headers.get("X-Correlation-ID") or str(uuid.uuid4())
     correlation_id.set(cid)
     structlog.contextvars.bind_contextvars(correlation_id=cid)
@@ -190,7 +206,8 @@ Propagate to outbound HTTP:
 import httpx
 
 
-async def call_downstream(url: str, payload: dict) -> dict:
+async def call_downstream(url: str, payload: dict[str, object]) -> dict[str, object]:
+    """POST to a downstream service, forwarding the current correlation ID."""
     async with httpx.AsyncClient() as client:
         resp = await client.post(
             url,
@@ -234,10 +251,18 @@ scrubbing always misses things.
 ### Field denylist (Python)
 
 ```python
+from typing import TYPE_CHECKING
+
+import structlog
+
+if TYPE_CHECKING:
+    from structlog.typing import EventDict, WrappedLogger
+
 SENSITIVE = {"password", "token", "secret", "api_key", "authorization", "ssn", "credit_card"}
 
 
-def redact_processor(logger, method_name, event_dict):
+def redact_processor(_logger: WrappedLogger, _method_name: str, event_dict: EventDict) -> EventDict:
+    """Replace the values of sensitive-looking keys before the event is rendered."""
     for key in list(event_dict):
         lk = key.lower()
         if any(s in lk for s in SENSITIVE):
@@ -256,14 +281,19 @@ structlog.configure(
 ### Masking helpers
 
 ```python
+VISIBLE_EDGE_CHARS = 2
+
+
 def mask_email(email: str) -> str:
+    """Mask an email's local part, keeping only its first and last characters."""
     local, _, domain = email.partition("@")
-    if len(local) <= 2:
+    if len(local) <= VISIBLE_EDGE_CHARS:
         return f"*@{domain}"
     return f"{local[0]}{'*' * (len(local) - 2)}{local[-1]}@{domain}"
 
 
 def mask_card(pan: str) -> str:
+    """Mask a card number, keeping only its last four digits."""
     digits = "".join(c for c in pan if c.isdigit())
     return "*" * (len(digits) - 4) + digits[-4:]
 ```
@@ -307,17 +337,27 @@ _log = structlog.get_logger()
 
 
 class SampledLogger:
+    """Log a random sample of info events and every warning and error."""
+
     def __init__(self, rate: float = 0.1) -> None:
+        """Create a logger that keeps a fraction of info events.
+
+        Args:
+            rate: Fraction of info events to keep, from 0 to 1.
+        """
         self.rate = rate
 
-    def info(self, event: str, **fields) -> None:
-        if random.random() < self.rate:
+    def info(self, event: str, **fields: object) -> None:
+        """Log an info event if it falls in the sample."""
+        if random.random() < self.rate:  # noqa: S311  # sampling, not security
             _log.info(event, sampled=True, sample_rate=self.rate, **fields)
 
-    def warning(self, event: str, **fields) -> None:
+    def warning(self, event: str, **fields: object) -> None:
+        """Log a warning event; warnings are never sampled out."""
         _log.warning(event, **fields)
 
-    def error(self, event: str, **fields) -> None:
+    def error(self, event: str, **fields: object) -> None:
+        """Log an error event; errors are never sampled out."""
         _log.error(event, **fields)
 ```
 
@@ -330,6 +370,7 @@ import hashlib
 
 
 def is_sampled(key: str, rate: float) -> bool:
+    """Decide whether ``key`` falls in a ``rate`` sample, the same way every time."""
     digest = hashlib.blake2s(key.encode(), digest_size=4).digest()
     bucket = int.from_bytes(digest, "big") % 100
     return bucket < rate * 100

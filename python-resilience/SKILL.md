@@ -26,6 +26,7 @@ Validate at boundaries before expensive work:
 
 ```python
 def create_order(data: dict[str, object]) -> Order:
+    """Validate a raw order payload, then build the order."""
     if not data.get("items"):
         msg = "'items' must be non-empty"
         raise ValueError(msg)
@@ -49,6 +50,8 @@ Batch and fan-out operations must retain both successes and failures.
 ```python
 @dataclass
 class BatchResult[T]:
+    """Successes and failures of a batch, keyed by input index."""
+
     succeeded: dict[int, T]
     failed: dict[int, Exception]
 ```
@@ -71,12 +74,15 @@ from tenacity import (
     wait_random_exponential,
 )
 
+SERVER_ERROR = 500
+
 
 def is_transient(exc: BaseException) -> bool:
+    """Whether a failure is worth retrying: network trouble or a 5xx response."""
     # httpx errors don't subclass the builtin ConnectionError or TimeoutError
     if isinstance(exc, httpx.TransportError):  # connect failures, timeouts, dropped connections
         return True
-    return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code >= 500
+    return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code >= SERVER_ERROR
 
 
 @retry(
@@ -86,6 +92,7 @@ def is_transient(exc: BaseException) -> bool:
     reraise=True,
 )
 async def fetch_data(client: httpx.AsyncClient, url: str) -> dict[str, object]:
+    """Fetch JSON from ``url``, retrying transient failures with jittered backoff."""
     response = await client.get(url, timeout=10.0)
     response.raise_for_status()
     return response.json()
@@ -112,11 +119,15 @@ Use context managers for anything that must be released reliably.
 
 ```python
 class DatabasePool:
+    """Connection pool that opens on entry and always closes on exit."""
+
     async def __aenter__(self) -> Self:
+        """Open the pool."""
         self.pool = await create_pool(self.dsn)
         return self
 
     async def __aexit__(self, *exc: object) -> None:
+        """Close the pool, whether or not the block raised."""
         await self.pool.close()
 ```
 

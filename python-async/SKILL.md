@@ -51,6 +51,7 @@ sem = asyncio.Semaphore(10)
 
 
 async def limited_fetch(url: str) -> str:
+    """Fetch ``url`` while holding one of the semaphore's ten slots."""
     async with sem:
         return await fetch(url)
 ```
@@ -62,11 +63,13 @@ queue: asyncio.Queue[str] = asyncio.Queue(maxsize=100)
 
 
 async def producer(items: list[str]) -> None:
+    """Enqueue items, waiting whenever the queue is full."""
     for item in items:
         await queue.put(item)
 
 
 async def consumer() -> None:
+    """Process items until cancelled, marking each one done even if it fails."""
     while True:
         item = await queue.get()
         try:
@@ -107,11 +110,15 @@ except TimeoutError:
 
 ```python
 class AsyncPool:
+    """Connection pool that opens on entry and always closes on exit."""
+
     async def __aenter__(self) -> Self:
+        """Open the pool."""
         self.pool = await create_pool()
         return self
 
     async def __aexit__(self, *exc: object) -> None:
+        """Close the pool, whether or not the block raised."""
         await self.pool.close()
 ```
 

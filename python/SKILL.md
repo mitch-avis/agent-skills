@@ -139,11 +139,18 @@ type JsonDict = dict[str, object]
 
 
 class Serializable(Protocol):
-    def to_dict(self) -> JsonDict: ...
+    """Anything that can render itself as a JSON object."""
+
+    def to_dict(self) -> JsonDict:
+        """Return a JSON-compatible representation."""
 
 
 class Repository[ModelT]:
-    def save(self, entity: ModelT) -> ModelT: ...
+    """Persistence for one model type."""
+
+    def save(self, entity: ModelT) -> ModelT:
+        """Store ``entity`` and return it as saved."""
+        raise NotImplementedError
 ```
 
 ## Testing
@@ -178,7 +185,10 @@ Use straightforward, testable designs.
 
 ```python
 class OrderService:
+    """Order business rules, with storage and notification injected."""
+
     def __init__(self, repo: OrderRepository, notifier: Notifier) -> None:
+        """Wire the service to its collaborators."""
         self._repo = repo
         self._notifier = notifier
 ```
@@ -194,6 +204,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Typed application settings, validated once at startup."""
+
     db_host: str = Field(default="localhost", alias="DB_HOST")
     db_port: int = Field(default=5432, alias="DB_PORT")
     secret_key: str = Field(alias="SECRET_KEY")
