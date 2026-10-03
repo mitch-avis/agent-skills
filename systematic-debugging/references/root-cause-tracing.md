@@ -181,7 +181,7 @@ Runs tests one-by-one, stops at first polluter.
 
 ## Key Principle
 
-**NEVER fix just where the error appears.** Trace back to find the original trigger. Then add
+**Don't fix only where the error appears.** Trace back to find the original trigger. Then add
 validation at each layer so the bug becomes structurally impossible.
 
 ## Stack Trace Tips

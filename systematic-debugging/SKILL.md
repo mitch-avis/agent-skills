@@ -16,7 +16,8 @@ description: >-
 
 Random fixes waste time and create new bugs. Quick patches mask underlying issues.
 
-**Core principle:** ALWAYS find root cause before attempting fixes. Symptom fixes are failure.
+**Core principle:** Find the root cause before attempting a fix; a symptom fix leaves the bug in
+place.
 
 ## The Iron Law
 
@@ -28,10 +29,10 @@ If you haven't completed Phase 1, you cannot propose fixes.
 
 ## When to Use
 
-Use for ANY technical issue: test failures, production bugs, unexpected behavior, performance
+Use for any technical issue: test failures, production bugs, unexpected behavior, performance
 problems, build failures, integration issues.
 
-**Use ESPECIALLY when:**
+**Especially when:**
 
 - Under time pressure (emergencies make guessing tempting)
 - "Just one quick fix" seems obvious
@@ -50,7 +51,7 @@ Complete each phase before proceeding to the next.
 
 ### Phase 1: Root Cause Investigation
 
-**BEFORE attempting ANY fix:**
+**Before attempting a fix:**
 
 1. **Read Error Messages Carefully**
    - Don't skip past errors or warnings
@@ -69,7 +70,7 @@ Complete each phase before proceeding to the next.
 
 4. **Gather Evidence in Multi-Component Systems**
 
-   When the system has multiple components, add diagnostic instrumentation BEFORE proposing fixes:
+   When the system has multiple components, add diagnostic instrumentation before proposing fixes:
 
    ```bash
    # Log at each component boundary
@@ -81,7 +82,7 @@ Complete each phase before proceeding to the next.
    echo "=== Final result: ==="
    ```
 
-   Run once to gather evidence showing WHERE it breaks. Then analyze evidence to identify the
+   Run once to gather evidence showing where it breaks. Then analyze evidence to identify the
    failing component. Then investigate that specific component.
 
 5. **Trace Data Flow**
@@ -95,7 +96,7 @@ Complete each phase before proceeding to the next.
 ### Phase 2: Pattern Analysis
 
 1. **Find Working Examples** — locate similar working code in the same codebase
-2. **Compare Against References** — read reference implementations COMPLETELY, don't skim
+2. **Compare Against References** — read reference implementations in full rather than skimming
 3. **Identify Differences** — list every difference between working and broken, however small
 4. **Understand Dependencies** — what components, settings, config, or environment does this need?
 
@@ -132,22 +133,22 @@ git bisect reset  # when done
 
 1. **Form Single Hypothesis** — state clearly: "I think X is the root cause because Y." Be specific,
    not vague.
-2. **Test Minimally** — make the SMALLEST possible change to test the hypothesis. One variable at a
+2. **Test Minimally** — make the smallest possible change to test the hypothesis. One variable at a
    time. Don't fix multiple things at once.
-3. **Verify Before Continuing** — did it work? Yes → Phase 4. No → form a NEW hypothesis. Don't
+3. **Verify Before Continuing** — did it work? Yes → Phase 4. No → form a new hypothesis. Don't
    stack fixes.
 4. **When You Don't Know** — say "I don't understand X." Don't pretend. Research more.
 
 ### Phase 4: Implementation
 
-1. **Create Failing Test Case** — simplest possible reproduction. Automated test if possible. MUST
-   exist before fixing unless the fix is a small targeted fix (a local correction with no new API,
+1. **Create Failing Test Case** — simplest possible reproduction. Automated test if possible. Write
+   it before fixing unless the fix is a small targeted fix (a local correction with no new API,
    module, or feature); then reproduce it manually and keep the existing suite green. Use the
    **test-driven-development** skill.
-2. **Implement Single Fix** — address the root cause. ONE change at a time. No "while I'm here"
+2. **Implement Single Fix** — address the root cause. One change at a time. No "while I'm here"
    improvements.
 3. **Verify Fix** — test passes now? No other tests broken? Issue actually resolved?
-4. **If Fix Doesn't Work** — STOP. Count how many fixes you've tried. If < 3: return to Phase 1 with
+4. **If Fix Doesn't Work** — stop and count how many fixes you've tried. If < 3: return to Phase 1 with
    new information.
 5. **If 3+ Fixes Failed: Question Architecture** — each fix revealing new problems in different
    places indicates an architectural issue, not a bug. Stop fixing symptoms and discuss fundamentals
@@ -186,7 +187,7 @@ Once root cause is fixed, add defense-in-depth validation. See
 [defense-in-depth.md](references/defense-in-depth.md) for the four-layer pattern: entry validation,
 business logic validation, environment guards, and debug instrumentation.
 
-## Red Flags — STOP and Follow Process
+## Red Flags — Return to Phase 1
 
 If you catch yourself thinking any of these, return to Phase 1:
 
@@ -201,7 +202,7 @@ If you catch yourself thinking any of these, return to Phase 1:
 | Excuse | Reality |
 | --- | --- |
 | "Issue is simple, skip process" | Simple issues have root causes too |
-| "Emergency, no time"                | Systematic debugging is FASTER than thrashing |
+| "Emergency, no time"                | Systematic debugging is faster than thrashing |
 | "Just try this first"               | First fix sets the pattern — do it right      |
 | "I'll write test after fix works"   | Untested fixes don't stick                    |
 | "Multiple fixes at once saves time" | Can't isolate what worked                     |
@@ -212,7 +213,7 @@ If you catch yourself thinking any of these, return to Phase 1:
 
 | Phase | Key Activities | Done When |
 | --- | --- | --- |
-| 1. Root Cause | Read errors, reproduce, trace data | Understand WHAT and WHY |
+| 1. Root Cause | Read errors, reproduce, trace data | Understand what and why |
 | 2. Pattern        | Find working examples, diff, bisect | Differences identified      |
 | 3. Hypothesis     | Form theory, test minimally         | Confirmed or new hypothesis |
 | 4. Implementation | Create test, fix, verify            | Bug resolved, tests pass    |
