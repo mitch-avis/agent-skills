@@ -46,11 +46,11 @@ mod tests {
 
 ### Naming Convention
 
-Use `unit__expected_behavior__condition`:
+Use `subject_condition_expected_outcome`, the same order as the Python skills' test names:
 
 - `parse_valid_input_returns_value`
-- `user_creation_fails_without_email`
-- `cache_evicts_oldest_entry_when_full`
+- `user_creation_without_email_fails`
+- `cache_when_full_evicts_oldest_entry`
 
 ### Organization
 
@@ -72,7 +72,7 @@ For `Result`-returning tests, propagate with `?` rather than `.unwrap()`:
 
 ```rust
 #[test]
-fn config_builds_with_valid_input() -> anyhow::Result<()> {
+fn config_builder_with_host_builds_config() -> anyhow::Result<()> {
     let config = ConfigBuilder::default()
         .host("localhost")
         .build()?;
@@ -86,7 +86,7 @@ naturally. Always provide the `expected` substring.
 
 ```rust
 #[test]
-fn rejects_negative_amount() {
+fn transfer_negative_amount_returns_invalid_amount() {
     let result = transfer(-100);
     assert!(matches!(
         result,
@@ -96,7 +96,7 @@ fn rejects_negative_amount() {
 
 #[test]
 #[should_panic(expected = "index out of bounds")]
-fn panics_on_out_of_bounds() {
+fn dangerous_index_out_of_bounds_panics() {
     dangerous_index(100);
 }
 ```
@@ -116,7 +116,7 @@ fn panics_on_out_of_bounds() {
 use my_crate::Client;
 
 #[test]
-fn client_fetches_resource() {
+fn client_get_existing_resource_returns_ok() {
     let client = Client::new("http://localhost:8080");
     let result = client.get("/resource");
     assert!(result.is_ok());
@@ -127,13 +127,13 @@ fn client_fetches_resource() {
 
 ```rust
 #[tokio::test]
-async fn fetches_data_concurrently() {
+async fn fetch_all_three_ids_returns_three_results() {
     let results = fetch_all(vec!["a", "b", "c"]).await;
     assert_eq!(results.len(), 3);
 }
 
 #[tokio::test]
-async fn times_out_on_slow_response() {
+async fn slow_operation_past_timeout_returns_elapsed() {
     let result = tokio::time::timeout(
         Duration::from_millis(100),
         slow_operation(),
