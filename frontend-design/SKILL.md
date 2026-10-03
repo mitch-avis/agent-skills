@@ -174,6 +174,9 @@ Avoid the defaults that make frontend work look generated instead of designed:
 - card-inside-card sprawl, oversized rounding, and shadow-heavy surfaces
 - fake names, round numbers, and filler marketing copy
 - `transition-all`, layout-property animations, and perpetual motion everywhere
+- a cream or off-white page background, italic accent words inside headlines, numbered
+  "01 / 02 / 03" section labels, monospace eyebrow labels, and pill-shaped buttons, all used as
+  the automatic answer
 
 Before finalizing, name the look your first draft fell back on and change it unless the brief
 asked for it.
