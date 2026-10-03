@@ -15,17 +15,14 @@ Random fixes waste time and create new bugs. Quick patches mask underlying issue
 **Core principle:** Find the root cause before attempting a fix; a symptom fix leaves the bug in
 place.
 
-## The Iron Law
+## Root Cause First
 
-```text
-NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
-```
-
-If you haven't completed Phase 1, you cannot propose fixes.
+Don't propose a fix until Phase 1 has identified the root cause.
 
 ## The Four Phases
 
-Complete each phase before proceeding to the next.
+Phase 1 comes first and Phase 4 last. Use Phases 2 and 3 when Phase 1 alone hasn't pinned down
+the root cause.
 
 ### Phase 1: Root Cause Investigation
 
@@ -94,18 +91,8 @@ The difference often points directly to the root cause.
 
 #### Git Bisect
 
-When you know a regression exists but not which commit:
-
-```bash
-git bisect start
-git bisect bad                 # current commit is broken
-git bisect good v1.0.0         # this version was fine
-# Git checks out middle commit — test it, then:
-git bisect good   # if it works
-git bisect bad    # if it's broken
-# Continue until the culprit commit is found
-git bisect reset  # when done
-```
+When a regression exists but its commit is unknown, `git bisect` between a known-good commit and
+the current one; `git bisect run <test-cmd>` automates it when a command can tell good from bad.
 
 ### Phase 3: Hypothesis and Testing
 
@@ -164,28 +151,6 @@ git bisect reset  # when done
 Once root cause is fixed, add defense-in-depth validation. See
 [defense-in-depth.md](references/defense-in-depth.md) for the four-layer pattern: entry validation,
 business logic validation, environment guards, and debug instrumentation.
-
-## Red Flags — Return to Phase 1
-
-If you catch yourself thinking any of these, return to Phase 1:
-
-- "Quick fix for now, investigate later"
-- "Just try changing X and see if it works"
-- "It's probably X, let me fix that"
-- "I don't fully understand but this might work"
-- "One more fix attempt" (when already tried 2+)
-
-## Common Rationalizations
-
-| Excuse | Reality |
-| --- | --- |
-| "Issue is simple, skip process" | Simple issues have root causes too |
-| "Emergency, no time"                | Systematic debugging is faster than thrashing |
-| "Just try this first"               | First fix sets the pattern — do it right      |
-| "I'll write test after fix works"   | Untested fixes don't stick                    |
-| "Multiple fixes at once saves time" | Can't isolate what worked                     |
-| "Reference too long, I'll adapt"    | Partial understanding guarantees bugs         |
-| "One more attempt" (after 2+ fails) | 3+ failures = architectural problem           |
 
 ## Quick Reference
 
