@@ -52,30 +52,28 @@ Load on demand based on the task:
 | Cost Optimization  | `references/cost-optimization.md`   | VPA, HPA, right-sizing, spot nodes, FinOps, quotas              |
 | Multi-Cluster      | `references/multi-cluster.md`       | Cluster API, federation, cross-cluster networking, DR           |
 
-## Constraints
+## Defaults
 
-### MUST DO
+Apply these to every manifest unless the repo documents an exception:
 
-- Use declarative YAML manifests (avoid imperative kubectl in production)
-- Set resource requests **and** limits on every container
-- Include liveness and readiness probes
-- Use Secrets for sensitive data (never ConfigMaps or plain env vars)
-- Apply least-privilege RBAC — dedicated ServiceAccount per workload
-- Implement NetworkPolicies (default-deny, then allow specific traffic)
-- Use namespaces for logical isolation
-- Label resources with `app.kubernetes.io/*` standard labels
-- Use specific image tags (never `:latest` in production)
-- Run containers as non-root with `readOnlyRootFilesystem: true`
-
-### MUST NOT DO
-
-- Deploy without resource limits
-- Store credentials in ConfigMaps, env literals, or container images
-- Use the `default` ServiceAccount for application pods
-- Allow unrestricted network access (skip NetworkPolicies)
-- Run containers as root without documented justification
-- Skip health checks
-- Expose unnecessary ports or services
+- **Declarative manifests** applied from Git, not imperative `kubectl` edits in production, so the
+  cluster state is reviewable and reproducible.
+- **Resource requests and limits** on every container, so the scheduler can place pods and one
+  workload can't starve its neighbors.
+- **Health probes** on long-running containers: readiness so traffic waits until the pod is
+  ready, liveness so a hung process restarts. Jobs and CronJobs run to completion and don't take
+  readiness probes.
+- **Secrets for credentials**, never ConfigMaps, env literals, or baked into images, which leak
+  through `kubectl get` output and image layers.
+- **A dedicated ServiceAccount per workload** with least-privilege RBAC; the `default` account
+  accumulates permissions over time.
+- **NetworkPolicies**: default-deny, then allow the traffic each workload needs.
+- **Namespaces** for logical isolation, and `app.kubernetes.io/*` standard labels on every
+  resource so tools and selectors work.
+- **Specific image tags**, not `:latest`, so a rollout is reproducible and can be rolled back.
+- **Non-root containers with `readOnlyRootFilesystem: true`**. When an image needs a writable path
+  (tmp files, caches), mount an `emptyDir` there rather than dropping the read-only root.
+- **No unnecessary ports or Services**; expose only what something calls.
 
 ## Deployment Pattern
 

@@ -36,16 +36,17 @@ Load on demand — do not read all files upfront.
 | Go Templates | references/go-templates.md | Writing or debugging Go template syntax |
 | Operations | references/operations.md | CLI commands, packaging, distribution, plugins |
 
-## Constraints
+## Chart Defaults
 
-Charts MUST produce manifests that satisfy the kubernetes skill constraints:
+Charts produce manifests that follow the kubernetes skill's defaults:
 
 - Set resource `requests` **and** `limits` on every container
-- Include liveness and readiness probes
+- Include liveness and readiness probes for long-running containers
 - Use Secrets for sensitive data (never ConfigMaps or plain env vars)
 - Dedicated ServiceAccount per workload — never rely on `default`
 - Include a NetworkPolicy template (default-deny + explicit allows)
-- Run containers as non-root with `readOnlyRootFilesystem: true`
+- Run containers as non-root with `readOnlyRootFilesystem: true` (mount an `emptyDir` for any
+  writable path)
 - Use `app.kubernetes.io/*` standard labels (via `_helpers.tpl`)
 - Never use `:latest` — default to `.Chart.AppVersion`
 - Include PodDisruptionBudget for production workloads
