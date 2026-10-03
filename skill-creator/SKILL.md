@@ -382,6 +382,8 @@ When updating rather than creating:
 - Preserve the original `name` and directory name unchanged
 - Copy to a writable location before editing if the installed path is read-only
 - If packaging manually, stage in `/tmp/` first
+- In a skills repository with an `AGENTS.md` (such as `~/.agents/skills`), follow its add, remove,
+  and gate checklist as well
 
 ---
 
