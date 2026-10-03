@@ -21,7 +21,7 @@ Format: `type(scope): description`
 ## Subject Line
 
 - Imperative mood: "add", not "added" or "adds"
-- Under 72 characters
+- At most 72 characters
 - No trailing period
 - Lowercase after the colon
 

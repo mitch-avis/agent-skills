@@ -28,10 +28,11 @@ git diff --cached   # already staged changes
 Each commit should contain one logical change. Split when changes cross these boundaries:
 
 - Feature vs refactor
-- Production code vs tests
 - Formatting/style vs logic
-- Backend vs frontend
 - Dependency bumps vs behavior changes
+
+Tests ship in the same commit as the code they cover, so every commit builds and passes on its
+own. A test-only commit (`test:`) is for tests added to code that already exists.
 
 If unrelated changes exist in the same file, use patch staging in step 3.
 
@@ -81,12 +82,19 @@ Verify:
 - No unrelated formatting churn
 - Only changes for the intended commit
 
-### 5. Describe Before Writing
+### 5. Run the Checks
+
+Run the repo's gate before committing: its gate script if it has one (for example
+`scripts/gate.sh`), otherwise the formatter, linters, type checkers, and tests for what changed.
+Fix failures, re-stage, and re-review. Commit hooks may run more checks; if one fails, fix the
+cause rather than bypassing it.
+
+### 6. Describe Before Writing
 
 Summarize what changed and why in 1-2 sentences. If you cannot describe the change cleanly, it is
 probably too broad — go back to step 2 and split further.
 
-### 6. Write the Commit Message
+### 7. Write the Commit Message
 
 Use Conventional Commits format. See
 [references/conventional-commits.md](references/conventional-commits.md) for the full type table,
@@ -103,7 +111,7 @@ Refs #123
 
 Rules:
 
-- Subject line: lowercase imperative summary, under 72 characters, no trailing period
+- Subject line: lowercase imperative summary, at most 72 characters, no trailing period
 - Type matches the change: test-only commits are `test`, not `feat(tests)`; dependency refreshes
   are `chore: update deps`
 - Body: explain what and why, not how
@@ -112,17 +120,8 @@ Rules:
   editor, write the message to a file and use `git commit -F <file>`, or pass the subject and body
   as separate `-m` arguments
 
-### 7. Verify
-
-Run the repo's fastest meaningful check before moving on:
-
-```bash
-# Examples — use whatever the project provides
-make test        # or: pytest, cargo test, npm test
-make lint        # or: ruff check, eslint, clippy
-```
-
-If verification fails, amend the commit or fix and create a new commit.
+If something in the commit you just made needs fixing and it hasn't been pushed, amend it with
+`git commit --amend`. Once a commit is pushed, fix forward with a new commit instead.
 
 ### 8. Repeat
 
@@ -140,12 +139,11 @@ intended changes are committed.
 
 ## Deliverable
 
-After committing, provide:
+After committing, report briefly:
 
-- The commit message(s) used
-- A one-line summary per commit (what/why)
-- Commands used to stage and review (`git diff --cached` at minimum)
-- Test or lint results if verification was run
+- Each commit's short hash and subject
+- The gate results (passed, failed with the key error, or not run with the reason)
+- Anything left uncommitted, and why
 
 ## Related Skills
 
