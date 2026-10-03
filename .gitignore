@@ -11,3 +11,8 @@ _*.py
 # Python
 __pycache__/
 *.pyc
+
+# Python tooling
+.venv/
+.pytest_cache/
+.coverage
