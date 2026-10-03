@@ -75,6 +75,7 @@ def db_session() -> Generator[Session, None, None]:
     session.rollback()
     session.close()
 
+
 def test_save_user(db_session: Session) -> None:
     # Arrange
     repo = UserRepository(db_session)
@@ -113,7 +114,8 @@ def test_parse_int(input_val: str, expected: int) -> None:
 ## Mocking
 
 ```python
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
+
 
 def test_api_call_retries_on_failure() -> None:
     # Arrange
@@ -151,6 +153,7 @@ def test_invalid_amount_raises() -> None:
 
 ```python
 import pytest
+
 
 @pytest.mark.asyncio
 async def test_fetch_user_returns_parsed_name() -> None:
@@ -200,6 +203,7 @@ pytest --cov=myproject --cov-report=annotate:cov_annotate
 from hypothesis import given
 from hypothesis import strategies as st
 
+
 @given(st.lists(st.integers()))
 def test_sort_is_idempotent(xs: list[int]) -> None:
     # Arrange
@@ -217,6 +221,7 @@ def test_sort_is_idempotent(xs: list[int]) -> None:
 ```python
 from freezegun import freeze_time
 
+
 @freeze_time("2025-01-15 12:00:00")
 def test_report_uses_current_date() -> None:
     # Act
@@ -231,6 +236,7 @@ def test_report_uses_current_date() -> None:
 ```python
 @pytest.mark.slow
 def test_full_integration() -> None: ...
+
 
 @pytest.mark.integration
 def test_db_roundtrip() -> None: ...

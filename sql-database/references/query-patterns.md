@@ -213,12 +213,10 @@ ANALYZE TABLE orders;
 # BAD: 1 + N queries
 users = session.scalars(select(User)).all()
 for u in users:
-    print(u.orders)        # one SELECT per user
+    print(u.orders)  # one SELECT per user
 
 # GOOD: 1 + 1 queries
-users = session.scalars(
-    select(User).options(selectinload(User.orders))
-).all()
+users = session.scalars(select(User).options(selectinload(User.orders))).all()
 ```
 
 ```rust

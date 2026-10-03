@@ -81,10 +81,7 @@ from contextlib import AsyncExitStack
 
 async def fetch_many(hosts: list[str]) -> list[bytes]:
     async with AsyncExitStack() as stack:
-        connections = [
-            await stack.enter_async_context(connect(host))
-            for host in hosts
-        ]
+        connections = [await stack.enter_async_context(connect(host)) for host in hosts]
         return [await conn.fetch() for conn in connections]
 ```
 

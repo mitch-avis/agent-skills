@@ -15,6 +15,7 @@ import sys
 
 import structlog
 
+
 def configure_logging(level: str = "INFO", *, json: bool = True) -> None:
     timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
 
@@ -71,6 +72,7 @@ import json
 import logging
 from datetime import UTC, datetime
 
+
 class JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         payload = {
@@ -83,6 +85,7 @@ class JsonFormatter(logging.Formatter):
             payload["error.stack_trace"] = self.formatException(record.exc_info)
         payload.update(record.__dict__.get("extra", {}))
         return json.dumps(payload, default=str)
+
 
 handler = logging.StreamHandler()
 handler.setFormatter(JsonFormatter())
@@ -168,6 +171,7 @@ from fastapi import Request
 
 correlation_id: ContextVar[str] = ContextVar("correlation_id", default="")
 
+
 async def correlation_middleware(request: Request, call_next):
     cid = request.headers.get("X-Correlation-ID") or str(uuid.uuid4())
     correlation_id.set(cid)
@@ -184,6 +188,7 @@ Propagate to outbound HTTP:
 
 ```python
 import httpx
+
 
 async def call_downstream(url: str, payload: dict) -> dict:
     async with httpx.AsyncClient() as client:
@@ -231,12 +236,14 @@ scrubbing always misses things.
 ```python
 SENSITIVE = {"password", "token", "secret", "api_key", "authorization", "ssn", "credit_card"}
 
+
 def redact_processor(logger, method_name, event_dict):
     for key in list(event_dict):
         lk = key.lower()
         if any(s in lk for s in SENSITIVE):
             event_dict[key] = "[REDACTED]"
     return event_dict
+
 
 structlog.configure(
     processors=[
@@ -254,6 +261,7 @@ def mask_email(email: str) -> str:
     if len(local) <= 2:
         return f"*@{domain}"
     return f"{local[0]}{'*' * (len(local) - 2)}{local[-1]}@{domain}"
+
 
 def mask_card(pan: str) -> str:
     digits = "".join(c for c in pan if c.isdigit())
@@ -292,9 +300,11 @@ For services emitting > ~1k INFO logs/sec, sample to control cost. Always keep W
 
 ```python
 import random
+
 import structlog
 
 _log = structlog.get_logger()
+
 
 class SampledLogger:
     def __init__(self, rate: float = 0.1) -> None:
@@ -317,6 +327,7 @@ Hash the user/correlation ID so a given user is either always or never sampled:
 
 ```python
 import hashlib
+
 
 def is_sampled(key: str, rate: float) -> bool:
     digest = hashlib.blake2s(key.encode(), digest_size=4).digest()

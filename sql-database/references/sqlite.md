@@ -155,6 +155,7 @@ conn.execute_batch(include_str!("../migrations/0001_init.sql"))?;
 ```python
 # Python
 import sqlite3
+
 conn = sqlite3.connect(":memory:")
 ```
 

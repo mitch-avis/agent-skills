@@ -24,8 +24,7 @@ make interfaces safer to change and misuse harder to express.
 ### Public API Annotations
 
 ```python
-def get_user(user_id: str) -> User | None:
-    ...
+def get_user(user_id: str) -> User | None: ...
 ```
 
 ### Type Narrowing

@@ -93,8 +93,7 @@ if not db.exists(key):
     db.insert(key, value)
 
 # GOOD: atomic upsert / unique constraint + handle conflict
-db.execute("INSERT INTO t (key, value) VALUES (?, ?) ON CONFLICT (key) DO NOTHING",
-           (key, value))
+db.execute("INSERT INTO t (key, value) VALUES (?, ?) ON CONFLICT (key) DO NOTHING", (key, value))
 ```
 
 ## Hardcoded Secret
@@ -105,6 +104,7 @@ API_KEY = "sk_live_abc123..."
 
 # GOOD: load from environment / secret manager
 import os
+
 API_KEY = os.environ["API_KEY"]
 ```
 

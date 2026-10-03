@@ -113,6 +113,7 @@ POOL = Gauge(
 import time
 from contextlib import contextmanager
 
+
 @contextmanager
 def track(method: str, route: str):
     start = time.perf_counter()

@@ -55,8 +55,9 @@ Use lifespan context managers for shared clients, pools, and caches.
 
 ```python
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+
 import httpx
+from fastapi import FastAPI
 
 
 @asynccontextmanager

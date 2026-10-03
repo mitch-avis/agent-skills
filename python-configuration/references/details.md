@@ -115,8 +115,9 @@ class Settings(BaseSettings):
 Pydantic handles common conversions automatically.
 
 ```python
-from pydantic_settings import BaseSettings
 from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     # Automatically converts "true", "1", "yes" to True
@@ -150,13 +151,16 @@ Use an environment enum to switch behavior.
 
 ```python
 from enum import StrEnum
-from pydantic_settings import BaseSettings
+
 from pydantic import Field, computed_field
+from pydantic_settings import BaseSettings
+
 
 class Environment(StrEnum):
     LOCAL = "local"
     STAGING = "staging"
     PRODUCTION = "production"
+
 
 class Settings(BaseSettings):
     environment: Environment = Field(
@@ -177,6 +181,7 @@ class Settings(BaseSettings):
     def is_local(self) -> bool:
         return self.environment == Environment.LOCAL
 
+
 # Usage
 if settings.is_production:
     configure_production_logging()
@@ -192,6 +197,7 @@ Organize related settings into nested models.
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
+
 class DatabaseSettings(BaseModel):
     host: str = "localhost"
     port: int = 5432
@@ -199,9 +205,11 @@ class DatabaseSettings(BaseModel):
     user: str
     password: str
 
+
 class RedisSettings(BaseModel):
     url: str = "redis://localhost:6379"
     max_connections: int = 10
+
 
 class Settings(BaseSettings):
     database: DatabaseSettings
@@ -230,9 +238,9 @@ REDIS__URL=redis://redis.example.com:6379
 For container environments, read secrets from mounted files.
 
 ```python
-from pydantic_settings import BaseSettings
 from pydantic import Field
-from pathlib import Path
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     # Read from environment variable or file
@@ -250,8 +258,9 @@ Pydantic will look for `/run/secrets/db_password` if the env var isn't set.
 Add custom validation for complex requirements.
 
 ```python
-from pydantic_settings import BaseSettings
 from pydantic import Field, model_validator
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     db_host: str = Field(alias="DB_HOST")
@@ -261,10 +270,7 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_replica_settings(self):
-        if (
-            self.read_replica_host == self.db_host
-            and self.read_replica_port == self.db_port
-        ):
+        if self.read_replica_host == self.db_host and self.read_replica_port == self.db_port:
             msg = "Read replica cannot be the same as primary database"
             raise ValueError(msg)
         return self

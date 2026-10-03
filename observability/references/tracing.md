@@ -64,12 +64,15 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
 
+
 def init_tracing(service: str, otlp_endpoint: str, sample: float = 0.05) -> None:
-    resource = Resource.create({
-        "service.name": service,
-        "service.version": "1.4.2",
-        "deployment.environment": "prod",
-    })
+    resource = Resource.create(
+        {
+            "service.name": service,
+            "service.version": "1.4.2",
+            "deployment.environment": "prod",
+        }
+    )
     provider = TracerProvider(
         resource=resource,
         sampler=ParentBased(TraceIdRatioBased(sample)),
@@ -98,6 +101,7 @@ SQLAlchemyInstrumentor().instrument(engine=engine)
 from opentelemetry import trace
 
 tracer = trace.get_tracer(__name__)
+
 
 async def process_order(order_id: str) -> Order:
     with tracer.start_as_current_span("process_order") as span:

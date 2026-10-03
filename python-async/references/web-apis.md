@@ -36,8 +36,9 @@ resources.
 
 ```python
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+
 import httpx
+from fastapi import FastAPI
 
 
 @asynccontextmanager
