@@ -31,7 +31,7 @@ In an existing repo, use the plugins it already has and ask before adding more.
 
 ## TDD Cycle
 
-1. **RED** — Write one failing test, run `pytest`, confirm failure
+1. **RED** — Write one failing test, run `.venv/bin/pytest`, confirm failure
 2. **GREEN** — Write minimum code to pass
 3. **REFACTOR** — Improve structure, keep tests green
 4. **Repeat** — Next behavior, next failing test
@@ -188,9 +188,9 @@ def test_reads_env_var(monkeypatch: pytest.MonkeyPatch) -> None:
 ## Coverage
 
 ```bash
-pytest --cov=myproject --cov-report=term-missing
-pytest --cov=myproject --cov-report=html
-pytest --cov=myproject --cov-report=annotate:cov_annotate
+.venv/bin/pytest --cov=myproject --cov-report=term-missing
+.venv/bin/pytest --cov=myproject --cov-report=html
+.venv/bin/pytest --cov=myproject --cov-report=annotate:cov_annotate
 ```
 
 - Lines starting with `!` in annotated files are uncovered
@@ -242,7 +242,7 @@ def test_full_integration() -> None: ...
 def test_db_roundtrip() -> None: ...
 ```
 
-Run selectively: `pytest -m "not slow"`
+Run selectively: `.venv/bin/pytest -m "not slow"`
 
 ## CI Configuration
 
@@ -276,7 +276,7 @@ skip_empty = true
 exclude_lines = ["pragma: no cover", "if __name__ == \"__main__\":"]
 ```
 
-Parallel execution: `pytest -n auto`
+Parallel execution: `.venv/bin/pytest -n auto`
 
 ## Anti-Patterns
 
