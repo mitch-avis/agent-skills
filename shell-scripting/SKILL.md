@@ -11,7 +11,7 @@ description: >-
 # Shell Scripting
 
 Production-grade Bash and PowerShell scripting: safety, portability, security, performance, testing,
-and documentation. This skill is the single source of truth for any shell-related work.
+and documentation.
 
 ## Decision: Which Shell?
 
@@ -97,13 +97,6 @@ SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
 readonly SCRIPT_DIR SCRIPT_NAME
 ```
 
-| Flag | Effect |
-| --- | --- |
-| `-E` | ERR trap is inherited by functions, subshells, command substitutions |
-| `-e` | Exit on any command failure |
-| `-u` | Error on undefined variable reference |
-| `-o pipefail` | Pipeline exit code is the first non-zero, not just the last command |
-
 For Bash 4.4+, also add `shopt -s inherit_errexit` so `-e` propagates into command substitutions.
 
 **`IFS` is opt-in.** Setting `IFS=$'\n\t'` script-wide stops unquoted expansions from splitting
@@ -136,13 +129,6 @@ Prefer `[[ ]]` over `[ ]` in Bash; reach for `(( ))` for arithmetic.
 [[ "${str}" =~ ^[0-9]+$ ]]               # regex match
 (( count > 10 ))                         # arithmetic comparison
 ```
-
-| Test | Meaning | Test | Meaning |
-| --- | --- | --- | --- |
-| `-f` | regular file | `-d` | directory |
-| `-e` | exists (any) | `-r` / `-w` / `-x` | readable / writable / executable |
-| `-z` | empty string | `-n` | non-empty string |
-| `-v VAR` | variable is set (Bash 4.2+) | `=~` | regex match |
 
 ### Functions
 
