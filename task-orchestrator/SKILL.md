@@ -1,228 +1,78 @@
 ---
 name: task-orchestrator
 description: >-
-  Decomposes complex, multi-step, or cross-domain tasks into subtasks, assigns each to the most
-  appropriate skill or subagent, runs independent subtasks in parallel, and synthesizes results. Use
-  whenever a request involves more than one skill, touches multiple languages or file types,
-  requires a plan-then-execute workflow, contains multiple numbered or comma-separated tasks, or is
-  ambiguous and benefits from decomposition before execution. Also use when the user explicitly asks
-  to break work into parts, delegate to subagents, or run things in parallel.
+  Use when the user asks to split work across subagents, delegate, or run tasks in parallel, or
+  before launching two or more subagents for one task. Decides whether delegation pays off, writes
+  self-contained subagent briefs, sets concurrency and worktree limits, and verifies and merges
+  subagent results. A multi-part request alone is not a reason to delegate.
 ---
 
 # Task Orchestrator
 
-Parse complex requests, decompose into subtasks, delegate to subagents, run in parallel where
-possible, and synthesize results.
+Delegate work to subagents only when it pays off, brief them so they can work without your
+context, and verify what they return before relying on it.
 
-## When to Use
+## Decide Whether to Delegate
 
-- Task spans multiple skills or languages (Rust + Python + docs)
-- Request is ambiguous and needs decomposition before execution
-- Multiple independent work items can run in parallel
-- Task requires a plan-execute-verify cycle
-- User provides a numbered list or comma-separated set of tasks
-- Request contains phrases like "go through each", "update all", or "review everything"
-- Work can be split into research, implementation, and validation phases
+Each subagent starts cold: it re-reads files, re-derives context, and costs a session of its own.
+Delegate only when that cost buys something.
 
-## Workflow
+- **Delegate:** independent work items that need no shared context mid-task; wide searches or
+  audits where you need the conclusion, not the file dumps; long checks that can run while you work
+  on something else.
+- **Don't delegate:** small or sequential edits, work that depends on decisions still being made in
+  the conversation, or tasks where writing the brief costs more than doing the work.
+- When the host tool or the repo sets its own delegation rules (for example, "spawn subagents only
+  when the user asks"), those come first.
 
-### 1. Parse the Request
+A numbered or multi-part request is a checklist, not a reason to delegate. Work through it directly
+unless its items meet the bar above.
 
-Identify:
+## Plan the Split
 
-- **Goal:** What is the user trying to accomplish?
-- **Scope:** What files, modules, or systems are involved?
-- **Constraints:** Standards, deadlines, dependencies?
-- **Deliverables:** What artifacts must be produced?
+For each subtask, write down:
 
-### 2. Decompose into Subtasks
+- One objective and its deliverable
+- Its inputs, including outputs of earlier subtasks
+- Whether it can run alongside the others or must wait for one
+- Which skills apply, if the host offers skills
 
-Break the goal into the smallest independent work units. Each subtask must have:
+Run independent subtasks together and chain dependent ones in order. Keep integration and final
+validation in the main session.
 
-- A clear, single objective
-- An assigned skill (from the available skill set)
-- Defined inputs and expected outputs
-- Independence flag: can it run in parallel with others?
+## Brief Each Subagent
 
-**Decomposition heuristic:**
+A subagent knows only what its brief says. Include:
 
-```text
-Request
-  |
-  +-- Are there independent parts? --> Split into parallel subtasks
-  |
-  +-- Is there a natural sequence?  --> Chain as sequential subtasks
-  |
-  +-- Is it a single atomic action? --> Execute directly
-```
+- The objective, the scope, and what "done" means
+- The repo rules that apply: which instruction files to read (`AGENTS.md`, `CLAUDE.md`), the
+  validation command or gate, and the actions it must not take without asking (pushing, deleting,
+  editing generated files, touching other repos)
+- Input artifacts and the decisions already made, so it does not reopen them
+- What to return: files changed, check results with the exact commands run, and open questions,
+  not a narrative
 
-### 3. Assign Skills
+## Concurrency Limits
 
-Map each subtask to the best available skill:
-
-| Domain | Skill |
-| --- | --- |
-| Rust code | rust |
-| Rust async / Tokio                  | rust-async                     |
-| Rust tests                          | rust-testing                   |
-| Python code                         | python                         |
-| Python async / ASGI services        | python-async                   |
-| Python web APIs / FastAPI           | python-web-apis                |
-| Python configuration / secrets      | python-configuration           |
-| Python resilience / cleanup         | python-resilience              |
-| Python tests / TDD                  | python-testing                 |
-| Python type safety / pyright / ty   | python-type-safety             |
-| Python packaging / infra / workers  | python-infrastructure          |
-| Python modernization / migration    | python-modernization           |
-| Python anti-pattern review          | python-anti-patterns           |
-| Kubernetes manifests                | kubernetes                     |
-| Helm charts                         | helm                           |
-| Dockerfiles / containers            | docker                         |
-| CI/CD pipelines                     | cicd                           |
-| Markdown / docs                     | markdown-documentation         |
-| Mermaid diagrams                    | mermaid                        |
-| Web design / redesign / UI audits   | frontend-design                |
-| Existing UI redesign / visual audit | frontend-redesign              |
-| React / Next.js code and validation | frontend-react                 |
-| Shell scripts (bash, sh)            | shell-scripting                |
-| PowerShell scripts                  | shell-scripting                |
-| ShellCheck / PSAnalyzer             | shell-scripting                |
-| Bats / Pester tests                 | shell-scripting                |
-| Code quality                        | clean-code                     |
-| Code review / PR audit              | code-review                    |
-| TDD methodology                     | test-driven-development        |
-| Debugging / root cause              | systematic-debugging           |
-| Git commits / staging / commit prep | committing-code                |
-| Browser automation (CLI)            | agent-browser                  |
-| Browser automation (daemon)         | browser-use                    |
-| Finding / installing skills         | find-skills                    |
-| Custom instruction files            | generating-custom-instructions |
-| Creating / improving skills         | skill-creator                  |
-| Multi-step orchestration            | task-orchestrator (self)       |
-| SQL schema / queries / ORM          | sql-database                   |
-| Logging / metrics / tracing         | observability                  |
-| OpenTelemetry / Prometheus          | observability                  |
-| SLOs / alerting / runbooks          | observability                  |
-| Log aggregation (ELK/Loki)          | observability                  |
-| Service mesh observability          | observability                  |
-
-### 4. Execute
-
-**Parallel execution** — for subtasks with no dependencies:
-
-Launch independent subtasks as parallel subagents. Each subagent receives:
-
-- The subtask description
-- Relevant skill context
-- Input artifacts from prior steps (if any)
-- The repo rules that apply to it, because a subagent starts without your context: which
-  instruction files to read, the validation command, and the actions it must not take without
-  asking
-- What to return: files changed, check results, and open questions
-
-Respect concurrency limits even when subtasks are logically independent:
-
-- Heavy jobs that saturate CPU, GPU, or memory (model training, long builds, large backtests) run one
-  at a time. Parallelize the light work around them.
+- Heavy jobs that saturate CPU, GPU, or memory (model training, long builds, large backtests) run
+  one at a time. Parallelize the light work around them.
 - Two subagents never edit the same working tree at the same time. Give each its own git worktree,
   or run them in sequence.
-- When the repo's instructions set their own concurrency or delegation rules, follow those.
+- Read-only subagents (search, review, audit) can share a tree.
 
-**Sequential execution** — for subtasks with dependencies:
+## Verify and Merge Results
 
-Execute in dependency order. Pass outputs from completed subtasks as inputs to dependent ones.
+A subagent's report is input to verify, not a source to copy.
 
-**Hybrid execution:**
+- Confirm each deliverable by reading the files or diffs, not the summary.
+- Re-run the checks a subagent says passed; never relay a pass you did not see.
+- Look for conflicts between subtasks (the same file, incompatible assumptions) before merging.
+- Run the repo's full gate once on the merged result.
+- Report what each subtask changed, the gate results, and anything that still needs a decision.
 
-```text
-[Parse request]
-       |
-  +---------+---------+
-  |         |         |
-[Rust]  [Python]  [Docs]     <-- parallel
-  |         |         |
-  +---------+---------+
-       |
-[Integration test]             <-- sequential (depends on all)
-       |
-[Final review]
-```
+## When a Subtask Fails
 
-### 5. Collect and Validate
-
-After all subtasks complete:
-
-- Verify each subtask produced its expected output
-- Check for conflicts between subtask results
-- Run cross-cutting validations (linting, formatting, tests)
-- If a subtask failed, diagnose and retry or report
-
-### 6. Synthesize
-
-Combine subtask outputs into a coherent final result:
-
-- Merge code changes across files
-- Update documentation to reflect all changes
-- Run the full test suite
-- Format all modified files
-- Present a summary of what was done
-
-## Standards Enforcement
-
-If the repo defines a validation script or gate (in `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, or
-CI), run that script: it alone decides whether the checks pass, and it uses the repo's own command
-forms. The commands below are the defaults for repos that don't define one.
-
-Apply these checks to every output:
-
-### Rust
-
-```bash
-cargo +nightly fmt --all --check
-cargo +nightly clippy --workspace --all-features --all-targets -- -D warnings
-cargo +nightly build --workspace --all-features --all-targets
-cargo +nightly test --doc --workspace --all-features
-cargo +nightly nextest run --workspace --all-features --all-targets
-```
-
-### Python
-
-```bash
-.venv/bin/ruff format --check .
-.venv/bin/ruff check .
-.venv/bin/pyright
-.venv/bin/ty check
-.venv/bin/pytest --cov
-```
-
-### Markdown
-
-```bash
-markdownlint-cli2 "**/*.md" "#.venv" "#node_modules" "#target"
-```
-
-### Universal
-
-- Line length: the repo's configured limit, 100 characters by default
-- TDD: Failing test before implementing new features and modules (characterization tests for
-  behavior-preserving changes); small targeted fixes are exempt but keep the suite green
-- Coverage target: the repo's floor when it sets one; otherwise 100% where achievable
-
-## Error Recovery
-
-If a subtask fails:
-
-1. Read the error output carefully
-2. Determine if the failure is in the subtask or its inputs
-3. Fix the root cause (do not retry blindly)
-4. Re-run only the failed subtask and its dependents
-5. If stuck after two attempts, report the issue with context
-
-## Confidence Protocol
-
-For ambiguous requests, state confidence before proceeding:
-
-- **HIGH** — Clear requirement, known approach. Proceed.
-- **MEDIUM** — Reasonable interpretation, some uncertainty. State assumptions, proceed.
-- **LOW** — Multiple valid interpretations. Ask one clarifying question, then proceed with best
-  guess.
+1. Read its error output and decide whether the fault is in the subtask or in its inputs.
+2. Fix the root cause; do not retry blindly.
+3. Re-run only the failed subtask and the subtasks that depend on it.
+4. After two failed attempts, stop and report what was tried, with the errors.

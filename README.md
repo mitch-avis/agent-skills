@@ -21,7 +21,7 @@ follows its instructions.
 | [committing-code](committing-code/SKILL.md) | High-quality git commits — Conventional Commits, selective staging, logical splitting, commit-message prep, and pre-commit safety checks |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Four-phase root cause analysis — reproduction, evidence, hypothesis, git bisect, differential debugging, Python + Rust toolkits |
 | [test-driven-development](test-driven-development/SKILL.md) | Strict TDD with red-green-refactor cycle, common rationalizations to avoid, and testing anti-patterns |
-| [task-orchestrator](task-orchestrator/SKILL.md) | Default entry point for complex or ambiguous tasks — decomposes into subtasks, assigns skills, runs parallel work |
+| [task-orchestrator](task-orchestrator/SKILL.md) | Delegating to subagents — decides when it pays off, writes self-contained briefs, limits concurrency, verifies and merges results |
 
 ### Web & Frontend
 
