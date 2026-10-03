@@ -88,7 +88,6 @@ details.
 | --- | --- |
 | [generating-custom-instructions](generating-custom-instructions/SKILL.md) | AGENTS.md-first instruction files (thin `@AGENTS.md` CLAUDE.md, `.claude/rules`, optional Copilot files) built from codebase analysis |
 | [markdown-documentation](markdown-documentation/SKILL.md) | House Markdown rules — 100-column fill, code fences, tables, links, and the markdownlint-cli2 check |
-| [skill-creator](skill-creator/SKILL.md) | Create, evaluate, and iteratively improve agent skills with eval-driven benchmarking |
 
 ### Diagramming
 
@@ -173,7 +172,7 @@ into the curated frontend skill family, then removed from the published set.
 | [aj-geddes/useful-ai-prompts](https://github.com/aj-geddes/useful-ai-prompts) | markdown-documentation, kubernetes-deployment, docker-containerization, gitlab-cicd-pipeline, cicd-pipeline-setup, code-review-analysis, logging-best-practices, application-logging | markdown-documentation, kubernetes, docker, cicd, code-review, observability |
 | [akin-ozer/cc-devops-skills](https://github.com/akin-ozer/cc-devops-skills) | bash-script-generator | shell-scripting |
 | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins) | sql-queries, code-review | sql-database, code-review |
-| [anthropics/skills](https://github.com/anthropics/skills) | skill-creator, frontend-design | skill-creator, frontend-design |
+| [anthropics/skills](https://github.com/anthropics/skills) | frontend-design | frontend-design |
 | [apollographql/skills](https://github.com/apollographql/skills) | rust-best-practices | rust, rust-async, rust-testing |
 | [axtonliu/axton-obsidian-visual-skills](https://github.com/axtonliu/axton-obsidian-visual-skills) | mermaid-visualizer | mermaid |
 | [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | mermaid-diagram-specialist, Linux Production Shell Scripts | mermaid, shell-scripting |
