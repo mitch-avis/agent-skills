@@ -5,7 +5,8 @@
 ```bash
 # Install Istio CLI
 curl -L https://istio.io/downloadIstio | sh -
-export PATH=$PWD/istio-*/bin:$PATH
+cd istio-*/ || exit
+export PATH="${PWD}/bin:${PATH}"
 
 # Install with default profile (control plane + ingress gateway)
 istioctl install --set profile=default -y

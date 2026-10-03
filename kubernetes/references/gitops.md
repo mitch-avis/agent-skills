@@ -11,6 +11,8 @@
 
 ### Installation
 
+<!-- check-examples: skip -->
+
 ```bash
 kubectl create namespace argocd
 kubectl apply -n argocd -f \

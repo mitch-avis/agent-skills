@@ -97,8 +97,9 @@ These apply to both Bash and PowerShell:
 set -Eeuo pipefail
 IFS=$'\n\t'
 
-readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-readonly SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
+readonly SCRIPT_DIR SCRIPT_NAME
 ```
 
 | Flag | Effect |
@@ -129,7 +130,6 @@ cp "${source}" "${destination}"
 port="${PORT:-8080}"                          # default if unset
 : "${REQUIRED_VAR:?REQUIRED_VAR must be set}" # error if unset
 readonly CONFIG_DIR="/etc/myapp"              # constant
-local result=""                               # function-scoped
 ```
 
 ### Conditionals

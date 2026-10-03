@@ -31,8 +31,9 @@ shopt -s inherit_errexit nullglob
 IFS=$'\n\t'
 
 # ---------- Constants ----------
-readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-readonly SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
+readonly SCRIPT_DIR SCRIPT_NAME
 readonly SCRIPT_VERSION="1.0.0"
 
 readonly EXIT_SUCCESS=0

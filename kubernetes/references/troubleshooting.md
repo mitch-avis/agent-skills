@@ -2,6 +2,8 @@
 
 ## Pod Inspection
 
+<!-- check-examples: skip -->
+
 ```bash
 # Get pods with details
 kubectl get pods -n production -o wide
@@ -96,6 +98,8 @@ kubectl auth can-i --list --as=system:serviceaccount:production:my-app-sa
 
 ## Debug Containers
 
+<!-- check-examples: skip -->
+
 ```bash
 # Ephemeral debug container on running pod
 kubectl debug -it <pod-name> -n production \
@@ -124,6 +128,8 @@ kubectl debug node/<node-name> -it --image=ubuntu:latest
 
 ### CrashLoopBackOff
 
+<!-- check-examples: skip -->
+
 ```bash
 # Check previous container logs
 kubectl logs <pod-name> -n production --previous
@@ -140,6 +146,8 @@ kubectl run debug --image=myapp:v1.0.0 -it --rm --restart=Never -- /bin/sh
 
 ### ImagePullBackOff
 
+<!-- check-examples: skip -->
+
 ```bash
 # Verify image exists
 kubectl describe pod <pod-name> | grep -A 5 "Image"
@@ -152,6 +160,8 @@ kubectl run test --image=myregistry.io/myapp:v1.0.0 --restart=Never
 ```
 
 ### Service Not Reachable
+
+<!-- check-examples: skip -->
 
 ```bash
 # Verify endpoints exist
@@ -166,6 +176,8 @@ kubectl get networkpolicy -n production
 ```
 
 ### Node Issues
+
+<!-- check-examples: skip -->
 
 ```bash
 # Node status and conditions

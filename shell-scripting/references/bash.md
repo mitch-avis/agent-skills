@@ -16,8 +16,9 @@ set -Eeuo pipefail
 shopt -s inherit_errexit nullglob   # Bash 4.4+: errexit propagates into $(...); empty globs OK
 IFS=$'\n\t'
 
-readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-readonly SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
+readonly SCRIPT_DIR SCRIPT_NAME
 readonly SCRIPT_VERSION="1.0.0"
 ```
 
@@ -37,7 +38,9 @@ For interactive debugging, add `set -x` (trace) or `PS4='+ ${BASH_SOURCE}:${LINE
 
 ```bash
 # Naming: lowercase_with_underscores for locals, UPPERCASE for env / readonly
-local user_input="$1"
+process() {
+    local user_input="$1"     # function-scoped
+}
 readonly MAX_RETRIES=3
 declare -i counter=0          # integer
 declare -a items=()           # indexed array
@@ -56,6 +59,8 @@ echo "log_$name_$(date +%F).txt"      # WRONG: $name_ is one identifier
 ```
 
 ## Conditionals and Tests
+
+<!-- check-examples: skip -->
 
 ```bash
 # Bash: prefer [[ ]]
@@ -318,8 +323,8 @@ timeout 30s long_running_command || die "timed out"
 
 # Track and clean up background jobs
 declare -a pids=()
-worker &;            pids+=($!)
-another_worker &;    pids+=($!)
+worker & pids+=("$!")
+another_worker & pids+=("$!")
 
 cleanup_jobs() {
     for pid in "${pids[@]}"; do

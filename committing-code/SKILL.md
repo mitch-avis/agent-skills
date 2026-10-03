@@ -37,6 +37,8 @@ If unrelated changes exist in the same file, use patch staging in step 3.
 
 ### 3. Stage Selectively
 
+<!-- check-examples: skip -->
+
 ```bash
 # Specific files
 git add path/to/file

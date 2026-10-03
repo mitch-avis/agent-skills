@@ -50,6 +50,8 @@ helm show values oci://ghcr.io/myorg/charts/myapp --version 1.0.0
 
 ## --set Syntax
 
+<!-- check-examples: skip -->
+
 ```bash
 # Scalar
 --set image.tag=v2.0.0

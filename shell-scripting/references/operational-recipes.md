@@ -326,6 +326,7 @@ if ($PSCmdlet.ShouldProcess($Target, 'Delete')) {
 ## Cron / systemd Timer Hygiene
 
 ```bash
+#!/usr/bin/env bash
 # A cron-friendly script:
 #  - sets PATH explicitly (cron's PATH is minimal)
 #  - cd's somewhere predictable
@@ -335,7 +336,6 @@ if ($PSCmdlet.ShouldProcess($Target, 'Delete')) {
 # crontab line:
 # */5 * * * * /usr/local/bin/myjob.sh >> /var/log/myjob.log 2>&1
 
-#!/usr/bin/env bash
 set -Eeuo pipefail
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export PATH

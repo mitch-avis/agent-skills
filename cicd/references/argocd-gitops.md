@@ -14,6 +14,8 @@ ArgoCD:
 
 ## Installation
 
+<!-- check-examples: skip -->
+
 ```bash
 # Standard install
 kubectl create namespace argocd

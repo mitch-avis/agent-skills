@@ -216,7 +216,7 @@ class Settings(BaseSettings):
 
 Environment variables use double underscore for nesting:
 
-```bash
+```dotenv
 DATABASE__HOST=db.example.com
 DATABASE__PORT=5432
 DATABASE__NAME=myapp

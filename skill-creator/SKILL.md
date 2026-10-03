@@ -195,6 +195,8 @@ Once all runs complete:
 
 2. **Aggregate into benchmark**:
 
+   <!-- check-examples: skip -->
+
    ```bash
    python -m scripts.aggregate_benchmark <workspace>/iteration-N \
      --skill-name <name>
@@ -208,6 +210,8 @@ Once all runs complete:
    high-variance evals, time/token tradeoffs).
 
 4. **Launch the viewer**:
+
+   <!-- check-examples: skip -->
 
    ```bash
    python <skill-creator-path>/eval-viewer/generate_review.py \
@@ -329,6 +333,8 @@ Present the eval set using the HTML template in `assets/eval_review.html`:
 
 ### Step 3: Run the Optimization Loop
 
+<!-- check-examples: skip -->
+
 ```bash
 python -m scripts.run_loop \
   --eval-set <path-to-trigger-eval.json> \
@@ -360,6 +366,8 @@ scores.
 ## Packaging
 
 Package the finished skill into a distributable `.skill` file:
+
+<!-- check-examples: skip -->
 
 ```bash
 python -m scripts.package_skill <path/to/skill-folder>

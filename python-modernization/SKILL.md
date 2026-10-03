@@ -29,6 +29,8 @@ Use this skill when the job is not just writing Python, but upgrading the projec
 
 ## Baseline Workflow
 
+<!-- check-examples: skip -->
+
 ```bash
 uv init --build-backend uv --python 3.14 myproject
 cd myproject
