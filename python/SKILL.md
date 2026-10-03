@@ -107,9 +107,6 @@ myproject/
 
 ## Code Style
 
-- Use `snake_case` for modules, files, functions, and variables.
-- Use `PascalCase` for classes and `SCREAMING_SNAKE_CASE` for constants.
-- Prefer descriptive names over abbreviations.
 - Keep functions focused. Extract helpers when a function has multiple reasons to change or deep
   nesting.
 - Write comments only when they explain intent, constraints, or a non-obvious tradeoff.
