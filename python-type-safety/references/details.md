@@ -64,9 +64,11 @@ from collections.abc import Callable
 type ProgressCallback = Callable[[int, int], None]
 ```
 
-## Pyright Tightening
+## Tightening an Existing Repo
 
-- Promote diagnostics one by one rather than jumping straight to broad strictness.
+New projects start in strict mode. For a repo that is still in standard mode:
+
+- Add packages to `strict = ["<package>"]` one at a time rather than flipping the whole repo.
 - Fix import resolution first.
 - Eliminate optional misuse next.
 - Tackle `Any` spread only after the boundary types are stable.

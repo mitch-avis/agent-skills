@@ -12,12 +12,13 @@ Comprehensive pytest patterns following TDD methodology.
 
 ## Preferred Plugins
 
-Install the standard pytest stack for all projects:
+New projects get the house pytest stack in the `dev` group (add `pytest-asyncio` for async code):
 
 ```bash
-uv add --group test pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
-uv sync --group test
+uv add --group dev pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 ```
+
+In an existing repo, use the plugins it already has and ask before adding more.
 
 | Plugin | Purpose |
 | --- | --- |
@@ -140,7 +141,7 @@ async def test_fetch_returns_data() -> None:
 ```
 
 - Use `pytest-asyncio` plugin
-- Add it with `uv add --group test pytest-asyncio`
+- Add it with `uv add --group dev pytest-asyncio`
 - Test timeouts with `asyncio.wait_for`
 
 ## Monkeypatching
@@ -211,7 +212,10 @@ addopts = [
     "--cov=myproject",
     "--cov-report=term-missing",
 ]
-filterwarnings = ["ignore::DeprecationWarning"]
+# Warnings fail tests; silence a third-party module only by name, with a reason, e.g.
+# "ignore::DeprecationWarning:somelib.*".
+filterwarnings = ["error"]
+# Only when tests import shared helpers as `tests.*`; src layouts import the installed project.
 pythonpath = ["."]
 markers = [
     "slow: marks tests as slow",

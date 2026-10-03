@@ -8,7 +8,7 @@ Use a project-local `.venv` and drive it with `uv`.
 uv python install 3.14
 uv init --build-backend uv --python 3.14 myproject
 uv add httpx
-uv add --group dev ruff pyright ty pytest pytest-cov pytest-xdist
+uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 uv sync
 uv lock --check
 ```
@@ -101,8 +101,7 @@ class Serializable(Protocol):
 - Prefer `User | None` over `Optional[User]` when the project supports Python 3.10+.
 - Use `Protocol` for structural interfaces.
 - Use `type` aliases for repeated shapes and PEP 695 type parameters for generics.
-- Keep `pyright` as the stable default type checker today.
-- Run `ty` alongside `pyright` in most modern Python projects.
+- Run `pyright` and `ty` together; both must report 0 errors.
 
 ## Design Patterns
 

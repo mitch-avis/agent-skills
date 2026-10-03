@@ -40,14 +40,13 @@ dependencies = ["httpx>=0.28"]
 postgres = ["psycopg[binary]>=3.2"]
 
 [dependency-groups]
-lint = ["ruff", "pyright"]
-test = ["pytest", "pytest-cov", "pytest-xdist"]
-docs = ["mkdocs"]
 dev = [
-    { include-group = "lint" },
-    { include-group = "test" },
-    { include-group = "docs" },
+    "ruff", "pyright", "ty",
+    "pytest", "pytest-cov", "pytest-html", "pytest-metadata", "pytest-sugar", "pytest-xdist",
 ]
+
+[tool.uv]
+default-groups = ["dev"]
 ```
 
 - Extras are for downstream consumers.
@@ -152,40 +151,18 @@ include = ["src", "scripts", "tests"]
 
 [tool.pyright]
 pythonVersion = "3.14"
-typeCheckingMode = "standard"
+typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
 pythonPlatform = "Linux"
-stubPath = "stubs"
-executionEnvironments = [{ root = "." }]
-exclude = [
-    "**/__pycache__",
-    "**/.*",
-    ".venv",
-    "web",
+exclude = ["**/__pycache__", "**/.*", ".venv", "web"]
+# Tests may call private helpers directly.
+executionEnvironments = [
+    { root = "tests", extraPaths = ["."], reportPrivateUsage = false },
+    { root = "." },
 ]
-reportMissingImports = "error"
-reportMissingModuleSource = "warning"
-reportAttributeAccessIssue = "error"
-reportAssignmentType = "error"
-reportArgumentType = "error"
-reportReturnType = "error"
-reportCallIssue = "error"
-reportIndexIssue = "error"
-reportOperatorIssue = "error"
-reportOptionalSubscript = "error"
-reportOptionalMemberAccess = "error"
-reportOptionalCall = "error"
-reportOptionalIterable = "error"
-reportOptionalContextManager = "error"
-reportOptionalOperand = "error"
-reportGeneralTypeIssues = "error"
+# Some dependencies ship without stubs.
 reportMissingTypeStubs = false
-reportUnknownVariableType = "none"
-reportUnknownMemberType = "none"
-reportUnknownArgumentType = "none"
-reportUnknownParameterType = "none"
-reportUnknownLambdaType = "none"
 
 [tool.pytest.ini_options]
 minversion = "9.0"
@@ -196,7 +173,9 @@ addopts = [
     "--cov=myproject",
     "--cov-report=term-missing",
 ]
-filterwarnings = ["ignore::DeprecationWarning"]
+# Warnings fail tests; silence a third-party module only by name, with a reason.
+filterwarnings = ["error"]
+# Only when tests import shared helpers as `tests.*`.
 pythonpath = ["."]
 
 [tool.coverage.run]
@@ -227,7 +206,6 @@ uv add httpx
 uv add --group dev ruff pyright ty
 uv remove httpx
 uv sync
-uv sync --group test
 uv lock
 uv lock --check
 uv export --format requirements-txt > requirements.txt

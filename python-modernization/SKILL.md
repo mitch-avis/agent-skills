@@ -14,8 +14,7 @@ Use this skill when the job is not just writing Python, but upgrading the projec
 
 - Use `uv` for Python versions, environments, dependencies, syncing, and locking.
 - Use `ruff` for formatting and linting.
-- Use `pyright` and `ty` together in modern Python projects.
-- Keep `pyright` as the stable baseline until `ty` is mature enough to replace it for the repo.
+- Use `pyright` and `ty` together; both must report 0 errors.
 - Keep project configuration in `pyproject.toml`.
 - Use PEP 723 metadata for standalone scripts.
 
@@ -35,7 +34,7 @@ Use this skill when the job is not just writing Python, but upgrading the projec
 uv init --build-backend uv --python 3.14 myproject
 cd myproject
 uv add httpx
-uv add --group dev ruff pyright ty pytest pytest-cov pytest-xdist
+uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 uv sync
 uv lock --check
 .venv/bin/ruff format .
@@ -64,7 +63,7 @@ uv lock --check
 
 ## CI and Release Expectations
 
-- Run `uv sync --frozen` or the repo equivalent in CI.
+- Run `uv sync --locked` in CI, then the tools as `.venv/bin/<tool>`.
 - Check formatting, linting, types, and tests explicitly.
 - Keep Python version selection and lockfile behavior deterministic.
 

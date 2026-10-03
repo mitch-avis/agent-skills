@@ -26,14 +26,13 @@ or its CI declare a command form, a validation script, or a threshold, follow th
 - **Linter:** `.venv/bin/ruff check .` (add `--fix` while iterating), with `select = ["ALL"]` and
   a short, documented `ignore` list.
 - **Type checkers:** Run `.venv/bin/pyright` and `.venv/bin/ty check`; both must report 0 errors.
-  Configure both in `pyproject.toml`, stricter than pyright's `standard` defaults.
+  Configure both in `pyproject.toml`. New projects use `typeCheckingMode = "strict"`; existing
+  repos keep their mode and tighten it package by package with `strict = ["<package>"]`.
 - **Command forms:** Run tools from the project venv as `.venv/bin/<tool>`. `uv run` syncs the
   environment before every command and can replace packages installed outside the lockfile (CUDA
   or torch builds), so use it only where the repo documents it. When the repo has a single
   validation script or gate, that script alone decides whether the checks pass; individual tools
   are for iteration.
-- **Current stance:** Run `pyright` and `ty` together today; plan to drop `pyright` once `ty` is
-  mature enough for the repo.
 - **Testing:** TDD for new features and modules: write the failing test before the production
   code. Small targeted fixes don't require test-first, but must keep the suite green.
 - **Line length:** 100 characters for prose and source.
@@ -60,7 +59,7 @@ uv self update
 uv python install 3.14
 uv init --build-backend uv --python 3.14 myproject
 uv add httpx
-uv add --group dev ruff pyright ty pytest pytest-cov pytest-xdist
+uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 uv sync
 uv lock --check
 .venv/bin/ruff format .
@@ -133,9 +132,6 @@ Docstring and comment stability matters:
   type parameters (`def f[T]`, `class C[T]`) instead of module-level `TypeVar`s.
 - Minimize `Any`. Use it only for truly dynamic boundaries or untyped third-party interfaces.
 - Narrow optional values before use.
-- Keep `pyright` in standard mode as the stable default today, then tighten selected diagnostics.
-- Run `ty` alongside `pyright` in most modern Python projects so its faster checks can mature on
-  real code without replacing the stable baseline prematurely.
 
 ```python
 from typing import Protocol
@@ -165,9 +161,9 @@ REFACTOR -> improve structure with tests still green
 - Cover error paths and edge cases, not only happy paths.
 - Mock at I/O boundaries, not deep internals.
 - Use `pytest-asyncio` for async code and `monkeypatch` for environment-driven behavior.
-- Keep the standard pytest stack available when the repo supports it:
-  `pytest`, `pytest-cov`, `pytest-html`, `pytest-metadata`, `pytest-sugar`, `pytest-xdist`, and
-  `pytest-asyncio` when needed.
+- New projects get the house pytest stack in the `dev` group: `pytest`, `pytest-cov`,
+  `pytest-html`, `pytest-metadata`, `pytest-sugar`, and `pytest-xdist`, plus `pytest-asyncio` for
+  async code. In an existing repo, use the plugins it already has and ask before adding more.
 
 ## Design and Architecture
 
@@ -246,7 +242,13 @@ requires-python = ">=3.14"
 dependencies = []
 
 [dependency-groups]
-dev = ["ruff", "pyright", "ty", "pytest", "pytest-cov"]
+dev = [
+    "ruff", "pyright", "ty",
+    "pytest", "pytest-cov", "pytest-html", "pytest-metadata", "pytest-sugar", "pytest-xdist",
+]
+
+[tool.uv]
+default-groups = ["dev"]
 
 [tool.ruff]
 line-length = 100
@@ -261,7 +263,7 @@ convention = "google"
 
 [tool.pyright]
 pythonVersion = "3.14"
-typeCheckingMode = "standard"
+typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
 

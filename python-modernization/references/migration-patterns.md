@@ -8,7 +8,7 @@ Use `uv init --bare` in an existing repo, then move runtime and dev dependencies
 ```bash
 uv init --bare
 uv add requests rich
-uv add --group dev ruff pyright pytest pytest-cov
+uv add --group dev ruff pyright ty pytest pytest-cov
 uv sync
 uv lock
 ```
@@ -21,7 +21,8 @@ uv lock
 - Keep the project structure intact first.
 - Move dependency management to `uv`.
 - Preserve package metadata in `pyproject.toml`.
-- Replace Poetry-specific commands in CI with `uv sync`, `uv run`, and `uv build`.
+- Replace Poetry-specific commands in CI with `uv sync --locked`, `.venv/bin/<tool>`, and
+  `uv build`.
 
 ## Collapsing Formatter Stacks
 
@@ -36,11 +37,9 @@ uv add --group dev ruff
 
 ## Typing Migration
 
-- Start with `pyright` in standard mode.
-- Fix import and optional issues first.
-- Tighten diagnostics gradually.
-- Add `ty` alongside `pyright` and keep both at 0 errors; `ty` is expected to replace `pyright`
-  as it matures.
+- Start a legacy repo in `pyright` standard mode, fix import and optional issues first, then
+  tighten package by package with `strict = ["<package>"]`.
+- Add `ty` alongside `pyright` and keep both at 0 errors.
 
 ## PEP 723 Scripts
 
@@ -56,12 +55,12 @@ Use inline metadata for standalone tools instead of creating a whole project for
 
 ## Dependency Groups and Extras
 
-- Use dependency groups for contributor tooling such as lint, test, docs, and audit.
+- Put contributor tooling (lint, type checking, tests) in the `dev` dependency group.
 - Use optional dependencies for runtime features installed by downstream users.
 
 ## CI Migration
 
 - Install `uv` first.
 - Pin or declare the Python version explicitly.
-- Use `uv sync` for deterministic environment creation.
-- Run `uv run ...` for format, lint, type-check, and test steps.
+- Run `uv sync --locked` once; it fails if `uv.lock` is out of date.
+- Run format, lint, type-check, and test steps as `.venv/bin/<tool>`, the same form used locally.

@@ -13,8 +13,8 @@ make interfaces safer to change and misuse harder to express.
 
 ## Defaults
 
-- Run `pyright` and `ty` together in most modern Python projects.
-- Treat `pyright` as the stable baseline today and `ty` as the forward-looking companion.
+- Run `pyright` and `ty` together; both must report 0 errors (configuration is in the `python`
+  skill).
 - Annotate every public function, method, and class attribute.
 - Use modern built-in generics and unions: `list[str]`, `User | None`.
 - Keep untyped or `Any`-heavy boundaries narrow and well-named.
@@ -64,19 +64,17 @@ def first[ItemT](items: list[ItemT]) -> ItemT | None:
 
 ## Configuration Guidance
 
-Start with `pyright` standard mode, add `ty` to the same project, and tighten diagnostics as the
-codebase becomes more explicit.
+New projects start in strict mode. An existing repo keeps its mode and tightens it one package
+at a time with `strict = ["<package>"]`. Turn off a strict check only for a named reason, such as
+a dependency that ships without stubs.
 
 ```toml
 [tool.pyright]
 pythonVersion = "3.14"
-typeCheckingMode = "standard"
+typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
-reportMissingImports = "error"
-reportArgumentType = "error"
-reportReturnType = "error"
-reportOptionalMemberAccess = "error"
+reportMissingTypeStubs = false  # some dependencies ship without stubs
 
 [tool.ty.environment]
 python = ".venv"

@@ -136,8 +136,7 @@ Detailed FastAPI and ASGI patterns live in `references/web-apis.md`.
 ## Testing Async Code
 
 ```bash
-uv add --group test pytest pytest-asyncio httpx
-uv sync --group test
+uv add --group dev pytest-asyncio httpx
 ```
 
 ```python

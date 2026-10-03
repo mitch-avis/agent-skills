@@ -28,8 +28,7 @@ uv self update
 uv python install 3.14
 uv init --build-backend uv --python 3.14 mypackage
 uv add fastapi
-uv add --group dev ruff pyright ty
-uv add --group test pytest pytest-cov pytest-xdist
+uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 uv sync
 uv lock --check
 .venv/bin/pytest
@@ -38,7 +37,7 @@ uv build
 ```
 
 - Prefer `uv add` and `uv remove` over manual dependency edits.
-- Use `[dependency-groups]` for dev, test, docs, and audit tooling.
+- Put dev tooling in a single `dev` dependency group with `default-groups = ["dev"]`.
 - Use `[project.optional-dependencies]` only for optional runtime extras that downstream consumers
   install.
 - Commit `uv.lock` for applications, services, and CLIs where reproducible deploys matter.
@@ -68,9 +67,10 @@ postgres = ["psycopg[binary]>=3.2"]
 mycli = "mypackage.cli:main"
 
 [dependency-groups]
-lint = ["ruff", "pyright", "ty"]
-test = ["pytest", "pytest-cov", "pytest-xdist"]
-dev = [{ include-group = "lint" }, { include-group = "test" }]
+dev = [
+    "ruff", "pyright", "ty",
+    "pytest", "pytest-cov", "pytest-html", "pytest-metadata", "pytest-sugar", "pytest-xdist",
+]
 
 [tool.uv]
 default-groups = ["dev"]
@@ -89,7 +89,7 @@ convention = "google"
 
 [tool.pyright]
 pythonVersion = "3.14"
-typeCheckingMode = "standard"
+typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
 
