@@ -61,11 +61,15 @@ from httpx import ASGITransport, AsyncClient
 
 
 @pytest.mark.asyncio
-async def test_get_user_returns_404(app) -> None:
+async def test_get_user_missing_id_returns_404(app) -> None:
+    # Arrange
     transport = ASGITransport(app=app)
+
     async with AsyncClient(transport=transport, base_url="http://test") as client:
+        # Act
         response = await client.get("/users/missing")
 
+    # Assert
     assert response.status_code == 404
     assert response.json() == {"detail": "User not found"}
 ```

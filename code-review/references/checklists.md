@@ -46,6 +46,7 @@ nature of the change.
 - [ ] Edge cases covered (empty input, errors, boundaries, concurrency)
 - [ ] Tests would actually fail if the behavior broke (no tautological assertions)
 - [ ] Test names describe what is being verified
+- [ ] Each test follows Arrange-Act-Assert with labeled phases and a single action
 - [ ] No test interdependence or shared mutable state
 - [ ] Mocks/fakes do not hide real bugs
 

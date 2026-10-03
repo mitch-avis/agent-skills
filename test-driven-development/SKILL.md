@@ -99,6 +99,7 @@ Write one minimal test showing what should happen.
 
 ```python
 def test_retry_operation_two_failures_returns_third_result() -> None:
+    # Arrange
     attempts = 0
 
     def operation() -> str:
@@ -109,8 +110,10 @@ def test_retry_operation_two_failures_returns_third_result() -> None:
             raise ConnectionError(msg)
         return "success"
 
+    # Act
     result = retry_operation(operation)
 
+    # Assert
     assert result == "success"
     assert attempts == 3
 ```
@@ -121,10 +124,13 @@ Clear name, tests real behavior, one thing.
 
 ```python
 def test_retry_works() -> None:
+    # Arrange
     operation = Mock(side_effect=[ConnectionError(), ConnectionError(), "success"])
 
+    # Act
     retry_operation(operation)
 
+    # Assert
     assert operation.call_count == 3
 ```
 
@@ -229,6 +235,34 @@ Keep tests green. Don't add behavior.
 
 Next failing test for the next behavior.
 
+## Test Structure: Arrange-Act-Assert
+
+Every test has three phases, in this order, each introduced by a comment label and separated by a
+blank line:
+
+```python
+def test_cart_add_item_increases_total() -> None:
+    # Arrange
+    cart = Cart()
+
+    # Act
+    cart.add(Item(price=5))
+
+    # Assert
+    assert cart.total == 5
+```
+
+- `# Arrange` builds inputs and collaborators, `# Act` performs exactly one action under test, and
+  `# Assert` checks the outcome. A second action means a second test.
+- No assertions before the action, and no more actions once assertions start.
+- A test with no setup omits `# Arrange` and starts at `# Act`.
+- When the action and its check are one construct (`with pytest.raises(...)`, `#[should_panic]`,
+  `expect(() => ...).toThrow()`), label that block `# Act & Assert`.
+- Rust and TypeScript use the same labels as `//` comments.
+- Before you edit a test file whose tests don't follow AAA yet, convert every test in it to AAA in
+  its own `test:` commit (structure and labels only, no behavior change), then make your change in
+  a separate commit.
+
 ## Good Tests
 
 | Quality | Good | Bad |
@@ -263,8 +297,13 @@ Any of these means the test-first cycle was skipped; go back to RED for that beh
 
 ```python
 def test_submit_form_empty_email_returns_error() -> None:
-    result = submit_form(FormData(email=""))
+    # Arrange
+    data = FormData(email="")
 
+    # Act
+    result = submit_form(data)
+
+    # Assert
     assert result.error == "Email required"
 ```
 
@@ -299,6 +338,7 @@ $ .venv/bin/pytest -k empty_email
 Before marking work complete:
 
 - [ ] Every new behavior has a test
+- [ ] Every test follows Arrange-Act-Assert with labeled phases
 - [ ] Watched each test fail before implementing (behavior changes), or saw each characterization
   pin pass before and after and fail when the covered code was broken (refactors)
 - [ ] Each test failed for the expected reason (feature missing, not a typo)

@@ -25,6 +25,11 @@ commit code that adds functionality without a corresponding test.
 
 ## Unit Tests
 
+Every test follows Arrange-Act-Assert with `// Arrange`, `// Act`, and `// Assert` labels (`// Act
+& Assert` for `#[should_panic]`); the full rule, including how to convert an existing file, is in
+the [test-driven-development](../test-driven-development/SKILL.md#test-structure-arrange-act-assert)
+skill.
+
 ```rust
 #[cfg(test)]
 mod tests {
@@ -32,13 +37,19 @@ mod tests {
 
     #[test]
     fn parse_valid_input_returns_value() {
+        // Act
         let result = parse("42");
+
+        // Assert
         assert_eq!(result, Ok(42));
     }
 
     #[test]
     fn parse_empty_string_returns_error() {
+        // Act
         let result = parse("");
+
+        // Assert
         assert!(result.is_err());
     }
 }
@@ -73,9 +84,13 @@ For `Result`-returning tests, propagate with `?` rather than `.unwrap()`:
 ```rust
 #[test]
 fn config_builder_with_host_builds_config() -> anyhow::Result<()> {
-    let config = ConfigBuilder::default()
-        .host("localhost")
-        .build()?;
+    // Arrange
+    let builder = ConfigBuilder::default().host("localhost");
+
+    // Act
+    let config = builder.build()?;
+
+    // Assert
     assert_eq!(config.host, "localhost");
     Ok(())
 }
@@ -87,7 +102,10 @@ naturally. Always provide the `expected` substring.
 ```rust
 #[test]
 fn transfer_negative_amount_returns_invalid_amount() {
+    // Act
     let result = transfer(-100);
+
+    // Assert
     assert!(matches!(
         result,
         Err(TransferError::InvalidAmount { .. })
@@ -97,6 +115,7 @@ fn transfer_negative_amount_returns_invalid_amount() {
 #[test]
 #[should_panic(expected = "index out of bounds")]
 fn dangerous_index_out_of_bounds_panics() {
+    // Act & Assert
     dangerous_index(100);
 }
 ```
@@ -113,12 +132,20 @@ fn dangerous_index_out_of_bounds_panics() {
 
 ```rust
 // tests/api_integration.rs
+mod common;
+
 use my_crate::Client;
 
 #[test]
 fn client_get_existing_resource_returns_ok() {
-    let client = Client::new("http://localhost:8080");
+    // Arrange
+    let server = common::FakeServer::with_resource("/resource", "ok");
+    let client = Client::new(&server.url());
+
+    // Act
     let result = client.get("/resource");
+
+    // Assert
     assert!(result.is_ok());
 }
 ```
@@ -128,17 +155,25 @@ fn client_get_existing_resource_returns_ok() {
 ```rust
 #[tokio::test]
 async fn fetch_all_three_ids_returns_three_results() {
-    let results = fetch_all(vec!["a", "b", "c"]).await;
+    // Arrange
+    let ids = vec!["a", "b", "c"];
+
+    // Act
+    let results = fetch_all(ids).await;
+
+    // Assert
     assert_eq!(results.len(), 3);
 }
 
 #[tokio::test]
 async fn slow_operation_past_timeout_returns_elapsed() {
-    let result = tokio::time::timeout(
-        Duration::from_millis(100),
-        slow_operation(),
-    )
-    .await;
+    // Arrange
+    let limit = Duration::from_millis(100);
+
+    // Act
+    let result = tokio::time::timeout(limit, slow_operation()).await;
+
+    // Assert
     assert!(result.is_err());
 }
 ```
@@ -155,8 +190,12 @@ use rstest::rstest;
 #[case("hello", 5)]
 #[case("", 0)]
 #[case("rust", 4)]
-fn string_length(#[case] input: &str, #[case] expected: usize) {
-    assert_eq!(input.len(), expected);
+fn str_len_ascii_input_returns_byte_count(#[case] input: &str, #[case] expected: usize) {
+    // Act
+    let len = input.len();
+
+    // Assert
+    assert_eq!(len, expected);
 }
 ```
 
@@ -170,9 +209,14 @@ use proptest::prelude::*;
 
 proptest! {
     #[test]
-    fn roundtrip_serialization(value: i64) {
+    fn serialize_then_deserialize_returns_original(value: i64) {
+        // Arrange
         let serialized = serialize(value);
+
+        // Act
         let deserialized = deserialize(&serialized)?;
+
+        // Assert
         prop_assert_eq!(value, deserialized);
     }
 }

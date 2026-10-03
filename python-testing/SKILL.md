@@ -38,6 +38,11 @@ In an existing repo, use the plugins it already has and ask before adding more.
 
 ## Arrange-Act-Assert
 
+Every test uses the three labeled phases; the full rule, including the `# Act & Assert` form and
+how to convert an existing file, is in the
+[test-driven-development](../test-driven-development/SKILL.md#test-structure-arrange-act-assert)
+skill.
+
 ```python
 def test_user_creation_sends_welcome_email() -> None:
     # Arrange
@@ -71,8 +76,13 @@ def db_session() -> Generator[Session, None, None]:
     session.close()
 
 def test_save_user(db_session: Session) -> None:
+    # Arrange
     repo = UserRepository(db_session)
+
+    # Act
     user = repo.save(User(name="Alice"))
+
+    # Assert
     assert user.id is not None
 ```
 
@@ -93,7 +103,11 @@ def test_save_user(db_session: Session) -> None:
     ],
 )
 def test_parse_int(input_val: str, expected: int) -> None:
-    assert parse_int(input_val) == expected
+    # Act
+    result = parse_int(input_val)
+
+    # Assert
+    assert result == expected
 ```
 
 ## Mocking
@@ -102,6 +116,7 @@ def test_parse_int(input_val: str, expected: int) -> None:
 from unittest.mock import Mock, patch
 
 def test_api_call_retries_on_failure() -> None:
+    # Arrange
     client = Mock(spec=HttpClient)
     client.get.side_effect = [
         ConnectionError("timeout"),
@@ -110,8 +125,10 @@ def test_api_call_retries_on_failure() -> None:
     ]
     service = DataService(client=client)
 
+    # Act
     result = service.fetch_data()
 
+    # Assert
     assert result == "ok"
     assert client.get.call_count == 3
 ```
@@ -125,6 +142,7 @@ def test_api_call_retries_on_failure() -> None:
 
 ```python
 def test_invalid_amount_raises() -> None:
+    # Act & Assert
     with pytest.raises(ValueError, match="must be positive"):
         transfer(amount=-100)
 ```
@@ -135,9 +153,15 @@ def test_invalid_amount_raises() -> None:
 import pytest
 
 @pytest.mark.asyncio
-async def test_fetch_returns_data() -> None:
-    result = await fetch("https://example.com")
-    assert "Example" in result
+async def test_fetch_user_returns_parsed_name() -> None:
+    # Arrange
+    client = FakeHttpClient(responses={"/users/1": {"name": "Alice"}})
+
+    # Act
+    user = await fetch_user(client, user_id=1)
+
+    # Assert
+    assert user.name == "Alice"
 ```
 
 - Use `pytest-asyncio` plugin
@@ -148,8 +172,13 @@ async def test_fetch_returns_data() -> None:
 
 ```python
 def test_reads_env_var(monkeypatch: pytest.MonkeyPatch) -> None:
+    # Arrange
     monkeypatch.setenv("API_KEY", "test-key")
+
+    # Act
     config = load_config()
+
+    # Assert
     assert config.api_key == "test-key"
 ```
 
@@ -173,8 +202,14 @@ from hypothesis import strategies as st
 
 @given(st.lists(st.integers()))
 def test_sort_is_idempotent(xs: list[int]) -> None:
+    # Arrange
     once = sorted(xs)
-    assert sorted(once) == once
+
+    # Act
+    twice = sorted(once)
+
+    # Assert
+    assert twice == once
 ```
 
 ## Time-Dependent Tests (freezegun)
@@ -184,7 +219,10 @@ from freezegun import freeze_time
 
 @freeze_time("2025-01-15 12:00:00")
 def test_report_uses_current_date() -> None:
+    # Act
     report = generate_report()
+
+    # Assert
     assert report.date == date(2025, 1, 15)
 ```
 
@@ -243,6 +281,7 @@ Parallel execution: `pytest -n auto`
 - **No mocking without understanding** — know the real behavior
 - **No incomplete mocks** — mirror the real API completely
 - **No tests that always pass** — watch each test fail first
+- **No unlabeled phases** — every test uses `# Arrange`, `# Act`, `# Assert`
 
 ## Related Skills
 

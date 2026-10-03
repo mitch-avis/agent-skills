@@ -144,9 +144,15 @@ import pytest
 
 
 @pytest.mark.asyncio
-async def test_fetch_returns_data() -> None:
-    result = await fetch("https://example.com")
-    assert "Example" in result
+async def test_fetch_user_returns_parsed_name() -> None:
+    # Arrange
+    client = FakeHttpClient(responses={"/users/1": {"name": "Alice"}})
+
+    # Act
+    user = await fetch_user(client, user_id=1)
+
+    # Assert
+    assert user.name == "Alice"
 ```
 
 - Use `pytest-asyncio` for coroutine tests.

@@ -50,6 +50,7 @@ mistakes most likely to survive otherwise good Python code.
 - Avoid over-mocking internal behavior instead of faking external boundaries.
 - Avoid test-only hooks added to production code.
 - Avoid assertions so weak that the test would pass through major regressions.
+- Avoid tests without labeled `# Arrange`, `# Act`, `# Assert` phases, or with more than one action.
 
 ## Tooling and Operations
 

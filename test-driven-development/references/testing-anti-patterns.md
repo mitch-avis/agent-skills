@@ -28,7 +28,10 @@ being tested.
 ```typescript
 // ❌ BAD: Testing that the mock exists
 test('renders sidebar', () => {
+  // Act
   render(<Page />);
+
+  // Assert
   expect(screen.getByTestId('sidebar-mock')).toBeInTheDocument();
 });
 ```
@@ -46,7 +49,10 @@ test('renders sidebar', () => {
 ```typescript
 // ✅ GOOD: Test real component or don't mock it
 test('renders sidebar', () => {
+  // Act
   render(<Page />);  // Don't mock sidebar
+
+  // Assert
   expect(screen.getByRole('navigation')).toBeInTheDocument();
 });
 
@@ -130,14 +136,16 @@ BEFORE adding any method to production class:
 
 ```typescript
 // ❌ BAD: Mock breaks test logic
-test('detects duplicate server', () => {
+test('detects duplicate server', async () => {
+  // Arrange
   // Mock prevents config write that test depends on!
   vi.mock('ToolCatalog', () => ({
     discoverAndCacheTools: vi.fn().mockResolvedValue(undefined)
   }));
-
   await addServer(config);
-  await addServer(config);  // Should throw - but won't!
+
+  // Act & Assert
+  await expect(addServer(config)).rejects.toThrow('duplicate');  // never throws: no config written
 });
 ```
 
@@ -151,12 +159,14 @@ test('detects duplicate server', () => {
 
 ```typescript
 // ✅ GOOD: Mock at correct level
-test('detects duplicate server', () => {
+test('detects duplicate server', async () => {
+  // Arrange
   // Mock the slow part, preserve behavior test needs
   vi.mock('MCPServerManager'); // Just mock slow server startup
-
   await addServer(config);  // Config written
-  await addServer(config);  // Duplicate detected ✓
+
+  // Act & Assert
+  await expect(addServer(config)).rejects.toThrow('duplicate');
 });
 ```
 

@@ -156,6 +156,9 @@ local state → lifted state → context → URL state → server state → glob
 - Use TDD for behavior changes. Add a focused failing test before implementation when coverage is
   missing.
 - Prefer the repo's existing test framework and helpers.
+- Structure every test as Arrange-Act-Assert with `// Arrange`, `// Act`, `// Assert` labels
+  (`// Act & Assert` for `expect(...).toThrow()` and `rejects` checks); see
+  [test-driven-development](../test-driven-development/SKILL.md#test-structure-arrange-act-assert).
 - Run the narrowest affected tests first, then the touched package's formatter, lint, typecheck,
   and build.
 - For React changes, run `npx --no react-doctor --verbose --scope changed` from the repo's pinned
