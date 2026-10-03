@@ -14,7 +14,9 @@ uv sync
 ## Gates
 
 Run before every commit. The example checker extracts the `python` and `bash` code blocks from
-every skill and runs ruff (house rules, see `scripts/examples-ruff.toml`) and ShellCheck on them.
+every skill. Python blocks must pass `ruff check` with the full house rules and come out of
+`ruff format` unchanged (`scripts/examples-ruff.toml` exempts only what a fragment can't satisfy;
+test blocks get the usual test exemptions); Bash blocks must pass ShellCheck.
 
 ```bash
 markdownlint-cli2 "**/*.md"
@@ -52,9 +54,9 @@ skill exists; removing it makes that copy load. Finish with `grep -rn '<name>' .
 - State rules at normal volume with the reason beside them; keep "never" for hard constraints.
   Avoid all-caps emphasis and instructions to delete or discard work.
 - Fill prose to 100 columns.
-- Code examples must pass the house gates. Mark deliberate bad-practice samples and command
-  listings with `<placeholder>` arguments with `<!-- check-examples: skip -->` on the line before
-  the fence.
+- Code examples meet the same standard as real code: ruff-formatted, fully annotated, and with
+  Google-style docstrings outside tests. Mark deliberate bad-practice samples and command listings
+  with `<placeholder>` arguments with `<!-- check-examples: skip -->` on the line before the fence.
 - Pin image, action, and tool versions in examples to releases verified when you write them.
 - Test examples follow Arrange-Act-Assert with labeled phases.
 

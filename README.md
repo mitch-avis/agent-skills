@@ -144,9 +144,9 @@ agent's documentation.
 ## Checks
 
 Markdown is linted with [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2), and
-the Python and Bash code examples in every skill are linted by `scripts/check_examples.py` (ruff
-with house rules, and ShellCheck). Run both before committing; [AGENTS.md](AGENTS.md) has the full
-gate list and the steps for adding or removing a skill.
+the Python and Bash code examples in every skill are checked by `scripts/check_examples.py` (ruff
+format and the full house lint rules, and ShellCheck). Run both before committing;
+[AGENTS.md](AGENTS.md) has the full gate list and the steps for adding or removing a skill.
 
 ```bash
 uv sync
