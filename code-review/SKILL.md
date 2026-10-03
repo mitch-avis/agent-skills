@@ -161,7 +161,6 @@ including summary, findings grouped by severity, strengths, and verdict.
 
 ## Related Skills
 
-- [clean-code](../clean-code/SKILL.md) — apply Clean Code criteria during review
 - [test-driven-development](../test-driven-development/SKILL.md) — verify every change has tests
 - [systematic-debugging](../systematic-debugging/SKILL.md) — when reviewing a bugfix, check that
   root cause was identified

@@ -16,7 +16,6 @@ follows its instructions.
 
 | Skill | Description |
 | --- | --- |
-| [clean-code](clean-code/SKILL.md) | Clean Code principles from Robert C. Martin — naming, functions, comments, formatting, error handling, classes, and code smells |
 | [code-review](code-review/SKILL.md) | Phased PR review with severity rubric (P0–P3), per-dimension checklists, structured output template, feedback patterns, PR-size guide |
 | [committing-code](committing-code/SKILL.md) | High-quality git commits — Conventional Commits, selective staging, logical splitting, commit-message prep, and pre-commit safety checks |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Four-phase root cause analysis — reproduction, evidence, hypothesis, git bisect, differential debugging, Python + Rust toolkits |
@@ -155,9 +154,9 @@ configuration.
 ## Acknowledgments
 
 These skills were consolidated and rewritten from multiple open-source skill repositories. The
-original 70+ skills were merged into the 31 you see here — reorganized by domain, deduplicated, and
-tailored to a consistent format. Temporary imported frontend and React skills were distilled into
-the curated frontend skill family, then removed from the published set.
+original 70+ skills were merged into the skills you see here — reorganized by domain, deduplicated,
+and tailored to a consistent format. Temporary imported frontend and React skills were distilled
+into the curated frontend skill family, then removed from the published set.
 
 ### Source Repositories
 
@@ -200,7 +199,7 @@ the curated frontend skill family, then removed from the published set.
 | [pproenca/dot-skills](https://github.com/pproenca/dot-skills) | shell | shell-scripting |
 | [sanyuan0704/code-review-expert](https://github.com/sanyuan0704/code-review-expert) | code-review-expert | code-review |
 | [shubhamsaboo/awesome-llm-apps](https://github.com/shubhamsaboo/awesome-llm-apps) | code-reviewer | code-review |
-| [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | clean-code, rust-pro, rust-async-patterns, software-architecture, kubernetes-architect, helm-chart-scaffolding, docker-expert, cicd-automation-workflow-automate, powershell-windows, linux-shell-scripting, bash-linux, bash-scripting, bash-pro | clean-code, rust, rust-async, task-orchestrator, kubernetes, helm, docker, cicd, shell-scripting |
+| [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | rust-pro, rust-async-patterns, software-architecture, kubernetes-architect, helm-chart-scaffolding, docker-expert, cicd-automation-workflow-automate, powershell-windows, linux-shell-scripting, bash-linux, bash-scripting, bash-pro | rust, rust-async, task-orchestrator, kubernetes, helm, docker, cicd, shell-scripting |
 | [softaworks/agent-toolkit](https://github.com/softaworks/agent-toolkit) | commit-work, mermaid-diagrams | committing-code, mermaid |
 | [thebushidocollective/han](https://github.com/thebushidocollective/han) | shell-best-practices | shell-scripting |
 | [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) | agent-browser | agent-browser |
