@@ -86,9 +86,6 @@ details.
 
 | Skill | Description |
 | --- | --- |
-| [agent-browser](agent-browser/SKILL.md) | Browser automation CLI for AI agents — session management, authentication, video recording, snapshots |
-| [browser-use](browser-use/SKILL.md) | Browser interactions for web testing, form filling, screenshots, and data extraction |
-| [find-skills](find-skills/SKILL.md) | Discovers and installs skills from the open skills ecosystem via the Skills CLI |
 | [generating-custom-instructions](generating-custom-instructions/SKILL.md) | Generates and maintains custom instruction files for AI coding agents by analyzing codebase patterns |
 | [markdown-documentation](markdown-documentation/SKILL.md) | Markdown and GitHub Flavored Markdown formatting for documentation and technical writing |
 | [skill-creator](skill-creator/SKILL.md) | Create, evaluate, and iteratively improve agent skills with eval-driven benchmarking |
@@ -172,7 +169,6 @@ into the curated frontend skill family, then removed from the published set.
 | [anthropics/skills](https://github.com/anthropics/skills) | skill-creator, frontend-design | skill-creator, frontend-design |
 | [apollographql/skills](https://github.com/apollographql/skills) | rust-best-practices | rust, rust-async, rust-testing |
 | [axtonliu/axton-obsidian-visual-skills](https://github.com/axtonliu/axton-obsidian-visual-skills) | mermaid-visualizer | mermaid |
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | browser-use | browser-use |
 | [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | mermaid-diagram-specialist, Linux Production Shell Scripts | mermaid, shell-scripting |
 | [elastic/agent-skills](https://github.com/elastic/agent-skills) | observability-logs-search | observability |
 | [github/awesome-copilot](https://github.com/github/awesome-copilot) | pytest-coverage, conventional-commit, git-commit, copilot-instructions-blueprint-generator, generate-custom-instructions-from-codebase, suggest-awesome-github-copilot-instructions, multi-stage-dockerfile, sql-optimization, sql-code-review, postgresql-optimization, postgresql-code-review, review-and-refactor, premium-frontend-ui | python-testing, committing-code, generating-custom-instructions, docker, sql-database, code-review, frontend-design |
@@ -202,8 +198,7 @@ into the curated frontend skill family, then removed from the published set.
 | [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | rust-pro, rust-async-patterns, software-architecture, kubernetes-architect, helm-chart-scaffolding, docker-expert, cicd-automation-workflow-automate, powershell-windows, linux-shell-scripting, bash-linux, bash-scripting, bash-pro | rust, rust-async, task-orchestrator, kubernetes, helm, docker, cicd, shell-scripting |
 | [softaworks/agent-toolkit](https://github.com/softaworks/agent-toolkit) | commit-work, mermaid-diagrams | committing-code, mermaid |
 | [thebushidocollective/han](https://github.com/thebushidocollective/han) | shell-best-practices | shell-scripting |
-| [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) | agent-browser | agent-browser |
-| [vercel-labs/skills](https://github.com/vercel-labs/skills) | find-skills, vercel-react-best-practices, vercel-react-view-transitions, vercel-composition-patterns, vercel-microfrontends, web-design-guidelines | find-skills, frontend-design, frontend-react |
+| [vercel-labs/skills](https://github.com/vercel-labs/skills) | vercel-react-best-practices, vercel-react-view-transitions, vercel-composition-patterns, vercel-microfrontends, web-design-guidelines | frontend-design, frontend-react |
 | [vince-winkintel/gitlab-cli-skills](https://github.com/vince-winkintel/gitlab-cli-skills) | gitlab-cli-skills | cicd |
 | [wispbit-ai/skills](https://github.com/wispbit-ai/skills) | rust-expert-best-practices-code-review | rust |
 | [trailofbits/skills](https://github.com/trailofbits/skills) | modern-python | python, python-infrastructure, python-modernization |
