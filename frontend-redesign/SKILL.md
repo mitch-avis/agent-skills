@@ -1,10 +1,10 @@
 ---
 name: frontend-redesign
 description: >-
-  Audits, redesigns, and polishes existing web interfaces without breaking product behavior.
-  Use whenever an existing site, app, dashboard, settings page, or component needs stronger
-  hierarchy, typography, spacing, states, responsiveness, accessibility, or interaction quality
-  while preserving the underlying workflow and implementation constraints.
+  Use before reworking an existing site, app, dashboard, settings page, or component that needs
+  stronger hierarchy, typography, spacing, states, responsiveness, accessibility, or interaction
+  quality. Preserves the existing workflow and implementation constraints while improving the
+  design.
 ---
 
 # Frontend Redesign

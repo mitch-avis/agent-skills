@@ -1,9 +1,9 @@
 ---
 name: python-configuration
 description: >-
-  Configures Python applications with typed settings, environment variables, secrets files, and
-  startup validation. Use when externalizing configuration, designing settings models, managing
-  environment-specific behavior, or replacing scattered `os.getenv()` calls.
+  Use before adding or changing how a Python app reads settings, environment variables, .env or
+  secrets files, or CLI defaults, including any new os.getenv() call. Covers typed settings models,
+  startup validation, and environment-specific behavior.
 ---
 
 # Python Configuration

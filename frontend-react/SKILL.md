@@ -1,10 +1,9 @@
 ---
 name: frontend-react
 description: >-
-  Builds, refactors, tests, lints, and audits React and Next.js interfaces with TypeScript,
-  accessibility, transitions, and performance defaults. Use whenever a task touches React or
-  Next.js components, hooks, state, routing, forms, data fetching, styling, testing, rendering
-  performance, or frontend validation workflows.
+  Use before writing, editing, or reviewing React or Next.js code (.tsx/.jsx components, hooks,
+  routes, state, forms, data fetching) and its tests. Sets TypeScript, accessibility, transition,
+  and rendering-performance defaults, plus lint, test, and validation workflows.
 ---
 
 # Frontend React

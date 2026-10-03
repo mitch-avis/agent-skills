@@ -1,12 +1,10 @@
 ---
 name: sql-database
 description: >-
-  SQL database design and operations across PostgreSQL, MySQL, and SQLite — covering schema
-  modeling, data types, indexing strategy, migrations, query patterns, ORM integration
-  (SQLAlchemy, Diesel, SQLx), connection pooling, EXPLAIN analysis, and dialect-specific
-  gotchas. Use when designing schemas, writing migrations, choosing indexes, debugging slow
-  queries, reviewing SQL for security or correctness, or integrating a relational database
-  into a Python or Rust project.
+  Use before writing or changing SQL, schemas, migrations, indexes, or ORM models (SQLAlchemy,
+  Diesel, SQLx) for PostgreSQL, MySQL, or SQLite, and when a query is slow. Covers schema modeling,
+  data types, indexing strategy, query patterns, connection pooling, EXPLAIN analysis, and
+  dialect-specific gotchas.
 ---
 
 # SQL Database

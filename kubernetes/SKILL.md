@@ -1,10 +1,10 @@
 ---
 name: kubernetes
 description: >-
-  Deploy, secure, and manage Kubernetes workloads. Use when creating manifests, configuring RBAC,
-  defining NetworkPolicies, setting up storage, troubleshooting pods, or designing cluster
-  architecture. Covers Deployments, StatefulSets, DaemonSets, Jobs, Services, Ingress, ConfigMaps,
-  Secrets, Pod Security Standards, OPA Gatekeeper, service mesh, GitOps, and multi-cluster patterns.
+  Use before writing or changing Kubernetes manifests or cluster configuration, and when
+  troubleshooting pods. Covers Deployments, StatefulSets, DaemonSets, Jobs, Services, Ingress,
+  ConfigMaps, Secrets, RBAC, NetworkPolicies, storage, Pod Security Standards, OPA Gatekeeper,
+  service mesh, GitOps, and multi-cluster patterns.
 ---
 
 # Kubernetes

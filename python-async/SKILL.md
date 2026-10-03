@@ -1,9 +1,9 @@
 ---
 name: python-async
 description: >-
-  Python asyncio guidance covering structured concurrency, cancellation, timeouts, queues, async
-  context managers, and ASGI service patterns. Use when building async APIs, FastAPI services,
-  concurrent I/O workflows, or integrating blocking code into async Python systems.
+  Use before writing or changing Python code that uses async/await, asyncio, anyio, or an ASGI app
+  such as FastAPI or Starlette. Covers structured concurrency, cancellation, timeouts, queues, async
+  context managers, and calling blocking code safely from async code.
 ---
 
 # Python Async Patterns

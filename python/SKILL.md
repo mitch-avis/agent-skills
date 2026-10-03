@@ -1,10 +1,10 @@
 ---
 name: python
 description: >-
-  Core Python development guide covering modern uv-based workflows, ruff formatting and linting,
-  pyright and ty type checking, testing, architecture, packaging, configuration, and operational
-  safety. Use for most Python coding, review, refactoring, and project design tasks, then delegate
-  framework- or domain-specific work to the linked Python sub-skills.
+  Use before writing, editing, or reviewing any Python code (.py files, pyproject.toml), including
+  small changes in an existing codebase. Sets the house defaults for uv workflows, ruff, pyright and
+  ty, typing, testing, architecture, and packaging, then routes framework- or domain-specific work
+  to the python-* sub-skills.
 ---
 
 # Python Development

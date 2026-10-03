@@ -1,11 +1,10 @@
 ---
 name: frontend-design
 description: >-
-  Designs, redesigns, implements, formats, tests, lints, reviews, audits, and validates user-facing
-  interfaces, with React and Next.js as the default stack when a project does not already dictate
-  another framework. Use whenever work touches UI structure, styling, interaction, accessibility,
-  responsive behavior, design systems, frontend performance, or visual quality, including React
-  components, pages, layouts, states, polish passes, and frontend code review.
+  Use before building or restyling any user-facing UI: layout, styling (CSS, Tailwind), components,
+  interaction, accessibility, responsive behavior, design systems, frontend performance, or visual
+  polish, including frontend code review. React and Next.js are the default stack unless the project
+  already uses another framework.
 ---
 
 # Frontend Design

@@ -1,9 +1,9 @@
 ---
 name: python-testing
 description: >-
-  Python testing with pytest, fixtures, mocking, parameterization, async tests, coverage, and
-  property-based testing. Follows TDD methodology with arrange-act-assert pattern. Use when writing
-  Python tests, setting up test infrastructure, or improving code coverage.
+  Use before writing or changing Python tests (test_*.py, conftest.py, pytest config) or when
+  coverage falls short. Covers pytest fixtures, mocking, parameterization, async tests, coverage,
+  and property-based testing, with arrange-act-assert structure and TDD.
 ---
 
 # Python Testing

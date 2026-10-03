@@ -1,9 +1,9 @@
 ---
 name: python-type-safety
 description: >-
-    Strengthens Python code with pyright- and ty-aware type checking, modern annotations, generics,
-    protocols, and boundary typing. Use when adding or tightening types, designing reusable
-    interfaces, narrowing optionals, or making Python APIs safer to refactor.
+  Use before adding or changing Python type hints, generics, protocols, or TypedDicts, and whenever
+  pyright or ty reports errors. Covers strict pyright- and ty-aware annotations, narrowing
+  optionals, boundary typing, and interfaces that are safe to refactor.
 ---
 
 # Python Type Safety

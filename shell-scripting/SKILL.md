@@ -1,16 +1,11 @@
 ---
 name: shell-scripting
 description: >-
-  Comprehensive guide for writing, reviewing, refactoring, hardening, linting, and testing shell
-  scripts in Bash (plus POSIX sh, dash, ksh) and PowerShell (5.1 and 7+, cross-platform). Covers
-  strict mode, defensive patterns, quoting, error handling, traps, argument parsing, functions,
-  arrays, portability, security (injection, eval, temp files), performance, logging, dependency
-  checks, idempotency, dry-run, ShellCheck/shfmt/Bats/PSScriptAnalyzer/Pester, CI integration,
-  cross-platform pitfalls, and production-ready templates. Use whenever the user mentions bash,
-  sh, POSIX, Bourne, zsh, ksh, dash, shell, .sh, PowerShell, pwsh, .ps1, ShellCheck, shfmt, Bats,
-  Pester, PSScriptAnalyzer, or asks to write/review/debug/lint/port/automate any kind of shell
-  script, CLI tool, cron job, systemd ExecStart, Dockerfile RUN line, Makefile recipe, or CI
-  pipeline shell step — even if a specific shell is not named.
+  Use before writing, editing, reviewing, debugging, linting, or porting any shell script or shell
+  snippet (.sh, .bash, .ps1, cron jobs, systemd ExecStart, Dockerfile RUN lines, Makefile recipes,
+  CI steps), even if no shell is named. Covers Bash, POSIX sh, dash, ksh, zsh, and PowerShell:
+  strict mode, quoting, error handling, traps, argument parsing, portability, security, ShellCheck,
+  shfmt, Bats, PSScriptAnalyzer, and Pester.
 ---
 
 # Shell Scripting

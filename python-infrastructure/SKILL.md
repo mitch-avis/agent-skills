@@ -1,10 +1,9 @@
 ---
 name: python-infrastructure
 description: >-
-  Python infrastructure guidance covering uv workflows, dependency groups, packaging, lockfiles,
-  performance profiling, background jobs, release practices, and strict project configuration. Use
-  when bootstrapping or maintaining Python project tooling, packaging libraries, profiling code, or
-  implementing worker and queue systems.
+  Use before changing Python project tooling: pyproject.toml, dependency groups, uv lockfiles,
+  packaging and builds, release steps, profiling, or background job and queue workers. Covers uv
+  workflows, strict project configuration, and performance profiling.
 ---
 
 # Python Infrastructure

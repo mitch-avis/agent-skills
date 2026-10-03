@@ -1,9 +1,9 @@
 ---
 name: python-modernization
 description: >-
-  Modernizes Python projects with uv, ruff, pyright, ty, lockfiles, dependency groups, and PEP
-  723 scripts. Use when bootstrapping a new Python project or migrating from pip, Poetry,
-  requirements files, Black, isort, or mypy to a cleaner modern workflow.
+  Use when bootstrapping a new Python project, or before migrating one from pip, requirements files,
+  Poetry, Black, isort, or mypy. Sets up uv, ruff, pyright, ty, lockfiles, dependency groups, and
+  PEP 723 scripts.
 ---
 
 # Python Modernization

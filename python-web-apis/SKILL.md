@@ -1,10 +1,9 @@
 ---
 name: python-web-apis
 description: >-
-  Builds Python web APIs with FastAPI and other ASGI frameworks using typed request models,
-  response contracts, dependency injection, lifespan resources, auth, error mapping, and API
-  tests. Use when creating or refactoring HTTP APIs, handlers, middleware, or service boundaries
-  in Python.
+  Use before writing or changing Python HTTP endpoints, routers, middleware, request or response
+  models, or API tests, with FastAPI or another ASGI framework. Covers typed contracts, dependency
+  injection, lifespan resources, auth, and error mapping.
 ---
 
 # Python Web APIs

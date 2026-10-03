@@ -1,9 +1,9 @@
 ---
 name: rust-async
 description: >-
-  Async Rust programming with Tokio. Covers runtime setup, task spawning, JoinSet, channels,
-  streams, select, timeouts, cancellation, and async error handling. Use when writing async Rust
-  code, designing concurrent systems, or debugging async issues.
+  Use before writing or changing async Rust code (async fn, .await, Tokio, futures, channels).
+  Covers runtime setup, task spawning, JoinSet, streams, select!, timeouts, cancellation, and async
+  error handling.
 ---
 
 # Async Rust

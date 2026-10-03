@@ -1,9 +1,9 @@
 ---
 name: python-resilience
 description: >-
-  Fault-tolerant Python patterns covering validation, exception design, retries, timeouts,
-  resource cleanup, partial failures, and observability. Use when building resilient services,
-  handling external I/O, or protecting long-running workflows from transient failure.
+  Use before writing Python code that does network, file, or database I/O, calls external services,
+  or runs long workflows that must survive failures. Covers validation, exception design, retries
+  with backoff, timeouts, resource cleanup, partial failures, and failure logging.
 ---
 
 # Python Resilience and Resource Management

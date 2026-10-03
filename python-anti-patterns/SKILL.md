@@ -1,9 +1,9 @@
 ---
 name: python-anti-patterns
 description: >-
-  Reviews Python code for common anti-patterns across architecture, typing, async, testing,
-  configuration, and operations. Use when auditing changes, polishing a patch before merge, or
-  debugging behavior that may come from known Python mistakes.
+  Use before reporting a Python change done, as a self-review pass before commit or merge, and when
+  debugging behavior that may come from a known Python mistake. Checks architecture, typing, async,
+  testing, configuration, and operational anti-patterns.
 ---
 
 # Python Anti-Patterns
