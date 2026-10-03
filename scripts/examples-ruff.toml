@@ -1,34 +1,32 @@
-# Ruff settings for Python code blocks inside skill docs. Same house rules as real projects, minus
-# the ones that only fire because a snippet is a fragment (undefined names, missing docstrings,
-# placeholder bodies, unused imports shown for illustration).
+# Ruff settings for Python code blocks inside skill docs: the same house rules as real projects.
+# Only rules a snippet cannot satisfy by its nature are off; test examples get the same per-file
+# exemptions as the tests/ directory of a house repo (check_examples.py writes them under tests/).
 line-length = 100
 target-version = "py314"
 
 [lint]
 select = ["ALL"]
 ignore = [
-    "ANN",     # fragments often omit annotations on illustrative helpers
-    "ARG",     # placeholder parameters
-    "B018",    # bare expressions used to show a value
+    # House defaults
     "COM812",  # conflicts with the formatter
-    "CPY001",  # no copyright headers in snippets
-    "D",       # docstrings are not the point of a snippet
-    "E402",    # imports shown next to the code that uses them
-    "ERA001",  # commented-out alternatives are deliberate
-    "F401",    # imports shown for illustration
-    "F811",    # the same name redefined across "before" and "after" variants
-    "F821",    # names defined elsewhere in the surrounding prose
+    "CPY001",  # no copyright headers
+    "D203",    # Google convention
+    "D213",    # Google convention
+    # A snippet is a fragment of a module, not a module
+    "D100",    # module docstring
+    "INP001",  # not part of a package
+    "F821",    # names defined in the surrounding prose or elsewhere in the module
     "F704",    # await or yield shown outside its function
     "F706",    # return shown outside its function
-    "F841",    # values assigned only to show the call
-    "I001",    # import order is the formatter's job, not the example's
-    "INP001",  # snippets are not packages
-    "PIE790",  # `...` placeholder bodies
     "PLE1142", # await shown outside its async function
-    "PLR2004", # literal values in examples
-    "RET504",  # assign-then-return kept for readability
-    "S101",    # assert in test examples
-    "S311",    # random in examples is not cryptographic
-    "T201",    # print in examples
-    "TC",      # TYPE_CHECKING placement depends on the surrounding module
 ]
+
+[lint.per-file-ignores]
+"**/tests/**" = [
+    "S101",    # assert is the point of tests
+    "PLR2004", # magic numbers in expectations are fine
+    "D",       # test names document themselves
+]
+
+[lint.pydocstyle]
+convention = "google"

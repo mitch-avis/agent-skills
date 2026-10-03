@@ -25,9 +25,9 @@ default-groups = ["dev"]
 [tool.ruff]
 line-length = 100
 target-version = "py314"
-# The repo's own tooling only, matching pyright and ty. Skill payloads (reference examples, code
-# blocks in Markdown) are checked by scripts/check_examples.py instead.
-include = ["scripts/**/*.py", "tests/**/*.py", "pyproject.toml"]
+# The repo's tooling and standalone example modules in skill references. Code blocks inside
+# Markdown are checked by scripts/check_examples.py.
+include = ["scripts/**/*.py", "tests/**/*.py", "*/references/**/*.py", "pyproject.toml"]
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -39,6 +39,9 @@ convention = "google"
 [tool.ruff.lint.per-file-ignores]
 "scripts/**" = [
     "INP001", # standalone scripts, not a package
+]
+"*/references/**" = [
+    "INP001", # standalone example modules shipped with a skill, not a package
 ]
 "tests/**" = [
     "S101",    # assert is the point of tests

@@ -84,7 +84,8 @@ def test_check_python_accepts_modern_code() -> None:
     # Arrange
     code = (
         "type Json = dict[str, object]\n\n\n"
-        "def first[T](items: list[T]) -> T:\n    return items[0]\n"
+        'def first[T](items: list[T]) -> T:\n    """Return the first item."""\n'
+        "    return items[0]\n"
     )
     block = Block(path=Path("doc.md"), line=1, language="python", code=code)
 
@@ -156,3 +157,39 @@ def test_check_python_raises_when_ruff_cannot_run(
     # Act & Assert
     with pytest.raises(RuntimeError, match="exit code 2"):
         check_python([block])
+
+
+def test_check_python_unformatted_block_reports_format_finding() -> None:
+    # Arrange
+    code = 'x = {  "a":1 }\n'
+    block = Block(path=Path("doc.md"), line=7, language="python", code=code)
+
+    # Act
+    findings = check_python([block])
+
+    # Assert
+    assert [(f.line, f.message.split(" ")[0]) for f in findings] == [(8, "ruff-format")]
+
+
+def test_check_python_test_block_allows_assert_and_missing_docstring() -> None:
+    # Arrange
+    code = "def test_total_is_five() -> None:\n    assert compute() == 5\n"
+    block = Block(path=Path("doc.md"), line=1, language="python", code=code)
+
+    # Act
+    findings = check_python([block])
+
+    # Assert
+    assert findings == []
+
+
+def test_check_python_non_test_block_requires_docstring() -> None:
+    # Arrange
+    code = "def compute() -> int:\n    return 5\n"
+    block = Block(path=Path("doc.md"), line=1, language="python", code=code)
+
+    # Act
+    findings = check_python([block])
+
+    # Assert
+    assert [f.message.split(" ")[0] for f in findings] == ["D103"]

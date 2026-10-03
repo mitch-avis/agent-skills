@@ -1,9 +1,10 @@
 """Lint the Python and Bash code blocks embedded in skill Markdown files.
 
-Python blocks go through ruff with ``examples-ruff.toml``; Bash blocks go through ShellCheck.
-Findings are reported against the Markdown file and line, so a broken example can be fixed where
-it lives. Put ``<!-- check-examples: skip -->`` on the line before a fence to exempt a block that
-is deliberately incomplete.
+Python blocks must pass ``ruff check`` with the house rules in ``examples-ruff.toml`` and come out
+of ``ruff format`` unchanged; Bash blocks go through ShellCheck. Findings are reported against the
+Markdown file and line, so a broken example can be fixed where it lives. Put
+``<!-- check-examples: skip -->`` on the line before a fence to exempt a block that is
+deliberately incomplete.
 
 Usage: ``.venv/bin/python scripts/check_examples.py [FILE ...]``; with no files, every
 ``SKILL.md`` and reference Markdown file in the repository is checked.
@@ -25,6 +26,7 @@ RUFF_CONFIG = Path(__file__).resolve().parent / "examples-ruff.toml"
 SKIP_MARKER = "<!-- check-examples: skip -->"
 LANGUAGES = {"python": "python", "py": "python", "bash": "bash", "sh": "bash", "shell": "bash"}
 SHELLCHECK_EXCLUDES = "SC2034,SC2154"  # unused or externally set variables in fragments
+TEST_BLOCK = re.compile(r"^\s*(?:async\s+)?def test_|@pytest\.fixture", re.MULTILINE)
 FENCE = re.compile(r"^(?P<indent> {0,3})(?P<fence>`{3,}|~{3,})(?P<info>[^`]*)$")
 
 
@@ -111,15 +113,46 @@ def _skipped(lines: Sequence[str], fence_index: int) -> bool:
 
 
 def check_python(blocks: Iterable[Block]) -> list[Finding]:
-    """Run ruff on Python blocks and map its diagnostics to Markdown lines.
+    """Lint Python blocks with ruff and check that ``ruff format`` leaves them unchanged.
+
+    Blocks that define tests or fixtures are linted as files under ``tests/``, so they get the
+    same per-file exemptions as a house repo's test suite.
 
     Args:
         blocks: Blocks whose language is ``python``.
 
     Returns:
-        One finding per ruff diagnostic.
+        One finding per ruff diagnostic, plus one ``ruff-format`` finding per unformatted block.
     """
-    return _run_on_files(blocks, ".py", _ruff_command(), _parse_ruff)
+    python_blocks = list(blocks)
+    findings = _run_on_files(python_blocks, _python_file_name, _ruff_check_command(), _parse_ruff)
+    return findings + _format_findings(python_blocks)
+
+
+def _is_test_block(block: Block) -> bool:
+    return TEST_BLOCK.search(block.code) is not None
+
+
+def _python_file_name(number: int, block: Block) -> str:
+    return f"tests/test_block_{number}.py" if _is_test_block(block) else f"block_{number}.py"
+
+
+def _format_findings(blocks: Iterable[Block]) -> list[Finding]:
+    command = [_ruff(), "format", "--no-cache", f"--config={RUFF_CONFIG}"]
+    findings: list[Finding] = []
+    for block in blocks:
+        result = subprocess.run(  # noqa: S603  # argv is built from fixed tool paths
+            [*command, "--stdin-filename", "block.py", "-"],
+            input=block.code,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        # A block that doesn't parse is already reported by the lint pass.
+        if result.returncode == 0 and result.stdout != block.code:
+            message = "ruff-format block is not formatted (run ruff format on it)"
+            findings.append(Finding(path=block.path, line=block.line + 1, message=message))
+    return findings
 
 
 def check_bash(blocks: Iterable[Block]) -> list[Finding]:
@@ -138,7 +171,7 @@ def check_bash(blocks: Iterable[Block]) -> list[Finding]:
         "--format=json1",
         f"--exclude={SHELLCHECK_EXCLUDES}",
     ]
-    return _run_on_files(blocks, ".sh", command, _parse_shellcheck)
+    return _run_on_files(blocks, lambda number, _: f"block_{number}.sh", command, _parse_shellcheck)
 
 
 type _Parser = Callable[[str], list[tuple[str, int, str]]]
@@ -152,16 +185,13 @@ def _require(tool: str) -> str:
     return found
 
 
-def _ruff_command() -> list[str]:
+def _ruff() -> str:
     local = REPO_ROOT / ".venv" / "bin" / "ruff"
-    ruff = str(local) if local.exists() else _require("ruff")
-    return [
-        ruff,
-        "check",
-        "--no-cache",
-        f"--config={RUFF_CONFIG}",
-        "--output-format=json",
-    ]
+    return str(local) if local.exists() else _require("ruff")
+
+
+def _ruff_check_command() -> list[str]:
+    return [_ruff(), "check", "--no-cache", f"--config={RUFF_CONFIG}", "--output-format=json"]
 
 
 class _RuffLocation(TypedDict):
@@ -208,20 +238,26 @@ def _parse_shellcheck(stdout: str) -> list[tuple[str, int, str]]:
 
 def _run_on_files(
     blocks: Iterable[Block],
-    suffix: str,
+    file_name: Callable[[int, Block], str],
     command: list[str],
     parse: _Parser,
 ) -> list[Finding]:
     by_name: dict[str, Block] = {}
+    files: list[str] = []
     with tempfile.TemporaryDirectory() as tmp:
         for number, block in enumerate(blocks):
-            file = Path(tmp) / f"block_{number}{suffix}"
+            file = Path(tmp) / file_name(number, block)
+            file.parent.mkdir(parents=True, exist_ok=True)
             file.write_text(block.code)
             by_name[file.name] = block
+            files.append(str(file))
         if not by_name:
             return []
+        # Ruff resolves globs in an explicit --config (the tests/ per-file ignores) against the
+        # working directory, so run from the directory holding the extracted files.
         result = subprocess.run(  # noqa: S603  # argv is built from fixed tool paths
-            [*command, *sorted(str(Path(tmp) / name) for name in by_name)],
+            [*command, *files],
+            cwd=tmp,
             capture_output=True,
             text=True,
             check=False,
