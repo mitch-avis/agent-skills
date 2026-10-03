@@ -17,6 +17,17 @@ Make backend services and infrastructure observable: emit signals an operator ca
 applications (Python, Rust) and the platforms that run them (containers, Kubernetes, service meshes,
 CI/CD).
 
+## Scope: Match the Effort to What Runs
+
+- **CLIs, scripts, and batch jobs:** structured logging with sensible levels, no secrets or PII in
+  logs, and a clear error on stderr with a non-zero exit. Metrics, tracing, dashboards, and SLOs
+  don't apply; don't add Prometheus or OpenTelemetry just to add a log line.
+- **Long-running services:** everything below, from correlation IDs to RED/USE metrics, traces,
+  alerts, and SLOs.
+
+When a task only adds or changes logging in a CLI or script, the Core Principles on structured
+logs and secrets, and the Log Levels table, are all that apply.
+
 ## When to Use
 
 - Instrumenting a service with logs, metrics, or traces
@@ -189,7 +200,7 @@ Use these field names so logs interoperate with Elastic, Loki, OTel, and most da
 | `service.environment` | dev / staging / prod                            |
 | `trace.id`            | OpenTelemetry trace ID                          |
 | `span.id`             | OpenTelemetry span ID                           |
-| `correlation.id`      | Application-level request ID (alias trace.id)   |
+| `correlation.id`      | App-defined request ID (not an ECS field)       |
 | `user.id`             | Authenticated principal (hash if PII-sensitive) |
 | `http.method`         | GET / POST / ...                                |
 | `http.route`          | Templated route, not raw URL                    |
@@ -198,9 +209,9 @@ Use these field names so logs interoperate with Elastic, Loki, OTel, and most da
 | `error.message`       | Human-readable error                            |
 | `error.stack_trace`   | Full stack (server-side only)                   |
 
-## Verification Checklist
+## Verification Checklist (Services)
 
-Before considering a service "observable":
+Before considering a long-running service "observable":
 
 - [ ] Logs are JSON in prod, include `trace.id` and `service.name` on every line
 - [ ] No secrets, tokens, or unmasked PII reach the logger
