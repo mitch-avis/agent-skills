@@ -3,8 +3,8 @@ name: test-driven-development
 description: >-
   Use before implementing a new feature, module, or behavior change: write a failing test first,
   watch it fail, then write the minimal code to pass (red-green-refactor). Covers the TDD workflow,
-  characterization tests for refactors, common rationalizations, debugging integration, and
-  testing anti-patterns. Small targeted fixes are exempt from test-first.
+  characterization tests for refactors, debugging integration, and testing anti-patterns. Small
+  targeted fixes are exempt from test-first.
 ---
 
 # Test-Driven Development (TDD)
@@ -35,13 +35,10 @@ Write the test first. Watch it fail. Write minimal code to pass.
 - Generated code
 - Configuration files
 
-## The Iron Law
+## Test First
 
-```text
-NO NEW PRODUCTION CODE WITHOUT A FAILING TEST FIRST
-```
-
-Applies to new features, modules, and behavior changes. Small targeted fixes are the only exemption.
+For new features, modules, and behavior changes, write the failing test before the production
+code. Small targeted fixes are the only exemption.
 
 If production code was written before its test, set that draft aside and re-implement from the
 failing test. Adapting the draft while writing the test turns it into a test-after, which can't
@@ -59,7 +56,7 @@ the current behavior first instead:
 3. Make the refactor.
 4. Run the pins again. They must pass without being edited.
 
-If the refactor also changes any behavior, split that part out and apply the Iron Law to it. When
+If the refactor also changes any behavior, split that part out and test-drive it first. When
 the repo's own instructions define a characterization or coverage-first rule, follow them.
 
 ## Red-Green-Refactor
@@ -277,24 +274,6 @@ def test_cart_add_item_increases_total() -> None:
 | **Minimal** | One thing. "and" in the name? Split it. | `test_validates_email_and_domain_and_whitespace` |
 | **Clear** | Name describes the behavior | `test_1` |
 | **Shows intent** | Demonstrates the desired API | Obscures what the code should do |
-
-## Common Rationalizations
-
-| Excuse | Reality |
-| --- | --- |
-| "Too simple to test" | Simple code breaks. The test takes a minute. |
-| "I'll test after; it achieves the same" | A test written after passes immediately and proves nothing. Tests-first asks "what should this do?" |
-| "Already manually tested" | Ad-hoc checks leave no record, miss edge cases, and must be repeated after every change. |
-| "Need to explore first" | Fine. Spike, set the spike aside, then test-drive the real code. |
-| "TDD will slow me down" | Debugging untested code is slower. |
-
-## Red Flags
-
-Any of these means the test-first cycle was skipped; go back to RED for that behavior:
-
-- Code was written before its test
-- A new test passed immediately (it never failed)
-- "Just this once" or "this case is different"
 
 ## Example: Bug Fix
 

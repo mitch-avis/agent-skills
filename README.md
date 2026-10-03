@@ -19,7 +19,7 @@ follows its instructions.
 | [code-review](code-review/SKILL.md) | Read-only review of diffs, branches, and PRs — phased workflow, severity rubric (P0–P3), per-dimension checklists, structured report template |
 | [committing-code](committing-code/SKILL.md) | Conventional Commits — logical commit boundaries with tests kept beside their code, selective staging, checks before committing |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Four-phase root cause analysis — reproduction, evidence, hypothesis, git bisect, differential debugging, Python + Rust toolkits |
-| [test-driven-development](test-driven-development/SKILL.md) | Red-green-refactor, Arrange-Act-Assert test structure, characterization tests for refactors, rationalizations to avoid, testing anti-patterns |
+| [test-driven-development](test-driven-development/SKILL.md) | Red-green-refactor, Arrange-Act-Assert test structure, characterization tests for refactors, testing anti-patterns |
 | [task-orchestrator](task-orchestrator/SKILL.md) | Delegating to subagents — decides when it pays off, writes self-contained briefs, limits concurrency, verifies and merges results |
 
 ### Web & Frontend
