@@ -62,7 +62,7 @@ details.
 | Skill | Description |
 | --- | --- |
 | [kubernetes](kubernetes/SKILL.md) | Workloads, manifests, RBAC, NetworkPolicies, Pod Security Standards, storage, troubleshooting, cluster design |
-| [helm](helm/SKILL.md) | Helm 3 chart development, Go templating, values management, hooks, commands, multi-environment deployments |
+| [helm](helm/SKILL.md) | Helm 4 chart development, Go templating, values management, hooks, commands, multi-environment deployments |
 
 ### Containers & Docker
 

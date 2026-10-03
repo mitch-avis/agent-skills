@@ -126,7 +126,7 @@ spec:
         fsGroup: 999
       containers:
         - name: postgres
-          image: postgres:15-alpine
+          image: postgres:18-alpine
           ports:
             - name: postgres
               containerPort: 5432
@@ -218,7 +218,7 @@ spec:
           operator: Exists
       containers:
         - name: node-exporter
-          image: prom/node-exporter:v1.7.0
+          image: prom/node-exporter:v1.12.1
           args:
             - --path.procfs=/host/proc
             - --path.sysfs=/host/sys
@@ -340,7 +340,7 @@ spec:
 spec:
   initContainers:
     - name: wait-for-db
-      image: busybox:1.36
+      image: busybox:1.37
       command: ["sh", "-c"]
       args:
         - |

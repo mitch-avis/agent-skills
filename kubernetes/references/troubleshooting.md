@@ -66,7 +66,7 @@ kubectl get networkpolicy -n production
 kubectl describe networkpolicy <name> -n production
 
 # DNS resolution test
-kubectl run dns-test --image=busybox:1.36 --rm -it --restart=Never -- \
+kubectl run dns-test --image=busybox:1.37 --rm -it --restart=Never -- \
   nslookup web-app.production.svc.cluster.local
 
 # Connectivity test
@@ -103,16 +103,16 @@ kubectl auth can-i --list --as=system:serviceaccount:production:my-app-sa
 ```bash
 # Ephemeral debug container on running pod
 kubectl debug -it <pod-name> -n production \
-  --image=nicolaka/netshoot:latest \
+  --image=nicolaka/netshoot:v0.16 \
   --target=<container-name>
 
 # Copy pod with debug tools
 kubectl debug <pod-name> -n production \
-  -it --image=ubuntu:latest \
+  -it --image=ubuntu:26.04 \
   --share-processes --copy-to=debug-pod
 
 # Debug on a node
-kubectl debug node/<node-name> -it --image=ubuntu:latest
+kubectl debug node/<node-name> -it --image=ubuntu:26.04
 ```
 
 ## Common Issues

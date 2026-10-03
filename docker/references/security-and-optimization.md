@@ -102,7 +102,7 @@ Use BuildKit secrets to pass sensitive data during build without baking it into 
 
 ```dockerfile
 # syntax=docker/dockerfile:1
-FROM node:22-alpine
+FROM node:24-alpine
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -223,7 +223,7 @@ grype my-image:latest --fail-on high
 
 ```yaml
 - name: Scan image
-  uses: aquasecurity/trivy-action@master
+  uses: aquasecurity/trivy-action@v0.36.0
   with:
     image-ref: my-image:${{ github.sha }}
     severity: HIGH,CRITICAL
@@ -289,17 +289,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
 
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: .
           push: true

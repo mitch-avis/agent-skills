@@ -22,14 +22,14 @@
 ```yaml
 code-quality:
   runs-on: ubuntu-latest
+  container: semgrep/semgrep:1.179.0  # semgrep/semgrep-action is archived; run the CLI image
   steps:
-    - uses: actions/checkout@v4
-    - uses: semgrep/semgrep-action@v1
-      with:
-        config: >-
-          p/security-audit
-          p/secrets
-          p/owasp-top-ten
+    - uses: actions/checkout@v7
+    - run: >-
+        semgrep scan --error
+        --config p/security-audit
+        --config p/secrets
+        --config p/owasp-top-ten
 ```
 
 ### CodeQL (GitHub Actions)
@@ -40,11 +40,11 @@ codeql:
   permissions:
     security-events: write
   steps:
-    - uses: actions/checkout@v4
-    - uses: github/codeql-action/init@v3
+    - uses: actions/checkout@v7
+    - uses: github/codeql-action/init@v4
       with:
         languages: javascript
-    - uses: github/codeql-action/analyze@v3
+    - uses: github/codeql-action/analyze@v4
 ```
 
 ### GitLab SAST
@@ -67,7 +67,7 @@ sast:
 dast:
   runs-on: ubuntu-latest
   steps:
-    - uses: zaproxy/action-full-scan@v0.10.0
+    - uses: zaproxy/action-full-scan@v0.13.0
       with:
         target: https://staging.example.com
         rules_file_name: .zap/rules.tsv
@@ -94,8 +94,8 @@ dast:
 dependency-check:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
-    - uses: snyk/actions/node@master
+    - uses: actions/checkout@v7
+    - uses: snyk/actions/node@v1.0.0
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
@@ -105,7 +105,7 @@ dependency-check:
 ### Dependency Review (GitHub Actions)
 
 ```yaml
-- uses: actions/dependency-review-action@v4
+- uses: actions/dependency-review-action@v5
   with:
     fail-on-severity: high
     deny-licenses: GPL-3.0
@@ -129,14 +129,14 @@ dependency_scanning:
 container-scan:
   runs-on: ubuntu-latest
   steps:
-    - uses: aquasecurity/trivy-action@master
+    - uses: aquasecurity/trivy-action@v0.36.0
       with:
         image-ref: ghcr.io/${{ github.repository }}:${{ github.sha }}
         format: sarif
         output: trivy-results.sarif
         severity: CRITICAL,HIGH
         exit-code: 1
-    - uses: github/codeql-action/upload-sarif@v3
+    - uses: github/codeql-action/upload-sarif@v4
       if: always()
       with:
         sarif_file: trivy-results.sarif
@@ -147,7 +147,7 @@ container-scan:
 ```yaml
 trivy-scan:
   stage: security
-  image: aquasec/trivy:latest
+  image: aquasec/trivy:0.75.0
   script:
     - >-
       trivy image
@@ -160,7 +160,7 @@ trivy-scan:
 ### Grype
 
 ```yaml
-- uses: anchore/scan-action@v3
+- uses: anchore/scan-action@v7
   with:
     image: ghcr.io/${{ github.repository }}:${{ github.sha }}
     fail-build: true
@@ -175,10 +175,10 @@ trivy-scan:
 secrets-scan:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         fetch-depth: 0
-    - uses: gitleaks/gitleaks-action@v2
+    - uses: gitleaks/gitleaks-action@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -201,8 +201,8 @@ secret_detection:
 iac-scan:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
-    - uses: bridgecrewio/checkov-action@master
+    - uses: actions/checkout@v7
+    - uses: bridgecrewio/checkov-action@v12.1347.0
       with:
         directory: terraform/
         framework: terraform
@@ -229,7 +229,7 @@ sign:
     packages: write
     id-token: write
   steps:
-    - uses: sigstore/cosign-installer@v3
+    - uses: sigstore/cosign-installer@v4
     - run: >-
         cosign sign --yes
         ghcr.io/${{ github.repository }}@${{ needs.build.outputs.digest }}
@@ -247,7 +247,7 @@ cosign verify \
 ## SBOM Generation
 
 ```yaml
-- uses: docker/build-push-action@v5
+- uses: docker/build-push-action@v7
   with:
     context: .
     push: true
@@ -262,7 +262,7 @@ cosign verify \
 policy-check:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Evaluate OPA policies
       run: |
         opa eval \
@@ -278,19 +278,19 @@ policy-check:
 
 ```yaml
 # GitHub Actions — AWS
-- uses: aws-actions/configure-aws-credentials@v4
+- uses: aws-actions/configure-aws-credentials@v6
   with:
     role-to-assume: arn:aws:iam::123456789012:role/GitHubActions
     aws-region: us-east-1
 
 # GitHub Actions — GCP
-- uses: google-github-actions/auth@v2
+- uses: google-github-actions/auth@v3
   with:
     workload_identity_provider: projects/123/locations/global/workloadIdentityPools/pool/providers/ghactions
     service_account: deploy@project.iam.gserviceaccount.com
 
 # GitHub Actions — Azure
-- uses: azure/login@v2
+- uses: azure/login@v3
   with:
     client-id: ${{ secrets.AZURE_CLIENT_ID }}
     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -332,27 +332,26 @@ permissions:
 jobs:
   sast:
     runs-on: ubuntu-latest
+    container: semgrep/semgrep:1.179.0
     steps:
-      - uses: actions/checkout@v4
-      - uses: semgrep/semgrep-action@v1
-        with:
-          config: p/security-audit
+      - uses: actions/checkout@v7
+      - run: semgrep scan --error --config p/security-audit
 
   sca:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/dependency-review-action@v4
+      - uses: actions/checkout@v7
+      - uses: actions/dependency-review-action@v5
         with:
           fail-on-severity: high
 
   secrets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
+      - uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -360,14 +359,14 @@ jobs:
     needs: [sast, sca, secrets]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/build-push-action@v5
+      - uses: actions/checkout@v7
+      - uses: docker/build-push-action@v7
         with:
           context: .
           push: false
           load: true
           tags: app:scan
-      - uses: aquasecurity/trivy-action@master
+      - uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: app:scan
           exit-code: 1

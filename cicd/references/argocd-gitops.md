@@ -158,7 +158,7 @@ spec:
   description: Production applications
   sourceRepos:
     - https://github.com/myorg/*
-    - https://charts.bitnami.com/bitnami
+    - registry.example.com/charts
   destinations:
     - namespace: production
       server: https://kubernetes.default.svc
@@ -358,7 +358,7 @@ spec:
     spec:
       containers:
         - name: migration
-          image: myapp:latest
+          image: myapp:1.2.3
           command: ["./migrate.sh"]
       restartPolicy: Never
 
@@ -377,7 +377,7 @@ spec:
     spec:
       containers:
         - name: test
-          image: curlimages/curl:latest
+          image: curlimages/curl:8.22.0
           command: ["curl", "http://myapp/health"]
       restartPolicy: Never
 ```
@@ -520,7 +520,7 @@ syncs.
 update-manifests:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         repository: org/k8s-manifests
         token: ${{ secrets.DEPLOY_TOKEN }}
@@ -539,7 +539,7 @@ update-manifests:
 # GitLab CI — update manifests repo after image push
 deploy:
   stage: deploy
-  image: bitnami/kubectl:latest
+  image: alpine/k8s:1.37.1
   script:
     - git clone https://deploy:${DEPLOY_TOKEN}@gitlab.com/org/k8s-manifests
     - cd k8s-manifests/overlays/production

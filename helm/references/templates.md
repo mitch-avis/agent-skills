@@ -622,7 +622,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: notify
-          image: curlimages/curl:8.5.0
+          image: curlimages/curl:8.22.0
           command:
             - curl
             - -X
@@ -648,7 +648,7 @@ spec:
   restartPolicy: Never
   containers:
     - name: test
-      image: curlimages/curl:8.5.0
+      image: curlimages/curl:8.22.0
       command: ["curl", "-f"]
       args:
         - "http://{{ include "myapp.fullname" . }}:{{ .Values.service.port }}/health"

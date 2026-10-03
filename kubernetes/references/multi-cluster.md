@@ -74,7 +74,7 @@ metadata:
   namespace: clusters
 spec:
   replicas: 3
-  version: v1.28.0
+  version: v1.37.1
   machineTemplate:
     infrastructureRef:
       apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
@@ -115,7 +115,7 @@ spec:
   template:
     spec:
       clusterName: production-cluster
-      version: v1.28.0
+      version: v1.37.1
       bootstrap:
         configRef:
           apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
@@ -215,7 +215,7 @@ spec:
     spec:
       containers:
         - name: external-dns
-          image: registry.k8s.io/external-dns/external-dns:v0.14.0
+          image: registry.k8s.io/external-dns/external-dns:v0.23.0
           args:
             - --source=service
             - --source=ingress

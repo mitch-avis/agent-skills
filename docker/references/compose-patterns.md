@@ -49,7 +49,7 @@ services:
     command: npm run dev
 
   db:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -69,7 +69,7 @@ services:
       retries: 5
 
   cache:
-    image: redis:7-alpine
+    image: redis:8-alpine
     restart: unless-stopped
     volumes:
       - redis-data:/data
@@ -98,7 +98,7 @@ Multiple services behind an Nginx reverse proxy with isolated internal networkin
 ```yaml
 services:
   proxy:
-    image: nginx:alpine
+    image: nginx:1.29-alpine
     ports:
       - "80:80"
       - "443:443"
@@ -146,7 +146,7 @@ services:
       - db
 
   db:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -232,7 +232,7 @@ services:
       - mailhog
 
   db:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     ports:
       - "5432:5432"
     environment:
@@ -242,7 +242,7 @@ services:
       - dev-db-data:/var/lib/postgresql/data
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:9
     ports:
       - "5050:80"
     environment:
@@ -252,7 +252,7 @@ services:
       - db
 
   mailhog:
-    image: mailhog/mailhog:latest
+    image: mailhog/mailhog:v1.0.1
     ports:
       - "1025:1025"    # SMTP
       - "8025:8025"    # Web UI
@@ -391,7 +391,7 @@ volumes:
 ```yaml
 services:
   postgres:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -400,7 +400,7 @@ services:
       start_period: 30s
 
   mysql:
-    image: mysql:8
+    image: mysql:8.4
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -408,7 +408,7 @@ services:
       retries: 3
 
   mongodb:
-    image: mongo:7
+    image: mongo:9
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -416,7 +416,7 @@ services:
       retries: 5
 
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s

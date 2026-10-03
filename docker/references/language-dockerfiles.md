@@ -9,7 +9,7 @@ Uses standalone output mode for minimal production images.
 
 ```dockerfile
 # ── Dependencies ──
-FROM node:22-alpine AS deps
+FROM node:24-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -17,7 +17,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # ── Build ──
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -27,7 +27,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # ── Runtime ──
-FROM node:22-alpine
+FROM node:24-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -63,7 +63,7 @@ module.exports = { output: "standalone" };
 
 ```dockerfile
 # ── Build ──
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM eclipse-temurin:25-jdk-alpine AS builder
 WORKDIR /app
 
 COPY gradle/ gradle/
@@ -74,7 +74,7 @@ COPY src ./src
 RUN ./gradlew bootJar --no-daemon -x test
 
 # ── Runtime ──
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
@@ -103,30 +103,32 @@ RUN mvn package -DskipTests -B
 
 ## Python (FastAPI with uv)
 
-Uses `uv` for fast dependency resolution and virtual environment management.
+Uses `uv` with the lockfile for reproducible, cached dependency installs.
 
 ```dockerfile
 # ── Build ──
-FROM python:3.13-slim AS builder
+FROM python:3.14-slim AS builder
+COPY --from=ghcr.io/astral-sh/uv:0.12.22 /uv /usr/local/bin/uv
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 WORKDIR /app
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
-ENV UV_COMPILE_BYTECODE=1
+# Dependencies first, so this layer is cached until uv.lock changes
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-dev --no-install-project
 
-COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev --no-install-project
-
+# Then the project itself, installed into the venv (not editable) so the runtime needs no source
 COPY . .
-RUN uv sync --frozen --no-dev
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev --no-editable
 
 # ── Runtime ──
-FROM python:3.13-slim
+FROM python:3.14-slim
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 WORKDIR /app
 
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser
-
-COPY --from=builder /app/.venv /app/.venv
-COPY --from=builder /app/src ./src
+COPY --from=builder --chown=appuser:appgroup /app/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 
 USER appuser
@@ -136,27 +138,28 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD python -c "import urllib.request; \
     urllib.request.urlopen('http://localhost:8000/health')"
 
-CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "myapp.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 ## Python (Django)
 
 ```dockerfile
 # ── Build ──
-FROM python:3.13-slim AS builder
+FROM python:3.14-slim AS builder
 WORKDIR /app
+
+COPY --from=ghcr.io/astral-sh/uv:0.12.22 /uv /usr/local/bin/uv
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PROJECT_ENVIRONMENT=/opt/venv
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential libpq-dev && rm -rf /var/lib/apt/lists/*
 
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY pyproject.toml uv.lock ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev --no-install-project
 
 # ── Runtime ──
-FROM python:3.13-slim
+FROM python:3.14-slim
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -187,7 +190,7 @@ Produces a statically linked binary that runs from `scratch`.
 
 ```dockerfile
 # ── Build ──
-FROM golang:1.24-alpine AS builder
+FROM golang:1.27-alpine AS builder
 RUN apk add --no-cache git ca-certificates tzdata
 WORKDIR /app
 
@@ -216,7 +219,7 @@ compilation. Subsequent builds only recompile the application.
 
 ```dockerfile
 # ── Build ──
-FROM rust:1.86-alpine AS builder
+FROM rust:1.98-alpine AS builder
 RUN apk add --no-cache musl-dev
 WORKDIR /app
 
@@ -230,7 +233,7 @@ COPY . .
 RUN touch src/main.rs && cargo build --release
 
 # ── Runtime ──
-FROM alpine:3.21
+FROM alpine:3.24
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 COPY --from=builder /app/target/release/myapp /usr/local/bin/myapp
@@ -246,7 +249,7 @@ Serve pre-built static files (SPA, docs site) with optimized Nginx configuration
 
 ```dockerfile
 # ── Build ──
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -255,7 +258,7 @@ COPY . .
 RUN npm run build
 
 # ── Runtime ──
-FROM nginx:alpine
+FROM nginx:1.29-alpine
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/app.conf

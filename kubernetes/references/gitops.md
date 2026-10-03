@@ -253,16 +253,17 @@ spec:
 ### HelmRepository + HelmRelease
 
 ```yaml
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: bitnami
+  name: charts
   namespace: flux-system
 spec:
+  type: oci
   interval: 1h
-  url: https://charts.bitnami.com/bitnami
+  url: oci://registry.example.com/charts
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: redis
@@ -272,10 +273,10 @@ spec:
   chart:
     spec:
       chart: redis
-      version: '17.x'
+      version: '8.x'
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: charts
         namespace: flux-system
   values:
     architecture: standalone
@@ -389,7 +390,7 @@ spec:
 ```bash
 # Install controller
 kubectl apply -f \
-  https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.24.0/controller.yaml
+  https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.40.0/controller.yaml
 
 # Seal a secret
 kubectl create secret generic db-credentials \

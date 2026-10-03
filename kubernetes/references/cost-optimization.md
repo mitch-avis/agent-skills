@@ -353,13 +353,8 @@ spec:
           serviceAccountName: scaler
           containers:
             - name: kubectl
-              image: bitnami/kubectl:1.28
-              command:
-                - /bin/sh
-                - -c
-                - |
-                  kubectl scale deployment --all \
-                    --replicas=0 -n development
+              image: registry.k8s.io/kubectl:v1.37.1  # kubectl only, no shell
+              args: ["scale", "deployment", "--all", "--replicas=0", "-n", "development"]
           restartPolicy: OnFailure
 ---
 # Scale up in the morning
@@ -377,15 +372,9 @@ spec:
           serviceAccountName: scaler
           containers:
             - name: kubectl
-              image: bitnami/kubectl:1.28
-              command:
-                - /bin/sh
-                - -c
-                - |
-                  kubectl scale deployment frontend \
-                    --replicas=2 -n development
-                  kubectl scale deployment backend \
-                    --replicas=2 -n development
+              image: registry.k8s.io/kubectl:v1.37.1  # kubectl only, no shell
+              args:
+                ["scale", "deployment", "frontend", "backend", "--replicas=2", "-n", "development"]
           restartPolicy: OnFailure
 ```
 

@@ -264,7 +264,7 @@ pipeline {
         stage('Build Image') {
             agent {
                 docker {
-                    image 'docker:24'
+                    image 'docker:29'
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }

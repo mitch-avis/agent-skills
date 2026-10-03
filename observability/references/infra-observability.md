@@ -171,7 +171,7 @@ The mesh injects `traceparent` and B3 headers, but **applications must propagate
 downstream calls — otherwise the trace breaks at the first internal hop. See
 [tracing.md](tracing.md) for SDK-level propagation.
 
-### Jaeger (all-in-one)
+### Jaeger (single binary)
 
 ```yaml
 apiVersion: apps/v1
@@ -184,17 +184,15 @@ spec:
     spec:
       containers:
         - name: jaeger
-          image: jaegertracing/all-in-one:1.57
-          env:
-            - { name: COLLECTOR_ZIPKIN_HOST_PORT, value: ":9411" }
+          image: jaegertracing/jaeger:2.21.0   # Jaeger v2; in-memory storage by default
           ports:
             - { containerPort: 16686 }   # UI
-            - { containerPort: 14250 }   # gRPC
-            - { containerPort: 9411 }    # Zipkin
+            - { containerPort: 4317 }    # OTLP gRPC
+            - { containerPort: 4318 }    # OTLP HTTP
 ```
 
-For production, replace all-in-one with the Jaeger Operator (Cassandra/Elastic backend) or swap to
-**Tempo + Grafana**.
+For production, replace the in-memory single binary with the Jaeger Operator (Cassandra/Elastic
+backend) or swap to **Tempo + Grafana**.
 
 ## Kiali — mesh topology visualization
 

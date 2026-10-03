@@ -30,7 +30,8 @@ Jenkins, and ArgoCD.
 2. **Security by default** — embed SAST, SCA, and container scanning. Use OIDC over static secrets.
    Sign artifacts. Apply least-privilege permissions.
 3. **Reproducible** — pin dependency versions, use lockfiles, avoid external state. Identical inputs
-   must produce identical outputs.
+   must produce identical outputs. Image tags and action versions in these examples were current
+   in October 2026; look up the current release when you write a pipeline instead of copying them.
 4. **Cache aggressively** — cache dependencies, build outputs, and Docker layers. Every saved minute
    compounds across all developers.
 5. **Parallelize** — run independent jobs concurrently. Only serialize jobs with real data
@@ -40,56 +41,57 @@ Jenkins, and ArgoCD.
 
 ## Quick Start — GitHub Actions
 
+Python with uv (versions come from `.python-version` and `uv.lock`):
+
 ```yaml
-name: CI/CD
+name: CI
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
-  lint:
+  python:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: "20", cache: "npm" }
-      - run: npm ci
-      - run: npm run lint
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: "20", cache: "npm" }
-      - run: npm ci
-      - run: npm test
-
-  build:
-    needs: [lint, test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: "20", cache: "npm" }
-      - run: npm ci && npm run build
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-          retention-days: 7
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with: { enable-cache: true }
+      - run: uv sync --locked
+      - run: .venv/bin/ruff format --check .
+      - run: .venv/bin/ruff check .
+      - run: .venv/bin/pyright
+      - run: .venv/bin/ty check
+      - run: .venv/bin/pytest
 ```
+
+Rust on nightly (the toolchain comes from `rust-toolchain.toml`):
+
+```yaml
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@nightly
+        with: { components: "rustfmt, clippy" }
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with: { tool: cargo-nextest }
+      - run: cargo +nightly fmt --all --check
+      - run: cargo +nightly clippy --workspace --all-features --all-targets -- -D warnings
+      - run: cargo +nightly test --doc --workspace --all-features
+      - run: cargo +nightly nextest run --workspace --all-features --all-targets
+```
+
+A Node.js lint/test/build pipeline is in
+[references/github-actions.md](references/github-actions.md#nodejs-quick-start).
 
 ## Quick Start — GitLab CI
 
 ```yaml
-image: node:20-alpine
+image: node:24-alpine
 
 stages:
   - lint
@@ -180,12 +182,25 @@ variables:
   SECURE_ANALYZERS_PREFIX: registry.gitlab.com/security-products
 ```
 
+### Pin Third-Party Actions to a Commit
+
+A tag like `@v0.36.0` can be moved to point at different code. Pin actions from outside `actions/*`
+and `github/*` to the full commit SHA, with the tag in a comment so updates stay readable
+(Dependabot and Renovate keep both in sync):
+
+```yaml
+- uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0
+```
+
+Resolve a tag to its commit with
+`gh api repos/<owner>/<repo>/commits/<tag> --jq .sha`.
+
 ### Scanning Stages
 
 | Scan Type | GitHub Actions | GitLab CI Template |
 | --- | --- | --- |
-| SAST | `semgrep/semgrep-action@v1` | `Security/SAST.gitlab-ci.yml` |
-| SCA        | `snyk/actions/node@master`  | `Security/Dependency-Scanning.gitlab-ci.yml` |
+| SAST | `semgrep/semgrep:1.179.0` container running `semgrep scan` | `Security/SAST.gitlab-ci.yml` |
+| SCA        | `snyk/actions/node@v1.0.0`  | `Security/Dependency-Scanning.gitlab-ci.yml` |
 | Containers | `aquasecurity/trivy-action` | `Security/Container-Scanning.gitlab-ci.yml`  |
 | Secrets    | `gitleaks/gitleaks-action`  | `Security/Secret-Detection.gitlab-ci.yml`    |
 
@@ -197,7 +212,7 @@ variables:
   run: cosign sign --yes ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
 
 # Generate SBOM
-- uses: docker/build-push-action@v5
+- uses: docker/build-push-action@v7
   with:
     provenance: true
     sbom: true
@@ -212,7 +227,7 @@ For complete security patterns, OWASP CI/CD Top 10 mapping, and SAST/DAST integr
 
 ```yaml
 # GitHub Actions
-- uses: actions/cache@v4
+- uses: actions/cache@v6
   with:
     path: ~/.npm
     key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
@@ -229,7 +244,7 @@ cache:
 
 ```yaml
 # GitHub Actions — BuildKit GHA cache
-- uses: docker/build-push-action@v5
+- uses: docker/build-push-action@v7
   with:
     cache-from: type=gha
     cache-to: type=gha,mode=max
@@ -249,7 +264,7 @@ Only run affected jobs on monorepos:
 
 ```yaml
 # GitHub Actions
-- uses: dorny/paths-filter@v3
+- uses: dorny/paths-filter@v4
   id: changes
   with:
     filters: |
@@ -276,7 +291,7 @@ frontend:
 ```yaml
 # GitLab CI — extend a deploy template
 .deploy:
-  image: bitnami/kubectl:latest
+  image: alpine/k8s:1.37.1
   script:
     - kubectl apply -f k8s/ -n $ENVIRONMENT
     - kubectl rollout status deployment/app -n $ENVIRONMENT --timeout=5m

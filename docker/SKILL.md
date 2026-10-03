@@ -51,24 +51,27 @@ Pick the smallest image that supports the application's runtime needs.
 
 ### Recommended base images by language
 
+Always pin a specific tag. These were current in October 2026; look up the current release on the
+registry when you write a Dockerfile.
+
 ```dockerfile
 # Node.js
-FROM node:22-alpine
+FROM node:24-alpine
 
 # Python
-FROM python:3.13-slim
+FROM python:3.14-slim
 
 # Go
-FROM golang:1.24-alpine AS builder
+FROM golang:1.27-alpine AS builder
 FROM scratch AS runtime
 
 # Rust
-FROM rust:1.86-alpine AS builder
-FROM alpine:3.21 AS runtime
+FROM rust:1.98-alpine AS builder
+FROM alpine:3.24 AS runtime
 
 # Java
-FROM eclipse-temurin:21-jdk-alpine AS builder
-FROM eclipse-temurin:21-jre-alpine AS runtime
+FROM eclipse-temurin:25-jdk-alpine AS builder
+FROM eclipse-temurin:25-jre-alpine AS runtime
 ```
 
 ## Multi-Stage Builds
@@ -80,7 +83,7 @@ artifacts needed to run the application into the final stage.
 
 ```dockerfile
 # ── Build ──
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -90,7 +93,7 @@ COPY . .
 RUN npm run build && npm prune --production
 
 # ── Runtime ──
-FROM node:22-alpine
+FROM node:24-alpine
 RUN addgroup -g 1001 -S nodejs && adduser -S appuser -u 1001
 WORKDIR /app
 
@@ -110,30 +113,34 @@ CMD ["node", "dist/index.js"]
 
 ### Python
 
+For a uv-managed project (`pyproject.toml` + `uv.lock`, `src/` layout):
+
 ```dockerfile
 # ── Build ──
-FROM python:3.13-slim AS builder
+FROM python:3.14-slim AS builder
+COPY --from=ghcr.io/astral-sh/uv:0.12.22 /uv /usr/local/bin/uv
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential && rm -rf /var/lib/apt/lists/*
+# Dependencies first, so this layer is cached until uv.lock changes
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-dev --no-install-project
 
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Then the project itself, installed into the venv (not editable) so the runtime needs no source
+COPY . .
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev --no-editable
 
 # ── Runtime ──
-FROM python:3.13-slim
+FROM python:3.14-slim
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 WORKDIR /app
 
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+COPY --from=builder --chown=appuser:appgroup /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
 
-COPY --from=builder /opt/venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-COPY --chown=appuser:appgroup . .
 USER appuser
 EXPOSE 8000
 
@@ -141,14 +148,14 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD python -c "import urllib.request; \
     urllib.request.urlopen('http://localhost:8000/health')"
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "myapp.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 ### Go
 
 ```dockerfile
 # ── Build ──
-FROM golang:1.24-alpine AS builder
+FROM golang:1.27-alpine AS builder
 RUN apk add --no-cache git ca-certificates tzdata
 WORKDIR /app
 
@@ -173,7 +180,7 @@ ENTRYPOINT ["/server"]
 
 ```dockerfile
 # ── Build ──
-FROM rust:1.86-alpine AS builder
+FROM rust:1.98-alpine AS builder
 RUN apk add --no-cache musl-dev
 WORKDIR /app
 
@@ -185,7 +192,7 @@ COPY . .
 RUN touch src/main.rs && cargo build --release
 
 # ── Runtime ──
-FROM alpine:3.21
+FROM alpine:3.24
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 COPY --from=builder /app/target/release/app /usr/local/bin/app
 
@@ -302,7 +309,7 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 ```yaml
 services:
   postgres:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -311,7 +318,7 @@ services:
       start_period: 30s
 
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -390,7 +397,7 @@ services:
           memory: 512M
 
   db:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
@@ -457,7 +464,7 @@ Load on demand — do not read all files upfront.
 ### Do
 
 - Use multi-stage builds — separate build tools from runtime
-- Pin exact base image versions (e.g., `node:22.15-alpine3.21`, not `:latest`)
+- Pin exact base image versions (e.g., `node:24.21-alpine3.24`, not `:latest`)
 - Run as non-root with explicit UID/GID
 - Include a health check matching the application's runtime
 - Create a `.dockerignore` to minimize build context

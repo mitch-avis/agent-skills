@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/org/app:latest
+          image: ghcr.io/org/app:v2.0.0
           readinessProbe:
             httpGet:
               path: /health
@@ -217,7 +217,7 @@ spec:
 update-manifests:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         repository: org/k8s-manifests
         token: ${{ secrets.DEPLOY_TOKEN }}
@@ -257,7 +257,7 @@ variables:
   TF_ROOT: ${CI_PROJECT_DIR}/terraform
 
 .terraform:
-  image: hashicorp/terraform:1.6
+  image: hashicorp/terraform:1.16
   before_script:
     - cd ${TF_ROOT}
 
@@ -306,8 +306,8 @@ jobs:
       run:
         working-directory: terraform/
     steps:
-      - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
+      - uses: actions/checkout@v7
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: 1.6.0
       - run: terraform init
@@ -323,7 +323,7 @@ jobs:
 # GitLab CI
 release:
   stage: deploy
-  image: node:20
+  image: node:24
   script:
     - npx semantic-release
   rules:
@@ -337,12 +337,12 @@ release:
   permissions:
     contents: write
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         fetch-depth: 0
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v7
       with:
-        node-version: "20"
+        node-version: "24"
     - run: npx semantic-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

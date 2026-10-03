@@ -5,7 +5,7 @@
 Full `.gitlab-ci.yml` with lint, test, build, security, and deploy stages.
 
 ```yaml
-image: node:20-alpine
+image: node:24-alpine
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -74,7 +74,7 @@ include:
 
 deploy:staging:
   stage: deploy
-  image: bitnami/kubectl:latest
+  image: alpine/k8s:1.37.1
   script:
     - kubectl apply -f k8s/ -n staging
     - kubectl rollout status deployment/app -n staging --timeout=5m
@@ -86,7 +86,7 @@ deploy:staging:
 
 deploy:production:
   stage: deploy
-  image: bitnami/kubectl:latest
+  image: alpine/k8s:1.37.1
   script:
     - kubectl apply -f k8s/ -n production
     - kubectl rollout status deployment/app -n production --timeout=5m
@@ -103,9 +103,9 @@ deploy:production:
 ```yaml
 build-docker:
   stage: build
-  image: docker:24
+  image: docker:29
   services:
-    - docker:24-dind
+    - docker:29-dind
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
@@ -209,7 +209,7 @@ stages:
 
 test:
   stage: test
-  image: python:3.12
+  image: python:3.14
   script:
     - pip install -r requirements.txt
     - pytest
@@ -381,7 +381,7 @@ gitlab-runner register \
   --url "https://gitlab.example.com/" \
   --registration-token "$REGISTRATION_TOKEN" \
   --executor docker \
-  --docker-image "alpine:latest" \
+  --docker-image "alpine:3.24" \
   --docker-privileged \
   --docker-volumes "/certs/client"
 ```
@@ -395,7 +395,7 @@ concurrent = 10
   name = "docker-runner"
   executor = "docker"
   [runners.docker]
-    image = "alpine:latest"
+    image = "alpine:3.24"
     privileged = true
     volumes = ["/cache", "/certs/client:ro"]
     pull_policy = ["if-not-present"]

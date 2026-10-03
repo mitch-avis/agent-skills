@@ -262,8 +262,8 @@ jobs:
   lint-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: azure/setup-helm@v4
+      - uses: actions/checkout@v7
+      - uses: azure/setup-helm@v5
       - run: helm lint ./myapp
       - run: helm template myapp ./myapp --values values-prod.yaml
       - uses: helm/chart-testing-action@v2
@@ -275,14 +275,15 @@ jobs:
 ```yaml
 # helmfile.yaml
 repositories:
-  - name: bitnami
-    url: https://charts.bitnami.com/bitnami
+  - name: charts
+    url: registry.example.com/charts
+    oci: true
 
 releases:
   - name: postgresql
     namespace: database
-    chart: bitnami/postgresql
-    version: 13.4.3
+    chart: charts/postgresql
+    version: 18.0.0
     values:
       - values/postgresql.yaml
 

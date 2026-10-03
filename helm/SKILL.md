@@ -93,18 +93,23 @@ maintainers:
 
 dependencies:
   - name: postgresql
-    version: "12.x.x"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: "18.x.x"
+    repository: "oci://registry.example.com/charts"
     condition: postgresql.enabled
   - name: redis
-    version: "17.x.x"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: "8.x.x"
+    repository: "oci://registry.example.com/charts"
     condition: redis.enabled
     tags:
       - cache
 
 kubeVersion: ">=1.28.0"
 ```
+
+Chart repositories are OCI registries (`oci://...`) in current Helm. The widely used Bitnami
+charts moved to `oci://registry-1.docker.io/bitnamicharts`, and since September 2025 their default
+images are no longer published for free; using them means overriding `image.registry` and
+`image.repository` with images you trust.
 
 ## values.yaml
 
@@ -242,7 +247,8 @@ helm install myapp ./myapp -f values-prod.yaml -n production
 4. **Quote strings** — `{{ .Values.config.value | quote }}` 5. **Default values** — `{{
 .Values.replicaCount | default 3 }}`
 5. **Schema validation** — provide `values.schema.json` for required values
-6. **Atomic upgrades** — `helm upgrade --atomic` rolls back on failure
+6. **Atomic upgrades** — `helm upgrade --rollback-on-failure` rolls back on failure (Helm 4; the
+   Helm 3 name `--atomic` still works with a deprecation warning)
 7. **Document values** — comment every value in `values.yaml`
 
 ## Anti-Patterns
@@ -340,12 +346,12 @@ Run multiple instances of the same subchart under different names:
 ```yaml
 dependencies:
   - name: postgresql
-    version: "12.x.x"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: "18.x.x"
+    repository: "oci://registry.example.com/charts"
     alias: primary-db
   - name: postgresql
-    version: "12.x.x"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: "18.x.x"
+    repository: "oci://registry.example.com/charts"
     alias: analytics-db
 ```
 
@@ -356,8 +362,8 @@ Import specific values from a subchart into the parent:
 ```yaml
 dependencies:
   - name: postgresql
-    version: "12.x.x"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: "18.x.x"
+    repository: "oci://registry.example.com/charts"
     import-values:
       - child: primary
         parent: database
