@@ -234,8 +234,13 @@ accessibility, read [references/advanced-features.md](references/advanced-featur
 
 ## Rendering to SVG, PNG, and ASCII
 
-The `scripts/` directory contains rendering tools powered by the `beautiful-mermaid` npm package.
-Dependencies auto-install on first run.
+The `scripts/` directory contains rendering tools powered by the `beautiful-mermaid` npm package,
+pinned in `scripts/package-lock.json`. Install it once before the first render; the scripts exit
+with this command if it's missing:
+
+```bash
+cd scripts && npm ci --ignore-scripts
+```
 
 ### Render a single diagram to SVG
 
@@ -271,11 +276,12 @@ as the single renderer.
 ### Render inline code
 
 ```bash
-node scripts/render.mjs --code "graph TD; A-->B" --output diagram.svg --theme tokyo-night
+node scripts/render.mjs --code $'graph TD\n  A --> B' --output diagram.svg --theme tokyo-night
 ```
 
 Use `--code` instead of `--input` to pass Mermaid source directly on the command line — handy for
-one-off diagrams without creating a `.mmd` file.
+one-off diagrams without creating a `.mmd` file. The renderer needs a newline after the diagram
+header (the semicolon form `graph TD; A-->B` is rejected), hence the `$'...'` quoting.
 
 ### Theme selection guide
 
