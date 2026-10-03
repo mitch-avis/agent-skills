@@ -2,24 +2,15 @@
 name: sql-database
 description: >-
   Use before writing or changing SQL, schemas, migrations, indexes, or ORM models (SQLAlchemy,
-  Diesel, SQLx) for PostgreSQL, MySQL, or SQLite, and when a query is slow. Covers schema modeling,
-  data types, indexing strategy, query patterns, connection pooling, EXPLAIN analysis, and
-  dialect-specific gotchas.
+  Diesel, SQLx) for PostgreSQL, MySQL, or SQLite, when a query is slow, when choosing an engine,
+  or when reviewing SQL for injection or N+1 risks. Covers schema modeling, data types, indexing
+  strategy, query patterns, connection pooling, EXPLAIN analysis, and dialect-specific gotchas.
 ---
 
 # SQL Database
 
 Design, query, and operate relational databases safely and performantly. Multi-dialect (PostgreSQL,
 MySQL, SQLite) with explicit guidance per engine where it matters.
-
-## When to Use
-
-- Designing or reviewing schemas, indexes, or constraints
-- Writing migrations or evolving a deployed schema safely
-- Tuning slow queries or interpreting `EXPLAIN` output
-- Choosing between SQL engines for a new service
-- Integrating SQLAlchemy, Diesel, SQLx, or another ORM/query builder
-- Reviewing SQL for injection risk, N+1 queries, or other anti-patterns
 
 ## Related Skills
 

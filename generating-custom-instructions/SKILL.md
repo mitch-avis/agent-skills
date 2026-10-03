@@ -14,14 +14,6 @@ Analyze a codebase and produce instruction files that teach AI coding agents the
 conventions, tooling, and architecture. Works for any agent that reads Markdown instruction files
 (GitHub Copilot, Claude Code, or others).
 
-## When to Use
-
-- New project needs AI instruction files
-- Existing project has no instructions or outdated ones
-- Major refactor, migration, or dependency upgrade changed conventions
-- Team wants to standardize how agents interact with the codebase
-- Consolidating scattered or contradictory instruction files
-
 ## Process
 
 ### 1. Inventory Existing Instructions

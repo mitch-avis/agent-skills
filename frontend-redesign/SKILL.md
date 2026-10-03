@@ -12,13 +12,6 @@ description: >-
 Use this for existing interfaces.
 It is the deep redesign and audit companion to `frontend-design`.
 
-## When to Use
-
-- Redesigning or polishing an existing site or app
-- Auditing a UI that feels generic, noisy, inaccessible, or unfinished
-- Upgrading visual quality without changing core behavior
-- Making a React, Next.js, or vanilla frontend feel more intentional while preserving the stack
-
 ## Redesign Read
 
 Before editing, identify:

@@ -2,21 +2,12 @@
 name: docker
 description: >-
   Use before writing or changing a Dockerfile, .dockerignore, or Docker Compose file, or when
-  containerizing an application. Covers multi-stage builds, layer caching, image size, security
-  hardening, health checks, and multi-container Compose environments.
+  containerizing an application, including dev environments with hot reload. Covers multi-stage
+  builds, layer caching, image size, security hardening, health checks, and multi-container Compose
+  environments.
 ---
 
 # Docker
-
-## When to Use
-
-- Creating or optimizing Dockerfiles for any language or framework
-- Building multi-stage Docker images for production
-- Setting up Docker Compose for multi-container applications
-- Hardening container security (non-root users, minimal images, secrets)
-- Reducing image size or improving build cache efficiency
-- Configuring health checks, networking, or volume management
-- Creating development environments with hot reload
 
 ## Related Skills
 

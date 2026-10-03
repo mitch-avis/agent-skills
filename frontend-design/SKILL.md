@@ -13,16 +13,6 @@ description: >-
 - It sets the workflow, quality floor, and routing for design, redesign, React implementation,
   audits, and review.
 
-## When to Use
-
-- Building or restyling components, pages, dashboards, landing pages, and application shells
-- Redesigning an existing UI without breaking behavior
-- Implementing React or Next.js interfaces
-- Auditing UX, accessibility, responsiveness, or visual quality
-- Reviewing frontend code or deciding which validation commands to run
-- Formatting frontend code with the repo's existing tools
-- Choosing a design system, motion strategy, or frontend delivery workflow
-
 ## Output Expectations
 
 Match the output to the request instead of defaulting to code immediately.

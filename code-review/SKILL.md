@@ -1,26 +1,16 @@
 ---
 name: code-review
 description: >-
-  Comprehensive code review methodology covering correctness, security, performance,
-  maintainability, tests, and design. Includes a phased workflow, severity rubric (P0–P3),
-  per-dimension checklists, structured output template, feedback patterns, and PR-size guidance.
-  Use when reviewing pull requests, auditing local git changes, conducting security or
-  performance audits, mentoring through review, or establishing review standards for a team.
+  Use when asked to review a diff, branch, commit range, or pull request, to audit local changes
+  before a commit or merge, or to run a focused security or performance review of a module.
+  Phased workflow (context, high-level, line-by-line, report), P0-P3 severity rubric,
+  per-dimension checklists, and a structured report template; review-only unless asked to fix.
 ---
 
 # Code Review
 
 Perform thorough, constructive code reviews that catch real issues without bikeshedding. Default to
 review-only output unless the user explicitly asks to implement the suggested changes.
-
-## When to Use
-
-- Reviewing a pull request (local branch, staged diff, or remote PR by URL/number)
-- Auditing local working-tree changes before commit or merge
-- Performing a security or performance audit on a specific module
-- Mentoring or providing structured feedback on someone else's code
-- Establishing review standards or checklists for a team
-- After completing a major feature, before requesting human review
 
 ## Workflow
 

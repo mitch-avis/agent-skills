@@ -1,13 +1,11 @@
 ---
 name: mermaid
 description: >-
-  Create, style, and render Mermaid diagrams for documentation, architecture, and process
-  visualization. Covers flowcharts, sequence diagrams, class diagrams, ERDs, C4 architecture, state
-  diagrams, architecture-beta, git graphs, Gantt charts, and more. Use this skill whenever the user
-  asks to diagram, visualize, model, map out, or show the flow of anything — system architecture,
-  database schemas, API interactions, workflows, state machines, deployment pipelines, domain
-  models, or user journeys. Also use when rendering diagrams to SVG, PNG, or ASCII art with themed
-  styling.
+  Use when the user asks to diagram, visualize, model, or map out anything (architecture, database
+  schemas, API interactions, workflows, state machines, pipelines, user journeys), or to render a
+  Mermaid diagram to SVG, PNG, or ASCII. Covers flowcharts, sequence, class, ERD, C4, state,
+  architecture-beta, git graph, and Gantt diagrams, syntax pitfalls, theming, and the bundled
+  renderer.
 ---
 
 # Mermaid Diagrams

@@ -1,11 +1,9 @@
 ---
 name: committing-code
 description: >-
-  Creates high-quality git commits using Conventional Commits. Reviews working tree, splits mixed
-  changes into logical commits, stages selectively with patch mode, writes descriptive commit
-  messages, and verifies before finalizing. Use when the user asks to commit, write a commit
-  message, stage changes, or split work into one or more logical commits, even if they do not
-  explicitly name the skill.
+  Use before staging or committing anything, or when asked to write a commit message or split work
+  into logical commits, even if the skill isn't named. Covers commit boundaries, selective (patch)
+  staging, running the checks before committing, and Conventional Commits messages.
 ---
 
 # Committing Code

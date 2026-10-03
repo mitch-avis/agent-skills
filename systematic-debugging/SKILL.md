@@ -1,15 +1,11 @@
 ---
 name: systematic-debugging
 description: >-
-  Systematic four-phase root-cause-analysis methodology for any bug, test failure, performance
-  regression, build break, or unexpected behaviour. Covers reproduction, evidence gathering,
-  differential debugging, hypothesis testing, git bisect, defense-in-depth validation,
-  condition-based waiting, and the 3-fix architectural escape hatch. Includes language-specific
-  toolkits for Python (pytest, traceback, py-spy) and Rust (RUST_BACKTRACE, dbg!, miri,
-  sanitizers, tokio-console, cargo bisect-rustc, flamegraph). USE BEFORE proposing any fix —
-  even for "obvious" or "simple" bugs, under time pressure, or after a previous fix failed. DO
-  NOT use for greenfield design work, code review without a reported bug, refactoring without a
-  failure, or general Q&A about how a library works.
+  Use before proposing any fix for a bug, test failure, build break, performance regression, or
+  unexpected behavior, including "obvious" bugs, urgent ones, and after a fix has already failed.
+  Four phases: reproduce and gather evidence, compare with working code, test one hypothesis at a
+  time, then fix behind a failing test; Python and Rust toolkits included. Not for greenfield
+  design, reviews without a reported bug, or library Q&A.
 ---
 
 # Systematic Debugging
@@ -26,24 +22,6 @@ NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
 ```
 
 If you haven't completed Phase 1, you cannot propose fixes.
-
-## When to Use
-
-Use for any technical issue: test failures, production bugs, unexpected behavior, performance
-problems, build failures, integration issues.
-
-**Especially when:**
-
-- Under time pressure (emergencies make guessing tempting)
-- "Just one quick fix" seems obvious
-- You've already tried multiple fixes
-- Previous fix didn't work
-- You don't fully understand the issue
-
-**Don't skip when:**
-
-- Issue seems simple (simple bugs have root causes too)
-- You're in a hurry (systematic is faster than thrashing)
 
 ## The Four Phases
 

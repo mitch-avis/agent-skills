@@ -2,7 +2,8 @@
 name: cicd
 description: >-
   Use before writing or changing CI/CD pipeline files (.github/workflows/*.yml, .gitlab-ci.yml,
-  Jenkinsfile, ArgoCD Applications) or when a pipeline fails or runs slowly. Covers pipeline
+  Jenkinsfile, ArgoCD Applications) or when a pipeline fails or runs slowly, including image
+  build-and-push, monorepo path filters, and multi-environment deploys. Covers pipeline
   architecture, security gates (SAST, SCA, container scanning, artifact signing), caching and
   parallelization, deployment strategies, ArgoCD GitOps sync, and common anti-patterns.
 ---
@@ -11,17 +12,6 @@ description: >-
 
 Design secure, efficient, and maintainable CI/CD pipelines across GitHub Actions, GitLab CI,
 Jenkins, and ArgoCD.
-
-## When to Use
-
-- Create or modify a CI/CD pipeline
-- Add security scanning or quality gates
-- Optimize build/test/deploy performance
-- Implement multi-environment deployment
-- Set up Docker builds with registry push
-- Design monorepo or microservices pipelines
-- Configure ArgoCD applications and sync strategies
-- Troubleshoot pipeline failures
 
 ## Core Principles
 

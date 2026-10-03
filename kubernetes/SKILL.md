@@ -9,14 +9,6 @@ description: >-
 
 # Kubernetes
 
-## When to Use
-
-- Creating or reviewing Kubernetes manifests (Deployments, StatefulSets, Services, etc.)
-- Configuring RBAC, NetworkPolicies, or Pod Security Standards
-- Setting up persistent storage (PV, PVC, StorageClasses)
-- Troubleshooting pod crashes, networking, or resource issues
-- Designing cluster architecture, multi-tenancy, or GitOps workflows
-
 ## Related Skills
 
 - [helm](../helm/SKILL.md) — when the output is a Helm chart (Go-templated manifests); covers chart

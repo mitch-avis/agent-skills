@@ -1,13 +1,10 @@
 ---
 name: observability
 description: >-
-  End-to-end observability for backend services and infrastructure — structured logging, metrics,
-  distributed tracing, log aggregation, alerting, SLOs, and the three pillars across Python, Rust,
-  containers, Kubernetes, service meshes, and CI/CD pipelines. Use when adding logs/metrics/traces
-  to an application, designing SLIs/SLOs, propagating correlation IDs, instrumenting with
-  OpenTelemetry, configuring Prometheus/Grafana/Loki/ELK, debugging production with insufficient
-  telemetry, building dashboards, writing alert rules, or investigating log spikes during an
-  incident.
+  Use before adding or changing logging, metrics, tracing, or alerting, and when investigating an
+  incident through logs or telemetry. For CLIs and scripts: structured logs and levels. For
+  services: correlation IDs, Prometheus RED/USE metrics, OpenTelemetry tracing, log aggregation
+  (Loki, ELK), ES|QL log search, Kubernetes, mesh, and CI/CD telemetry, and SLOs with alert rules.
 ---
 
 # Observability
@@ -27,18 +24,6 @@ CI/CD).
 
 When a task only adds or changes logging in a CLI or script, the Core Principles on structured
 logs and secrets, and the Log Levels table, are all that apply.
-
-## When to Use
-
-- Instrumenting a service with logs, metrics, or traces
-- Wiring OpenTelemetry into a Python or Rust application
-- Configuring Prometheus, Grafana, Loki, or the ELK/Elastic stack
-- Adding correlation IDs that flow across services and async boundaries
-- Designing SLIs/SLOs and writing alert rules
-- Hardening logs against PII leakage or unbounded cardinality
-- Investigating a log spike, error surge, or latency regression
-- Adding pipeline visibility to CI/CD or GitOps workflows
-- Setting up tracing/metrics for an Istio or Linkerd service mesh
 
 ## The Three Pillars
 

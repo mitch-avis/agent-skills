@@ -1,10 +1,10 @@
 ---
 name: skill-creator
 description: >-
-  Create new skills, modify and improve existing skills, and measure skill performance with
-  eval-driven iteration. Use when users want to create a skill from scratch, edit or optimize an
-  existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or
-  optimize a skill's description for better triggering accuracy.
+  Use when creating a new skill, editing or improving an existing one, running evals to test a
+  skill, benchmarking skill performance with variance analysis, or optimizing a skill's
+  description for triggering accuracy. Covers the draft-test-review loop, eval workspaces and
+  grading, the review viewer, and description optimization.
 ---
 
 # Skill Creator

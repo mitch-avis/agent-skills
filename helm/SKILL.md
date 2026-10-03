@@ -8,15 +8,6 @@ description: >-
 
 # Helm
 
-## When to Use
-
-- Creating or scaffolding Helm charts
-- Writing or debugging Go templates for Kubernetes manifests
-- Managing chart dependencies
-- Installing, upgrading, or rolling back releases
-- Packaging charts for distribution
-- Multi-environment configuration (dev/staging/prod)
-
 ## Related Skills
 
 - [kubernetes](../kubernetes/SKILL.md) — load alongside when creating or reviewing charts; defines

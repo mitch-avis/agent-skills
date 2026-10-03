@@ -2,30 +2,16 @@
 name: shell-scripting
 description: >-
   Use before writing, editing, reviewing, debugging, linting, or porting any shell script or shell
-  snippet (.sh, .bash, .ps1, cron jobs, systemd ExecStart, Dockerfile RUN lines, Makefile recipes,
-  CI steps), even if no shell is named. Covers Bash, POSIX sh, dash, ksh, zsh, and PowerShell:
-  strict mode, quoting, error handling, traps, argument parsing, portability, security, ShellCheck,
-  shfmt, Bats, PSScriptAnalyzer, and Pester.
+  snippet (.sh, .bash, .ps1, cron jobs, systemd ExecStart, git hooks, Dockerfile RUN lines,
+  Makefile recipes, CI steps), even if no shell is named. Covers Bash, POSIX sh, dash, ksh, zsh,
+  and PowerShell: strict mode, quoting, error handling, traps, argument parsing, portability,
+  security, ShellCheck, shfmt, Bats, PSScriptAnalyzer, and Pester.
 ---
 
 # Shell Scripting
 
 Production-grade Bash and PowerShell scripting: safety, portability, security, performance, testing,
 and documentation. This skill is the single source of truth for any shell-related work.
-
-## When to Use
-
-Trigger this skill for any of:
-
-- Writing a new shell script (`.sh`, `.bash`, `.ps1`, `.psm1`)
-- Reviewing, debugging, or refactoring existing shell code
-- Converting ad-hoc terminal commands into a maintainable script
-- Adding `RUN` lines to a Dockerfile, recipes to a Makefile, or steps to a CI pipeline
-- Writing cron jobs, systemd `ExecStart` directives, or git hooks
-- Setting up linting (ShellCheck, shfmt, PSScriptAnalyzer) or testing (Bats, Pester)
-- Porting a script between Bash, POSIX `sh`, zsh, or PowerShell
-- Hardening scripts for production (strict mode, traps, secure temp files, input validation)
-- Diagnosing portability issues across Linux, macOS, BSD, WSL, Git Bash, or PowerShell 5.1 vs 7+
 
 ## Decision: Which Shell?
 

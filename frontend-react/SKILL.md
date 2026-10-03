@@ -11,15 +11,6 @@ description: >-
 Use this as the React and Next.js companion to `frontend-design`.
 It captures the default engineering rules for implementation, validation, and performance work.
 
-## When to Use
-
-- Building or refactoring React or Next.js components, pages, layouts, and hooks
-- Choosing state, routing, form, or data-fetching patterns
-- Improving render performance or bundle behavior
-- Formatting React and Next.js code with the repo's established tooling
-- Adding tests, validation, linting, or diagnostics for React code
-- Auditing a React surface for accessibility, architecture, or maintainability
-
 ## Output Expectations
 
 - Implement directly when the user asked for code.
