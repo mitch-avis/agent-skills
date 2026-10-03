@@ -49,14 +49,15 @@ erDiagram
 
 **Cardinality indicators:**
 
-- `||` - Exactly one - `|o` - Zero or one
-- `}{` - One or many
-- `}o` - Zero or many
+- `||` - Exactly one
+- `|o` / `o|` - Zero or one
+- `}|` / `|{` - One or more
+- `}o` / `o{` - Zero or more
 
 **Relationship line:**
 
-- `--` - Non-identifying relationship
-- `..` - Identifying relationship (rare in practice)
+- `--` - Identifying relationship (solid line): the child can't exist without the parent
+- `..` - Non-identifying relationship (dashed line): the child can exist on its own
 
 ### Common Relationships
 

@@ -95,7 +95,7 @@ erDiagram
 ```
 
 **Cardinality:** `||` exactly one, `o|` zero or one, `}|` one or more, `}o` zero or more.
-**Lines:** `--` non-identifying, `..` identifying.
+**Lines:** `--` identifying (solid), `..` non-identifying (dashed).
 
 ### Class Diagram
 

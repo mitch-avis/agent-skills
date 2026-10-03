@@ -138,15 +138,15 @@ human.
 
 Load on demand based on the task:
 
-| Topic | File | Load When |  |
-| --- | --- | --- | --- |
-| Structured logging in Python and Rust | [structured-logging.md](references/structured-logging.md) | Wiring `structlog` / `tracing`, levels, PII, sampling |  |
-| Metrics with Prometheus                         | [metrics.md](references/metrics.md)                         | Adding counters/histograms, RED/USE, cardinality      |                                                       |
-| Distributed tracing with OpenTelemetry          | [tracing.md](references/tracing.md)                         | Adding spans, propagation, sampling, exporters        |                                                       |
-| Log aggregation (ELK, Loki, Vector, Fluent Bit) | [log-aggregation.md](references/log-aggregation.md)         | Standing up centralized logging, shippers, parsing    |                                                       |
-| Investigating logs with Elastic ES\             | QL                                                          | [log-search-esql.md](references/log-search-esql.md)   | Hunting an incident in Kibana / Elastic Observability |
-| Kubernetes, service mesh, CI/CD observability   | [infra-observability.md](references/infra-observability.md) | Istio/Linkerd, K8s metrics, GitHub Actions, ArgoCD    |                                                       |
-| SLIs, SLOs, alerting, runbooks                  | [slos-and-alerting.md](references/slos-and-alerting.md)     | Defining SLOs, writing PrometheusRules, error budgets |                                                       |
+| Topic | File | Load When |
+| --- | --- | --- |
+| Structured logging in Python and Rust | [structured-logging.md](references/structured-logging.md) | Wiring `structlog` / `tracing`, levels, PII, sampling |
+| Metrics with Prometheus | [metrics.md](references/metrics.md) | Adding counters/histograms, RED/USE, cardinality |
+| Distributed tracing with OpenTelemetry | [tracing.md](references/tracing.md) | Adding spans, propagation, sampling, exporters |
+| Log aggregation (ELK, Loki, Vector, Fluent Bit) | [log-aggregation.md](references/log-aggregation.md) | Standing up centralized logging, shippers, parsing |
+| Investigating logs with Elastic ES\|QL | [log-search-esql.md](references/log-search-esql.md) | Hunting an incident in Kibana / Elastic Observability |
+| Kubernetes, service mesh, CI/CD observability | [infra-observability.md](references/infra-observability.md) | Istio/Linkerd, K8s metrics, GitHub Actions, ArgoCD |
+| SLIs, SLOs, alerting, runbooks | [slos-and-alerting.md](references/slos-and-alerting.md) | Defining SLOs, writing PrometheusRules, error budgets |
 
 ## Related Skills
 

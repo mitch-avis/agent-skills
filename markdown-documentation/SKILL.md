@@ -60,7 +60,7 @@ Detailed implementations in the `references/` directory:
 | Extended GFM Syntax  | references/extended-syntax-github-flavored-markdown.md | Footnotes, task lists, autolinks, emoji       |
 | Collapsible Sections | references/collapsible-sections.md                     | Details/summary, syntax highlighting, badges  |
 | Alerts and Callouts  | references/alerts-and-callouts.md                      | Note, tip, important, warning, caution blocks |
-| Mermaid Diagrams     | references/mermaid-diagrams.md                         | Embedding diagrams in Markdown documents      |
+| Mermaid Diagrams | [mermaid skill](../mermaid/SKILL.md) | Embedding diagrams in Markdown documents |
 
 ## Best Practices
 
