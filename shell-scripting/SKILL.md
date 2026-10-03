@@ -58,17 +58,27 @@ Load the relevant reference for deeper coverage:
 
 ## Workflow
 
-Follow these steps for every shell-scripting task:
+Match the effort to what you're writing.
 
-1. **Capture intent.** Confirm shell target, inputs/outputs, error behavior (fail-fast vs continue),
-   portability needs, and whether the script is one-shot or production.
-2. **Pick a foundation.** Use the templates in `references/bash-template.md` or
-   `references/powershell-template.md` rather than starting from scratch.
+**Light path:** one-liners, CI steps, Dockerfile `RUN` lines, Makefile recipes, and small helper
+scripts.
+
+1. Use strict mode (`set -Eeuo pipefail`) in anything longer than a line or two, and quote every
+   expansion.
+2. Run ShellCheck (Bash) or PSScriptAnalyzer (PowerShell), plus `bash -n` for syntax.
+
+**Full path:** production scripts that others run, that mutate state, or that run unattended
+(cron, systemd, deploys).
+
+1. **Capture intent.** Confirm shell target, inputs/outputs, error behavior (fail-fast vs
+   continue), and portability needs.
+2. **Pick a foundation.** Start from `references/bash-template.md` or
+   `references/powershell-template.md`.
 3. **Write defensively.** Apply the universal principles below from the first line.
-4. **Validate.** Run ShellCheck (Bash) or PSScriptAnalyzer (PowerShell) before declaring done. Run
-   `bash -n script.sh` / `pwsh -NoProfile -Command "& {. ./script.ps1}"` for syntax.
-5. **Test.** Add Bats or Pester tests for any non-trivial logic.
-6. **Document.** Include a header comment, `--help`/`-h` output, and required dependencies.
+4. **Validate.** ShellCheck or PSScriptAnalyzer, plus `bash -n script.sh` /
+   `pwsh -NoProfile -Command "& {. ./script.ps1}"` for syntax.
+5. **Test.** Add Bats or Pester tests for non-trivial logic.
+6. **Document.** A header comment, `--help`/`-h` output, and required dependencies.
 
 ## Universal Principles
 
@@ -83,19 +93,18 @@ These apply to both Bash and PowerShell:
    background jobs, and restore state on exit.
 5. **Be idempotent.** Re-running the script must be safe. Check before creating, deleting, or
    modifying.
-6. **Support `--dry-run` and `--verbose`.** Critical for any script that mutates state.
+6. **Support `--dry-run` and `--verbose`** in full-path scripts that mutate state.
 7. **Log to stderr, data to stdout.** Pipelines should be composable.
 8. **Never `eval` user input.** Use arrays for command building instead.
 9. **Lint as you write.** ShellCheck and PSScriptAnalyzer catch real bugs, not just style.
 
 ## Bash Quick Reference
 
-### Mandatory script header
+### Default script header
 
 ```bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
-IFS=$'\n\t'
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
@@ -108,15 +117,14 @@ readonly SCRIPT_DIR SCRIPT_NAME
 | `-e` | Exit on any command failure |
 | `-u` | Error on undefined variable reference |
 | `-o pipefail` | Pipeline exit code is the first non-zero, not just the last command |
-| `IFS=$'\n\t'` | Disables word splitting on spaces — array iteration becomes safe |
 
 For Bash 4.4+, also add `shopt -s inherit_errexit` so `-e` propagates into command substitutions.
 
-**`IFS` pitfall:** the same `IFS=$'\n\t'` also stops `read` and unquoted expansions from splitting
-on spaces. `read -r name value <<< "load 12.5"` puts the whole line in `name` and leaves `value`
-empty, with no error, so any logic that reads it silently goes wrong. Set `IFS` for that one command
-(`IFS=' ' read -r name value <<< "$line"`), and test any parsing logic under the script's own
-header, not in an interactive shell.
+**`IFS` is opt-in.** Setting `IFS=$'\n\t'` script-wide stops unquoted expansions from splitting
+on spaces, but it also stops `read` from splitting: `read -r name value <<< "load 12.5"` puts the
+whole line in `name` and leaves `value` empty, with no error. Quoting every expansion already makes
+iteration safe, so leave `IFS` alone by default. When a loop needs newline-only splitting, scope it
+to that command (`while IFS= read -r line; do ...; done`).
 
 ### Quoting and variables
 
@@ -234,7 +242,7 @@ production scaffold.
 
 ## PowerShell Quick Reference
 
-### Mandatory script header
+### Default script header
 
 ```powershell
 #Requires -Version 7.0

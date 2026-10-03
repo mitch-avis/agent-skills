@@ -14,7 +14,6 @@ SKILL.md.
 #
 set -Eeuo pipefail
 shopt -s inherit_errexit nullglob   # Bash 4.4+: errexit propagates into $(...); empty globs OK
-IFS=$'\n\t'
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
@@ -30,7 +29,6 @@ readonly SCRIPT_VERSION="1.0.0"
 | `set -o pipefail` | Pipeline returns first non-zero exit, not just last |
 | `shopt -s inherit_errexit` | `set -e` propagates into `$(...)` (Bash 4.4+) |
 | `shopt -s nullglob` | Non-matching globs expand to nothing instead of literal pattern |
-| `IFS=$'\n\t'` | Disables splitting on spaces; safer iteration |
 
 For interactive debugging, add `set -x` (trace) or `PS4='+ ${BASH_SOURCE}:${LINENO}: '`.
 

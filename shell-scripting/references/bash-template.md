@@ -28,7 +28,6 @@ delete this comment block.
 
 set -Eeuo pipefail
 shopt -s inherit_errexit nullglob
-IFS=$'\n\t'
 
 # ---------- Constants ----------
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
