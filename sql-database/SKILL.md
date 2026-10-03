@@ -33,7 +33,7 @@ Load on demand — do not read all files upfront.
 | MySQL specifics      | references/mysql.md               | InnoDB, online DDL, isolation, partitioning     |
 | SQLite specifics     | references/sqlite.md              | Embedded apps, FTS5, WAL mode, pragmas          |
 
-## Iron Laws
+## Core Rules
 
 1. **Always parameterize.** Never concatenate or interpolate user input into SQL strings.
 2. **Always profile with `EXPLAIN`.** Decisions about indexes and query shape need evidence.
