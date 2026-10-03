@@ -158,11 +158,10 @@ local state → lifted state → context → URL state → server state → glob
 - Prefer the repo's existing test framework and helpers.
 - Run the narrowest affected tests first, then the touched package's formatter, lint, typecheck,
   and build.
-- For React changes, run `npx react-doctor@latest --verbose --scope changed`.
-- For design-focused React audits, run `npx react-doctor@latest design --verbose`.
-- When the user asks for a full React cleanup pass or `/doctor`, run the fetched
-  `react-doctor` playbook described in
-  [references/performance-and-validation.md](references/performance-and-validation.md).
+- For React changes, run `npx --no react-doctor --verbose --scope changed` from the repo's pinned
+  install; for design-focused audits, `npx --no react-doctor design --verbose`. If the repo lacks
+  it, add it first as an exact-pinned dev dependency, as described in
+  [references/performance-and-validation.md](references/performance-and-validation.md#react-diagnostics).
 
 ## Validation Order
 

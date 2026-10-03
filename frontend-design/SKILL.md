@@ -229,8 +229,9 @@ Pick the narrowest executable validation for the touched surface:
 - run the affected tests first
 - run the repo's formatter for the touched surface when one exists
 - run lint and typecheck for the touched app or package
-- for React changes, use `npx react-doctor@latest --verbose --scope changed`
-- for design-focused React audits, use `npx react-doctor@latest design --verbose`
+- for React changes, run the repo-pinned `react-doctor` (`npx --no react-doctor --verbose --scope
+  changed`; `design --verbose` for design audits), adding it as an exact-pinned dev dependency
+  first if the repo lacks it; see [React diagnostics](../frontend-react/references/performance-and-validation.md#react-diagnostics)
 - use the frontend audit rules in [../frontend-redesign/SKILL.md](../frontend-redesign/SKILL.md)
   when the user wants a formal UI review
 

@@ -40,8 +40,10 @@ Use this path when the user asks to review, audit, or check frontend quality.
 2. For explicit review requests, read `../code-review/SKILL.md` first.
 3. For explicit redesign findings, upgrade order, and finish-pass checks, read
    `../frontend-redesign/SKILL.md`.
-4. For React work, run `npx react-doctor@latest --verbose --scope changed`.
-5. For a focused UI audit in React, run `npx react-doctor@latest design --verbose`.
+4. For React work, run the repo-pinned `npx --no react-doctor --verbose --scope changed`.
+5. For a focused UI audit in React, run `npx --no react-doctor design --verbose`. If the repo
+   lacks `react-doctor`, add it as an exact-pinned dev dependency first; see
+   [React diagnostics](../../frontend-react/references/performance-and-validation.md#react-diagnostics).
 6. Review with two lenses: visual critique and implementation audit. A page can look polished and
    still fail on labels, focus, responsive behavior, or state coverage.
 

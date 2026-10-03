@@ -75,24 +75,24 @@ When a performance task is broad, reason in this order:
 
 ## React diagnostics
 
-After React changes, use these commands when available in the project environment:
+Run `react-doctor` from the repo's own pinned install, never `@latest`, so its version is locked
+like any other dev dependency.
+
+- If `package.json` doesn't list it, add it as an exact-pinned dev dependency with the repo's
+  package manager: `npm install --save-dev --save-exact react-doctor` (`pnpm add -D -E`,
+  `yarn add -D -E`, or `bun add -d --exact`), and mention the addition in your report. Include it
+  when scaffolding a new React frontend.
+- Run it with `npx --no`, which fails instead of downloading when the local install is missing.
+  Without `--no`, `npx` in a non-interactive shell installs the latest release automatically.
 
 ```bash
-npx react-doctor@latest --verbose --scope changed
-npx react-doctor@latest design --verbose
-npx react-doctor@latest --verbose
+npx --no react-doctor --verbose --scope changed   # changed files
+npx --no react-doctor design --verbose            # design-focused audit
+npx --no react-doctor --verbose                   # full cleanup pass
 ```
 
 Use `scan <url> --format json` only when diagnosing a real runtime interaction problem and the user
 can reproduce it locally.
-
-When the user asks for `/doctor` or a full cleanup pass, fetch the current playbook before acting:
-
-```bash
-curl --fail --silent --show-error \
-  --header 'Cache-Control: no-cache' \
-  https://www.react.doctor/prompts/react-doctor-agent.md
-```
 
 ## Validation order
 

@@ -142,8 +142,8 @@ Both matter.
 
 - Run the narrowest existing tests for changed components or pages.
 - Run the repo formatter, lint, and typecheck for the touched app or package.
-- For React surfaces, run `npx react-doctor@latest --verbose --scope changed`.
-- For focused UI checks in React, run `npx react-doctor@latest design --verbose`.
+- For React surfaces, run the repo-pinned `react-doctor` (`npx --no react-doctor --verbose --scope
+  changed`, or `design --verbose` for focused UI checks); see [React diagnostics](../frontend-react/references/performance-and-validation.md#react-diagnostics).
 - If the task is an explicit review or audit, route to `../code-review/SKILL.md` and use the audit
   and finish-pass rules in [references/audit-and-finish.md](references/audit-and-finish.md).
 
