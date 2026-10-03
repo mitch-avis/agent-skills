@@ -270,8 +270,6 @@ skip_empty = true
 exclude_lines = ["pragma: no cover", "if __name__ == \"__main__\":"]
 ```
 
-Run selectively: `pytest -m "not slow"`
-
 Parallel execution: `pytest -n auto`
 
 ## Anti-Patterns

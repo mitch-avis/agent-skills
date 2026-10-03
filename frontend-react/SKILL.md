@@ -59,9 +59,7 @@ route or page
 
 ## Architecture Defaults
 
-- Prefer composition over boolean prop proliferation.
 - Reuse existing components before creating adjacent duplicates.
-- Keep components focused. Split only when it improves ownership, testing, or readability.
 - Colocate component tests, stories, types, and complex hooks when the repo uses that pattern.
 - Use this state ladder unless the repo has a stronger convention:
 
@@ -80,8 +78,8 @@ local state → lifted state → context → URL state → server state → glob
 
 - Prefer explicit variants, composition, or compound components over boolean mode props.
 - Keep handlers close to the state they mutate.
-- Split a component when it improves ownership, testability, or render isolation, not just because
-  the file grew.
+- Keep components focused: split one when it improves ownership, testability, or render isolation,
+  not just because the file grew.
 - Do not duplicate a design-system primitive only to change a class string.
 - Keep non-UI business logic out of render functions.
 
@@ -115,29 +113,23 @@ local state → lifted state → context → URL state → server state → glob
 - Use refs or motion values for high-frequency transient data such as pointer position or drag
   state.
 
-## Accessibility And UI Quality
+## Accessibility, Styling, And States
 
-- Use real buttons, links, labels, and form controls before ARIA-heavy custom elements.
-- Keep focus-visible states intact when wrapping primitives.
-- Include loading, empty, error, disabled, and success states in component tests or verification.
-- Prefer skeletons over generic spinners for content loading.
-- Preserve touch target size and readable line length on mobile.
-
-## Styling And Accessibility
-
-- Use the project's tokens, primitives, and semantic HTML first.
-- Keep focus-visible states, labels, contrast, and keyboard access intact through refactors.
-- Respect `prefers-reduced-motion`.
+- Use real buttons, links, labels, and form controls before ARIA-heavy custom elements, and the
+  project's tokens, primitives, and semantic HTML before custom styling.
+- Keep focus-visible states, labels, contrast, and keyboard access intact when wrapping
+  primitives or refactoring.
+- Respect `prefers-reduced-motion`, and preserve touch target size and readable line length on
+  mobile.
 - Avoid inline styles and arbitrary pixel values when the repo already has a scale or token system.
-- Handle loading, empty, error, disabled, and success states as part of the feature, not as polish.
+- Handle loading, empty, error, disabled, and success states as part of the feature, and cover them
+  in component tests; prefer skeletons over generic spinners for content loading.
 
 ## Performance Guardrails
 
 - Eliminate async waterfalls before micro-optimizing renders.
 - Prefer direct imports over barrel files in performance-sensitive paths.
 - Keep server-only work out of client bundles.
-- Use `startTransition` and `useDeferredValue` when they improve perceived responsiveness, not as
-  decoration.
 - For lists, first reduce work, then consider virtualization when the rendered volume truly needs
   it.
 - If the repo uses the React Compiler, remove stale defensive memoization before adding more.
