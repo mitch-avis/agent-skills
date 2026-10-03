@@ -111,10 +111,10 @@ include = ["src", "tests"]
 Profile first, then optimize the verified hot path.
 
 ```bash
-python -m cProfile -o output.prof script.py
-kernprof -l -v script.py
-python -m memory_profiler script.py
-py-spy record -o profile.svg -- python script.py
+.venv/bin/python -m cProfile -o output.prof script.py
+.venv/bin/kernprof -l -v script.py
+.venv/bin/python -m memory_profiler script.py
+py-spy record -o profile.svg -- .venv/bin/python script.py
 ```
 
 Guidance:
