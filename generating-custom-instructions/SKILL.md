@@ -163,7 +163,7 @@ After generating instructions:
 ## Content Template
 
 Starting point for `AGENTS.md`. Strip sections that do not apply; add project-specific ones as
-needed. Pair it with a `CLAUDE.md` whose first line is `@AGENTS.md`.
+needed. Pair it with a `CLAUDE.md` containing `# CLAUDE.md`, a blank line, and `@AGENTS.md`.
 
 ```markdown
 # Project Instructions

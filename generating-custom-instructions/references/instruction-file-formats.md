@@ -14,10 +14,12 @@ The default home for a repository's rules: one file that every agent can read. S
 
 Claude Code reads `AGENTS.md` directly only when there is no `CLAUDE.md`, `.claude/CLAUDE.md`, or
 `CLAUDE.local.md` in the working directory or above it. As soon as any of those exists, it reads
-the `CLAUDE.md` files instead. The reliable bridge is a thin `CLAUDE.md` whose first line imports
-the shared file:
+the `CLAUDE.md` files instead. The reliable bridge is a thin `CLAUDE.md` that imports the shared
+file under a heading (the heading keeps markdownlint's first-line rule happy):
 
 ```markdown
+# CLAUDE.md
+
 @AGENTS.md
 
 <!-- Claude Code-only notes go below the import. -->
