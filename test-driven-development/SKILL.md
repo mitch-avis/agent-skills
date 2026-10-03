@@ -1,10 +1,10 @@
 ---
 name: test-driven-development
 description: >-
-  Enforces strict TDD methodology with red-green-refactor cycle for new features and modules: no
-  new production code without a failing test first. Covers the TDD workflow, common
-  rationalizations to avoid, debugging integration, and testing anti-patterns. Use before
-  implementing a new feature, module, or behavior change; small targeted fixes are exempt.
+  Use before implementing a new feature, module, or behavior change: write a failing test first,
+  watch it fail, then write the minimal code to pass (red-green-refactor). Covers the TDD workflow,
+  characterization tests for refactors, common rationalizations, debugging integration, and
+  testing anti-patterns. Small targeted fixes are exempt from test-first.
 ---
 
 # Test-Driven Development (TDD)
@@ -15,30 +15,25 @@ Write the test first. Watch it fail. Write minimal code to pass.
 
 **Core principle:** If you didn't watch the test fail, you don't know if it tests the right thing.
 
-**Violating the letter of the rules is violating the spirit of the rules.**
+## Scope
 
-## When to Use
-
-**Always:**
+**Test-first applies to:**
 
 - New features and new modules
 - Behavior changes, including bug fixes that change or add behavior beyond a local correction
-- Refactoring (with characterization tests, see
+- Refactoring, through characterization tests (see
   [Behavior-Preserving Changes](#behavior-preserving-changes-characterization-tests))
 
-**Exempt (test-first not required):**
+**Exempt:**
 
 - Small targeted fixes: a local correction to existing code that adds no new public API, module,
   or feature. The existing suite must still pass afterward.
 
-**Exceptions (ask your human partner):**
+**Ask your human partner first:**
 
 - Throwaway prototypes
 - Generated code
 - Configuration files
-
-Thinking "skip TDD just this once" for anything bigger than a small targeted fix? Stop. That's
-rationalization.
 
 ## The Iron Law
 
@@ -48,16 +43,9 @@ NO NEW PRODUCTION CODE WITHOUT A FAILING TEST FIRST
 
 Applies to new features, modules, and behavior changes. Small targeted fixes are the only exemption.
 
-Write code before the test? Delete it. Start over.
-
-**No exceptions:**
-
-- Don't keep it as "reference"
-- Don't "adapt" it while writing tests
-- Don't look at it
-- Delete means delete
-
-Implement fresh from tests. Period.
+If production code was written before its test, set that draft aside and re-implement from the
+failing test. Adapting the draft while writing the test turns it into a test-after, which can't
+show the test checks the right thing.
 
 ## Behavior-Preserving Changes: Characterization Tests
 
@@ -78,11 +66,11 @@ the repo's own instructions define a characterization or coverage-first rule, fo
 
 ```mermaid
 flowchart LR
-    red["RED\nWrite failing test"]
-    verify_red{"Verify fails\ncorrectly"}
-    green["GREEN\nMinimal code"]
-    verify_green{"Verify passes\nAll green"}
-    refactor["REFACTOR\nClean up"]
+    red["RED<br>Write failing test"]
+    verify_red{"Verify fails<br>correctly"}
+    green["GREEN<br>Minimal code"]
+    verify_green{"Verify passes<br>All green"}
+    refactor["REFACTOR<br>Clean up"]
     next(["Next"])
 
     red --> verify_red
@@ -100,45 +88,47 @@ flowchart LR
     style refactor fill:#ccccff
 ```
 
+The examples use Python and pytest. In Rust the loop is the same, with
+`cargo +nightly nextest run <filter>` as the test command; see the `rust-testing` skill.
+
 ### RED - Write Failing Test
 
 Write one minimal test showing what should happen.
 
 **Good:**
 
-```typescript
-test('retries failed operations 3 times', async () => {
-  let attempts = 0;
-  const operation = () => {
-    attempts++;
-    if (attempts < 3) throw new Error('fail');
-    return 'success';
-  };
+```python
+def test_retry_operation_two_failures_returns_third_result() -> None:
+    attempts = 0
 
-  const result = await retryOperation(operation);
+    def operation() -> str:
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            msg = "fail"
+            raise ConnectionError(msg)
+        return "success"
 
-  expect(result).toBe('success');
-  expect(attempts).toBe(3);
-});
+    result = retry_operation(operation)
 
+    assert result == "success"
+    assert attempts == 3
 ```
 
-Clear name, tests real behavior, one thing
+Clear name, tests real behavior, one thing.
 
 **Bad:**
 
-```typescript
-test('retry works', async () => {
-  const mock = jest.fn()
-    .mockRejectedValueOnce(new Error())
-    .mockRejectedValueOnce(new Error())
-    .mockResolvedValueOnce('success');
-  await retryOperation(mock);
-  expect(mock).toHaveBeenCalledTimes(3);
-});
+```python
+def test_retry_works() -> None:
+    operation = Mock(side_effect=[ConnectionError(), ConnectionError(), "success"])
+
+    retry_operation(operation)
+
+    assert operation.call_count == 3
 ```
 
-Vague name, tests mock not code
+Vague name, and it tests the mock rather than the result.
 
 **Requirements:**
 
@@ -148,81 +138,82 @@ Vague name, tests mock not code
 
 ### Verify RED - Watch It Fail
 
-**MANDATORY. Never skip.**
+Run the new test and read the failure:
 
 ```bash
-npm test path/to/test.test.ts
+.venv/bin/pytest tests/test_retry.py -k two_failures
 ```
 
 Confirm:
 
-- Test fails (not errors)
-- Failure message is expected
-- Fails because feature missing (not typos)
+- The test fails (an assertion failure, not an import or syntax error)
+- The failure message is the one you expect
+- It fails because the feature is missing, not because of a typo
 
-**Test passes?** For a behavior change, you're testing existing behavior. Fix test. For a
+**Test passes?** For a behavior change, you're testing existing behavior. Fix the test. For a
 behavior-preserving change, a passing pin is the goal; see
 [Behavior-Preserving Changes](#behavior-preserving-changes-characterization-tests).
 
-**Test errors?** Fix error, re-run until it fails correctly.
+**Test errors?** Fix the error and re-run until it fails for the right reason.
 
 ### GREEN - Minimal Code
 
-Write simplest code to pass the test.
+Write the simplest code that passes the test.
 
 **Good:**
 
-```typescript
-async function retryOperation<T>(fn: () => Promise<T>): Promise<T> {
-  for (let i = 0; i < 3; i++) {
-    try {
-      return await fn();
-    } catch (e) {
-      if (i === 2) throw e;
-    }
-  }
-  throw new Error('unreachable');
-}
+```python
+def retry_operation[T](operation: Callable[[], T]) -> T:
+    for attempt in range(3):
+        try:
+            return operation()
+        except ConnectionError:
+            if attempt == 2:
+                raise
+    msg = "unreachable"
+    raise AssertionError(msg)
 ```
 
-Just enough to pass
+Just enough to pass.
 
 **Bad:**
 
-```typescript
-async function retryOperation<T>(
-  fn: () => Promise<T>,
-  options?: {
-    maxRetries?: number;
-    backoff?: 'linear' | 'exponential';
-    onRetry?: (attempt: number) => void;
-  }
-): Promise<T> {
-  // YAGNI
-}
+```python
+from collections.abc import Callable
+from typing import Literal
+
+
+def retry_operation[T](
+    operation: Callable[[], T],
+    *,
+    max_retries: int = 3,
+    backoff: Literal["linear", "exponential"] = "exponential",
+    on_retry: Callable[[int], None] | None = None,
+) -> T: ...
 ```
 
-Over-engineered
+Over-engineered: no test asked for those options.
 
 Don't add features, refactor other code, or "improve" beyond the test.
 
 ### Verify GREEN - Watch It Pass
 
-**MANDATORY.**
+Run the test, then the rest of the suite:
 
 ```bash
-npm test path/to/test.test.ts
+.venv/bin/pytest tests/test_retry.py -k two_failures
+.venv/bin/pytest
 ```
 
 Confirm:
 
-- Test passes
+- The test passes
 - Other tests still pass
-- Output pristine (no errors, warnings)
+- The output is clean (no errors or warnings)
 
-**Test fails?** Fix code, not test.
+**Test fails?** Fix the code, not the test.
 
-**Other tests fail?** Fix now.
+**Other tests fail?** Fix them now.
 
 ### REFACTOR - Clean Up
 
@@ -236,110 +227,102 @@ Keep tests green. Don't add behavior.
 
 ### Repeat
 
-Next failing test for next feature.
+Next failing test for the next behavior.
 
 ## Good Tests
 
 | Quality | Good | Bad |
 | --- | --- | --- |
-| **Minimal** | One thing. "and" in name? Split it. | `test('validates email and domain and whitespace')` |
-| **Clear**        | Name describes behavior             | `test('test1')`                                     |
-| **Shows intent** | Demonstrates desired API            | Obscures what code should do                        |
+| **Minimal** | One thing. "and" in the name? Split it. | `test_validates_email_and_domain_and_whitespace` |
+| **Clear** | Name describes the behavior | `test_1` |
+| **Shows intent** | Demonstrates the desired API | Obscures what the code should do |
 
 ## Common Rationalizations
 
 | Excuse | Reality |
 | --- | --- |
-| "Too simple to test" | Simple code breaks. Test takes 30 seconds. |
-| "I'll test after"                      | Tests passing immediately prove nothing.                                |
-| "Tests after achieve same goals"       | Tests-after = "what does this do?" Tests-first = "what should this do?" |
-| "Already manually tested"              | Ad-hoc ≠ systematic. No record, can't re-run.                           |
-| "Deleting X hours is wasteful"         | Sunk cost fallacy. Keeping unverified code is technical debt.           |
-| "Keep as reference, write tests first" | You'll adapt it. That's testing after. Delete means delete.             |
-| "Need to explore first"                | Fine. Throw away exploration, start with TDD.                           |
-| "Test hard = design unclear"           | Listen to test. Hard to test = hard to use.                             |
-| "TDD will slow me down"                | TDD faster than debugging. Pragmatic = test-first.                      |
-| "Manual test faster"                   | Manual doesn't prove edge cases. You'll re-test every change.           |
-| "Existing code has no tests"           | You're improving it. Add tests for existing code.                       |
+| "Too simple to test" | Simple code breaks. The test takes a minute. |
+| "I'll test after; it achieves the same" | A test written after passes immediately and proves nothing. Tests-first asks "what should this do?" |
+| "Already manually tested" | Ad-hoc checks leave no record, miss edge cases, and must be repeated after every change. |
+| "Need to explore first" | Fine. Spike, set the spike aside, then test-drive the real code. |
+| "TDD will slow me down" | Debugging untested code is slower. |
 
 ## Red Flags
 
-Any of these mean: **delete code, start over with TDD.**
+Any of these means the test-first cycle was skipped; go back to RED for that behavior:
 
-- Wrote code before the test
-- Test passes immediately (never saw it fail)
-- Rationalizing "just this once" or "this is different because..."
-- Keeping pre-test code as "reference" or adapting it
+- Code was written before its test
+- A new test passed immediately (it never failed)
+- "Just this once" or "this case is different"
 
 ## Example: Bug Fix
 
-**Bug:** Empty email accepted
+**Bug:** An empty email is accepted.
 
 ### RED
 
-```typescript
-test('rejects empty email', async () => {
-  const result = await submitForm({ email: '' });
-  expect(result.error).toBe('Email required');
-});
+```python
+def test_submit_form_empty_email_returns_error() -> None:
+    result = submit_form(FormData(email=""))
+
+    assert result.error == "Email required"
 ```
 
 ### Verify RED
 
 ```bash
-$ npm test
-FAIL: expected 'Email required', got undefined
+$ .venv/bin/pytest -k empty_email
+FAILED tests/test_form.py::test_submit_form_empty_email_returns_error
+AssertionError: assert None == 'Email required'
 ```
 
 ### GREEN
 
-```typescript
-function submitForm(data: FormData) {
-  if (!data.email?.trim()) {
-    return { error: 'Email required' };
-  }
-  // ...
-}
+```python
+def submit_form(data: FormData) -> FormResult:
+    if not data.email.strip():
+        return FormResult(error="Email required")
+    return save(data)
 ```
 
 ### Verify GREEN
 
 ```bash
-$ npm test
-PASS
+$ .venv/bin/pytest -k empty_email
+1 passed
 ```
 
-**REFACTOR** Extract validation for multiple fields if needed.
+**REFACTOR:** Extract validation for multiple fields if needed.
 
 ## Verification Checklist
 
 Before marking work complete:
 
-- [ ] Every new function/method has a test
+- [ ] Every new behavior has a test
 - [ ] Watched each test fail before implementing (behavior changes), or saw each characterization
   pin pass before and after and fail when the covered code was broken (refactors)
-- [ ] Each test failed for expected reason (feature missing, not typo)
+- [ ] Each test failed for the expected reason (feature missing, not a typo)
 - [ ] Wrote minimal code to pass each test
 - [ ] All tests pass
-- [ ] Output pristine (no errors, warnings)
+- [ ] Output is clean (no errors or warnings)
 - [ ] Tests use real code (mocks only if unavoidable)
-- [ ] Edge cases and errors covered
+- [ ] Edge cases and errors are covered
 
-Can't check all boxes? You skipped TDD. Start over.
+If a box can't be checked, go back to RED for the behavior it covers.
 
 ## When Stuck
 
 | Problem | Solution |
 | --- | --- |
-| Don't know how to test | Write wished-for API. Write assertion first. Ask your human partner. |
-| Test too complicated   | Design too complicated. Simplify interface.                          |
-| Must mock everything   | Code too coupled. Use dependency injection.                          |
-| Test setup huge        | Extract helpers. Still complex? Simplify design.                     |
+| Don't know how to test | Write the wished-for API. Write the assertion first. Ask your human partner. |
+| Test too complicated | The design is too complicated. Simplify the interface. |
+| Must mock everything | The code is too coupled. Use dependency injection. |
+| Test setup huge | Extract helpers. Still complex? Simplify the design. |
 
 ## Debugging Integration
 
-Bug found that needs more than a small targeted fix? Write a failing test reproducing it. Follow
-the TDD cycle. The test proves the fix and prevents regression.
+Found a bug that needs more than a small targeted fix? Write a failing test that reproduces it,
+then follow the cycle. The test proves the fix and prevents regression.
 
 For a small targeted fix, test-first is optional; run the existing suite to confirm nothing
 regressed.
@@ -352,15 +335,6 @@ When adding mocks or test utilities, read
 - Testing mock behavior instead of real behavior
 - Adding test-only methods to production classes
 - Mocking without understanding dependencies
-
-## Final Rule
-
-```text
-New production code → test exists and failed first
-Otherwise → not TDD
-```
-
-No exceptions beyond small targeted fixes without your human partner's permission.
 
 ## Related Skills
 

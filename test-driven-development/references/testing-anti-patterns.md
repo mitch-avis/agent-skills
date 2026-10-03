@@ -12,13 +12,14 @@ being tested.
 
 **Following strict TDD prevents these anti-patterns.**
 
-## The Iron Laws
+## Rules
 
-```text
-1. NEVER test mock behavior
-2. NEVER add test-only methods to production classes
-3. NEVER mock without understanding dependencies
-```
+1. Assert on real behavior, not on mocks: a test that checks a mock was rendered or called proves
+   the mock works, not the code.
+2. Keep test-only methods out of production classes: they ship to users, widen the public API, and
+   let tests pass against code paths production never takes. Put helpers in test utilities.
+3. Understand a dependency before mocking it: a mock that doesn't match the real contract makes
+   tests pass against behavior that doesn't exist.
 
 ## Anti-Pattern 1: Testing Mock Behavior
 
