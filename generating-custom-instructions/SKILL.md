@@ -6,6 +6,13 @@ description: >-
   repository, fixing stale or contradictory instructions, or updating conventions after a major
   refactor or migration. Analyzes the codebase and writes an AGENTS.md-first layout with a thin
   CLAUDE.md that imports it.
+paths:
+  - "**/AGENTS.md"
+  - "**/CLAUDE.md"
+  - "**/CLAUDE.local.md"
+  - "**/.claude/rules/*.md"
+  - "**/copilot-instructions.md"
+  - "**/*.instructions.md"
 ---
 
 # Generating Custom Instructions

@@ -5,6 +5,9 @@ description: >-
   changes in an existing codebase. Sets the house defaults for ownership and lifetimes, error
   handling, traits and generics, API design, clippy, documentation, and performance, then routes
   async and testing work to rust-async and rust-testing.
+paths:
+  - "**/*.rs"
+  - "**/Cargo.toml"
 ---
 
 # Rust Development

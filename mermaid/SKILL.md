@@ -6,6 +6,8 @@ description: >-
   Mermaid diagram to SVG, PNG, or ASCII. Covers flowcharts, sequence, class, ERD, C4, state,
   architecture-beta, git graph, and Gantt diagrams, syntax pitfalls, theming, and the bundled
   renderer.
+paths:
+  - "**/*.mmd"
 ---
 
 # Mermaid Diagrams

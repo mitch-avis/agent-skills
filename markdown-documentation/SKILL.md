@@ -4,6 +4,8 @@ description: >-
   Use before writing or editing any Markdown file (README, docs, AGENTS.md, CLAUDE.md, changelogs,
   plans). Covers GitHub Flavored Markdown formatting, lists, links, tables, code blocks, alerts,
   collapsible sections, and mermaid, plus the markdownlint-cli2 check on changed files.
+paths:
+  - "**/*.md"
 ---
 
 # Markdown Documentation

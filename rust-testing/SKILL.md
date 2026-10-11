@@ -4,6 +4,9 @@ description: >-
   Use before writing or changing Rust tests (#[test], tests/, benches/, doctests) or when a Rust
   test fails. Covers unit and integration tests, async tests, rstest parameterization, proptest,
   criterion benchmarks, doctests, and test organization, following TDD.
+paths:
+  - "**/tests/**/*.rs"
+  - "**/benches/**/*.rs"
 ---
 
 # Rust Testing

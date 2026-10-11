@@ -6,6 +6,11 @@ description: >-
   Makefile recipes, CI steps), even if no shell is named. Covers Bash, POSIX sh, dash, ksh, zsh,
   and PowerShell: strict mode, quoting, error handling, traps, argument parsing, portability,
   security, ShellCheck, shfmt, Bats, PSScriptAnalyzer, and Pester.
+paths:
+  - "**/*.sh"
+  - "**/*.bash"
+  - "**/*.ps1"
+  - "**/Makefile"
 ---
 
 # Shell Scripting

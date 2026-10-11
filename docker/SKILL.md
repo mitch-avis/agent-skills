@@ -5,6 +5,11 @@ description: >-
   containerizing an application, including dev environments with hot reload. Covers multi-stage
   builds, layer caching, image size, security hardening, health checks, and multi-container Compose
   environments.
+paths:
+  - "**/Dockerfile*"
+  - "**/.dockerignore"
+  - "**/*compose*.yml"
+  - "**/*compose*.yaml"
 ---
 
 # Docker

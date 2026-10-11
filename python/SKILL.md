@@ -5,6 +5,9 @@ description: >-
   small changes in an existing codebase. Sets the house defaults for uv workflows, ruff, pyright and
   ty, typing, testing, architecture, and packaging, then routes framework- or domain-specific work
   to the python-* sub-skills.
+paths:
+  - "**/*.py"
+  - "**/pyproject.toml"
 ---
 
 # Python Development

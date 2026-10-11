@@ -4,6 +4,11 @@ description: >-
   Use before writing, editing, or reviewing React or Next.js code (.tsx/.jsx components, hooks,
   routes, state, forms, data fetching) and its tests. Sets TypeScript, accessibility, transition,
   and rendering-performance defaults, plus lint, test, and validation workflows.
+paths:
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "**/package.json"
+  - "**/tsconfig.json"
 ---
 
 # Frontend React

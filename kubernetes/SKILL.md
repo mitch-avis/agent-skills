@@ -5,6 +5,10 @@ description: >-
   troubleshooting pods. Covers Deployments, StatefulSets, DaemonSets, Jobs, Services, Ingress,
   ConfigMaps, Secrets, RBAC, NetworkPolicies, storage, Pod Security Standards, OPA Gatekeeper,
   service mesh, GitOps, and multi-cluster patterns.
+paths:
+  - "**/k8s/**/*.yaml"
+  - "**/manifests/**/*.yaml"
+  - "**/kustomization.yaml"
 ---
 
 # Kubernetes

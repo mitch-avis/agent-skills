@@ -5,6 +5,12 @@ description: >-
   interaction, accessibility, responsive behavior, design systems, frontend performance, or visual
   polish, including frontend code review. React and Next.js are the default stack unless the project
   already uses another framework.
+paths:
+  - "**/*.css"
+  - "**/*.scss"
+  - "**/*.html"
+  - "**/*.vue"
+  - "**/*.svelte"
 ---
 
 # Frontend Design

@@ -6,6 +6,11 @@ description: >-
   build-and-push, monorepo path filters, and multi-environment deploys. Covers pipeline
   architecture, security gates (SAST, SCA, container scanning, artifact signing), caching and
   parallelization, deployment strategies, ArgoCD GitOps sync, and common anti-patterns.
+paths:
+  - "**/.github/workflows/*.yml"
+  - "**/.github/workflows/*.yaml"
+  - "**/.gitlab-ci.yml"
+  - "**/Jenkinsfile"
 ---
 
 # CI/CD Pipelines

@@ -4,6 +4,11 @@ description: >-
   Use before writing or changing a Helm chart (Chart.yaml, values files, templates/) or running Helm
   installs, upgrades, or rollbacks. Covers Go templating for Kubernetes manifests, chart
   dependencies, packaging for distribution, and multi-environment values.
+paths:
+  - "**/Chart.yaml"
+  - "**/values*.yaml"
+  - "**/templates/**/*.yaml"
+  - "**/templates/**/*.tpl"
 ---
 
 # Helm

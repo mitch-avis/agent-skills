@@ -5,6 +5,10 @@ description: >-
   Diesel, SQLx) for PostgreSQL, MySQL, or SQLite, when a query is slow, when choosing an engine,
   or when reviewing SQL for injection or N+1 risks. Covers schema modeling, data types, indexing
   strategy, query patterns, connection pooling, EXPLAIN analysis, and dialect-specific gotchas.
+paths:
+  - "**/*.sql"
+  - "**/migrations/**"
+  - "**/alembic/**"
 ---
 
 # SQL Database

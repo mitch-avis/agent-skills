@@ -4,6 +4,11 @@ description: >-
   Use before writing or changing Python tests (test_*.py, conftest.py, pytest config) or when
   coverage falls short. Covers pytest fixtures, mocking, parameterization, async tests, coverage,
   and property-based testing, with arrange-act-assert structure and TDD.
+paths:
+  - "**/test_*.py"
+  - "**/conftest.py"
+  - "**/tests/**/*.py"
+  - "**/pytest.ini"
 ---
 
 # Python Testing

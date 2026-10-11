@@ -39,15 +39,16 @@ When `scripts/` or `tests/` change, also run:
 2. Link it for Claude Code: `ln -s ~/.agents/skills/<name> ~/.claude/skills/<name>`.
 3. Add a row to the matching table in `README.md`, and an attribution row under "Source
    Repositories" if it derives from an upstream skill.
-4. If it should load for a file type or task, add a line to the matching
-   `~/.claude/rules/skills-*.md` file (outside this repo).
+4. If it should load for a file type, add `paths:` globs to its frontmatter; it then joins the
+   skill list only after a matching file is touched.
 
 ## Removing a Skill
 
 `git rm -r` the directory, then remove its README rows and attribution, its symlink in
-`~/.claude/skills/`, its lines in `~/.claude/rules/`, and its bare key in the `skillOverrides` of
-`~/.claude/settings.json`. Keep an `anthropic-skills:<name>` override while a claude.ai copy of the
-skill exists; removing it makes that copy load. Finish with `grep -rn '<name>' . ~/.claude/rules`.
+`~/.claude/skills/`, and its bare key in the `skillOverrides` of `~/.claude/settings.json` and of
+each repo's `.claude/settings.local.json`. Keep an `anthropic-skills:<name>` override while a
+claude.ai copy of the skill exists; removing it makes that copy load. Finish with
+`grep -rn '<name>' . ~/.claude/settings.json ~/workspace/*/.claude/settings.local.json`.
 
 ## Writing Style
 
