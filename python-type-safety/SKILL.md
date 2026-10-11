@@ -100,7 +100,8 @@ Detailed generic, protocol, callback, and configuration patterns live in
 - No untyped public APIs.
 - No `list` or `dict` without type parameters on public boundaries.
 - No sprawling `Any` that spreads through otherwise typed code.
-- No type checker suppression without a local reason.
+- No inline type-checker suppressions (`# type: ignore`, `# pyright: ignore`): fix the types with
+  narrowing, a protocol or a typed stub.
 - No relying on runtime conventions where a protocol or typed model would make the contract clear.
 
 ## Related Skills
