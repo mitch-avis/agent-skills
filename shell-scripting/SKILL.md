@@ -218,7 +218,7 @@ production scaffold.
 
 ## PowerShell Quick Reference
 
-### Default script header
+### PowerShell default script header
 
 ```powershell
 #Requires -Version 7.0
