@@ -7,15 +7,15 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "pyright>=1.1.414",
-    "pytest>=9.1.1",
-    "pytest-cov>=7.1.0",
-    "pytest-html>=4.2.0",
-    "pytest-metadata>=3.1.1",
-    "pytest-sugar>=1.1.1",
-    "pytest-xdist>=3.8.0",
-    "ruff>=0.16.10",
-    "ty>=0.0.84",
+    "pyright>=1.1",
+    "pytest>=9.1",
+    "pytest-cov>=7.1",
+    "pytest-html>=4.2",
+    "pytest-metadata>=3.1",
+    "pytest-sugar>=1.1",
+    "pytest-xdist>=3.8",
+    "ruff>=0.17",
+    "ty>=0.0.86",
 ]
 
 [tool.uv]
