@@ -1,11 +1,10 @@
 ---
 name: systematic-debugging
 description: >-
-  Use before proposing any fix for a bug, test failure, build break, performance regression, or
-  unexpected behavior, including "obvious" bugs, urgent ones, and after a fix has already failed.
-  Four phases: reproduce and gather evidence, compare with working code, test one hypothesis at a
-  time, then fix behind a failing test; Python and Rust toolkits included. Not for greenfield
-  design, reviews without a reported bug, or library Q&A.
+  Use before proposing a fix for a bug, test failure, build break, performance regression, or
+  unexpected behavior, or after a fix has failed. Four phases: reproduce and gather evidence,
+  compare with working code, test one hypothesis at a time, then fix behind a failing test; Python
+  and Rust toolkits included. Not for greenfield design or library questions.
 ---
 
 # Systematic Debugging

@@ -1,11 +1,10 @@
 ---
 name: shell-scripting
 description: >-
-  Use before writing, editing, reviewing, debugging, linting, or porting any shell script or shell
-  snippet (.sh, .bash, .ps1, cron jobs, systemd ExecStart, git hooks, Dockerfile RUN lines,
-  Makefile recipes, CI steps), even if no shell is named. Covers Bash, POSIX sh, dash, ksh, zsh,
-  and PowerShell: strict mode, quoting, error handling, traps, argument parsing, portability,
-  security, ShellCheck, shfmt, Bats, PSScriptAnalyzer, and Pester.
+  Use before writing, editing, reviewing, or porting a shell script or snippet (.sh, .bash, .ps1,
+  cron jobs, systemd units, git hooks, Dockerfile RUN lines, Makefile recipes, CI steps). Covers
+  Bash, POSIX sh, and PowerShell: strict mode, quoting, error handling, traps, argument parsing,
+  portability, security, ShellCheck, shfmt, Bats, and Pester.
 paths:
   - "**/*.sh"
   - "**/*.bash"

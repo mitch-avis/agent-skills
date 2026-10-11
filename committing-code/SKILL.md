@@ -2,8 +2,8 @@
 name: committing-code
 description: >-
   Use before staging or committing anything, or when asked to write a commit message or split work
-  into logical commits, even if the skill isn't named. Covers commit boundaries, selective (patch)
-  staging, running the checks before committing, and Conventional Commits messages.
+  into logical commits. Covers commit boundaries, selective (patch) staging, running the checks
+  before committing, and Conventional Commits messages.
 ---
 
 # Committing Code
