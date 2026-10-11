@@ -143,6 +143,10 @@ implementations.
 
 - **Polling too fast:** `time.sleep(0.001)` wastes CPU. Poll every 10ms.
 - **No timeout:** Loop forever if condition never met. Always include timeout with clear error.
+  The Python example's `wait_for_async` (`condition_based_waiting_example.py`) takes no timeout
+  of its own, so await it inside `async with asyncio.timeout(...)`: the `TimeoutError` traceback
+  points at the awaiting line, which names what was awaited. A suite-wide `pytest-timeout` limit
+  catches a missed wrapper.
 - **Stale data:** Caching state before loop. Call getter inside loop for fresh data.
 
 ## When Arbitrary Sleep IS Correct
