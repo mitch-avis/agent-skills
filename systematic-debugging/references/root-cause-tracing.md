@@ -60,7 +60,11 @@ Project.create("name", context.tmp_dir)
 
 ## Adding Stack Traces
 
-When you can't trace manually, add instrumentation:
+When you can't trace manually, add instrumentation. Ruff's `T201` flags the `print`, and that is
+the point: the linter keeps temporary instrumentation from being committed, so remove it once the
+root cause is found.
+
+<!-- check-examples: skip -->
 
 ```python
 import subprocess
@@ -71,7 +75,7 @@ from pathlib import Path
 
 def git_init(directory: str) -> None:
     """Initialize a repository, printing temporary debug context about the caller."""
-    print(  # noqa: T201  # temporary debug instrumentation, removed after the root cause is found
+    print(
         "DEBUG git init:",
         {
             "directory": directory,
@@ -80,7 +84,7 @@ def git_init(directory: str) -> None:
         },
         file=sys.stderr,
     )
-    subprocess.run(["git", "init"], cwd=directory, check=True)  # noqa: S607  # git from PATH
+    subprocess.run(["git", "init"], cwd=directory, check=True)
 ```
 
 Write to `sys.stderr` in tests — captured logger output may be suppressed by pytest.

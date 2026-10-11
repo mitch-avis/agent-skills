@@ -281,7 +281,7 @@ class User(Base):
     __tablename__ = "user"
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(unique=True, index=True)
-    orders: Mapped[list["Order"]] = relationship(back_populates="user")  # noqa: UP037  # SQLAlchemy resolves by name
+    orders: Mapped[list[Order]] = relationship(back_populates="user")
 
 
 class Order(Base):

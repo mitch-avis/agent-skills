@@ -177,10 +177,11 @@ from contextvars import ContextVar
 from typing import TYPE_CHECKING
 
 import structlog
-from fastapi import Request, Response  # noqa: TC002  # FastAPI resolves annotations at runtime
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
+
+    from fastapi import Request, Response
 
 correlation_id: ContextVar[str] = ContextVar("correlation_id", default="")
 
@@ -339,17 +340,19 @@ _log = structlog.get_logger()
 class SampledLogger:
     """Log a random sample of info events and every warning and error."""
 
-    def __init__(self, rate: float = 0.1) -> None:
+    def __init__(self, rate: float = 0.1, rng: random.Random | None = None) -> None:
         """Create a logger that keeps a fraction of info events.
 
         Args:
             rate: Fraction of info events to keep, from 0 to 1.
+            rng: Random source for the sample; tests pass a seeded one.
         """
         self.rate = rate
+        self._rng = rng or random.SystemRandom()
 
     def info(self, event: str, **fields: object) -> None:
         """Log an info event if it falls in the sample."""
-        if random.random() < self.rate:  # noqa: S311  # sampling, not security
+        if self._rng.random() < self.rate:
             _log.info(event, sampled=True, sample_rate=self.rate, **fields)
 
     def warning(self, event: str, **fields: object) -> None:

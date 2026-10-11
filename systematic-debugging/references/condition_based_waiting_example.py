@@ -8,6 +8,7 @@ sprinkling `time.sleep(0.05)` to "give things time to settle".
 """
 
 import asyncio
+import inspect
 import time
 from typing import TYPE_CHECKING
 
@@ -51,21 +52,22 @@ def wait_for[T](
 async def wait_for_async[T](
     condition: Callable[[], Awaitable[T | None] | T | None],
     *,
-    description: str = "condition",
-    timeout: float = 5.0,  # noqa: ASYNC109  # mirrors wait_for's signature for test helpers
     interval: float = 0.01,
 ) -> T:
-    """Async version of `wait_for`. Accepts sync or async condition callables."""
-    deadline = asyncio.get_event_loop().time() + timeout
+    """Async version of `wait_for`. Accepts sync or async condition callables.
+
+    The caller bounds the wait with `asyncio.timeout`, which raises `TimeoutError` at the awaiting
+    line, so the helper composes with any other deadline in the test.
+
+    Example:
+        async with asyncio.timeout(5.0):
+            result = await wait_for_async(lambda: results.get("job-1"))
+    """
     while True:
-        result = condition()
-        if asyncio.iscoroutine(result):
-            result = await result
+        outcome = condition()
+        result: T | None = await outcome if inspect.isawaitable(outcome) else outcome
         if result:
-            return result  # type: ignore[return-value]
-        if asyncio.get_event_loop().time() >= deadline:
-            msg = f"Timed out after {timeout}s waiting for {description}"
-            raise WaitTimeoutError(msg)
+            return result
         await asyncio.sleep(interval)
 
 

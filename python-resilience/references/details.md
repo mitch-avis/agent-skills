@@ -55,6 +55,11 @@ def upload_file(path: str) -> str:
 ## Partial Failure Handling
 
 ```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 @dataclass
 class BatchResult[T]:
     """Successes and failures of a batch, keyed by input index."""
@@ -71,7 +76,9 @@ def process_batch(items: list[Item]) -> BatchResult[ProcessedItem]:
     for index, item in enumerate(items):
         try:
             succeeded[index] = process_single_item(item)
-        except Exception as exc:  # noqa: BLE001  # one bad item must not abort the batch
+        except Exception as exc:
+            # One bad item must not abort the batch; the traceback goes to the log.
+            logger.exception("Item %d failed; continuing with the batch", index)
             failed[index] = exc
 
     return BatchResult(succeeded=succeeded, failed=failed)
