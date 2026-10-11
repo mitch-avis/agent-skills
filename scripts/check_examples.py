@@ -141,7 +141,7 @@ def _format_findings(blocks: Iterable[Block]) -> list[Finding]:
     command = [_ruff(), "format", "--no-cache", f"--config={RUFF_CONFIG}"]
     findings: list[Finding] = []
     for block in blocks:
-        result = subprocess.run(  # noqa: S603  # argv is built from fixed tool paths
+        result = subprocess.run(
             [*command, "--stdin-filename", "block.py", "-"],
             input=block.code,
             capture_output=True,
@@ -255,7 +255,7 @@ def _run_on_files(
             return []
         # Ruff resolves globs in an explicit --config (the tests/ per-file ignores) against the
         # working directory, so run from the directory holding the extracted files.
-        result = subprocess.run(  # noqa: S603  # argv is built from fixed tool paths
+        result = subprocess.run(
             [*command, *files],
             cwd=tmp,
             capture_output=True,
@@ -295,7 +295,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     findings = check_python(b for b in blocks if b.language == "python")
     findings += check_bash(b for b in blocks if b.language == "bash")
     for finding in sorted(findings, key=lambda f: (str(f.path), f.line)):
-        print(f"{finding.path}:{finding.line}: {finding.message}")  # noqa: T201  # CLI output
+        print(f"{finding.path}:{finding.line}: {finding.message}")
     return 1 if findings else 0
 
 

@@ -40,6 +40,10 @@ convention = "google"
 "scripts/**" = [
     "INP001", # standalone scripts, not a package
 ]
+"scripts/check_examples.py" = [
+    "S603", # argv is built from fixed tool paths and its own temp files, never from input
+    "T201", # a CLI reports its findings on stdout
+]
 "*/references/**" = [
     "INP001", # standalone example modules shipped with a skill, not a package
 ]
