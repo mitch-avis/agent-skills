@@ -63,7 +63,10 @@ priority order:
 1. **Correctness** — bugs, logic errors, race conditions, off-by-one, null handling
 2. **Security** — input validation, auth, injection, secrets, CSRF/XSS/SSRF, deserialization
 3. **Performance** — N+1 queries, O(n²) hot paths, unbounded loops, missing indexes, leaks
-4. **Tests** — coverage of new behavior, edge cases, error paths; tests assert outcomes
+4. **Tests** — coverage of new behavior, edge cases, error paths; tests assert outcomes. When
+   you are the reviewer of another agent's diff, also write adversarial tests against it
+   (boundaries, error paths, cases the task implied but did not list), run them in your own
+   worktree, and report which fail; do not commit them to the author's branch
 5. **Design** — SOLID, cohesion, coupling, right abstraction level, minimal public surface
 6. **Readability** — clear names, no dead code, no magic numbers, reasonable complexity
 7. **Style** — automated linters should catch this; do not nitpick

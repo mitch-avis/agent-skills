@@ -33,6 +33,28 @@ Before changing existing code, check whether a test already exercises the lines 
 - Generated code
 - Configuration files
 
+## Roles When Work Is Delegated
+
+One agent that writes both the tests and the code can bend either to fit the other. When a task
+is split across subagents, use three roles:
+
+1. **Planner** (the human, or the main session in plan mode): writes the contract into the task
+   text before any code exists: the interface (names, signatures, inputs and outputs) and the
+   list of cases the tests must cover, including the failure and boundary cases. A task without a
+   contract is not ready to delegate.
+2. **Implementer**: runs red-green-refactor against that contract in its own worktree. It may add
+   cases it discovers, and it reports them; it never removes or weakens a contracted case.
+3. **Reviewer**: works in a fresh context on the finished diff. It re-runs the gate, checks that
+   each behavior change has a test that would fail without it, then writes adversarial tests
+   against the diff (boundaries, error paths, the cases the contract implied but did not list)
+   and reports which fail. Those tests go into the review report, never onto the implementer's
+   branch; the implementer or the planner decides what to adopt.
+
+Use a separate test-writing agent before implementation only when the contract itself is the
+deliverable: a new public interface, or characterization tests that must pin behavior before a
+refactor touches it. For anything smaller, the handoff costs more than it protects, and the
+reviewer's adversarial tests give the same independence after the fact.
+
 ## Test First
 
 If production code was written before its test, set that draft aside and re-implement from the
@@ -357,7 +379,9 @@ When adding mocks or test utilities, read
 
 ## Related Skills
 
-- [code-review](../code-review/SKILL.md) — review verifies tests cover the change
+- [code-review](../code-review/SKILL.md) — the reviewer role: checks tests came first, adds
+  adversarial tests
+- [task-orchestrator](../task-orchestrator/SKILL.md) — briefs the implementer and reviewer roles
 - [python-testing](../python-testing/SKILL.md) — pytest mechanics for the red-green-refactor loop
 - [rust-testing](../rust-testing/SKILL.md) — `cargo test` mechanics for the red-green-refactor loop
 - [systematic-debugging](../systematic-debugging/SKILL.md) — reproduce a bug as a failing test first

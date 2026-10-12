@@ -40,6 +40,12 @@ For each subtask, write down:
 Run independent subtasks together and chain dependent ones in order. Keep integration and final
 validation in the main session.
 
+For code changes, split by role, not by tests versus code: the main session writes the contract
+(interface and test cases) into the brief, one implementer does red-green-refactor against it,
+and a separate reviewer in a fresh context re-runs the gate and writes adversarial tests against
+the diff (see [test-driven-development](../test-driven-development/SKILL.md), "Roles When Work Is
+Delegated"). Never let the agent that wrote the code review it.
+
 ## Brief Each Subagent
 
 A subagent knows only what its brief says. Include:
