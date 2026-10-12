@@ -20,8 +20,8 @@ structure, and quality bar for the rest of the Python skill family.
 These are defaults. When the repo's instruction files (`AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`)
 or its CI declare a command form, a validation script, or a threshold, follow the repo instead.
 
-- **Python version:** Use the latest stable Python (currently 3.14), installed and pinned by uv,
-  for new projects. Follow the repo's declared minimum when working in an existing codebase.
+- **Python version:** Use the latest stable Python, installed and pinned by uv, for new projects.
+  Follow the repo's declared minimum when working in an existing codebase.
 - **Environment:** Use a project-local `.venv`, never system Python.
 - **Package manager:** Use `uv` for Python installation, dependency management, locking, and
   command execution.
