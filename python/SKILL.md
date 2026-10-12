@@ -319,7 +319,8 @@ Detailed toolchain, structure, typing, design, and configuration patterns live i
 
 ## Routing to Curated Python Skills
 
-Use the dedicated curated Python skills when the task needs more depth than this overview.
+Use the dedicated curated Python skills when the task needs more depth than this overview:
+invoke the skill, or read its linked `SKILL.md` when the project has turned the skill off.
 
 | Need | Skill |
 | --- | --- |

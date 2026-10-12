@@ -491,8 +491,9 @@ Key rules from this guide:
 
 ## Async
 
-See the **rust-async** skill for comprehensive async patterns with Tokio: runtime setup, task
-management, channels, select, cancellation, streams, and structured concurrency.
+Invoke the **rust-async** skill (or read [its SKILL.md](../rust-async/SKILL.md) when the project has
+turned it off) for async patterns with Tokio: runtime setup, task management, channels, select,
+cancellation, streams, and structured concurrency.
 
 Key rules from this guide:
 
