@@ -1,7 +1,8 @@
 # Language Dockerfiles
 
 Complete multi-stage Dockerfile templates for specific frameworks. Each template includes build
-optimization, security hardening, and health checks.
+optimization, security hardening, and health checks. Image and tool versions were checked in
+October 2026; look up the current releases when you write a Dockerfile.
 
 ## Next.js
 

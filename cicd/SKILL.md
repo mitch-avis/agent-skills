@@ -25,7 +25,7 @@ Jenkins, and ArgoCD.
 2. **Security by default** — embed SAST, SCA, and container scanning. Use OIDC over static secrets.
    Sign artifacts. Apply least-privilege permissions.
 3. **Reproducible** — pin dependency versions, use lockfiles, avoid external state. Identical inputs
-   must produce identical outputs. Image tags and action versions in these examples were current
+   must produce identical outputs. Image tags and action versions in these examples were checked
    in October 2026; look up the current release when you write a pipeline instead of copying them.
 4. **Cache aggressively** — cache dependencies, build outputs, and Docker layers. Every saved minute
    compounds across all developers.

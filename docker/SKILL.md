@@ -47,7 +47,7 @@ Pick the smallest image that supports the application's runtime needs.
 
 ### Recommended base images by language
 
-Always pin a specific tag. These were current in October 2026; look up the current release on the
+Always pin a specific tag. These were checked in October 2026; look up the current release on the
 registry when you write a Dockerfile.
 
 ```dockerfile

@@ -2,7 +2,8 @@
 
 ## Complete Pipeline
 
-Full `.gitlab-ci.yml` with lint, test, build, security, and deploy stages.
+Full `.gitlab-ci.yml` with lint, test, build, security, and deploy stages. Image tags were checked
+in October 2026; look up the current releases before copying them.
 
 ```yaml
 image: node:24-alpine
