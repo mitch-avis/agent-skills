@@ -118,8 +118,9 @@ Rules:
   editor, write the message to a file and use `git commit -F <file>`, or pass the subject and body
   as separate `-m` arguments
 
-If something in the commit you just made needs fixing and it hasn't been pushed, amend it with
-`git commit --amend`. Once a commit is pushed, fix forward with a new commit instead.
+If something in the commit you just made needs fixing and it hasn't been pushed, ask before
+amending it with `git commit --amend`, since amending rewrites history. Once a commit is pushed,
+fix forward with a new commit instead.
 
 ### 8. Repeat
 
@@ -128,7 +129,7 @@ intended changes are committed.
 
 ## Safety Rules
 
-- **Never** force-push to main/master without explicit user request
+- Ask before any force-push, on any branch, and say what it will overwrite
 - **Never** run `git reset --hard` without explicit user request
 - **Never** skip hooks (`--no-verify`) unless the user asks
 - **Never** update git config
