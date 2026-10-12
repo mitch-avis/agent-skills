@@ -109,7 +109,7 @@ Uses `uv` with the lockfile for reproducible, cached dependency installs.
 ```dockerfile
 # ── Build ──
 FROM python:3.14-slim AS builder
-COPY --from=ghcr.io/astral-sh/uv:0.12.22 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.13.0 /uv /usr/local/bin/uv
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 WORKDIR /app
 
@@ -149,7 +149,7 @@ CMD ["uvicorn", "myapp.main:app", "--host", "0.0.0.0", "--port", "8000"]
 FROM python:3.14-slim AS builder
 WORKDIR /app
 
-COPY --from=ghcr.io/astral-sh/uv:0.12.22 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.13.0 /uv /usr/local/bin/uv
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PROJECT_ENVIRONMENT=/opt/venv
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
