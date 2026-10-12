@@ -141,8 +141,12 @@ Use `#[non_exhaustive]` on all public enums and structs that may grow. It preven
 
 ## Imports
 
-- No glob imports anywhere — `wildcard_imports = "deny"`.
-- Sanctioned exceptions: `use super::*` inside `#[cfg(test)] mod tests` and generated code.
+- No glob imports — `wildcard_imports = "deny"` — with exactly three exceptions:
+  - A library prelude designed for it: `use std::io::prelude::*`, `use yew::prelude::*`.
+  - `use super::*` inside `#[cfg(test)] mod tests`.
+  - A scope-local `use MyEnum::*` right before a `match` over many of that enum's variants.
+    Pedantic `enum_glob_use` flags it, so put `#[expect(clippy::enum_glob_use, reason = "...")]`
+    on the `use`.
 - Flatten redundant path prefixes into a single `use` tree.
 - Let rustfmt own all import ordering and grouping.
 
@@ -168,8 +172,8 @@ pub use crate::error::{Error, Result};
 pub use crate::traits::{Deserialise, Serialise};
 ```
 
-`use crate::prelude::*` is the one sanctioned glob inside the crate's own modules, only when the
-prelude is small and stable.
+A crate's own `use crate::prelude::*` falls under the prelude exception; keep that prelude small
+and stable.
 
 ## Documentation
 

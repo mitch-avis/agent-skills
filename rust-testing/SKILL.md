@@ -69,8 +69,8 @@ Use `subject_condition_expected_outcome`, the same order as the Python skills' t
 ### Organization
 
 - Place unit tests in `#[cfg(test)] mod tests` at the bottom of each source file
-- Use `use super::*` to access the parent module — this is the one sanctioned unconditional glob
-  (not subject to the `wildcard_imports = "deny"` intent)
+- Use `use super::*` to access the parent module — one of the three sanctioned globs (see the
+  **rust** skill's Imports section)
 - Group related tests in nested modules for clarity
 
 ## Assertions
