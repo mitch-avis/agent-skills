@@ -354,15 +354,6 @@ Before marking work complete:
 
 If a box can't be checked, go back to RED for the behavior it covers.
 
-## When Stuck
-
-| Problem | Solution |
-| --- | --- |
-| Don't know how to test | Write the wished-for API. Write the assertion first. Ask your human partner. |
-| Test too complicated | The design is too complicated. Simplify the interface. |
-| Must mock everything | The code is too coupled. Use dependency injection. |
-| Test setup huge | Extract helpers. Still complex? Simplify the design. |
-
 ## Debugging Integration
 
 Found a bug? Write a failing test that reproduces it, however small the fix, then follow the

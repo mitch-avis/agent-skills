@@ -211,13 +211,6 @@ Use this order when checks exist:
 - [references/view-transitions-implementation.md](references/view-transitions-implementation.md)
   for deeper view-transition implementation guidance
 
-## Example Triggers
-
-- "Refactor this React component with too many boolean props."
-- "Build this new page in Next.js and keep the data fetching parallel."
-- "Why does this client search freeze while typing?"
-- "Run the React validation pass before I commit these UI changes."
-
 ## Done When
 
 - The component or page follows the repo's architecture and styling patterns.

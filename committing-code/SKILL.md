@@ -134,7 +134,6 @@ intended changes are committed.
 - **Never** skip hooks (`--no-verify`) unless the user asks
 - **Never** update git config
 - **Never** commit secrets, tokens, private keys, or `.env` files
-- If a commit hook fails, fix the issue — do not bypass the hook
 
 ## Deliverable
 

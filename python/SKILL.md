@@ -238,10 +238,8 @@ For deeper guidance on retries, cleanup, context managers, and batch error handl
 
 ## Packaging and Tooling
 
-Keep `pyproject.toml` as the single source of truth. This top-level skill intentionally keeps the
-example minimal. The richer, application-grade example lives with
-`python-infrastructure/references/details.md` so the core skill does not spend context on repeated
-tooling detail.
+Keep `pyproject.toml` as the single source of truth. A strict, application-grade example is in
+`python-infrastructure/references/details.md`.
 
 ```toml
 [build-system]
@@ -295,7 +293,6 @@ Guidance:
 - For libraries, follow repo policy: some teams commit `uv.lock` for contributor reproducibility,
   others omit it because downstream users resolve dependencies themselves.
 - Build with `uv build`. Publish with the repo's existing release flow.
-- Put strict, app-grade tool configuration in the infrastructure layer or its references, not here.
 
 Detailed toolchain, structure, typing, design, and configuration patterns live in
 `references/foundations.md`.

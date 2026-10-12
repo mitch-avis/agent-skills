@@ -14,10 +14,6 @@ Random fixes waste time and create new bugs. Quick patches mask underlying issue
 **Core principle:** Find the root cause before attempting a fix; a symptom fix leaves the bug in
 place.
 
-## Root Cause First
-
-Don't propose a fix until Phase 1 has identified the root cause.
-
 ## The Four Phases
 
 Phase 1 comes first and Phase 4 last. Use Phases 2 and 3 when Phase 1 alone hasn't pinned down
@@ -45,16 +41,7 @@ the root cause.
 4. **Gather Evidence in Multi-Component Systems**
 
    When the system has multiple components, add diagnostic instrumentation before proposing fixes:
-
-   ```bash
-   # Log at each component boundary
-   # Layer 1: Entry point
-   echo "=== Input data: ==="
-   # Layer 2: Processing
-   echo "=== State after processing: ==="
-   # Layer 3: Output
-   echo "=== Final result: ==="
-   ```
+   log what enters and leaves each component boundary.
 
    Run once to gather evidence showing where it breaks. Then analyze evidence to identify the
    failing component. Then investigate that specific component.

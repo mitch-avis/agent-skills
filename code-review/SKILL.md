@@ -9,8 +9,8 @@ description: >-
 
 # Code Review
 
-Perform thorough, constructive code reviews that catch real issues without bikeshedding. Default to
-review-only output unless the user explicitly asks to implement the suggested changes.
+Review code to catch real issues, not to bikeshed. Default to review-only output unless the user
+explicitly asks to implement the suggested changes.
 
 ## Workflow
 

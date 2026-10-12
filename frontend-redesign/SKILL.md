@@ -94,17 +94,6 @@ For a focused pass on believable copy, data, and proof, read
 - Replace dead links and placeholder CTAs with real navigation or clearly disabled states.
 - Replace unstructured spacing with a coherent vertical rhythm.
 
-## Upgrade Order
-
-When improving an existing surface, prefer this sequence:
-
-1. clean up typography and spacing scale
-2. fix primary hierarchy and CTA placement
-3. repair states and accessibility
-4. simplify surfaces and component treatment
-5. add one stronger visual idea
-6. finish with restrained motion and polish
-
 ## Review Lenses
 
 Separate visual critique from implementation audit.

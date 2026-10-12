@@ -204,17 +204,6 @@ For a fuller anti-pattern list, use
 - Spend boldness in one place.
 - Let the rest of the interface support that decision.
 
-## Working Order
-
-Use this order unless the task clearly needs another sequence:
-
-1. Read the surface and stack.
-2. Decide whether this is build, redesign, audit, review, or performance work.
-3. Load the narrowest sub-skill.
-4. Implement or analyze the highest-value surface first.
-5. Validate immediately with the narrowest executable checks.
-6. Only then widen to adjacent cleanup.
-
 ## Delivery Standard
 
 A frontend change is not done until it:

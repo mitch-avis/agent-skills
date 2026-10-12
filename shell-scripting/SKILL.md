@@ -367,32 +367,6 @@ exponential backoff, dependency checking, dry-run flag plumbing, atomic file wri
 for background processes, and common admin patterns (backup, rotation, monitoring, user management),
 see [references/operational-recipes.md](references/operational-recipes.md).
 
-## Common Tasks
-
-### "Convert these commands into a script"
-
-1. Read the commands. Identify inputs (env vars, file paths) and outputs.
-2. Start from the Bash or PowerShell template.
-3. Wrap the commands in a `main` function. Add `parse_args`, `validate`, `cleanup`.
-4. Replace hard-coded values with `${1:-default}` / `param()` arguments.
-5. Lint and test.
-
-### "Why does my script silently fail?"
-
-Almost always missing `set -Eeuo pipefail` (Bash) or `Set-StrictMode -Version Latest` +
-`$ErrorActionPreference = 'Stop'` (PowerShell). Add them, then rerun.
-
-### "Make this script portable to Alpine/BusyBox"
-
-Switch to POSIX `sh`. See [references/portability.md](references/portability.md) for the mapping
-table (no `[[ ]]`, no arrays, no `${var//pat/repl}`, etc.) and `shellcheck --shell=sh` to verify.
-
-### "How do I test a shell script?"
-
-Bats for Bash, Pester for PowerShell. See
-[references/linting-and-testing.md](references/linting-and-testing.md) for setup and patterns
-(mocking commands, asserting output, capturing exit codes, testing failure paths).
-
 ## Related Skills
 
 - [cicd](../cicd/SKILL.md) — shell steps inside CI/CD pipeline jobs
