@@ -186,7 +186,7 @@ source = ["myproject"]
 fail_under = 90
 show_missing = true
 skip_empty = true
-exclude_lines = ["pragma: no cover", "if __name__ == \"__main__\":"]
+exclude_lines = ["if __name__ == \"__main__\":"]
 ```
 
 Keep the durable ideas and adapt the repo-specific pieces:

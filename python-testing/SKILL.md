@@ -276,9 +276,10 @@ branch = true
 source = ["myproject"]
 
 [tool.coverage.report]
+fail_under = 90
 show_missing = true
 skip_empty = true
-exclude_lines = ["pragma: no cover", "if __name__ == \"__main__\":"]
+exclude_lines = ["if __name__ == \"__main__\":"]
 ```
 
 Parallel execution: `.venv/bin/pytest -n auto`
