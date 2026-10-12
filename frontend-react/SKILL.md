@@ -7,8 +7,6 @@ description: >-
 paths:
   - "**/*.tsx"
   - "**/*.jsx"
-  - "**/package.json"
-  - "**/tsconfig.json"
 ---
 
 # Frontend React
