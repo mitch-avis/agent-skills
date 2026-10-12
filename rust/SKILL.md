@@ -487,8 +487,8 @@ unit/integration/async/parameterized/property-based tests, and benchmarks.
 
 Key rules from this guide:
 
-- Unit tests go in `#[cfg(test)] mod tests` at the bottom of each source file. `use super::*` is the
-  sanctioned glob.
+- Unit tests go in `#[cfg(test)] mod tests` at the bottom of each source file, where `use super::*`
+  is one of the three sanctioned globs (see Imports).
 - Name tests as `subject_condition_expected_outcome`.
 - Integration tests go in `tests/` — each file is a separate compilation unit.
 - Use `rstest` for parameterized tests. Use `proptest` for property-based tests.
