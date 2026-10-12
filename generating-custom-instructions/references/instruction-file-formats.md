@@ -12,10 +12,12 @@ Reference for all instruction file types recognized by major AI coding agents.
 The default home for a repository's rules: one file that every agent can read. Subfolder
 `AGENTS.md` files apply instructions scoped to that subtree, which is useful in monorepos.
 
-Claude Code reads `AGENTS.md` directly only when there is no `CLAUDE.md`, `.claude/CLAUDE.md`, or
-`CLAUDE.local.md` in the working directory or above it. As soon as any of those exists, it reads
-the `CLAUDE.md` files instead. The reliable bridge is a thin `CLAUDE.md` that imports the shared
-file under a heading (the heading keeps markdownlint's first-line rule happy):
+Claude Code (v2.1.277 and later) reads `AGENTS.md` directly only when there is no `CLAUDE.md`,
+`.claude/CLAUDE.md`, or `CLAUDE.local.md` in the working directory or above it;
+`~/.claude/CLAUDE.md` does not count. As soon as any of those exists, it reads the `CLAUDE.md` files
+instead. The reliable bridge is a thin `CLAUDE.md` that imports the shared file under a heading (the
+heading keeps markdownlint's first-line rule happy). The import never loads `AGENTS.md` twice, and
+it also covers older versions and setups that read only `CLAUDE.md`:
 
 ```markdown
 # CLAUDE.md
