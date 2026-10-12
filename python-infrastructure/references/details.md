@@ -26,7 +26,7 @@ Use `pyproject.toml` as the single source of truth for packaging and tool config
 
 ```toml
 [build-system]
-requires = ["uv_build>=0.12,<0.13"]
+requires = ["uv_build>=0.13,<0.14"]  # keep the range `uv init --build-backend uv` writes
 build-backend = "uv_build"
 
 [project]
@@ -59,7 +59,7 @@ and then trim the repo-specific parts.
 
 ```toml
 [build-system]
-requires = ["uv_build>=0.12,<0.13"]
+requires = ["uv_build>=0.13,<0.14"]  # keep the range `uv init --build-backend uv` writes
 build-backend = "uv_build"
 
 [project]
