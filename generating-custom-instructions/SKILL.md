@@ -216,7 +216,8 @@ update instructions to reflect the new state:
 
 1. **Diff the change**: compare before and after to identify transformed patterns
 2. **Update rules**: rewrite instructions to match the new conventions
-3. **Document transitions**: note deprecated patterns and their replacements
+3. **State the current convention**: name an old pattern only where code still uses it, so the
+   agent does not copy it
 4. **Flag incomplete migrations**: if old-style code remains, say so explicitly so the agent does
    not propagate the old patterns
 
@@ -229,18 +230,6 @@ Example migration note:
 - Existing class components in `src/legacy/` will be migrated incrementally
 - Do not convert class components unless explicitly asked
 - When modifying a class component, prefer minimal changes over full conversion
-```
-
-When before/after patterns are useful, document the transformation:
-
-```markdown
-## Changed Pattern: Error Handling
-
-BEFORE (pre-migration):
-  throw new Error("not found")
-
-AFTER (current convention):
-  return Result.err(new NotFoundError(id))
 ```
 
 ## Anti-Patterns
