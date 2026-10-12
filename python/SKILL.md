@@ -56,11 +56,13 @@ or its CI declare a command form, a validation script, or a threshold, follow th
 5. Run the narrowest failing test or validation first, then format, lint, type-check, and rerun
    tests after changes.
 
-Common commands:
+Common commands (`<latest-stable>` stands for the newest stable version `uv python list` shows):
+
+<!-- check-examples: skip -->
 
 ```bash
-uv python install 3.14
-uv init --build-backend uv --python 3.14 myproject
+uv python install <latest-stable>
+uv init --build-backend uv --python <latest-stable> myproject
 uv add httpx
 uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 uv sync
@@ -239,7 +241,9 @@ For deeper guidance on retries, cleanup, context managers, and batch error handl
 ## Packaging and Tooling
 
 Keep `pyproject.toml` as the single source of truth. A strict, application-grade example is in
-`python-infrastructure/references/details.md`.
+`python-infrastructure/references/details.md`. The `3.14` values below are examples: a new project
+sets `requires-python` to the latest stable Python, and Ruff's `target-version` and pyright's
+`pythonVersion` match it.
 
 ```toml
 [build-system]

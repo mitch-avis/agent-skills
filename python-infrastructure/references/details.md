@@ -22,7 +22,9 @@ module surface should still be explicit.
 
 ## pyproject.toml Patterns
 
-Use `pyproject.toml` as the single source of truth for packaging and tool configuration.
+Use `pyproject.toml` as the single source of truth for packaging and tool configuration. The `3.14`
+values below are examples: a new project sets `requires-python` to the latest stable Python, and
+Ruff's `target-version` and the type checkers' Python versions match it.
 
 ```toml
 [build-system]

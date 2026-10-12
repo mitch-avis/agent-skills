@@ -21,11 +21,14 @@ environments, packaging, performance, workers, release flows, and reproducibilit
 
 ## Environment and Dependency Management
 
-Use `uv` as the control plane for Python project tooling.
+Use `uv` as the control plane for Python project tooling. `<latest-stable>` stands for the newest
+stable version `uv python list` shows.
+
+<!-- check-examples: skip -->
 
 ```bash
-uv python install 3.14
-uv init --build-backend uv --python 3.14 mypackage
+uv python install <latest-stable>
+uv init --build-backend uv --python <latest-stable> mypackage
 uv add fastapi
 uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 uv sync
@@ -44,7 +47,9 @@ uv build
 
 ## Packaging and Distribution
 
-Prefer `src/` layout for packages and libraries.
+Prefer `src/` layout for packages and libraries. The `3.14` values below are examples: a new project
+sets `requires-python` to the latest stable Python, and Ruff's `target-version` and pyright's
+`pythonVersion` match it.
 
 ```toml
 [build-system]

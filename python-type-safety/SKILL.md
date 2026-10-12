@@ -70,7 +70,8 @@ def first[ItemT](items: list[ItemT]) -> ItemT | None:
 
 New projects start in strict mode. An existing repo keeps its mode and tightens it one package
 at a time with `strict = ["<package>"]`. Turn off a strict check only for a named reason, such as
-a dependency that ships without stubs.
+a dependency that ships without stubs. `pythonVersion` matches the project's `requires-python`
+floor; `3.14` below is an example.
 
 ```toml
 [tool.pyright]

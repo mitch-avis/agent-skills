@@ -28,10 +28,12 @@ Use this skill when the job is not just writing Python, but upgrading the projec
 
 ## Baseline Workflow
 
+`<latest-stable>` stands for the newest stable version `uv python list` shows.
+
 <!-- check-examples: skip -->
 
 ```bash
-uv init --build-backend uv --python 3.14 myproject
+uv init --build-backend uv --python <latest-stable> myproject
 cd myproject
 uv add httpx
 uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist

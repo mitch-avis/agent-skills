@@ -2,11 +2,14 @@
 
 ## Environment and Toolchain
 
-Use a project-local `.venv` and drive it with `uv`.
+Use a project-local `.venv` and drive it with `uv`. `<latest-stable>` stands for the newest stable
+version `uv python list` shows.
+
+<!-- check-examples: skip -->
 
 ```bash
-uv python install 3.14
-uv init --build-backend uv --python 3.14 myproject
+uv python install <latest-stable>
+uv init --build-backend uv --python <latest-stable> myproject
 uv add httpx
 uv add --group dev ruff pyright ty pytest pytest-cov pytest-html pytest-metadata pytest-sugar pytest-xdist
 uv sync
