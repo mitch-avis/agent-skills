@@ -25,8 +25,8 @@ projects with strict linting, strict formatting, and TDD discipline.
 - **Tests:** `cargo +nightly nextest run --workspace --all-features --all-targets`, plus
   `cargo +nightly test --doc --workspace --all-features` because nextest skips doctests
 - **Line length:** 100 characters (`max_width = 100`)
-- **Testing:** TDD for new features and modules — failing tests first, then implementation; small
-  targeted fixes are exempt but keep the suite green
+- **Testing:** test-first for every change, however small — failing tests before new or changed
+  behavior, covering tests before a refactor, and the suite passes before each commit
 - **Coverage target:** 100% wherever achievable
 - **Edition:** 2024
 
@@ -483,8 +483,6 @@ unit/integration/async/parameterized/property-based tests, and benchmarks.
 
 Key rules from this guide:
 
-- Write a failing test first. Implement minimum code to pass. Refactor under green. Never commit
-  untested functionality.
 - Unit tests go in `#[cfg(test)] mod tests` at the bottom of each source file. `use super::*` is the
   sanctioned glob.
 - Name tests as `subject_condition_expected_outcome`.

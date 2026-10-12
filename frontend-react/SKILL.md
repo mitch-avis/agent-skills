@@ -141,8 +141,8 @@ local state → lifted state → context → URL state → server state → glob
 
 ## Testing And Validation
 
-- Use TDD for behavior changes. Add a focused failing test before implementation when coverage is
-  missing.
+- Use TDD for every change, however small: a focused failing test before new or changed
+  behavior, and covering tests before a refactor.
 - Prefer the repo's existing test framework and helpers.
 - Structure every test as Arrange-Act-Assert with `// Arrange`, `// Act`, `// Assert` labels
   (`// Act & Assert` for `expect(...).toThrow()` and `rejects` checks); see

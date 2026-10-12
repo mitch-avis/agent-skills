@@ -1,10 +1,10 @@
 ---
 name: test-driven-development
 description: >-
-  Use before implementing a new feature, module, or behavior change: write a failing test first,
-  watch it fail, then write the minimal code to pass (red-green-refactor). Covers the TDD workflow,
-  characterization tests for refactors, debugging integration, and testing anti-patterns. Small
-  targeted fixes are exempt from test-first.
+  Use before any code change, however small: a new feature, module, behavior change, bug fix, hot
+  fix, or refactor. Write a failing test first, watch it fail, then write the minimal code to pass
+  (red-green-refactor); behavior-preserving changes start from characterization tests. Covers the
+  TDD workflow, debugging integration, and testing anti-patterns.
 ---
 
 # Test-Driven Development (TDD)
@@ -17,17 +17,15 @@ Write the test first. Watch it fail. Write minimal code to pass.
 
 ## Scope
 
-**Test-first applies to:**
+**Test-first applies to every code change, with no exemption for size:**
 
 - New features and new modules
-- Behavior changes, including bug fixes that change or add behavior beyond a local correction
+- Behavior changes and bug fixes, including small targeted fixes and hot fixes
 - Refactoring, through characterization tests (see
   [Behavior-Preserving Changes](#behavior-preserving-changes-characterization-tests))
 
-**Exempt:**
-
-- Small targeted fixes: a local correction to existing code that adds no new public API, module,
-  or feature. The existing suite must still pass afterward.
+Before changing existing code, check whether a test already exercises the lines you will change
+(run coverage when unsure). If none does, add one first.
 
 **Ask your human partner first:**
 
@@ -36,9 +34,6 @@ Write the test first. Watch it fail. Write minimal code to pass.
 - Configuration files
 
 ## Test First
-
-For new features, modules, and behavior changes, write the failing test before the production
-code. Small targeted fixes are the only exemption.
 
 If production code was written before its test, set that draft aside and re-implement from the
 failing test. Adapting the draft while writing the test turns it into a test-after, which can't
@@ -348,11 +343,8 @@ If a box can't be checked, go back to RED for the behavior it covers.
 
 ## Debugging Integration
 
-Found a bug that needs more than a small targeted fix? Write a failing test that reproduces it,
-then follow the cycle. The test proves the fix and prevents regression.
-
-For a small targeted fix, test-first is optional; run the existing suite to confirm nothing
-regressed.
+Found a bug? Write a failing test that reproduces it, however small the fix, then follow the
+cycle. The test proves the fix and prevents regression.
 
 ## Testing Anti-Patterns
 

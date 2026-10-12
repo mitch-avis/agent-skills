@@ -36,8 +36,9 @@ or its CI declare a command form, a validation script, or a threshold, follow th
   or torch builds), so use it only where the repo documents it. When the repo has a single
   validation script or gate, that script alone decides whether the checks pass; individual tools
   are for iteration.
-- **Testing:** TDD for new features and modules: write the failing test before the production
-  code. Small targeted fixes don't require test-first, but must keep the suite green.
+- **Testing:** test-first for every change, however small (see **test-driven-development**): a
+  failing test before new or changed behavior, covering tests before a behavior-preserving change,
+  and the full suite passes before each commit.
 - **Line length:** 100 characters for prose and source.
 - **Docstrings:** Google style, enforced by Ruff's `D` rules with `convention = "google"`.
 - **Build backend:** `uv_build` for new projects (`uv init --build-backend uv`). Keep an existing

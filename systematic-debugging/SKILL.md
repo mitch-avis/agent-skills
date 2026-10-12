@@ -106,9 +106,7 @@ the current one; `git bisect run <test-cmd>` automates it when a command can tel
 ### Phase 4: Implementation
 
 1. **Create Failing Test Case** — simplest possible reproduction. Automated test if possible. Write
-   it before fixing unless the fix is a small targeted fix (a local correction with no new API,
-   module, or feature); then reproduce it manually and keep the existing suite green. Use the
-   **test-driven-development** skill.
+   it before fixing, however small the fix. Use the **test-driven-development** skill.
 2. **Implement Single Fix** — address the root cause. One change at a time. No "while I'm here"
    improvements.
 3. **Verify Fix** — test passes now? No other tests broken? Issue actually resolved?
