@@ -156,14 +156,14 @@ metrics-exporter-prometheus = "0.15"
 use metrics::{counter, histogram, gauge, describe_counter, describe_histogram};
 use metrics_exporter_prometheus::PrometheusBuilder;
 
-pub fn install_metrics() {
+pub fn install_metrics() -> Result<(), metrics_exporter_prometheus::BuildError> {
     PrometheusBuilder::new()
         .with_http_listener(([0, 0, 0, 0], 9000))
-        .install()
-        .expect("failed to install metrics exporter");
+        .install()?;
 
     describe_counter!("http_requests_total", "HTTP requests handled.");
     describe_histogram!("http_request_duration_seconds", "HTTP request latency.");
+    Ok(())
 }
 
 pub async fn handle(method: &str, route: &str) {

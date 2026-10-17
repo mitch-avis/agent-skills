@@ -162,10 +162,12 @@ Query live cluster state. Returns empty dict during `--dry-run` or `helm templat
 Conditionally render based on cluster API versions:
 
 ```yaml
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
-apiVersion: networking.k8s.io/v1
+{{- if .Capabilities.APIVersions.Has "gateway.networking.k8s.io/v1/HTTPRoute" }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 {{- else }}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 {{- end }}
 
 # Kubernetes version check

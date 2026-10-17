@@ -89,7 +89,7 @@ Every reference table gets:
 - A primary key
 - `created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()` (or dialect equivalent)
 - `updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()` with a trigger or ORM hook
-- Indexes on every FK and every queried column
+- An index on every FK column; other indexes follow the hot query paths (see Indexing)
 
 ## Data Types
 

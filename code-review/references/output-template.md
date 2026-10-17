@@ -13,7 +13,7 @@ severity buckets rather than padding with "(none)".
 <1–2 sentence overview of the change and overall assessment>
 
 **Files reviewed:** X files, Y lines changed
-**Verdict:** Approve / Request Changes / Needs Discussion
+**Verdict:** Approve / Approve with nits / Request Changes / Needs Discussion
 
 ---
 
@@ -56,12 +56,11 @@ severity buckets rather than padding with "(none)".
 
 ## Inline Comment Format
 
-For comments left directly on lines:
+For comments left directly on lines, prefix the intent (`blocker:`, `suggestion:`, `question:`,
+`nit:`) as SKILL.md describes:
 
 ```text
-[severity] [category] <message>
-
-Example: [P1] [security] User input flows into this query without parameterization.
+blocker: User input flows into this query without parameterization, so it is injectable.
 Use `db.execute(sql, (user_id,))` instead.
 ```
 

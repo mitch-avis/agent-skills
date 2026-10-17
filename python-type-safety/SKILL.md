@@ -79,7 +79,6 @@ pythonVersion = "3.14"
 typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
-reportMissingTypeStubs = false  # some dependencies ship without stubs
 
 [tool.ty.environment]
 python = ".venv"

@@ -78,7 +78,7 @@ dev = [
 
 [tool.uv]
 default-groups = ["dev"]
-required-version = ">=0.11.21"
+required-version = ">=0.13"
 
 [tool.ruff]
 line-length = 100

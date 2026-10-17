@@ -23,8 +23,7 @@ or its CI declare a command form, a validation script, or a threshold, follow th
 - **Python version:** Use the latest stable Python, installed and pinned by uv, for new projects.
   Follow the repo's declared minimum when working in an existing codebase.
 - **Environment:** Use a project-local `.venv`, never system Python.
-- **Package manager:** Use `uv` for Python installation, dependency management, locking, and
-  command execution.
+- **Package manager:** Use `uv` for Python installation, dependency management, and locking.
 - **Formatter:** `.venv/bin/ruff format .`
 - **Linter:** `.venv/bin/ruff check .` (add `--fix` while iterating), with `select = ["ALL"]` and
   a short, documented `ignore` list.
@@ -124,7 +123,7 @@ Docstring and comment stability matters:
 - Start with one summary sentence ending in punctuation.
 - Use one blank line between the summary and any extended text.
 - Keep section headers consistent: `Args:`, `Returns:`, `Raises:`.
-- Wrap prose at natural clause boundaries so repeated formatter passes remain stable.
+- Fill docstring prose to the 100-column limit instead of aligning text into columns.
 
 ## Type Safety
 

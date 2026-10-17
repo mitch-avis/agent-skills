@@ -7,7 +7,8 @@ default frontend flow would normally produce.
 
 Avoid these unless the brief clearly calls for them:
 
-- generic display fonts with no product character
+- Inter or Roboto headlines, italic accent words inside headlines, monospace eyebrow labels, and
+  numbered "01 / 02 / 03" section labels
 - stock card grids carrying the whole page
 - safe purple-tech gradients standing in for direction
 - motion that consists only of small hover lifts and identical fade-ups

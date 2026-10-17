@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Bisection helper: find which test creates an unwanted file or directory.
 #
-# Usage:   ./find-polluter.sh <path_to_check> <test_runner> <test_pattern> Example:
-# ./find-polluter.sh '.git' 'pytest'           'tests/**/test_*.py' Example: ./find-polluter.sh
-# 'tmp/' 'cargo test --test' 'tests/*.rs' Example: ./find-polluter.sh '.lock' 'go test' './...'
+# Usage:   ./find-polluter.sh <path_to_check> <test_runner> <test_pattern>
+# Examples:
+#   ./find-polluter.sh '.git'  '.venv/bin/pytest'  'tests/**/test_*.py'
+#   ./find-polluter.sh 'tmp/'  'cargo test --test' 'tests/*.rs'
+#   ./find-polluter.sh '.lock' 'go test'           './...'
 #
 # Runs each matching test file in isolation and stops at the first one whose execution causes
 # <path_to_check> to appear.

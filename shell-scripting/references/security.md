@@ -66,8 +66,8 @@ grep -- "$pattern" "$file"
 The same applies in PowerShell when passing args to native commands:
 
 ```powershell
-# Use the stop-parsing token --% (PS 5.1+) when calling native exes that need it
-& git --% log --oneline -- $userPath
+# Each variable reaches the native command as one argument; `--` ends option parsing
+& git log --oneline -- $userPath
 ```
 
 ## Input Validation at the Boundary

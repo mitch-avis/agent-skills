@@ -121,11 +121,11 @@ class Settings(BaseSettings):
 
 - Inject a settings object directly when code structure allows it.
 - Use `monkeypatch.setenv` for thin integration tests.
-- Prefer explicit fixtures over hidden global mutation.# python-configuration — detailed worked examples
+- Prefer explicit fixtures over hidden global mutation.
 
-## Advanced Patterns
+## Worked Examples
 
-### Pattern 5: Type Coercion
+### Type Coercion
 
 Pydantic handles common conversions automatically.
 

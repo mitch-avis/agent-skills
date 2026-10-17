@@ -292,7 +292,7 @@ spec:
               rate(istio_requests_total[5m])
             ) > 0.05
           for: 5m
-          labels: { severity: critical }
+          labels: { severity: page }
           annotations:
             summary: "5xx > 5% on {{ $labels.destination_service_name }}"
             runbook: "https://runbooks/mesh-high-error-rate"
@@ -306,13 +306,17 @@ spec:
               )
             ) > 1000
           for: 10m
-          labels: { severity: warning }
+          labels: { severity: ticket }
+          annotations:
+            summary: "p99 latency > 1s on {{ $labels.destination_service_name }}"
+            runbook: "https://runbooks/mesh-high-p99-latency"
 
         - alert: MeshCertExpiring
           expr: (cert_expiry_timestamp_seconds - time()) / 86400 < 7
-          labels: { severity: warning }
+          labels: { severity: ticket }
           annotations:
             summary: "Mesh cert expiring in < 7 days"
+            runbook: "https://runbooks/mesh-cert-expiring"
 ```
 
 For SLO-driven alerts (multi-window burn rate), see [slos-and-alerting.md](slos-and-alerting.md).

@@ -235,7 +235,9 @@ pub async fn correlation(mut req: Request, next: Next) -> Response {
         .unwrap_or_else(|| Uuid::new_v4().to_string());
 
     let span = tracing::info_span!("http_request", correlation_id = %cid);
-    req.headers_mut().insert("x-correlation-id", cid.parse().unwrap());
+    if let Ok(value) = cid.parse() {
+        req.headers_mut().insert("x-correlation-id", value);
+    }
 
     next.run(req).instrument(span).await
 }

@@ -1,7 +1,7 @@
 # Production Bash Script Template
 
-Copy this file as a starting point for any non-trivial Bash script. Replace placeholders, then
-delete this comment block.
+Copy the script below as a starting point for any non-trivial Bash script and replace the
+placeholders. Keep the header comment: `usage()` prints it.
 
 ```bash
 #!/usr/bin/env bash

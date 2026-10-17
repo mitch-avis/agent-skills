@@ -30,14 +30,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    B([Rounded process])
+    B(Rounded process)
 ```
 
 ### Stadium/Pill Shape
 
 ```mermaid
 flowchart LR
-    C(Start or End)
+    C([Start or End])
 ```
 
 ### Subroutine (Double Border)

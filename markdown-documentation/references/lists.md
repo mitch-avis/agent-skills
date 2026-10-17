@@ -11,16 +11,6 @@ Unordered list:
   - Nested item 2.2
 - Item 3
 
-Using asterisks:
-
-- Item 1
-- Item 2
-
-Using plus:
-
-- Item 1
-- Item 2
-
 Ordered list:
 
 1. First item

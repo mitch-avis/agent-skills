@@ -89,11 +89,5 @@ def wait_for_count[T](
     )
 
 
-# --- Anti-patterns to avoid -------------------------------------------------
-#
-# BAD: guessing at timing time.sleep(0.05) assert get_result() is not None
-#
-# GOOD: wait for the actual condition result = wait_for(get_result, description="result available")
-#
-# Only use a fixed sleep when you are deliberately testing timing behavior (debounce, throttle,
-# retry intervals) — and document why.
+# Use a fixed sleep only when deliberately testing timing behavior (debounce, throttle, retry
+# intervals), with a comment saying why; condition-based-waiting.md shows the bad and good forms.

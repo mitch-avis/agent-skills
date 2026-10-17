@@ -148,7 +148,7 @@ Use `[*]` for initial/final states, `<<choice>>` for decision points, and `--` f
 
 ## Critical Syntax Rules
 
-These rules prevent the most common rendering failures. Internalize them before writing any diagram.
+These rules prevent the most common rendering failures.
 
 ### Numbered labels break flowcharts
 

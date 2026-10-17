@@ -37,8 +37,8 @@ tokio = { version = "1", features = [
 
 ## Core Rules
 
-- **Never hold `Mutex` or `RwLock` across `.await` points** — use `tokio::sync::Mutex` if you must,
-  but prefer message passing
+- **Never hold a `std::sync::Mutex` or `RwLock` guard across `.await`** — it blocks the worker
+  thread and can deadlock; use `tokio::sync::Mutex` if you must, but prefer message passing
 - **Never block the async executor** — no `std::thread::sleep()`, no synchronous I/O, no heavy
   computation
 - **Use `tokio::task::spawn_blocking()`** for CPU-bound or blocking work

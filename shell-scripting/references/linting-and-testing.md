@@ -49,10 +49,7 @@ enable=quote-safe-variables
 
 # Sourced files
 external-sources=true
-
-# Suppressions (justify each!)
-# SC1091: Not following sourced files when path can't be resolved at lint time
-disable=SC1091
+source-path=SCRIPTDIR
 ```
 
 ### In-script suppressions
@@ -90,7 +87,7 @@ Auto-formatter for shell scripts. Pairs perfectly with ShellCheck.
 ```bash
 go install mvdan.cc/sh/v3/cmd/shfmt@latest    # or: brew install shfmt
 shfmt -d script.sh                            # diff (don't write)
-shfmt -w -i 4 -ci -bn -sr script.sh           # write in place
+shfmt -w -i 4 -ci script.sh                   # write in place
 ```
 
 | Flag | Meaning |
@@ -140,33 +137,50 @@ teardown() {
 }
 
 @test "prints help with -h" {
+    # Act
     run "${SCRIPT}" -h
+
+    # Assert
     [ "$status" -eq 0 ]
     [[ "$output" == *"Usage:"* ]]
 }
 
 @test "fails on missing input" {
+    # Act
     run "${SCRIPT}"
+
+    # Assert
     [ "$status" -eq 2 ]
     [[ "$output" == *"required"* ]]
 }
 
 @test "greets a single user" {
+    # Act
     run "${SCRIPT}" --name alice
+
+    # Assert
     [ "$status" -eq 0 ]
     [ "$output" = "Hello, alice" ]
 }
 
 @test "handles names with spaces" {
+    # Act
     run "${SCRIPT}" --name "Ada Lovelace"
+
+    # Assert
     [ "$status" -eq 0 ]
     [ "$output" = "Hello, Ada Lovelace" ]
 }
 
 @test "stub external command" {
+    # Arrange
     function curl() { echo "stubbed"; }
     export -f curl
+
+    # Act
     run "${SCRIPT}" --fetch
+
+    # Assert
     [[ "$output" == *"stubbed"* ]]
 }
 ```
@@ -202,9 +216,6 @@ Invoke-ScriptAnalyzer -Path .\script.ps1 -Fix     # auto-fix where possible
 @{
     Severity     = @('Error', 'Warning')
     IncludeRules = @('PS*')
-    ExcludeRules = @(
-        'PSAvoidUsingWriteHost'   # OK in interactive scripts
-    )
     Rules = @{
         PSUseCompatibleSyntax = @{
             Enable         = $true

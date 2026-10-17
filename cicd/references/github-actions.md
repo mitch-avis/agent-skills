@@ -271,7 +271,7 @@ jobs:
         node-version: [22, 24, 26]
         exclude:
           - os: macos-latest
-            node-version: 18
+            node-version: 22
       fail-fast: false
     steps:
       - uses: actions/checkout@v7

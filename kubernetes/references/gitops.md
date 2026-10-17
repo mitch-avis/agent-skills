@@ -23,10 +23,10 @@ kubectl wait --for=condition=Ready pods --all -n argocd --timeout=300s
 kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d
 
-# CLI install and login
+# Forward the API server port, then install the CLI and log in
+kubectl port-forward svc/argocd-server -n argocd 8080:443 &
 brew install argocd
 argocd login localhost:8080 --username admin --password <password>
-kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
 ### Application

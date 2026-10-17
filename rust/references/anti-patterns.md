@@ -22,7 +22,7 @@ Common mistakes and bad practices to avoid in Rust code.
 
 - **`pub` by default** — everything starts private. Widen visibility only for concrete consumers.
 - **`mod.rs` for leaf modules** — use `module.rs` unless submodules exist.
-- **Glob imports outside test modules** — denied by lint.
+- **Glob imports** — denied by lint except the three sanctioned forms in SKILL.md's Imports section.
 
 ## Documentation & Annotations
 

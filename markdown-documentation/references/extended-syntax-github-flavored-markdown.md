@@ -1,18 +1,14 @@
 # Extended Syntax (GitHub Flavored Markdown)
 
-GitHub Flavored Markdown extends CommonMark with footnotes, definition lists, emoji shortcodes,
-auto-linking, task lists, and `@user` / `#issue` references. These render on GitHub, GitLab (most),
-and other GFM-compatible viewers.
+GitHub Flavored Markdown extends CommonMark with footnotes, emoji shortcodes, auto-linking, task
+lists, and `@user` / `#issue` references. These render on GitHub, GitLab (most), and other
+GFM-compatible viewers.
 
 ```markdown
 Footnotes:
 Here's a sentence with a footnote[^1].
 
 [^1]: This is the footnote.
-
-Definition list:
-Term
-: Definition
 
 Emoji:
 :smile: :rocket: :heart:

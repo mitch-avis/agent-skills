@@ -70,8 +70,8 @@ let user = dbg!(load_user(id));
 
 - `dbg!` consumes its argument (or borrows if you pass `&value`). Use `dbg!(&x)` for `Copy` values
   too if you want to keep the original variable name in the trace.
-- Always remove `dbg!` calls before committing — clippy will fail CI on them
-  (`#![deny(clippy::dbg_macro)]`).
+- Remove `dbg!` calls before committing: the `dbg_macro = "deny"` lint in `[workspace.lints.clippy]`
+  fails the gate on them.
 
 ## 3. Test Isolation
 

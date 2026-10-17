@@ -41,12 +41,9 @@ def hello(name):
 ```
 
 ```bash
-npm install npm start
+npm install
+npm start
 ```
-
-Indented code block (4 spaces):
-const x = 5;
-console.log(x);
 ````
 
 ## Tables

@@ -113,7 +113,8 @@ Use when a campaign, portfolio, or launch page needs a memorable signature momen
 
 Across all directions, avoid these defaults unless the brief explicitly asks for them:
 
-- Inter, Arial, Roboto, or browser defaults as the automatic answer
+- on Persuade and Experience surfaces, Inter, Arial, Roboto, or browser defaults as the automatic
+  answer (Operate surfaces keep the design system's type)
 - purple gradients on white as a generic "tech" look
 - centered hero plus three equal feature cards as the default layout
 - fake people, fake round numbers, and lorem ipsum copy

@@ -27,6 +27,8 @@ Jenkins, and ArgoCD.
 3. **Reproducible** — pin dependency versions, use lockfiles, avoid external state. Identical inputs
    must produce identical outputs. Image tags and action versions in these examples were checked
    in October 2026; look up the current release when you write a pipeline instead of copying them.
+   The examples show third-party actions by tag for readability; in a real workflow, pin them to a
+   commit SHA as described under "Pin Third-Party Actions to a Commit".
 4. **Cache aggressively** — cache dependencies, build outputs, and Docker layers. Every saved minute
    compounds across all developers.
 5. **Parallelize** — run independent jobs concurrently. Only serialize jobs with real data
@@ -399,7 +401,7 @@ jobs:
 - [ ] Define stages and job dependency graph
 - [ ] Identify caching targets (deps, builds, Docker layers)
 - [ ] Set explicit permissions (never default write-all)
-- [ ] Pin action/image versions (SHA for Actions, tags for Docker)
+- [ ] Pin action/image versions (SHA for third-party Actions, tags for Docker)
 - [ ] Add SAST, SCA, and container scanning
 - [ ] Configure timeouts for every job
 - [ ] Gate production with manual approval

@@ -60,18 +60,6 @@ test('renders sidebar', () => {
 // Don't assert on the mock - test Page's behavior with sidebar present
 ```
 
-### Gate Function
-
-```text
-BEFORE asserting on any mock element:
-  Ask: "Am I testing real component behavior or just mock existence?"
-
-  IF testing mock existence:
-    STOP - Delete the assertion or unmock the component
-
-  Test real behavior instead
-```
-
 ## Anti-Pattern 2: Test-Only Methods in Production
 
 **The violation:**
@@ -112,22 +100,6 @@ export async function cleanupSession(session: Session) {
 
 // In tests
 afterEach(() => cleanupSession(session));
-```
-
-### Gate Function
-
-```text
-BEFORE adding any method to production class:
-  Ask: "Is this only used by tests?"
-
-  IF yes:
-    STOP - Don't add it
-    Put it in test utilities instead
-
-  Ask: "Does this class own this resource's lifecycle?"
-
-  IF no:
-    STOP - Wrong class for this method
 ```
 
 ## Anti-Pattern 3: Mocking Without Understanding
@@ -218,8 +190,8 @@ const mockResponse = {
 - **Tests pass but integration fails** - Mock incomplete, real API complete
 - **False confidence** - Test proves nothing about real behavior
 
-**The Iron Rule:** Mock the COMPLETE data structure as it exists in reality, not just fields your
-immediate test uses.
+Mirror the full structure the real API returns, not only the fields this test reads, because
+downstream code may read the rest.
 
 **The fix:**
 

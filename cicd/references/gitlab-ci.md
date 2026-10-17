@@ -212,8 +212,9 @@ test:
   stage: test
   image: python:3.14
   script:
-    - pip install -r requirements.txt
-    - pytest
+    - pip install uv==0.13.0
+    - uv sync --locked
+    - .venv/bin/pytest
 
 build:
   stage: build

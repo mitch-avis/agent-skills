@@ -255,16 +255,17 @@ timeout --kill-after=5s 30s long_command || die "long_command timed out"
 
 # Pure bash for short polling
 wait_for() {
-    local -r check_cmd="$1" timeout="${2:-30}"
+    local -r timeout="$1"
+    shift
     local elapsed=0
-    until eval "$check_cmd" >/dev/null 2>&1; do
+    until "$@" >/dev/null 2>&1; do
         (( elapsed += 1 ))
         (( elapsed >= timeout )) && return 1
         sleep 1
     done
 }
 
-wait_for 'curl -fsS http://localhost:8080/ready' 60 \
+wait_for 60 curl -fsS http://localhost:8080/ready \
     || die "Service did not become ready"
 ```
 

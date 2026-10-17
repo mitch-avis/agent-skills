@@ -395,7 +395,8 @@ spec:
 ## Best Practices
 
 1. **Resource management** — always set requests and limits
-2. **Health checks** — include both liveness and readiness probes
+2. **Health checks** — readiness and liveness probes on long-running containers; Jobs and
+   CronJobs run to completion and skip readiness probes
 3. **Security** — non-root users, read-only filesystems
 4. **Labels** — consistent `app.kubernetes.io/*` labeling
 5. **Update strategy** — RollingUpdate with `maxUnavailable: 0` for zero downtime

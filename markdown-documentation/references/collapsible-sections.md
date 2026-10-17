@@ -15,33 +15,15 @@ Hidden content goes here.
 ```javascript
 const code = "works too";
 ```
-````
 
 </details>
-```
+````
 
 ## Syntax Highlighting
 
-`````markdown
-Common languages:
-
-````javascript
-```typescript
-```python
-```bash
-```java
-```go
-```rust
-```sql
-```json
-```yaml
-```html
-```css
-```dockerfile
-```graphql
-```markdown
-````
-`````
+Put the language after the opening fence. Common ones: `javascript`, `typescript`, `python`,
+`bash`, `java`, `go`, `rust`, `sql`, `json`, `yaml`, `html`, `css`, `dockerfile`, `graphql`,
+`markdown`, and `text` for plain output.
 
 ## Badges
 

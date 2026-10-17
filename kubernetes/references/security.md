@@ -17,8 +17,9 @@ metadata:
 
 Three levels:
 
-- **Restricted** — most secure, required for production (non-root, drop all capabilities, read-only
-  root filesystem, seccomp)
+- **Restricted** — most secure, preferred for production (non-root, no privilege escalation, drop
+  all capabilities, seccomp). A read-only root filesystem is a separate default, not part of the
+  profile.
 - **Baseline** — minimally restrictive, prevents known privilege escalations
 - **Privileged** — unrestricted, only for system-level workloads
 

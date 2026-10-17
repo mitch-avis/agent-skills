@@ -5,13 +5,13 @@ Filebeat), backends (Loki, ELK/Elastic), Kubernetes integration, and parsing.
 
 ## Choosing a stack
 
-| Stack | Best for | Trade-off | |
-| --- | --- | --- | --- |
-| Loki + Grafana | Cheap, label-indexed, great with Prometheus/Tempo | Full-text search is slower | |
-| Elastic / ELK | Rich full-text search, Kibana, ES\ | QL, ML rules | Heavier infra, higher cost |
-| OpenSearch | OSS Elastic alternative | Some plugin gaps | |
-| Cloud SaaS (Datadog, Honeycomb, etc.) | No infra to run | Per-GB ingest cost grows fast | |
-| Vector → object store (S3, GCS) | Cheap long-term archive | No search; pair with one of the above | |
+| Stack | Best for | Trade-off |
+| --- | --- | --- |
+| Loki + Grafana | Cheap, label-indexed, great with Prometheus/Tempo | Full-text search is slower |
+| Elastic / ELK | Rich full-text search, Kibana, ES\|QL, ML rules | Heavier infra, higher cost |
+| OpenSearch | OSS Elastic alternative | Some plugin gaps |
+| Cloud SaaS (Datadog, Honeycomb, etc.) | No infra to run | Per-GB ingest cost grows fast |
+| Vector → object store (S3, GCS) | Cheap long-term archive | No search; pair with one of the above |
 
 Default recommendation for self-hosted: **Loki for logs, Mimir/Prometheus for metrics, Tempo for
 traces, Grafana for everything**.

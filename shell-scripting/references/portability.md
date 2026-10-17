@@ -54,7 +54,6 @@ POSIX `sh` doesn't support `pipefail`. The closest you get:
 ```sh
 #!/bin/sh
 set -eu
-# IFS="$(printf '\n\t')"   # uncomment for safer iteration
 ```
 
 To approximate `pipefail` portably, write to a temp and check intermediate codes:

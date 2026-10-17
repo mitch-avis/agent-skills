@@ -43,8 +43,8 @@ WorktreeManager.create_session_worktree(project_dir, session_id)
 
 **What value was passed?**
 
-- `project_dir = ""` (empty string!)
-- Empty string as `cwd` to `subprocess.run` resolves to `os.getcwd()`
+- `project_dir = None` (never set!)
+- `cwd=None` makes `subprocess.run` use the current directory
 - That's the source code directory!
 
 ### 5. Find Original Trigger
@@ -52,7 +52,7 @@ WorktreeManager.create_session_worktree(project_dir, session_id)
 **Where did empty string come from?**
 
 ```python
-# Returns SimpleNamespace(tmp_dir="")
+# Returns SimpleNamespace(tmp_dir=None)
 context = setup_core_test()
 # Accessed before fixture initialised it!
 Project.create("name", context.tmp_dir)
@@ -121,8 +121,8 @@ fn git_init(directory: &Path) -> std::io::Result<()> {
 }
 ```
 
-Write to `stderr` (not `tracing` / `log`) when debugging tests — `cargo test` captures stdout but
-leaves `eprintln!` visible without `--nocapture`. Run with:
+Write with `eprintln!` (not `tracing` / `log`) when debugging tests. The test harness captures both
+`println!` and `eprintln!` output of passing tests, so add `--nocapture` to see it. Run with:
 
 ```bash
 cargo test 2>&1 | grep 'DEBUG git init'
@@ -167,11 +167,11 @@ Runs tests one-by-one, stops at first polluter.
 
 **Trace chain:**
 
-1. `git init` runs in `os.getcwd()` — empty cwd parameter
-2. WorktreeManager called with empty `project_dir`
-3. `Session.create()` passed empty string
+1. `git init` runs in `os.getcwd()` — `cwd=None`
+2. WorktreeManager called with `project_dir=None`
+3. `Session.create()` passed `None`
 4. Test accessed `context.tmp_dir` before pytest fixture ran
-5. `setup_core_test()` returns `tmp_dir=""` initially
+5. `setup_core_test()` returns `tmp_dir=None` initially
 
 **Root cause:** Module-level variable initialization accessing empty value
 
@@ -181,7 +181,7 @@ Runs tests one-by-one, stops at first polluter.
 
 - Layer 1: Project.create() validates directory
 - Layer 2: WorkspaceManager validates not empty
-- Layer 3: NODE_ENV guard refuses git init outside tmpdir
+- Layer 3: `PYTEST_CURRENT_TEST` guard refuses git init outside tmpdir
 - Layer 4: Stack trace logging before git init
 
 ## Key Principle
@@ -192,7 +192,7 @@ validation at each layer so the bug becomes structurally impossible.
 ## Stack Trace Tips
 
 - **Python tests:** write to `sys.stderr` — captured logger output may be suppressed by pytest.
-- **Rust tests:** use `eprintln!` — `cargo test` only swallows stdout. Use
+- **Rust tests:** use `eprintln!` and run with `--nocapture`; the harness captures stderr too. Use
   `Backtrace::force_capture()` to ignore `RUST_BACKTRACE`. For sustained instrumentation in async
   code, use the `tracing` crate gated by `RUST_LOG`.
 - **Before operation:** log before the dangerous operation, not after it fails

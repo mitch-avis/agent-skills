@@ -153,14 +153,15 @@ when their description matches the current task.
 | Field | Required | Description |
 | --- | --- | --- |
 | `name` | Yes | Lowercase letters, numbers, hyphens only; max 64 chars |
-| `description` | Yes | What it does and when to use it (third person); max 1024 chars |
+| `description` | Yes | Starts with when to use it, then what it covers; max 1024 chars |
+| `paths` | No | Globs; Claude Code lists the skill only after a matching file is touched |
 
 ```yaml
 ---
 name: my-skill-name
 description: >-
-  Does X and Y for Z. Use when the user asks about X or needs to
-  perform Y on Z files.
+  Use when the user asks about X or needs to perform Y on Z files. Covers X
+  and Y for Z.
 ---
 ```
 

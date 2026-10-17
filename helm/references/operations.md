@@ -182,9 +182,12 @@ Sign charts for provenance verification:
 ```bash
 # Generate a GnuPG key (one-time)
 gpg --quick-generate-key "Helm Charts <charts@example.com>"
+# Helm reads legacy keyring files, so export them from GnuPG 2.1+
+gpg --export-secret-keys > ~/.gnupg/secring.gpg
+gpg --export > ~/.gnupg/pubring.gpg
 
 # Package and sign
-helm package myapp --sign --key "Helm Charts" --keyring ~/.gnupg/pubring.gpg
+helm package myapp --sign --key "Helm Charts" --keyring ~/.gnupg/secring.gpg
 
 # Verify a signed chart
 helm verify myapp-1.0.0.tgz --keyring ~/.gnupg/pubring.gpg

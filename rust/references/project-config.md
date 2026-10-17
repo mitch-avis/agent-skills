@@ -168,8 +168,8 @@ pedantic = { level = "deny", priority = -1 }
 nursery = { level = "deny", priority = -1 }
 cargo = { level = "deny", priority = -1 }
 
-# Prefer `#[expect(...)]` over `#[allow(...)]`: it warns when the suppression is no longer needed.
-# If an allow is unavoidable, require a reason so suppressions stay auditable.
+# Suppress with `#[expect(lint, reason = "...")]` on one item, never `#[allow]`: `expect` warns
+# when the suppression is no longer needed, and the reason keeps it auditable.
 allow_attributes = "deny"
 allow_attributes_without_reason = "deny"
 
@@ -307,8 +307,8 @@ pedantic = { level = "deny", priority = -1 }
 nursery = { level = "deny", priority = -1 }
 cargo = { level = "deny", priority = -1 }
 
-# Prefer `#[expect(...)]` over `#[allow(...)]`: it warns when the suppression is no longer needed.
-# If an allow is unavoidable, require a reason so suppressions stay auditable.
+# Suppress with `#[expect(lint, reason = "...")]` on one item, never `#[allow]`: `expect` warns
+# when the suppression is no longer needed, and the reason keeps it auditable.
 allow_attributes = "deny"
 allow_attributes_without_reason = "deny"
 

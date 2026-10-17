@@ -46,9 +46,9 @@ Message field fallback (first non-empty): `body.text` (OTel) → `message` → `
 
 ## The funnel workflow
 
-**Iterate. Do not stop after one query.** Add `NOT` clauses for dominant noise patterns; keep all
-previous NOTs each round (do not zoom out). Continue until **fewer than ~20 distinct log patterns
-remain**.
+Run the funnel until fewer than ~20 distinct log patterns remain: each round adds `NOT` clauses
+for the loudest noise and keeps every earlier one, because one broad query surfaces noise, not
+the failure.
 
 1. **Round 1 — broad.** Scope filter (e.g. `service.name: orders`) + time range. Get total count,
    histogram, samples, and message categorization.
@@ -60,8 +60,6 @@ remain**.
 4. **Repeat.** Keep adding NOTs until < 20 patterns remain — that residue is the signal.
 5. **Pivot.** Once a specific entity (container, pod, host) emerges, run one more query focused on
    it to see its dying words / surrounding context.
-
-Stopping early reports noise, not failures.
 
 ## ES|QL patterns
 

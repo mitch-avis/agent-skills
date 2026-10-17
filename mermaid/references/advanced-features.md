@@ -429,17 +429,12 @@ Use CSS to make diagrams responsive:
 
 ## SVG Export Options
 
-When exporting to SVG:
+Export with the bundled renderer (see SKILL.md); it has no size flags, so size the SVG where it
+is embedded:
 
 ```bash
-# Export with custom dimensions
-mmdc -i diagram.mmd -o output.svg -w 1920 -H 1080
-
-# Export with background color
-mmdc -i diagram.mmd -o output.svg -b "#ffffff"
-
-# Export with transparent background
-mmdc -i diagram.mmd -o output.svg -b "transparent"
+node scripts/render.mjs --input diagram.mmd --output output.svg --bg "#ffffff"
+node scripts/render.mjs --input diagram.mmd --output output.svg --transparent
 ```
 
 ## Best Practices for Advanced Features
@@ -524,7 +519,7 @@ flowchart LR
 <html>
 <head>
     <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ 
             startOnLoad: true,
             theme: 'dark',
