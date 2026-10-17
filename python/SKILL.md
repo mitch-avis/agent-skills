@@ -40,8 +40,8 @@ or its CI declare a command form, a validation script, or a threshold, follow th
   and the full suite passes before each commit.
 - **Line length:** 100 characters for prose and source.
 - **Docstrings:** Google style, enforced by Ruff's `D` rules with `convention = "google"`.
-- **Build backend:** `uv_build` for new projects (`uv init --build-backend uv`). Keep an existing
-  backend unless the task is a migration.
+- **Build backend:** `uv_build` for new projects. Keep an existing backend unless the task is a
+  migration.
 
 ## Default Workflow
 
@@ -54,6 +54,11 @@ or its CI declare a command form, a validation script, or a threshold, follow th
    change.
 5. Run the narrowest failing test or validation first, then format, lint, type-check, and rerun
    tests after changes.
+
+When `copier` is installed and a project template is available (your instructions name it;
+otherwise ask), start a new project from it with `copier copy <template> <dir>`; `uv init` is
+the fallback. A repo with `.copier-answers.yml` takes template changes through
+`copier update`, not hand edits to the files the template owns.
 
 Common commands (`<latest-stable>` stands for the newest stable version `uv python list` shows):
 

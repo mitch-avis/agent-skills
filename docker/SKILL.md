@@ -47,8 +47,9 @@ Pick the smallest image that supports the application's runtime needs.
 
 ### Recommended base images by language
 
-Always pin a specific tag. These were checked in October 2026; look up the current release on the
-registry when you write a Dockerfile.
+Always pin a specific tag. The examples use short tags for readability; real Dockerfiles follow
+the pinning rule under Constraints. These were checked in October 2026; look up the current
+release on the registry when you write a Dockerfile.
 
 ```dockerfile
 # Node.js
@@ -460,7 +461,8 @@ Load on demand — do not read all files upfront.
 ### Do
 
 - Use multi-stage builds — separate build tools from runtime
-- Pin exact base image versions (e.g., `node:24.21-alpine3.24`, not `:latest`)
+- Pin base images to an exact version tag (e.g., `node:24.21-alpine3.24`, not `:latest`); for
+  production builds also pin the digest (`@sha256:...`) and let Dependabot or Renovate bump it
 - Run as non-root with explicit UID/GID
 - Include a health check matching the application's runtime
 - Create a `.dockerignore` to minimize build context

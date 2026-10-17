@@ -21,14 +21,17 @@ Use this skill when the job is not just writing Python, but upgrading the projec
 ## Decision Rules
 
 - New script with dependencies -> use a PEP 723 script.
-- New application or CLI -> use `uv init --build-backend uv` and commit `uv.lock`.
+- New application or CLI -> start from the project's Copier template when `copier` and a template
+  are available (`copier copy <template> <dir>`), else `uv init --build-backend uv`; commit
+  `uv.lock`.
 - New library or package -> use `src/` layout and the `uv_build` backend.
 - Legacy repo using pip, Poetry, Black, isort, or mypy -> migrate incrementally, keeping behavior
   stable while the tooling changes.
 
 ## Baseline Workflow
 
-`<latest-stable>` stands for the newest stable version `uv python list` shows.
+`<latest-stable>` stands for the newest stable version `uv python list` shows. With a Copier
+template, `copier copy <template> myproject` replaces the `uv init` line.
 
 <!-- check-examples: skip -->
 

@@ -24,6 +24,11 @@ environments, packaging, performance, workers, release flows, and reproducibilit
 Use `uv` as the control plane for Python project tooling. `<latest-stable>` stands for the newest
 stable version `uv python list` shows.
 
+When `copier` is installed and a project template is available (your instructions name it;
+otherwise ask), start a new project from it with `copier copy <template> <dir>`; `uv init` is
+the fallback. A repo with `.copier-answers.yml` takes template changes through
+`copier update`, not hand edits to the files the template owns.
+
 <!-- check-examples: skip -->
 
 ```bash

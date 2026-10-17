@@ -2,8 +2,10 @@
 
 ## Migrating from requirements.txt
 
-Use `uv init --bare` in an existing repo, then move runtime and dev dependencies into
-`pyproject.toml` through `uv add`.
+When `copier` and a project template are available, adopt the template instead: on a clean
+branch, render it over the repo (`copier copy --overwrite <template> .`) and review the diff file
+by file, keeping the project's own dependencies and settings. Otherwise use `uv init --bare`,
+then move runtime and dev dependencies into `pyproject.toml` through `uv add`.
 
 ```bash
 uv init --bare

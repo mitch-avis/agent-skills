@@ -117,8 +117,8 @@ J[/Trapezoid\]
 **Special characters:**
 
 - Spaces: Use quotes if needed: `["Text with spaces"]`
-- Quotes: Replace with 『』or avoid
-- Parentheses: Replace with 「」or avoid
+- Quotes: inside a double-quoted label, write `#quot;`
+- Parentheses: wrap the label in double quotes: `["f(x)"]`
 - Colons: Generally safe but avoid if causing issues
 - Hyphens/dashes: Safe to use
 
@@ -418,7 +418,7 @@ graph TB
 
 **Solutions:**
 
-- Replace problematic characters (quotes → 『』, parens → 「」)
+- Wrap labels in double quotes and write inner quotes as `#quot;`
 - Use proper node definition syntax
 - Check arrow syntax
 
@@ -485,4 +485,4 @@ Before finalizing any diagram:
 
 ### Safe Special Characters
 
-✅ `『』` for quotes, `「」` for parentheses ❌ `"` unescaped quotes, `()` in problematic contexts
+✅ `A["Say #quot;hi#quot; (now)"]` ❌ an unescaped `"` inside a label, `()` in an unquoted label

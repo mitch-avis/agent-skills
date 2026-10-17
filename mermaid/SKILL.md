@@ -174,12 +174,14 @@ Always reference subgraphs by their ID, not display text: `A --> agent`, not `A 
 
 ### Special characters need escaping
 
-Wrap node labels containing parentheses, quotes, or slashes in double quotes:
+Wrap node labels containing parentheses, quotes, or slashes in double quotes, and write a quote
+inside a label as the entity code `#quot;` (`#35;` is `#`):
 
 ```mermaid
 flowchart LR
     A["Label with (parens)"]
     B["Price: $9.99"]
+    C["Say #quot;hi#quot;"]
 ```
 
 ### Use pipe syntax for edge labels
