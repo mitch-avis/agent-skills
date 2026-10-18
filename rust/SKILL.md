@@ -456,7 +456,7 @@ let slice = unsafe { std::slice::from_raw_parts(ptr, len) };
 
 ## Naming Conventions
 
-Follow the Rust API Guidelines without exception.
+Follow the Rust API Guidelines naming conventions.
 
 | Item | Convention | Example |
 | --- | --- | --- |

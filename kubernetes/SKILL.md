@@ -277,10 +277,6 @@ kubectl rollout undo deployment/my-app -n my-namespace
 
 ## Output Checklist
 
-When implementing Kubernetes resources, provide:
-
-1. Complete YAML manifests with proper structure
-2. RBAC configuration (ServiceAccount + Role + RoleBinding)
-3. NetworkPolicy for network isolation
-4. Security context on both pod and container level
-5. Brief explanation of design decisions
+Deliver the manifests the task needs, with security context on pod and container. Add a
+ServiceAccount/Role/RoleBinding when the workload needs API access, and a NetworkPolicy when it
+gains network exposure or the namespace has none. Briefly explain design decisions.

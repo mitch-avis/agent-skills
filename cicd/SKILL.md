@@ -20,8 +20,8 @@ Jenkins, and ArgoCD.
 
 ## Core Principles
 
-1. **Fail fast** — order stages: lint → security → test → build → deploy. Catch issues before
-   expensive work runs.
+1. **Fail fast** — order stages: lint → security → test → build → deploy, and run the independent
+   jobs inside a stage in parallel. Catch issues before expensive work runs.
 2. **Security by default** — embed SAST, SCA, and container scanning. Use OIDC over static secrets.
    Sign artifacts. Apply least-privilege permissions.
 3. **Reproducible** — pin dependency versions, use lockfiles, avoid external state. Identical inputs

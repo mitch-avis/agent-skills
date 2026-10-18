@@ -24,7 +24,7 @@ async fn main() -> anyhow::Result<()> {
 
 - Use `#[tokio::main]` for the entry point
 - Use `Runtime::new()` only when embedding Tokio in sync code
-- Configure thread count via `#[tokio::main(flavor = "multi_thread")]`
+- Set the thread count with `#[tokio::main(flavor = "multi_thread", worker_threads = N)]`
 - Use `flavor = "current_thread"` for single-threaded runtimes
 - Prefer specific features over `"full"` in library crates to avoid pulling in features consumers
   may not need:

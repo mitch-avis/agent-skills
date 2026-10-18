@@ -27,11 +27,8 @@ Write the test first. Watch it fail. Write minimal code to pass.
 Before changing existing code, check whether a test already exercises the lines you will change
 (run coverage when unsure). If none does, add one first.
 
-**Ask your human partner first:**
-
-- Throwaway prototypes
-- Generated code
-- Configuration files
+Prototypes, generated code and configuration files are test-first too; skip the test only when
+the user says so in this turn.
 
 ## Roles When Work Is Delegated
 

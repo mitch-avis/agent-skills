@@ -93,6 +93,9 @@ For a focused pass on believable copy, data, and proof, read
 - Replace filler badges, giant rounding, and soft gray shadows with product-specific treatment.
 - Replace dead links and placeholder CTAs with real navigation or clearly disabled states.
 - Replace unstructured spacing with a coherent vertical rhythm.
+- Replace the usual default styling when the brief gave no direction: cream backgrounds, italic
+  accent words in headlines, numbered "01/02/03" section labels, monospace labels, pill-shaped
+  buttons. Extend this list from the styles the first result used.
 
 ## Review Lenses
 

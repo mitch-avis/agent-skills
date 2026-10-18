@@ -43,7 +43,8 @@ Load on demand — do not read all files upfront.
 2. **Always profile with `EXPLAIN`.** Decisions about indexes and query shape need evidence.
 3. **Always migrate.** Every DDL change goes through a versioned migration with a rollback path.
 4. **Never `SELECT *` in application code.** Name the columns you need.
-5. **Never trust the optimizer for arbitrary input.** Add the indexes that hot paths require.
+5. **Index what hot paths need.** Don't expect the optimizer to make up for a missing index on
+   columns that queries filter, join, or sort on.
 
 ## Schema Design
 
